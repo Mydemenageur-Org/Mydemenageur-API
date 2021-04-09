@@ -14,6 +14,7 @@ using Mydemenageur.API.Settings;
 using Mydemenageur.API.Settings.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -53,6 +54,9 @@ namespace Mydemenageur.API
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Mydemenageur.API", Version = "v1" });
+
+                var filePath = Path.Combine(System.AppContext.BaseDirectory, "Mydemenageur.API.xml");
+                c.IncludeXmlComments(filePath);
             });
         }
 
@@ -62,9 +66,10 @@ namespace Mydemenageur.API
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Mydemenageur.API v1"));
             }
+
+            app.UseSwagger();
+            app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Mydemenageur.API v1"));
 
             app.UseCors("developerPolicy");
 

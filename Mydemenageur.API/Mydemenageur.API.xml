@@ -1,0 +1,109 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Mydemenageur.API</name>
+    </assembly>
+    <members>
+        <member name="M:Mydemenageur.API.Controllers.AuthenticationController.Login(Mydemenageur.API.Models.Users.LoginModel)">
+            <summary>
+            Login a user to the API
+            </summary>
+            <remarks>The username can be both the actual username or the user's email</remarks>
+            <param name="loginModel"></param>
+            <response code="400">The user doesn't exist or the password doesn't match</response>
+            <response code="200">Return the logged user with valid token</response>
+            <returns></returns>
+        </member>
+        <member name="M:Mydemenageur.API.Controllers.AuthenticationController.Register(Mydemenageur.API.Models.Users.RegisterModel)">
+            <summary>
+            Register the new user to the database 
+            </summary>
+            <param name="registerModel"></param>
+            <response code="400">There was one or more errors during registration validation</response>
+            <response code="200">Return the newly registrated user's id</response>
+            <returns></returns>
+        </member>
+        <member name="P:Mydemenageur.API.Entities.User.FirstName">
+            <summary>
+            The user's first name
+            </summary>
+            <example>Victor</example>
+        </member>
+        <member name="P:Mydemenageur.API.Entities.User.LastName">
+            <summary>
+            The user's last name
+            </summary>
+            <example>DENIS</example>
+        </member>
+        <member name="P:Mydemenageur.API.Entities.User.Email">
+            <summary>
+            The user's email
+            </summary>
+            <example>admin@feldrise.com</example>
+        </member>
+        <member name="P:Mydemenageur.API.Entities.User.Phone">
+            <summary>
+            The user's phone
+            </summary>
+            <example>+33652809335</example>
+        </member>
+        <member name="P:Mydemenageur.API.Entities.User.Username">
+            <summary>
+            The user's username
+            </summary>
+            <example>Feldrise</example>
+        </member>
+        <member name="P:Mydemenageur.API.Entities.User.Token">
+            <summary>
+             The user's connection token
+            </summary>
+        </member>
+        <member name="P:Mydemenageur.API.Models.Users.LoginModel.Username">
+            <summary>
+            The user's username or the user's
+            email
+            </summary>
+            <example>admin@feldrise.com</example>
+        </member>
+        <member name="P:Mydemenageur.API.Models.Users.LoginModel.Password">
+            <summary>
+            The user's password
+            </summary>
+        </member>
+        <member name="P:Mydemenageur.API.Models.Users.RegisterModel.FirstName">
+            <summary>
+            The user's first name
+            </summary>
+            <example>Victor</example>
+        </member>
+        <member name="P:Mydemenageur.API.Models.Users.RegisterModel.LastName">
+            <summary>
+            The user's last name
+            </summary>
+            <example>DENIS</example>
+        </member>
+        <member name="P:Mydemenageur.API.Models.Users.RegisterModel.Email">
+            <summary>
+            The user's email
+            </summary>
+            <example>admin@feldrise.com</example>
+        </member>
+        <member name="P:Mydemenageur.API.Models.Users.RegisterModel.Phone">
+            <summary>
+            The user's phone
+            </summary>
+            <example>+33652809335</example>
+        </member>
+        <member name="P:Mydemenageur.API.Models.Users.RegisterModel.Username">
+            <summary>
+            The user's username
+            </summary>
+            <example>Feldrise</example>
+        </member>
+        <member name="P:Mydemenageur.API.Models.Users.RegisterModel.Password">
+            <summary>
+            The user's password at the registration
+            </summary>
+        </member>
+    </members>
+</doc>
