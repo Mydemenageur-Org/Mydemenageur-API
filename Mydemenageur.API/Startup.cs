@@ -7,6 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using Mydemenageur.API.Settings;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,6 +27,19 @@ namespace Mydemenageur.API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.Configure<MongoSettings>(Configuration.GetSection(nameof(MongoSettings)));
+
+            services.AddCors(options =>
+            {
+                options.AddPolicy("developerPolicy", builder =>
+                {
+                    builder
+                        .AllowAnyHeader()
+                        .AllowAnyMethod()
+                        .SetIsOriginAllowed((host) => true)
+                        .AllowCredentials();
+                });
+            });
 
             services.AddControllers();
             services.AddSwaggerGen(c =>
@@ -43,6 +57,8 @@ namespace Mydemenageur.API
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Mydemenageur.API v1"));
             }
+
+            app.UseCors("developerPolicy");
 
             app.UseHttpsRedirection();
 
