@@ -6,8 +6,12 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
+using Mydemenageur.API.Services;
+using Mydemenageur.API.Services.Interfaces;
 using Mydemenageur.API.Settings;
+using Mydemenageur.API.Settings.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -28,6 +32,10 @@ namespace Mydemenageur.API
         public void ConfigureServices(IServiceCollection services)
         {
             services.Configure<MongoSettings>(Configuration.GetSection(nameof(MongoSettings)));
+
+            services.AddSingleton<IMongoSettings>(Span => Span.GetRequiredService<IOptions<MongoSettings>>().Value);
+
+            services.AddScoped<IAuthenticationService, AuthenticationService>();
 
             services.AddCors(options =>
             {
