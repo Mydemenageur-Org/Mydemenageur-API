@@ -90,13 +90,22 @@ namespace Mydemenageur.API
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            app.UseStaticFiles();
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
             }
 
             app.UseSwagger();
-            app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Mydemenageur.API v1"));
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Mydemenageur.API v1");
+                c.InjectStylesheet("/swagger/themes/theme-flattop.css");
+                c.InjectJavascript("/swagger/custom-script.js", "text/javascript");
+                c.RoutePrefix = "documentation";
+            });
+
 
             app.UseCors("developerPolicy");
 
