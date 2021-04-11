@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -7,6 +8,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Mydemenageur.API.Services;
 using Mydemenageur.API.Services.Interfaces;
@@ -16,6 +18,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace Mydemenageur.API
@@ -33,8 +36,32 @@ namespace Mydemenageur.API
         public void ConfigureServices(IServiceCollection services)
         {
             services.Configure<MongoSettings>(Configuration.GetSection(nameof(MongoSettings)));
+            services.Configure<MydemenageurSettings>(Configuration.GetSection(nameof(MydemenageurSettings)));
 
             services.AddSingleton<IMongoSettings>(Span => Span.GetRequiredService<IOptions<MongoSettings>>().Value);
+            services.AddSingleton<IMydemenageurSettings>(Span => Span.GetRequiredService<IOptions<MydemenageurSettings>>().Value);
+
+            // JWT Authentication
+            var mydemenageurSettings = Configuration.GetSection(nameof(MydemenageurSettings)).Get<MydemenageurSettings>();
+            var key = Encoding.ASCII.GetBytes(mydemenageurSettings.ApiSecret);
+
+            services.AddAuthentication(x =>
+            {
+                x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            })
+            .AddJwtBearer(x =>
+            {
+                x.RequireHttpsMetadata = false;
+                x.SaveToken = true;
+                x.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(key),
+                    ValidateIssuer = false,
+                    ValidateAudience = false
+                };
+            });
 
             services.AddScoped<IAuthenticationService, AuthenticationService>();
 
@@ -77,6 +104,7 @@ namespace Mydemenageur.API
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
