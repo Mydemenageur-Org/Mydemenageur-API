@@ -1,11 +1,15 @@
-﻿using MongoDB.Driver;
+﻿using Microsoft.IdentityModel.Tokens;
+using MongoDB.Driver;
 using Mydemenageur.API.Entities;
 using Mydemenageur.API.Models.Users;
 using Mydemenageur.API.Services.Interfaces;
 using Mydemenageur.API.Settings.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
+using System.Security.Claims;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace Mydemenageur.API.Services
@@ -14,12 +18,16 @@ namespace Mydemenageur.API.Services
     {
         private readonly IMongoCollection<User> _users;
 
-        public AuthenticationService(IMongoSettings mongoSettings)
+        private readonly IMydemenageurSettings _mydemenageurSettings;
+
+        public AuthenticationService(IMongoSettings mongoSettings, IMydemenageurSettings mydemenageurSettings)
         {
             var mongoClient = new MongoClient(mongoSettings.ConnectionString);
             var database = mongoClient.GetDatabase(mongoSettings.DatabaseName);
 
             _users = database.GetCollection<User>("users");
+
+            _mydemenageurSettings = mydemenageurSettings;
         }
 
         public async Task<User> LoginAsync(string username, string password)
@@ -41,7 +49,9 @@ namespace Mydemenageur.API.Services
             if (user == null) { return null; }
             if (!VerifyPasswordHash(password, user.PasswordHash, user.PasswordSalt)) { return null; }
 
-            // TODO: generate the JWT token
+            // Since the authentication is successful, now we can
+            // generate the token
+            user.Token = TokenForUser(user);
 
             return user;
         }
@@ -115,5 +125,28 @@ namespace Mydemenageur.API.Services
 
             return true;
         }
+
+        // Generate the token for the user
+        private string TokenForUser(User user)
+        {
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var key = Encoding.ASCII.GetBytes(_mydemenageurSettings.ApiSecret);
+            var tokenDescriptor = new SecurityTokenDescriptor
+            {
+                Subject = new ClaimsIdentity(new Claim[]
+                {
+                    new Claim(ClaimTypes.Name, user.Id.ToString()),
+                    //new Claim(ClaimTypes.Role, user.Role)
+                }),
+                Expires = DateTime.UtcNow.AddDays(20),
+                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
+            };
+
+            var token = tokenHandler.CreateToken(tokenDescriptor);
+
+            return tokenHandler.WriteToken(token);
+        }
     }
+
+
 }
