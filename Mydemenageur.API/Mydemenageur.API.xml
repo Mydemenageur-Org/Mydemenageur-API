@@ -85,6 +85,52 @@
             </summary>
             <example>France</example>
         </member>
+        <member name="P:Mydemenageur.API.Entities.Mover.Adress">
+            <summary>
+            The user's adress
+            </summary>
+            <example>36 Rue des Coquelicots</example>
+        </member>
+        <member name="P:Mydemenageur.API.Entities.Mover.Town">
+            <summary>
+            The user's town
+            </summary>
+            <example>Rennes</example>
+        </member>
+        <member name="P:Mydemenageur.API.Entities.Mover.Zipcode">
+            <summary>
+            The user's zipcode
+            </summary>
+            <example>85250</example>
+        </member>
+        <member name="P:Mydemenageur.API.Entities.Mover.Country">
+            <summary>
+            The user's country
+            </summary>
+            <example>France</example>
+        </member>
+        <member name="P:Mydemenageur.API.Entities.Mover.Region">
+            <summary>
+            The movers's region 
+            </summary>
+            <example>Provence-Alpes-Côte d'Azur</example>
+        </member>
+        <member name="P:Mydemenageur.API.Entities.Mover.VIP">
+            <summary>
+            The mover's vip status
+            </summary>
+        </member>
+        <member name="P:Mydemenageur.API.Entities.Mover.SocietyId">
+            <summary>
+            The mover's society Id
+            </summary>
+        </member>
+        <member name="P:Mydemenageur.API.Entities.Mover.AverageCustomer">
+            <summary>
+            Average customer of the mover's
+            </summary>
+            <example>8.5</example>
+        </member>
         <member name="P:Mydemenageur.API.Entities.User.ProfilePicture">
             <summary>
             The user's profile picture id 
