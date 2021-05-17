@@ -18,16 +18,12 @@ namespace Mydemenageur.API.Services
     {
         private readonly IMongoCollection<User> _users;
 
-        private readonly IMydemenageurSettings _mydemenageurSettings;
-
-        public UsersService(IMongoSettings mongoSettings, IMydemenageurSettings mydemenageurSettings)
+        public UsersService(IMongoSettings mongoSettings)
         {
             var mongoClient = new MongoClient(mongoSettings.ConnectionString);
             var database = mongoClient.GetDatabase(mongoSettings.DatabaseName);
 
             _users = database.GetCollection<User>(mongoSettings.UsersCollectionName);
-
-            _mydemenageurSettings = mydemenageurSettings;
         }
 
         public async Task<User> GetUserAsync(string id)
@@ -43,7 +39,7 @@ namespace Mydemenageur.API.Services
         {
             var user = await GetUserAsync(id);
 
-            if (user == null) throw new ArgumentException("The user doesn't exist", "userId");
+            if (user == null) throw new ArgumentException("The user doesn't exist", nameof(id));
 
             var update = Builders<User>.Update
                 .Set(dbUser => dbUser.FirstName, toUpdate.FirstName)

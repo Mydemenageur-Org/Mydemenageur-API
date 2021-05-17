@@ -15,7 +15,7 @@ namespace Mydemenageur.API.Services.Interfaces
         private readonly IMongoCollection<Client> _clients;
         private readonly IMongoCollection<User> _users;
 
-        public ClientsService(IMongoSettings mongoSettings, IMydemenageurSettings mydemenageurSettings)
+        public ClientsService(IMongoSettings mongoSettings)
         {
             var mongoClient = new MongoClient(mongoSettings.ConnectionString);
             var database = mongoClient.GetDatabase(mongoSettings.DatabaseName);
@@ -46,7 +46,7 @@ namespace Mydemenageur.API.Services.Interfaces
         {
             var client = await GetClientAsync(id);
 
-            if (client == null) throw new ArgumentException("The client doesn't exist", "clientId");
+            if (client == null) throw new ArgumentException("The client doesn't exist", nameof(id));
 
             var update = Builders<Client>.Update
                 .Set(dbClient => dbClient.Adress, toUpdate.Adress)

@@ -16,7 +16,7 @@ namespace Mydemenageur.API.Services
         private readonly IMongoCollection<Mover> _movers;
         private readonly IMongoCollection<User> _users;
 
-        public MoversService(IMongoSettings mongoSettings, IMydemenageurSettings mydemenageurSettings)
+        public MoversService(IMongoSettings mongoSettings)
         {
             var mongoClient = new MongoClient(mongoSettings.ConnectionString);
             var database = mongoClient.GetDatabase(mongoSettings.DatabaseName);
@@ -46,7 +46,7 @@ namespace Mydemenageur.API.Services
         {
             var mover = await GetMoverAsync(id);
 
-            if (mover == null) throw new ArgumentException("The mover doesn't exist", "moverId");
+            if (mover == null) throw new ArgumentException("The mover doesn't exist", nameof(id));
 
             var update = Builders<Mover>.Update
                 .Set(dbMover => dbMover.Adress, toUpdate.Adress)
