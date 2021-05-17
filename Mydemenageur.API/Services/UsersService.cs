@@ -25,7 +25,7 @@ namespace Mydemenageur.API.Services
             var mongoClient = new MongoClient(mongoSettings.ConnectionString);
             var database = mongoClient.GetDatabase(mongoSettings.DatabaseName);
 
-            _users = database.GetCollection<User>("users");
+            _users = database.GetCollection<User>(mongoSettings.UsersCollectionName);
 
             _mydemenageurSettings = mydemenageurSettings;
         }

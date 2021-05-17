@@ -12,17 +12,15 @@ namespace Mydemenageur.API.Services.Interfaces
     public class ClientsService : IClientsService
     {
         private readonly IMongoCollection<Client> _clients;
-
-        private readonly IMydemenageurSettings _mydemenageurSettings;
+        private readonly IMongoCollection<User> _users;
 
         public ClientsService(IMongoSettings mongoSettings, IMydemenageurSettings mydemenageurSettings)
         {
             var mongoClient = new MongoClient(mongoSettings.ConnectionString);
             var database = mongoClient.GetDatabase(mongoSettings.DatabaseName);
 
-            _clients = database.GetCollection<Client>("clients");
-
-            _mydemenageurSettings = mydemenageurSettings;
+            _clients = database.GetCollection<Client>(mongoSettings.ClientsCollectionName);
+            _users = database.GetCollection<User>(mongoSettings.UsersCollectionName);
         }
 
         public async Task<Client> GetClientAsync(string id)
