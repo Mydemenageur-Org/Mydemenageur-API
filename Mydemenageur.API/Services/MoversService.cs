@@ -1,5 +1,6 @@
 ﻿using MongoDB.Driver;
 using Mydemenageur.API.Entities;
+using Mydemenageur.API.Models.Movers;
 using Mydemenageur.API.Models.Users;
 using Mydemenageur.API.Services.Interfaces;
 using Mydemenageur.API.Settings.Interfaces;

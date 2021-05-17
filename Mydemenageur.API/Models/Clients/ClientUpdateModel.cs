@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Mydemenageur.API.Models.Users
+namespace Mydemenageur.API.Models.Clients
 {
     public class ClientUpdateModel
     {

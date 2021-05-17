@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Mydemenageur.API.Entities;
+using Mydemenageur.API.Models.Clients;
 using Mydemenageur.API.Models.Users;
 using Mydemenageur.API.Services.Interfaces;
 using System;

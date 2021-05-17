@@ -1,4 +1,5 @@
 ﻿using Mydemenageur.API.Entities;
+using Mydemenageur.API.Models.Movers;
 using Mydemenageur.API.Models.Users;
 using System;
 using System.Collections.Generic;
