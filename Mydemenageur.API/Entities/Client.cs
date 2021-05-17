@@ -14,6 +14,13 @@ namespace Mydemenageur.API.Entities
         public string Id { get; set; }
 
         /// <summary>
+        /// The id of the user associated with the client
+        /// </summary>
+        /// <example>6030deb57116e097987bcae5</example>
+        [BsonRepresentation(BsonType.ObjectId)]
+        public string UserId { get; set; }
+
+        /// <summary>
         /// The user's adress
         /// </summary>
         /// <example>36 Rue des Coquelicots</example>

@@ -30,9 +30,31 @@ namespace Mydemenageur.API.Controllers
         /// <returns></returns>
         /// <response code="200">The client was get</response>
         [HttpGet("{id:length(24)}")]
-        public async Task<ActionResult<Client>> GetUser(string id)
+        public async Task<ActionResult<Client>> GetClient(string id)
         {
-            return await _clientsService.GetClientAsync(id);
+            var client = await _clientsService.GetClientAsync(id);
+
+            return Ok(client);
+        }
+
+        /// <summary>
+        /// Get the user corresponding to a client
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        /// <response code="404">Their is no user corresponding to the client</response>
+        /// <response code="200">Return the user corresponding to a client</response>
+        [HttpGet("{id:length(24)}/user")]
+        public async Task<ActionResult<User>> GetUser(string id)
+        {
+            var user = await _clientsService.GetUserAsync(id);
+
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(user);
         }
 
         /// <summary>

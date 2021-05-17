@@ -23,13 +23,22 @@ namespace Mydemenageur.API.Services.Interfaces
             _users = database.GetCollection<User>(mongoSettings.UsersCollectionName);
         }
 
-        public async Task<Client> GetClientAsync(string id)
+        public Task<Client> GetClientAsync(string id)
         {
-            var client = await _clients.FindAsync(databaseClient =>
-                databaseClient.Id == id
-            );
+            return GetClientFromIdAsync(id);
+        }
 
-            return await client.FirstOrDefaultAsync();
+        public async Task<User> GetUserAsync(string id)
+        {
+            var client = await GetClientFromIdAsync(id);
+
+            if (client == null) { return null; }
+
+            var user = await (await _users.FindAsync(dbUser =>
+                dbUser.Id == client.UserId
+            )).FirstOrDefaultAsync();
+
+            return user;
         }
 
         public async Task UpdateClientAsync(string clientId, ClientUpdateModel toUpdate)
@@ -48,6 +57,15 @@ namespace Mydemenageur.API.Services.Interfaces
                 dbClient.Id == clientId,
                 update
             );
+        }
+
+        private async Task<Client> GetClientFromIdAsync(string id)
+        {
+            var client = await _clients.FindAsync(databaseClient =>
+                databaseClient.Id == id
+            );
+
+            return await client.FirstOrDefaultAsync();
         }
     }
 }
