@@ -9,6 +9,10 @@ namespace Mydemenageur.API.Models.Users
     public class RegisterModel
     {
         /// <summary>
+        /// The user's profile picture id 
+        /// </summary>
+        public string ProfilePicture { get; set; }
+        /// <summary>
         /// The user's first name
         /// </summary>
         /// <example>Victor</example>
@@ -20,7 +24,6 @@ namespace Mydemenageur.API.Models.Users
         /// <example>DENIS</example>
         [Required]
         public string LastName { get; set; }
-
         /// <summary>
         /// The user's email
         /// </summary>
@@ -31,18 +34,28 @@ namespace Mydemenageur.API.Models.Users
         /// The user's phone
         /// </summary>
         /// <example>+33652809335</example>
+        [Required]
         public string Phone { get; set; }
+        /// <summary>
+        /// The user's birthday
+        /// </summary>     
+        [Required]
+        public DateTime Birthday { get; set; }
         /// <summary>
         /// The user's username
         /// </summary>
         /// <example>Feldrise</example>
         [Required]
         public string Username { get; set; }
-
         /// <summary>
-        /// The user's password at the registration
+        /// The user's about
         /// </summary>
-        [Required]
+        /// <example>Hello it's me</example>
+        public string About { get; set; }
+        /// <summary>
+        /// The user's password
+        /// </summary>
+        /// <example>My very secure password</example>
         public string Password { get; set; }
     }
 }

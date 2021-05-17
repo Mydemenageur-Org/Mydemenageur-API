@@ -23,6 +23,30 @@
             <response code="200">Return the newly registrated user's id</response>
             <returns></returns>
         </member>
+        <member name="M:Mydemenageur.API.Controllers.UsersController.GetUser(System.String)">
+            <summary>
+            Get a user
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+            <response code="200">The user was get</response>
+        </member>
+        <member name="M:Mydemenageur.API.Controllers.UsersController.UpdateUser(System.String,Mydemenageur.API.Models.Users.UserUpdateModel)">
+            <summary>
+            Update a user. Only admin can edit every users
+            </summary>
+            <param name="id" exemple="5f1fe90a58c8ab093c4f772a"></param>
+            <param name="userUpdateModel"></param>
+            <returns></returns>
+            <response code="400">Their is an error in the request</response>
+            <response code="403">You are not allowed to edit this user</response>
+            <response code="200">The user has been updated</response>
+        </member>
+        <member name="P:Mydemenageur.API.Entities.User.ProfilePicture">
+            <summary>
+            The user's profile picture id 
+            </summary>
+        </member>
         <member name="P:Mydemenageur.API.Entities.User.FirstName">
             <summary>
             The user's first name
@@ -47,11 +71,21 @@
             </summary>
             <example>+33652809335</example>
         </member>
+        <member name="P:Mydemenageur.API.Entities.User.Birthday">
+            <summary>
+            The user's birthday
+            </summary>     
+        </member>
         <member name="P:Mydemenageur.API.Entities.User.Username">
             <summary>
             The user's username
             </summary>
             <example>Feldrise</example>
+        </member>
+        <member name="P:Mydemenageur.API.Entities.User.About">
+            <summary>
+            The user's about
+            </summary>
         </member>
         <member name="P:Mydemenageur.API.Entities.User.Token">
             <summary>
@@ -68,6 +102,11 @@
         <member name="P:Mydemenageur.API.Models.Users.LoginModel.Password">
             <summary>
             The user's password
+            </summary>
+        </member>
+        <member name="P:Mydemenageur.API.Models.Users.RegisterModel.ProfilePicture">
+            <summary>
+            The user's profile picture id 
             </summary>
         </member>
         <member name="P:Mydemenageur.API.Models.Users.RegisterModel.FirstName">
@@ -94,16 +133,79 @@
             </summary>
             <example>+33652809335</example>
         </member>
+        <member name="P:Mydemenageur.API.Models.Users.RegisterModel.Birthday">
+            <summary>
+            The user's birthday
+            </summary>     
+        </member>
         <member name="P:Mydemenageur.API.Models.Users.RegisterModel.Username">
             <summary>
             The user's username
             </summary>
             <example>Feldrise</example>
         </member>
+        <member name="P:Mydemenageur.API.Models.Users.RegisterModel.About">
+            <summary>
+            The user's about
+            </summary>
+            <example>Hello it's me</example>
+        </member>
         <member name="P:Mydemenageur.API.Models.Users.RegisterModel.Password">
             <summary>
-            The user's password at the registration
+            The user's password
             </summary>
+            <example>My very secure password</example>
+        </member>
+        <member name="P:Mydemenageur.API.Models.Users.UserUpdateModel.ProfilePicture">
+            <summary>
+            The user's profile picture id 
+            </summary>
+        </member>
+        <member name="P:Mydemenageur.API.Models.Users.UserUpdateModel.FirstName">
+            <summary>
+            The user's first name
+            </summary>
+            <example>Victor</example>
+        </member>
+        <member name="P:Mydemenageur.API.Models.Users.UserUpdateModel.LastName">
+            <summary>
+            The user's last name
+            </summary>
+            <example>DENIS</example>
+        </member>
+        <member name="P:Mydemenageur.API.Models.Users.UserUpdateModel.Email">
+            <summary>
+            The user's email
+            </summary>
+            <example>admin@feldrise.com</example>
+        </member>
+        <member name="P:Mydemenageur.API.Models.Users.UserUpdateModel.Phone">
+            <summary>
+            The user's phone
+            </summary>
+            <example>+33652809335</example>
+        </member>
+        <member name="P:Mydemenageur.API.Models.Users.UserUpdateModel.Birthday">
+            <summary>
+            The user's birthday
+            </summary>     
+        </member>
+        <member name="P:Mydemenageur.API.Models.Users.UserUpdateModel.Username">
+            <summary>
+            The user's username
+            </summary>
+            <example>Feldrise</example>
+        </member>
+        <member name="P:Mydemenageur.API.Models.Users.UserUpdateModel.About">
+            <summary>
+            The user's about
+            </summary>
+        </member>
+        <member name="P:Mydemenageur.API.Models.Users.UserUpdateModel.Password">
+            <summary>
+            The user's password
+            </summary>
+            <example>MySecurePassword</example>
         </member>
     </members>
 </doc>
