@@ -42,9 +42,9 @@ namespace Mydemenageur.API.Services
             return user;
         }
 
-        public async Task UpdateMoverAsync(string moverId, MoverUpdateModel toUpdate)
+        public async Task UpdateMoverAsync(string id, MoverUpdateModel toUpdate)
         {
-            var mover = await GetMoverAsync(moverId);
+            var mover = await GetMoverAsync(id);
 
             if (mover == null) throw new ArgumentException("The mover doesn't exist", "moverId");
 
@@ -54,12 +54,12 @@ namespace Mydemenageur.API.Services
                 .Set(dbMover => dbMover.Zipcode, toUpdate.Zipcode)
                 .Set(dbMover => dbMover.Country, toUpdate.Country)
                 .Set(dbMover => dbMover.Region, toUpdate.Region)
-                .Set(dbMover => dbMover.VIP, toUpdate.VIP)
+                .Set(dbMover => dbMover.IsVIP, toUpdate.IsVIP)
                 .Set(dbMover => dbMover.SocietyId, toUpdate.SocietyId)
                 .Set(dbMover => dbMover.AverageCustomer, toUpdate.AverageCustomer);
 
             await _movers.UpdateOneAsync(dbMover =>
-                dbMover.Id == moverId,
+                dbMover.Id == id,
                 update
             );
         }

@@ -44,7 +44,7 @@ namespace Mydemenageur.API.Models.Movers
         /// <summary>
         /// The mover's vip status
         /// </summary>
-        public Boolean VIP { get; set; }
+        public bool IsVIP { get; set; }
         [Required]
         /// <summary>
         /// The mover's society Id

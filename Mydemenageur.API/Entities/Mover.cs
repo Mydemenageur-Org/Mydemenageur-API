@@ -49,7 +49,7 @@ namespace Mydemenageur.API.Entities
         /// <summary>
         /// The mover's vip status
         /// </summary>
-        public Boolean VIP { get; set; }
+        public bool IsVIP { get; set; }
         /// <summary>
         /// The mover's society Id
         /// </summary>

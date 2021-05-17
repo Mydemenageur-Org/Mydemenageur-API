@@ -39,9 +39,9 @@ namespace Mydemenageur.API.Services
             return await user.FirstOrDefaultAsync();
         }
 
-        public async Task UpdateUserAsync(string userId, UserUpdateModel toUpdate)
+        public async Task UpdateUserAsync(string id, UserUpdateModel toUpdate)
         {
-            var user = await GetUserAsync(userId);
+            var user = await GetUserAsync(id);
 
             if (user == null) throw new ArgumentException("The user doesn't exist", "userId");
 
@@ -54,7 +54,7 @@ namespace Mydemenageur.API.Services
                 .Set(dbUser => dbUser.About, toUpdate.About);
 
             await _users.UpdateOneAsync(dbUser =>
-                dbUser.Id == userId,
+                dbUser.Id == id,
                 update
             );
         }

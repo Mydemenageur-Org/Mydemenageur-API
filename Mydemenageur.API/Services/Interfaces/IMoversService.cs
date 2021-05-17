@@ -14,7 +14,7 @@ namespace Mydemenageur.API.Services.Interfaces
         Task<Mover> GetMoverAsync(string id);
         Task<User> GetUserAsync(string id);
         
-        Task UpdateMoverAsync(string moverId, MoverUpdateModel toUpdate);
+        Task UpdateMoverAsync(string id, MoverUpdateModel toUpdate);
 
     }
 }

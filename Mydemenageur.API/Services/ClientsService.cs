@@ -42,9 +42,9 @@ namespace Mydemenageur.API.Services.Interfaces
             return user;
         }
 
-        public async Task UpdateClientAsync(string clientId, ClientUpdateModel toUpdate)
+        public async Task UpdateClientAsync(string id, ClientUpdateModel toUpdate)
         {
-            var client = await GetClientAsync(clientId);
+            var client = await GetClientAsync(id);
 
             if (client == null) throw new ArgumentException("The client doesn't exist", "clientId");
 
@@ -55,7 +55,7 @@ namespace Mydemenageur.API.Services.Interfaces
                 .Set(dbClient => dbClient.Country, toUpdate.Country);
 
             await _clients.UpdateOneAsync(dbClient =>
-                dbClient.Id == clientId,
+                dbClient.Id == id,
                 update
             );
         }
