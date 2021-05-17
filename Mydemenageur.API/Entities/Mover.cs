@@ -13,6 +13,14 @@ namespace Mydemenageur.API.Entities
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]
         public string Id { get; set; }
+
+        /// <summary>
+        /// The id of the user associated with the mover
+        /// </summary>
+        /// <example>6030deb57116e097987bcae5</example>
+        [BsonRepresentation(BsonType.ObjectId)]
+        public string UserId { get; set; }
+
         /// <summary>
         /// The user's adress
         /// </summary>

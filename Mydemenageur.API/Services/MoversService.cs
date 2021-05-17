@@ -14,25 +14,32 @@ namespace Mydemenageur.API.Services
     public class MoversService : IMoversService
     {
         private readonly IMongoCollection<Mover> _movers;
-
-        private readonly IMydemenageurSettings _mydemenageurSettings;
+        private readonly IMongoCollection<User> _users;
 
         public MoversService(IMongoSettings mongoSettings, IMydemenageurSettings mydemenageurSettings)
         {
             var mongoClient = new MongoClient(mongoSettings.ConnectionString);
             var database = mongoClient.GetDatabase(mongoSettings.DatabaseName);
 
-            _movers = database.GetCollection<Mover>("movers");
-
-            _mydemenageurSettings = mydemenageurSettings;
+            _movers = database.GetCollection<Mover>(mongoSettings.MoversCollectionName);
+            _users = database.GetCollection<User>(mongoSettings.UsersCollectionName);
         }
-        public async Task<Mover> GetMoverAsync(string id)
+        public Task<Mover> GetMoverAsync(string id)
         {
-            var mover = await _movers.FindAsync(databaseClient =>
-                databaseClient.Id == id
-            );
+            return GetMoverFromIdAsync(id);
+        }
 
-            return await mover.FirstOrDefaultAsync();
+        public async Task<User> GetUserAsync(string id)
+        {
+            var mover = await GetMoverFromIdAsync(id);
+
+            if (mover == null) { return null; }
+
+            var user = await(await _users.FindAsync(dbUser =>
+                dbUser.Id == mover.UserId
+            )).FirstOrDefaultAsync();
+
+            return user;
         }
 
         public async Task UpdateMoverAsync(string moverId, MoverUpdateModel toUpdate)
@@ -55,6 +62,15 @@ namespace Mydemenageur.API.Services
                 dbMover.Id == moverId,
                 update
             );
+        }
+
+        private async Task<Mover> GetMoverFromIdAsync(string id)
+        {
+            var mover = await _movers.FindAsync(databaseClient =>
+                databaseClient.Id == id
+            );
+
+            return await mover.FirstOrDefaultAsync();
         }
     }
 }
