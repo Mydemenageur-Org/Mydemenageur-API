@@ -6,7 +6,7 @@
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <DocumentationFile>C:\Users\Tom\Source\Repos\api-MyDemenageur\Mydemenageur.API\Mydemenageur.API.xml</DocumentationFile>
-    <NoWarn>1701;1702;1591</NoWarn>
+    <NoWarn>1701;1702;1591;1587</NoWarn>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">

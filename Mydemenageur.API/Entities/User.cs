@@ -40,7 +40,7 @@ namespace Mydemenageur.API.Entities
         /// <summary>
         /// The user's birthday
         /// </summary>     
-        public DateTime Birthday { get; set; }
+        public DateTime SignupDate { get; set; }
         /// <summary>
         /// The user's username
         /// </summary>

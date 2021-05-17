@@ -51,7 +51,6 @@ namespace Mydemenageur.API.Services
                 .Set(dbUser => dbUser.Username, toUpdate.Username)
                 .Set(dbUser => dbUser.Email, toUpdate.Email)
                 .Set(dbUser => dbUser.Phone, toUpdate.Phone)
-                .Set(dbUser => dbUser.Birthday, toUpdate.Birthday)
                 .Set(dbUser => dbUser.About, toUpdate.About);
 
             await _users.UpdateOneAsync(dbUser =>

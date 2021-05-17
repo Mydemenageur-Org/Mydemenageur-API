@@ -37,11 +37,6 @@ namespace Mydemenageur.API.Models.Users
         [Required]
         public string Phone { get; set; }
         /// <summary>
-        /// The user's birthday
-        /// </summary>     
-        [Required]
-        public DateTime Birthday { get; set; }
-        /// <summary>
         /// The user's username
         /// </summary>
         /// <example>Feldrise</example>

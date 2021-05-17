@@ -23,6 +23,25 @@
             <response code="200">Return the newly registrated user's id</response>
             <returns></returns>
         </member>
+        <member name="M:Mydemenageur.API.Controllers.ClientsController.GetUser(System.String)">
+            <summary>
+            Get a client
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+            <response code="200">The client was get</response>
+        </member>
+        <member name="M:Mydemenageur.API.Controllers.ClientsController.UpdateClient(System.String,Mydemenageur.API.Models.Users.ClientUpdateModel)">
+            <summary>
+            Update a client. Only admin can edit every clients
+            </summary>
+            <param name="id" exemple="5f1fe90a58c8ab093c4f772a"></param>
+            <param name="clientUpdateModel"></param>
+            <returns></returns>
+            <response code="400">Their is an error in the request</response>
+            <response code="403">You are not allowed to edit this client</response>
+            <response code="200">The client has been updated</response>
+        </member>
         <member name="M:Mydemenageur.API.Controllers.UsersController.GetUser(System.String)">
             <summary>
             Get a user
@@ -41,6 +60,30 @@
             <response code="400">Their is an error in the request</response>
             <response code="403">You are not allowed to edit this user</response>
             <response code="200">The user has been updated</response>
+        </member>
+        <member name="P:Mydemenageur.API.Entities.Client.Adress">
+            <summary>
+            The user's adress
+            </summary>
+            <example>36 Rue des Coquelicots</example>
+        </member>
+        <member name="P:Mydemenageur.API.Entities.Client.Town">
+            <summary>
+            The user's town
+            </summary>
+            <example>Rennes</example>
+        </member>
+        <member name="P:Mydemenageur.API.Entities.Client.Zipcode">
+            <summary>
+            The user's zipcode
+            </summary>
+            <example>85250</example>
+        </member>
+        <member name="P:Mydemenageur.API.Entities.Client.Country">
+            <summary>
+            The user's country
+            </summary>
+            <example>France</example>
         </member>
         <member name="P:Mydemenageur.API.Entities.User.ProfilePicture">
             <summary>
@@ -71,7 +114,7 @@
             </summary>
             <example>+33652809335</example>
         </member>
-        <member name="P:Mydemenageur.API.Entities.User.Birthday">
+        <member name="P:Mydemenageur.API.Entities.User.SignupDate">
             <summary>
             The user's birthday
             </summary>     
@@ -133,11 +176,6 @@
             </summary>
             <example>+33652809335</example>
         </member>
-        <member name="P:Mydemenageur.API.Models.Users.RegisterModel.Birthday">
-            <summary>
-            The user's birthday
-            </summary>     
-        </member>
         <member name="P:Mydemenageur.API.Models.Users.RegisterModel.Username">
             <summary>
             The user's username
@@ -184,11 +222,6 @@
             The user's phone
             </summary>
             <example>+33652809335</example>
-        </member>
-        <member name="P:Mydemenageur.API.Models.Users.UserUpdateModel.Birthday">
-            <summary>
-            The user's birthday
-            </summary>     
         </member>
         <member name="P:Mydemenageur.API.Models.Users.UserUpdateModel.Username">
             <summary>

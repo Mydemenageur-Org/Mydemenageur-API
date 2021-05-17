@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Mydemenageur.API.Entities;
 using Mydemenageur.API.Models.Users;
@@ -11,6 +12,7 @@ using System.Threading.Tasks;
 namespace Mydemenageur.API.Controllers
 {
     [Route("api/[controller]")]
+    [Authorize]
     [ApiController]
     public class UsersController : ControllerBase
     {
