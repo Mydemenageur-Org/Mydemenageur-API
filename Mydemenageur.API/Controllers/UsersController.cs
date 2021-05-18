@@ -44,7 +44,7 @@ namespace Mydemenageur.API.Controllers
         /// <response code="400">Their is an error in the request</response>
         /// <response code="403">You are not allowed to edit this user</response>
         /// <response code="200">The user has been updated</response>
-        [HttpPut("{id:length(24)}/update")]
+        [HttpPut("{id:length(24)}")]
         public async Task<IActionResult> UpdateUser(string id, [FromBody]UserUpdateModel userUpdateModel)
         {
             var currentUserId = User.Identity.Name;
