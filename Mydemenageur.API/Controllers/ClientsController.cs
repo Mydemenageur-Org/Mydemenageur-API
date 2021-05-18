@@ -58,6 +58,22 @@ namespace Mydemenageur.API.Controllers
             return Ok(user);
         }
 
+        [HttpPost]
+        public async Task<ActionResult<string>> RegisterClient([FromBody] ClientRegisterModel clientRegisterModel)
+        {
+            string id;
+
+            try
+            {
+                id = await _clientsService.RegisterClientAsync(clientRegisterModel);
+
+                return Ok(id);
+            } catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
+
         /// <summary>
         /// Update a client. Only admin can edit every clients
         /// </summary>
