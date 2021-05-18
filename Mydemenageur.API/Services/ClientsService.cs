@@ -42,6 +42,17 @@ namespace Mydemenageur.API.Services.Interfaces
             return user;
         }
 
+        public async Task<string> RegisterClientAsync(ClientRegisterModel toRegister)
+        {
+            if (!UserExist(toRegister.UserId)) throw new Exception("The user doesn't exist");
+            if (ClientExist(toRegister.UserId)) throw new Exception("The client already exist");
+
+            string id = await RegisterToDatabase(toRegister);
+
+            return id;
+
+        }
+
         public async Task UpdateClientAsync(string id, ClientUpdateModel toUpdate)
         {
             var client = await GetClientAsync(id);
@@ -77,5 +88,32 @@ namespace Mydemenageur.API.Services.Interfaces
 
             return await client.FirstOrDefaultAsync();
         }
+
+        private async Task<string> RegisterToDatabase(ClientRegisterModel toRegister)
+        {
+            Client dbClient = new()
+            {
+                UserId = toRegister.UserId
+            };
+
+            await _clients.InsertOneAsync(dbClient);
+
+            return dbClient.Id;
+        }
+
+        private bool ClientExist(string userId)
+        {
+            return _clients.AsQueryable<Client>().Any(dbClient =>
+                dbClient.UserId == userId
+            );
+        }
+
+        private bool UserExist(string userId)
+        {
+            return _users.AsQueryable<User>().Any(dbUser =>
+                dbUser.Id == userId
+            );
+        }
+
     }
 }

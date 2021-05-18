@@ -13,6 +13,8 @@ namespace Mydemenageur.API.Services.Interfaces
         Task<Client> GetClientAsync(string id);
         Task<User> GetUserAsync(string id);
 
+        Task<string> RegisterClientAsync(ClientRegisterModel toRegister);
+
         Task UpdateClientAsync(string id, ClientUpdateModel toUpdate);
     }
 }
