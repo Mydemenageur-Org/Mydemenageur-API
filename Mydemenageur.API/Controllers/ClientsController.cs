@@ -58,6 +58,7 @@ namespace Mydemenageur.API.Controllers
             return Ok(user);
         }
 
+        [AllowAnonymous]
         [HttpPost]
         public async Task<ActionResult<string>> RegisterClient([FromBody] ClientRegisterModel clientRegisterModel)
         {
