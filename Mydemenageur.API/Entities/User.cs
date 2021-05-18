@@ -58,6 +58,11 @@ namespace Mydemenageur.API.Entities
         public byte[] PasswordSalt { get; set; }
 
         /// <summary>
+        /// The user's role. The roles are : Admin, Client, Mover
+        /// </summary>
+        /// <example>Client</example>
+        public string Role { get; set; }
+        /// <summary>
         ///  The user's connection token
         /// </summary>
         public string Token { get; set; }
