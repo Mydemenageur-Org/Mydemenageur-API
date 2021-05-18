@@ -64,6 +64,52 @@ namespace Mydemenageur.API.Services
             );
         }
 
+        public async Task<string> RegisterMoverAsync(MoverRegisterModel toRegister)
+        {
+            if (!UserExist(toRegister.UserId)) throw new Exception("The user doesn't exist");
+            if (MoverExist(toRegister.UserId)) throw new Exception("The mover already exist");
+
+            string id = await RegisterToDatabase(toRegister);
+
+            return id;
+
+        }
+
+        public async Task DeleteMover(string id, string userId)
+        {
+            if (id != null && userId != null)
+            {
+                await _movers.DeleteOneAsync<Mover>(mover => mover.Id == id);
+                await _users.DeleteOneAsync<User>(user => user.Id == userId);
+            }
+
+        }
+
+        private async Task<string> RegisterToDatabase(MoverRegisterModel toRegister)
+        {
+            Mover dbMover = new()
+            {
+                UserId = toRegister.UserId
+            };
+
+            await _movers.InsertOneAsync(dbMover);
+
+            return dbMover.Id;
+        }
+
+        private bool MoverExist(string userId)
+        {
+            return _movers.AsQueryable<Mover>().Any(dbMover =>
+                dbMover.UserId == userId
+            );
+        }
+
+        private bool UserExist(string userId)
+        {
+            return _users.AsQueryable<User>().Any(dbUser =>
+                dbUser.Id == userId
+            );
+        }
         private async Task<Mover> GetMoverFromIdAsync(string id)
         {
             var mover = await _movers.FindAsync(databaseClient =>
@@ -72,5 +118,7 @@ namespace Mydemenageur.API.Services
 
             return await mover.FirstOrDefaultAsync();
         }
+
+
     }
 }
