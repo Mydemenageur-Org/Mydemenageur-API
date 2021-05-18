@@ -58,6 +58,12 @@ namespace Mydemenageur.API.Controllers
             return Ok(user);
         }
 
+        /// <summary>
+        /// Regsiter a client
+        /// </summary>
+        /// <param name="clientRegisterModel"></param>
+        /// <returns></returns>
+        /// <response code="200">Return the newly created client id</response>
         [AllowAnonymous]
         [HttpPost]
         public async Task<ActionResult<string>> RegisterClient([FromBody] ClientRegisterModel clientRegisterModel)
