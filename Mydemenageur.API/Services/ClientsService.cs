@@ -62,8 +62,17 @@ namespace Mydemenageur.API.Services.Interfaces
 
         private async Task<Client> GetClientFromIdAsync(string id)
         {
-            var client = await _clients.FindAsync(databaseClient =>
-                databaseClient.Id == id
+            var client = await _clients.FindAsync(dbClient =>
+                dbClient.Id == id
+            );
+
+            return await client.FirstOrDefaultAsync();
+        }
+
+        private async Task<Client> GetClientFromUserIdAsyn(string userId)
+        {
+            var client = await _clients.FindAsync(dbClient =>
+                dbClient.UserId == userId
             );
 
             return await client.FirstOrDefaultAsync();
