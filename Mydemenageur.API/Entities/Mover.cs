@@ -20,32 +20,6 @@ namespace Mydemenageur.API.Entities
         /// <example>6030deb57116e097987bcae5</example>
         [BsonRepresentation(BsonType.ObjectId)]
         public string UserId { get; set; }
-
-        /// <summary>
-        /// The user's adress
-        /// </summary>
-        /// <example>36 Rue des Coquelicots</example>
-        public string Adress { get; set; }
-        /// <summary>
-        /// The user's town
-        /// </summary>
-        /// <example>Rennes</example>
-        public string Town { get; set; }
-        /// <summary>
-        /// The user's zipcode
-        /// </summary>
-        /// <example>85250</example>
-        public string Zipcode { get; set; }
-        /// <summary>
-        /// The user's country
-        /// </summary>
-        /// <example>France</example>
-        public string Country { get; set; }
-        /// <summary>
-        /// The movers's region 
-        /// </summary>
-        /// <example>Provence-Alpes-Côte d'Azur</example>
-        public string Region { get; set; }
         /// <summary>
         /// The mover's vip status
         /// </summary>
