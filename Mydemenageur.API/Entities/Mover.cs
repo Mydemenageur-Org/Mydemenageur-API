@@ -35,6 +35,11 @@ namespace Mydemenageur.API.Entities
         /// </summary>
         /// <example>8.5</example>
         public float AverageCustomer { get; set; }
+        [BsonRepresentation(BsonType.ObjectId)]
+        /// <summary>
+        /// The file is list
+        /// </summary>
+        public string[] FileId { get; set; }
 
     }
 }

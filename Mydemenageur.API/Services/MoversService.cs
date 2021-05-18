@@ -49,11 +49,6 @@ namespace Mydemenageur.API.Services
             if (mover == null) throw new ArgumentException("The mover doesn't exist", nameof(id));
 
             var update = Builders<Mover>.Update
-                .Set(dbMover => dbMover.Adress, toUpdate.Adress)
-                .Set(dbMover => dbMover.Town, toUpdate.Town)
-                .Set(dbMover => dbMover.Zipcode, toUpdate.Zipcode)
-                .Set(dbMover => dbMover.Country, toUpdate.Country)
-                .Set(dbMover => dbMover.Region, toUpdate.Region)
                 .Set(dbMover => dbMover.IsVIP, toUpdate.IsVIP)
                 .Set(dbMover => dbMover.SocietyId, toUpdate.SocietyId)
                 .Set(dbMover => dbMover.AverageCustomer, toUpdate.AverageCustomer);
