@@ -19,14 +19,11 @@ namespace Mydemenageur.API.Entities
         /// The society name
         /// </summary>
         public string SocietyName { get; set; }
+        [BsonRepresentation(BsonType.ObjectId)]
         /// <summary>
-        /// The society manager first name
+        /// The society manager id
         /// </summary>
-        public string ManagerFirstName { get; set; }
-        /// <summary>
-        /// The society manager last name
-        /// </summary>
-        public string ManagerLastName { get; set; }
+        public string ManagerId { get; set; }
         /// <summary>
         /// The user's adress
         /// </summary>

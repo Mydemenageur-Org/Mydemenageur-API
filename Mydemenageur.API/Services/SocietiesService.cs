@@ -35,31 +35,58 @@ namespace Mydemenageur.API.Services
             return await society.FirstOrDefaultAsync();
         }
 
-        public Task RegisterSocietyAsync(SocietyRegisterModel societyRegisterModel)
+        public async Task<string> RegisterSocietyAsync(SocietyRegisterModel societyRegisterModel)
         {
-            throw new NotImplementedException();
+            string id = await RegisterToDatabase(societyRegisterModel);
+            return id;
         }
 
-        public Task UpdateSocietyAsync(string id, SocietyUpdateModel societyUpdateModel)
+        public async Task UpdateSocietyAsync(string id, SocietyUpdateModel societyUpdateModel)
         {
-            throw new NotImplementedException();
-        }
+            var society = await GetSocietyAsync(id);
 
-        public Task DeleteSocietyAsync(string id)
-        {
-            throw new NotImplementedException();
-        }
+            if (society == null) throw new ArgumentException("The society doesn't exist", nameof(id));
 
-        private Task<string> RegisterToDatabase(SocietyRegisterModel toRegister)
-        {
-            return null;
-        }
+            var update = Builders<Society>.Update
+                .Set(dbUser => dbUser.SocietyName, societyUpdateModel.SocietyName)
+                .Set(dbUser => dbUser.ManagerId, societyUpdateModel.ManagerId)
+                .Set(dbUser => dbUser.Adress, societyUpdateModel.Adress)
+                .Set(dbUser => dbUser.Town, societyUpdateModel.Town)
+                .Set(dbUser => dbUser.Zipcode, societyUpdateModel.Zipcode)
+                .Set(dbUser => dbUser.Country, societyUpdateModel.Country)
+                .Set(dbUser => dbUser.Region, societyUpdateModel.Region);
 
-        private bool SocietyExist(string societyId)
-        {
-            return _societiesService.AsQueryable<Society>().Any(dbSociety =>
-                dbSociety.Id == societyId
+            await _societiesService.UpdateOneAsync(dbSociety =>
+                dbSociety.Id == id,
+                update
             );
+        }
+
+        public async Task DeleteSocietyAsync(string id)
+        {
+            if(id != null)
+            {
+                await _societiesService.DeleteOneAsync<Society>(society => society.Id == id);
+            }
+        }
+
+        private async Task<string> RegisterToDatabase(SocietyRegisterModel toRegister)
+        {
+            Society dbSociety = new()
+            {
+                SocietyName = toRegister.SocietyName,
+                ManagerId = toRegister.ManagerId,
+                Adress = toRegister.Adress,
+                Town = toRegister.Town,
+                Zipcode = toRegister.Zipcode,
+                Country = toRegister.Country,
+                Region = toRegister.Region
+
+            };
+
+            await _societiesService.InsertOneAsync(dbSociety);
+
+            return dbSociety.Id;
         }
     }
 }

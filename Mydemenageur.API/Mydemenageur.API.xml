@@ -23,7 +23,7 @@
             <response code="200">Return the newly registrated user's id</response>
             <returns></returns>
         </member>
-        <member name="M:Mydemenageur.API.Controllers.ClientsController.GetUser(System.String)">
+        <member name="M:Mydemenageur.API.Controllers.ClientsController.GetClient(System.String)">
             <summary>
             Get a client
             </summary>
@@ -31,7 +31,24 @@
             <returns></returns>
             <response code="200">The client was get</response>
         </member>
-        <member name="M:Mydemenageur.API.Controllers.ClientsController.UpdateClient(System.String,Mydemenageur.API.Models.Users.ClientUpdateModel)">
+        <member name="M:Mydemenageur.API.Controllers.ClientsController.GetUser(System.String)">
+            <summary>
+            Get the user corresponding to a client
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+            <response code="404">Their is no user corresponding to the client</response>
+            <response code="200">Return the user corresponding to a client</response>
+        </member>
+        <member name="M:Mydemenageur.API.Controllers.ClientsController.RegisterClient(Mydemenageur.API.Models.Clients.ClientRegisterModel)">
+            <summary>
+            Regsiter a client
+            </summary>
+            <param name="clientRegisterModel"></param>
+            <returns></returns>
+            <response code="200">Return the newly created client id</response>
+        </member>
+        <member name="M:Mydemenageur.API.Controllers.ClientsController.UpdateClient(System.String,Mydemenageur.API.Models.Clients.ClientUpdateModel)">
             <summary>
             Update a client. Only admin can edit every clients
             </summary>
@@ -41,6 +58,64 @@
             <response code="400">Their is an error in the request</response>
             <response code="403">You are not allowed to edit this client</response>
             <response code="200">The client has been updated</response>
+        </member>
+        <member name="M:Mydemenageur.API.Controllers.MoversController.GetMover(System.String)">
+            <summary>
+            To get a mover with his id
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Mydemenageur.API.Controllers.MoversController.GetUser(System.String)">
+            <summary>
+            To get user with mover id
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Mydemenageur.API.Controllers.MoversController.RegisterMover(Mydemenageur.API.Models.Movers.MoverRegisterModel)">
+            <summary>
+            To register mover
+            </summary>
+            <param name="toCreate"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Mydemenageur.API.Controllers.MoversController.UpdateMover(System.String,Mydemenageur.API.Models.Movers.MoverUpdateModel)">
+            <summary>
+            To update mover
+            </summary>
+            <param name="id"></param>
+            <param name="moverUpdateModel"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Mydemenageur.API.Controllers.SocietiesController.GetSociety(System.String)">
+            <summary>
+            To get society with his id
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Mydemenageur.API.Controllers.SocietiesController.GetAllMoverFromSociety(System.String)">
+            <summary>
+            To get all movers of society
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Mydemenageur.API.Controllers.SocietiesController.RegisterToDatabase(Mydemenageur.API.Models.Society.SocietyRegisterModel)">
+            <summary>
+            To register a new society
+            </summary>
+            <param name="societyRegisterModel"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Mydemenageur.API.Controllers.SocietiesController.UpdateSociety(System.String,Mydemenageur.API.Models.Society.SocietyUpdateModel)">
+            <summary>
+            To update the society
+            </summary>
+            <param name="id"></param>
+            <param name="societyUpdateModel"></param>
+            <returns></returns>
         </member>
         <member name="M:Mydemenageur.API.Controllers.UsersController.GetUser(System.String)">
             <summary>
@@ -60,6 +135,12 @@
             <response code="400">Their is an error in the request</response>
             <response code="403">You are not allowed to edit this user</response>
             <response code="200">The user has been updated</response>
+        </member>
+        <member name="P:Mydemenageur.API.Entities.Client.UserId">
+            <summary>
+            The id of the user associated with the client
+            </summary>
+            <example>6030deb57116e097987bcae5</example>
         </member>
         <member name="P:Mydemenageur.API.Entities.Client.Adress">
             <summary>
@@ -85,37 +166,13 @@
             </summary>
             <example>France</example>
         </member>
-        <member name="P:Mydemenageur.API.Entities.Mover.Adress">
+        <member name="P:Mydemenageur.API.Entities.Mover.UserId">
             <summary>
-            The user's adress
+            The id of the user associated with the mover
             </summary>
-            <example>36 Rue des Coquelicots</example>
+            <example>6030deb57116e097987bcae5</example>
         </member>
-        <member name="P:Mydemenageur.API.Entities.Mover.Town">
-            <summary>
-            The user's town
-            </summary>
-            <example>Rennes</example>
-        </member>
-        <member name="P:Mydemenageur.API.Entities.Mover.Zipcode">
-            <summary>
-            The user's zipcode
-            </summary>
-            <example>85250</example>
-        </member>
-        <member name="P:Mydemenageur.API.Entities.Mover.Country">
-            <summary>
-            The user's country
-            </summary>
-            <example>France</example>
-        </member>
-        <member name="P:Mydemenageur.API.Entities.Mover.Region">
-            <summary>
-            The movers's region 
-            </summary>
-            <example>Provence-Alpes-Côte d'Azur</example>
-        </member>
-        <member name="P:Mydemenageur.API.Entities.Mover.VIP">
+        <member name="P:Mydemenageur.API.Entities.Mover.IsVIP">
             <summary>
             The mover's vip status
             </summary>
@@ -125,11 +182,46 @@
             The mover's society Id
             </summary>
         </member>
-        <member name="P:Mydemenageur.API.Entities.Mover.AverageCustomer">
+        <member name="P:Mydemenageur.API.Entities.Mover.AverageCustomerRating">
             <summary>
             Average customer of the mover's
             </summary>
             <example>8.5</example>
+        </member>
+        <member name="P:Mydemenageur.API.Entities.Society.SocietyName">
+            <summary>
+            The society name
+            </summary>
+        </member>
+        <member name="P:Mydemenageur.API.Entities.Society.Adress">
+            <summary>
+            The user's adress
+            </summary>
+            <example>36 Rue des Coquelicots</example>
+        </member>
+        <member name="P:Mydemenageur.API.Entities.Society.Town">
+            <summary>
+            The user's town
+            </summary>
+            <example>Rennes</example>
+        </member>
+        <member name="P:Mydemenageur.API.Entities.Society.Zipcode">
+            <summary>
+            The user's zipcode
+            </summary>
+            <example>85250</example>
+        </member>
+        <member name="P:Mydemenageur.API.Entities.Society.Country">
+            <summary>
+            The user's country
+            </summary>
+            <example>France</example>
+        </member>
+        <member name="P:Mydemenageur.API.Entities.Society.Region">
+            <summary>
+            The movers's region 
+            </summary>
+            <example>Provence-Alpes-Côte d'Azur</example>
         </member>
         <member name="P:Mydemenageur.API.Entities.User.ProfilePicture">
             <summary>
@@ -176,10 +268,57 @@
             The user's about
             </summary>
         </member>
+        <member name="P:Mydemenageur.API.Entities.User.Role">
+            <summary>
+            The user's role. The roles are : Admin, Client, Mover
+            </summary>
+            <example>Client</example>
+        </member>
         <member name="P:Mydemenageur.API.Entities.User.Token">
             <summary>
              The user's connection token
             </summary>
+        </member>
+        <member name="P:Mydemenageur.API.Models.Clients.ClientRegisterModel.UserId">
+            <summary>
+            The id of the user associated with the client
+            </summary>
+            <example>6030deb57116e097987bcae5</example>
+        </member>
+        <member name="P:Mydemenageur.API.Models.Society.SocietyRegisterModel.SocietyName">
+            <summary>
+            The society name
+            </summary>
+        </member>
+        <member name="P:Mydemenageur.API.Models.Society.SocietyRegisterModel.Adress">
+            <summary>
+            The user's adress
+            </summary>
+            <example>36 Rue des Coquelicots</example>
+        </member>
+        <member name="P:Mydemenageur.API.Models.Society.SocietyRegisterModel.Town">
+            <summary>
+            The user's town
+            </summary>
+            <example>Rennes</example>
+        </member>
+        <member name="P:Mydemenageur.API.Models.Society.SocietyRegisterModel.Zipcode">
+            <summary>
+            The user's zipcode
+            </summary>
+            <example>85250</example>
+        </member>
+        <member name="P:Mydemenageur.API.Models.Society.SocietyRegisterModel.Country">
+            <summary>
+            The user's country
+            </summary>
+            <example>France</example>
+        </member>
+        <member name="P:Mydemenageur.API.Models.Society.SocietyRegisterModel.Region">
+            <summary>
+            The movers's region 
+            </summary>
+            <example>Provence-Alpes-Côte d'Azur</example>
         </member>
         <member name="P:Mydemenageur.API.Models.Users.LoginModel.Username">
             <summary>

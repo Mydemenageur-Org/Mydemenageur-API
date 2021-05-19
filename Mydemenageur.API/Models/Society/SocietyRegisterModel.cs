@@ -1,4 +1,6 @@
-﻿using System;
+﻿using MongoDB.Bson;
+using MongoDB.Bson.Serialization.Attributes;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -11,14 +13,11 @@ namespace Mydemenageur.API.Models.Society
         /// The society name
         /// </summary>
         public string SocietyName { get; set; }
+        [BsonRepresentation(BsonType.ObjectId)]
         /// <summary>
         /// The society manager first name
         /// </summary>
-        public string ManagerFirstName { get; set; }
-        /// <summary>
-        /// The society manager last name
-        /// </summary>
-        public string ManagerLastName { get; set; }
+        public string ManagerId { get; set; }
         /// <summary>
         /// The user's adress
         /// </summary>

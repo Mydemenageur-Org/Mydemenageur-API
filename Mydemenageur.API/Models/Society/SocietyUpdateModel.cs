@@ -15,16 +15,12 @@ namespace Mydemenageur.API.Models.Society
         /// The society name
         /// </summary>
         public string SocietyName { get; set; }
+        [BsonRepresentation(BsonType.ObjectId)]
         [Required]
         /// <summary>
         /// The society manager first name
         /// </summary>
-        public string ManagerFirstName { get; set; }
-        [Required]
-        /// <summary>
-        /// The society manager last name
-        /// </summary>
-        public string ManagerLastName { get; set; }
+        public string ManagerId { get; set; }
         [Required]
         /// <summary>
         /// The user's adress
