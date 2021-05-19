@@ -95,13 +95,6 @@
             <param name="id"></param>
             <returns></returns>
         </member>
-        <member name="M:Mydemenageur.API.Controllers.SocietiesController.GetAllMoverFromSociety(System.String)">
-            <summary>
-            To get all movers of society
-            </summary>
-            <param name="id"></param>
-            <returns></returns>
-        </member>
         <member name="M:Mydemenageur.API.Controllers.SocietiesController.RegisterToDatabase(Mydemenageur.API.Models.Society.SocietyRegisterModel)">
             <summary>
             To register a new society
@@ -177,11 +170,6 @@
             The mover's vip status
             </summary>
         </member>
-        <member name="P:Mydemenageur.API.Entities.Mover.SocietyId">
-            <summary>
-            The mover's society Id
-            </summary>
-        </member>
         <member name="P:Mydemenageur.API.Entities.Mover.AverageCustomerRating">
             <summary>
             Average customer of the mover's
@@ -192,6 +180,12 @@
             <summary>
             The society name
             </summary>
+        </member>
+        <member name="P:Mydemenageur.API.Entities.Society.EmployeeNumber">
+            <summary>
+            The employee number
+            </summary>
+            <example>36</example>
         </member>
         <member name="P:Mydemenageur.API.Entities.Society.Adress">
             <summary>
@@ -279,6 +273,46 @@
              The user's connection token
             </summary>
         </member>
+        <member name="P:Mydemenageur.API.Entities.Vehicule.VehiculeNumber">
+            <summary>
+            Number of vehicule in society
+            </summary>
+        </member>
+        <member name="P:Mydemenageur.API.Entities.Vehicule.TarpaulinVehicule">
+            <summary>
+            If the society have tarpaulin vehicule
+            </summary>
+        </member>
+        <member name="P:Mydemenageur.API.Entities.Vehicule.PTAC_TarpaulinVehicule">
+            <summary>
+            PTAC of tarpaulin ptac
+            </summary>
+        </member>
+        <member name="P:Mydemenageur.API.Entities.Vehicule.HardWallVehicule">
+            <summary>
+            If the society have hard wall vehicule
+            </summary>
+        </member>
+        <member name="P:Mydemenageur.API.Entities.Vehicule.PTAC_HardWallVehicule">
+            <summary>
+            PTAC of hard wall ptac
+            </summary>
+        </member>
+        <member name="P:Mydemenageur.API.Entities.Vehicule.HorseTransport">
+            <summary>
+            If he can transport horse
+            </summary>
+        </member>
+        <member name="P:Mydemenageur.API.Entities.Vehicule.VehiculeTransport">
+            <summary>
+            If he can transport vehicule
+            </summary>
+        </member>
+        <member name="P:Mydemenageur.API.Entities.Vehicule.TotalCapacity">
+            <summary>
+            Total capacity of all vehicule in the society
+            </summary>
+        </member>
         <member name="P:Mydemenageur.API.Models.Clients.ClientRegisterModel.UserId">
             <summary>
             The id of the user associated with the client
@@ -289,6 +323,12 @@
             <summary>
             The society name
             </summary>
+        </member>
+        <member name="P:Mydemenageur.API.Models.Society.SocietyRegisterModel.EmployeeNumber">
+            <summary>
+            The employee number
+            </summary>
+            <example>36</example>
         </member>
         <member name="P:Mydemenageur.API.Models.Society.SocietyRegisterModel.Adress">
             <summary>
@@ -424,6 +464,46 @@
             The user's password
             </summary>
             <example>MySecurePassword</example>
+        </member>
+        <member name="P:Mydemenageur.API.Models.Vehicule.VehiculeRegisterModel.VehiculeNumber">
+            <summary>
+            Number of vehicule in society
+            </summary>
+        </member>
+        <member name="P:Mydemenageur.API.Models.Vehicule.VehiculeRegisterModel.TarpaulinVehicule">
+            <summary>
+            If the society have tarpaulin vehicule
+            </summary>
+        </member>
+        <member name="P:Mydemenageur.API.Models.Vehicule.VehiculeRegisterModel.PTAC_TarpaulinVehicule">
+            <summary>
+            PTAC of tarpaulin ptac
+            </summary>
+        </member>
+        <member name="P:Mydemenageur.API.Models.Vehicule.VehiculeRegisterModel.HardWallVehicule">
+            <summary>
+            If the society have hard wall vehicule
+            </summary>
+        </member>
+        <member name="P:Mydemenageur.API.Models.Vehicule.VehiculeRegisterModel.PTAC_HardWallVehicule">
+            <summary>
+            PTAC of hard wall ptac
+            </summary>
+        </member>
+        <member name="P:Mydemenageur.API.Models.Vehicule.VehiculeRegisterModel.HorseTransport">
+            <summary>
+            If he can transport horse
+            </summary>
+        </member>
+        <member name="P:Mydemenageur.API.Models.Vehicule.VehiculeRegisterModel.VehiculeTransport">
+            <summary>
+            If he can transport vehicule
+            </summary>
+        </member>
+        <member name="P:Mydemenageur.API.Models.Vehicule.VehiculeRegisterModel.TotalCapacity">
+            <summary>
+            Total capacity of all vehicule in the society
+            </summary>
         </member>
     </members>
 </doc>
