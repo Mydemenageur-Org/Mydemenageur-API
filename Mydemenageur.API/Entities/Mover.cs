@@ -25,12 +25,6 @@ namespace Mydemenageur.API.Entities
         /// </summary>
         public bool IsVIP { get; set; }
         /// <summary>
-        /// The mover's society Id
-        /// </summary>
-        [BsonId]
-        [BsonRepresentation(BsonType.ObjectId)]
-        public string SocietyId { get; set; }
-        /// <summary>
         /// Average customer of the mover's
         /// </summary>
         /// <example>8.5</example>

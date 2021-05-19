@@ -17,13 +17,6 @@ namespace Mydemenageur.API.Models.Movers
         public bool IsVIP { get; set; }
         [Required]
         /// <summary>
-        /// The mover's society Id
-        /// </summary>
-        [BsonId]
-        [BsonRepresentation(BsonType.ObjectId)]
-        public string SocietyId { get; set; }
-        [Required]
-        /// <summary>
         /// Average customer of the mover's
         /// </summary>
         /// <example>8.5</example>

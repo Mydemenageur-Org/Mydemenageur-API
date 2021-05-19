@@ -17,12 +17,6 @@ namespace Mydemenageur.API.Models.Movers
         public string UserId { get; set; }
         [BsonRepresentation(BsonType.ObjectId)]
         /// <summary>
-        /// The mover's society id
-        /// </summary>
-        /// <example>6030deb57116e097987bcae5</example>
-        public string SocietyId { get; set; }
-        [BsonRepresentation(BsonType.ObjectId)]
-        /// <summary>
         /// The file is list
         /// </summary>
         public string[] FileId { get; set; }
