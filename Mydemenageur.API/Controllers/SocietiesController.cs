@@ -36,19 +36,6 @@ namespace Mydemenageur.API.Controllers
         }
 
         /// <summary>
-        /// To get all movers of society
-        /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
-        [HttpGet("{id:length(24)}/movers")]
-        public async Task<ActionResult<List<Mover>>> GetAllMoverFromSociety(string id)
-        {
-            var movers = await _societiesService.GetAllMoverAsync(id);
-
-            return Ok(movers);
-        }
-
-        /// <summary>
         /// To register a new society
         /// </summary>
         /// <param name="societyRegisterModel"></param>

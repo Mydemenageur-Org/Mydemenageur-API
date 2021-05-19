@@ -11,7 +11,6 @@ namespace Mydemenageur.API.Services.Interfaces
     {
 
         Task<Society> GetSocietyAsync(string id);
-        Task<List<Mover>> GetAllMoverAsync(string id);
         Task<string> RegisterSocietyAsync(SocietyRegisterModel societyRegisterModel);
         Task UpdateSocietyAsync(string id, SocietyUpdateModel societyUpdateModel);
         Task DeleteSocietyAsync(string id);

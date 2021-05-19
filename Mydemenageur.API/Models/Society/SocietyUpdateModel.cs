@@ -22,6 +22,18 @@ namespace Mydemenageur.API.Models.Society
         /// </summary>
         public string ManagerId { get; set; }
         [Required]
+        [BsonRepresentation(BsonType.ObjectId)]
+        /// <summary>
+        /// The vehicule information id
+        /// </summary>
+        public string VehiculeId { get; set; }
+        [Required]
+        /// <summary>
+        /// The employee number
+        /// </summary>
+        /// <example>36</example>
+        public int EmployeeNumber { get; set; }
+        [Required]
         /// <summary>
         /// The user's adress
         /// </summary>

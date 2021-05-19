@@ -13,7 +13,7 @@ namespace Mydemenageur.API.Services
     public class SocietiesService : ISocietiesService
     {
         private readonly IMongoCollection<Society> _societiesService;
-        private readonly IMongoCollection<Mover> _moversService;
+        //private readonly IMongoCollection<Mover> _moversService;
 
         public SocietiesService(IMongoSettings mongoSettings)
         {
@@ -21,12 +21,6 @@ namespace Mydemenageur.API.Services
             var database = mongoClient.GetDatabase(mongoSettings.DatabaseName);
 
             _societiesService = database.GetCollection<Society>(mongoSettings.SocietiesCollectionName);
-        }
-
-        public async Task<List<Mover>> GetAllMoverAsync(string id)
-        {
-            var moversInSociety = await _moversService.FindAsync<Mover>(mover => mover.SocietyId == id);
-            return await moversInSociety.ToListAsync<Mover>();
         }
 
         public async Task<Society> GetSocietyAsync(string id)
@@ -50,6 +44,8 @@ namespace Mydemenageur.API.Services
             var update = Builders<Society>.Update
                 .Set(dbUser => dbUser.SocietyName, societyUpdateModel.SocietyName)
                 .Set(dbUser => dbUser.ManagerId, societyUpdateModel.ManagerId)
+                .Set(dbUser => dbUser.VehiculeId, societyUpdateModel.VehiculeId)
+                .Set(dbUser => dbUser.EmployeeNumber, societyUpdateModel.EmployeeNumber)
                 .Set(dbUser => dbUser.Adress, societyUpdateModel.Adress)
                 .Set(dbUser => dbUser.Town, societyUpdateModel.Town)
                 .Set(dbUser => dbUser.Zipcode, societyUpdateModel.Zipcode)
@@ -76,12 +72,13 @@ namespace Mydemenageur.API.Services
             {
                 SocietyName = toRegister.SocietyName,
                 ManagerId = toRegister.ManagerId,
+                VehiculeId = toRegister.VehiculeId,
+                EmployeeNumber = toRegister.EmployeeNumber,
                 Adress = toRegister.Adress,
                 Town = toRegister.Town,
                 Zipcode = toRegister.Zipcode,
                 Country = toRegister.Country,
                 Region = toRegister.Region
-
             };
 
             await _societiesService.InsertOneAsync(dbSociety);
