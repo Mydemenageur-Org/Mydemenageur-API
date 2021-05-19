@@ -34,12 +34,12 @@ namespace Mydemenageur.API.Entities
         /// Average customer of the mover's
         /// </summary>
         /// <example>8.5</example>
-        public float AverageCustomer { get; set; }
+        public float AverageCustomerRating { get; set; }
         [BsonRepresentation(BsonType.ObjectId)]
         /// <summary>
         /// The file is list
         /// </summary>
-        public string[] FileId { get; set; }
+        public List<string> FileIds { get; set; }
 
     }
 }

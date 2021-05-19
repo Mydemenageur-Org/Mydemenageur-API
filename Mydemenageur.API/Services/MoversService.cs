@@ -51,7 +51,7 @@ namespace Mydemenageur.API.Services
             var update = Builders<Mover>.Update
                 .Set(dbMover => dbMover.IsVIP, toUpdate.IsVIP)
                 .Set(dbMover => dbMover.SocietyId, toUpdate.SocietyId)
-                .Set(dbMover => dbMover.AverageCustomer, toUpdate.AverageCustomer);
+                .Set(dbMover => dbMover.AverageCustomerRating, toUpdate.AverageCustomer);
 
             await _movers.UpdateOneAsync(dbMover =>
                 dbMover.Id == id,
@@ -84,7 +84,12 @@ namespace Mydemenageur.API.Services
         {
             Mover dbMover = new()
             {
-                UserId = toRegister.UserId
+                UserId = toRegister.UserId,
+                IsVIP = false,
+                SocietyId = toRegister.SocietyId,
+                AverageCustomerRating = -1,
+                FileIds = new()
+
             };
 
             await _movers.InsertOneAsync(dbMover);
