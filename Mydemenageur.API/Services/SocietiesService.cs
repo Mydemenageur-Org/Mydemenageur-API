@@ -42,15 +42,15 @@ namespace Mydemenageur.API.Services
             if (society == null) throw new ArgumentException("The society doesn't exist", nameof(id));
 
             var update = Builders<Society>.Update
-                .Set(dbUser => dbUser.SocietyName, societyUpdateModel.SocietyName)
-                .Set(dbUser => dbUser.ManagerId, societyUpdateModel.ManagerId)
-                .Set(dbUser => dbUser.VehiculeId, societyUpdateModel.VehiculeId)
-                .Set(dbUser => dbUser.EmployeeNumber, societyUpdateModel.EmployeeNumber)
-                .Set(dbUser => dbUser.Adress, societyUpdateModel.Adress)
-                .Set(dbUser => dbUser.Town, societyUpdateModel.Town)
-                .Set(dbUser => dbUser.Zipcode, societyUpdateModel.Zipcode)
-                .Set(dbUser => dbUser.Country, societyUpdateModel.Country)
-                .Set(dbUser => dbUser.Region, societyUpdateModel.Region);
+                .Set(dbSociety => dbSociety.SocietyName, societyUpdateModel.SocietyName)
+                .Set(dbSociety => dbSociety.ManagerId, societyUpdateModel.ManagerId)
+                .Set(dbSociety => dbSociety.VehiculeId, societyUpdateModel.VehiculeId)
+                .Set(dbSociety => dbSociety.EmployeeNumber, societyUpdateModel.EmployeeNumber)
+                .Set(dbSociety => dbSociety.Adress, societyUpdateModel.Adress)
+                .Set(dbSociety => dbSociety.Town, societyUpdateModel.Town)
+                .Set(dbSociety => dbSociety.Zipcode, societyUpdateModel.Zipcode)
+                .Set(dbSociety => dbSociety.Country, societyUpdateModel.Country)
+                .Set(dbSociety => dbSociety.Region, societyUpdateModel.Region);
 
             await _societiesService.UpdateOneAsync(dbSociety =>
                 dbSociety.Id == id,

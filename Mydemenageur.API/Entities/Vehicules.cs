@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Mydemenageur.API.Entities
 {
-    public class Vehicule
+    public class Vehicules
     {
 
         [BsonId]
@@ -16,11 +16,11 @@ namespace Mydemenageur.API.Entities
         /// <summary>
         /// Number of vehicule in society
         /// </summary>
-        public int VehiculeNumber { get; set; }
+        public int VehiculesNumber { get; set; }
         /// <summary>
         /// If the society have tarpaulin vehicule
         /// </summary>
-        public bool TarpaulinVehicule { get; set; }
+        public bool HasTarpaulinVehicule { get; set; }
         /// <summary>
         /// PTAC of tarpaulin ptac
         /// </summary>
@@ -28,7 +28,7 @@ namespace Mydemenageur.API.Entities
         /// <summary>
         /// If the society have hard wall vehicule
         /// </summary>
-        public bool HardWallVehicule { get; set; }
+        public bool HasHardWallVehicule { get; set; }
         /// <summary>
         /// PTAC of hard wall ptac
         /// </summary>
@@ -36,11 +36,11 @@ namespace Mydemenageur.API.Entities
         /// <summary>
         /// If he can transport horse
         /// </summary>
-        public bool HorseTransport { get; set; }
+        public bool HasHorseTransport { get; set; }
         /// <summary>
         /// If he can transport vehicule
         /// </summary>
-        public bool VehiculeTransport { get; set; }
+        public bool CanTransportVehicule { get; set; }
         /// <summary>
         /// Total capacity of all vehicule in the society
         /// </summary>

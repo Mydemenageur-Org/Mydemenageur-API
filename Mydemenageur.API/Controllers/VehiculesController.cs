@@ -26,7 +26,7 @@ namespace Mydemenageur.API.Controllers
         }
 
         [HttpGet("{id:length(24)}")]
-        public async Task<ActionResult<Vehicule>> GetVehicule(string id)
+        public async Task<ActionResult<Vehicules>> GetVehicule(string id)
         {
             var vehicule = await _vehiculesService.GetVehiculeAsync(id);
 

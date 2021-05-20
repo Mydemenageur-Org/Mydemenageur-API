@@ -12,19 +12,19 @@ namespace Mydemenageur.API.Services
 {
     public class VehiculesService : IVehiculesService
     {
-        private readonly IMongoCollection<Vehicule> _vehicules;
+        private readonly IMongoCollection<Vehicules> _vehicules;
 
         public VehiculesService(IMongoSettings mongoSettings)
         {
             var mongoClient = new MongoClient(mongoSettings.ConnectionString);
             var database = mongoClient.GetDatabase(mongoSettings.DatabaseName);
 
-            _vehicules = database.GetCollection<Vehicule>(mongoSettings.VehiculesCollectionName);
+            _vehicules = database.GetCollection<Vehicules>(mongoSettings.VehiculesCollectionName);
         }
 
-        public async Task<Vehicule> GetVehiculeAsync(string id)
+        public async Task<Vehicules> GetVehiculeAsync(string id)
         {
-            var vehicule = await _vehicules.FindAsync<Vehicule>(vehicule => vehicule.Id == id);
+            var vehicule = await _vehicules.FindAsync<Vehicules>(vehicule => vehicule.Id == id);
 
             return await vehicule.FirstOrDefaultAsync();
         }
@@ -41,14 +41,14 @@ namespace Mydemenageur.API.Services
 
             if (vehicule == null) throw new ArgumentException("The vehicule doesn't exist", nameof(id));
 
-            var update = Builders<Vehicule>.Update
-                .Set(dbVehicule => dbVehicule.VehiculeNumber, toUpdate.VehiculeNumber)
-                .Set(dbVehicule => dbVehicule.TarpaulinVehicule, toUpdate.TarpaulinVehicule)
+            var update = Builders<Vehicules>.Update
+                .Set(dbVehicule => dbVehicule.VehiculesNumber, toUpdate.VehiculeNumber)
+                .Set(dbVehicule => dbVehicule.HasTarpaulinVehicule, toUpdate.TarpaulinVehicule)
                 .Set(dbVehicule => dbVehicule.PTAC_TarpaulinVehicule, toUpdate.PTAC_TarpaulinVehicule)
-                .Set(dbVehicule => dbVehicule.HardWallVehicule, toUpdate.HardWallVehicule)
+                .Set(dbVehicule => dbVehicule.HasHardWallVehicule, toUpdate.HardWallVehicule)
                 .Set(dbVehicule => dbVehicule.PTAC_HardWallVehicule, toUpdate.PTAC_HardWallVehicule)
-                .Set(dbVehicule => dbVehicule.HorseTransport, toUpdate.HorseTransport)
-                .Set(dbVehicule => dbVehicule.VehiculeTransport, toUpdate.VehiculeTransport)
+                .Set(dbVehicule => dbVehicule.HasHorseTransport, toUpdate.HorseTransport)
+                .Set(dbVehicule => dbVehicule.CanTransportVehicule, toUpdate.VehiculeTransport)
                 .Set(dbVehicule => dbVehicule.TotalCapacity, toUpdate.TotalCapacity);
 
             await _vehicules.UpdateOneAsync(dbVehicule =>
@@ -59,20 +59,20 @@ namespace Mydemenageur.API.Services
 
         public async Task DeleteVehicule(string id, string userId)
         {
-            await _vehicules.DeleteOneAsync<Vehicule>(vehicule => vehicule.Id == id);
+            await _vehicules.DeleteOneAsync<Vehicules>(vehicule => vehicule.Id == id);
         }
 
         private async Task<string> RegisterToDatabase(VehiculeRegisterModel toRegister)
         {
-            Vehicule dbVehicule = new()
+            Vehicules dbVehicule = new()
             {
-                VehiculeNumber = toRegister.VehiculeNumber,
-                TarpaulinVehicule = toRegister.TarpaulinVehicule,
+                VehiculesNumber = toRegister.VehiculeNumber,
+                HasTarpaulinVehicule = toRegister.TarpaulinVehicule,
                 PTAC_TarpaulinVehicule = toRegister.PTAC_TarpaulinVehicule,
-                HardWallVehicule = toRegister.HardWallVehicule,
+                HasHardWallVehicule = toRegister.HardWallVehicule,
                 PTAC_HardWallVehicule = toRegister.PTAC_HardWallVehicule,
-                HorseTransport = toRegister.HorseTransport,
-                VehiculeTransport = toRegister.VehiculeTransport,
+                HasHorseTransport = toRegister.HorseTransport,
+                CanTransportVehicule = toRegister.VehiculeTransport,
                 TotalCapacity = toRegister.TotalCapacity
             };
 
