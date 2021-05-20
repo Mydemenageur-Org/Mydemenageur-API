@@ -36,7 +36,7 @@ namespace Mydemenageur.API.Entities
         /// <summary>
         /// If he can transport horse
         /// </summary>
-        public bool HasHorseTransport { get; set; }
+        public bool CanTransportHorse { get; set; }
         /// <summary>
         /// If he can transport vehicule
         /// </summary>
