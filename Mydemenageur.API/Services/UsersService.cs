@@ -25,7 +25,11 @@ namespace Mydemenageur.API.Services
 
             _users = database.GetCollection<User>(mongoSettings.UsersCollectionName);
         }
-
+        public async Task<List<User>> GetUsersAsync()
+        {
+            var users = await _users.FindAsync(users => true);
+            return await users.ToListAsync();
+        }
         public async Task<User> GetUserAsync(string id)
         {
             var user = await _users.FindAsync(databaseUser =>

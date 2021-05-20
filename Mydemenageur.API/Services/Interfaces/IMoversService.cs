@@ -10,7 +10,7 @@ namespace Mydemenageur.API.Services.Interfaces
 {
     public interface IMoversService
     {
-
+        Task<List<Mover>> GetMoversAsync();
         Task<Mover> GetMoverAsync(string id);
         Task<User> GetUserAsync(string id);
         Task<string> RegisterMoverAsync(MoverRegisterModel toRegister);

@@ -9,10 +9,10 @@ namespace Mydemenageur.API.Services.Interfaces
 {
     public interface IVehiculesService
     {
-
+        Task<List<Vehicules>> GetVehiculesAsync();
         Task<Vehicules> GetVehiculeAsync(string id);
         Task<string> AddVehiculeAsync(VehiculesRegisterModel toRegister);
-        Task UpdateVehiculeAsync(string id, VehiculesUpdateModel toUpdate);
+        Task UpdateVehiculeAsync(string currentUserId, string id, VehiculesUpdateModel toUpdate);
         Task DeleteVehicule(string id, string userId);
 
     }

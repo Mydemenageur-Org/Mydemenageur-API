@@ -23,6 +23,12 @@ namespace Mydemenageur.API.Services
             _vehicules = database.GetCollection<Vehicules>(mongoSettings.VehiculesCollectionName);
         }
 
+        public async Task<List<Vehicules>> GetVehiculesAsync()
+        {
+            var vehicules = await _vehicules.FindAsync(vehicules => true);
+            return await vehicules.ToListAsync();
+        }
+
         public async Task<Vehicules> GetVehiculeAsync(string id)
         {
             var vehicule = await _vehicules.FindAsync<Vehicules>(vehicule => vehicule.Id == id);

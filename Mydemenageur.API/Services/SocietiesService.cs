@@ -22,13 +22,16 @@ namespace Mydemenageur.API.Services
 
             _societiesService = database.GetCollection<Society>(mongoSettings.SocietiesCollectionName);
         }
-
         public async Task<Society> GetSocietyAsync(string id)
         {
             var society = await _societiesService.FindAsync<Society>(society => society.Id == id);
             return await society.FirstOrDefaultAsync();
         }
-
+        public async Task<List<Society>> GetSocietiesAsync()
+        {
+            var societies = await _societiesService.FindAsync(societies => true);
+            return await societies.ToListAsync();
+        }
         public async Task<string> RegisterSocietyAsync(SocietyRegisterModel societyRegisterModel)
         {
             string id = await RegisterToDatabase(societyRegisterModel);

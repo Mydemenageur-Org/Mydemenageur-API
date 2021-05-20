@@ -24,6 +24,11 @@ namespace Mydemenageur.API.Services
             _movers = database.GetCollection<Mover>(mongoSettings.MoversCollectionName);
             _users = database.GetCollection<User>(mongoSettings.UsersCollectionName);
         }
+        public async Task<List<Mover>> GetMoversAsync()
+        {
+            var movers = await _movers.FindAsync(vehicules => true);
+            return await movers.ToListAsync();
+        }
         public Task<Mover> GetMoverAsync(string id)
         {
             return GetMoverFromIdAsync(id);

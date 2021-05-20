@@ -9,7 +9,7 @@ namespace Mydemenageur.API.Services.Interfaces
 {
     public interface ISocietiesService
     {
-
+        Task<List<Society>> GetSocietiesAsync();
         Task<Society> GetSocietyAsync(string id);
         Task<string> RegisterSocietyAsync(SocietyRegisterModel societyRegisterModel);
         Task UpdateSocietyAsync(string id, SocietyUpdateModel societyUpdateModel);

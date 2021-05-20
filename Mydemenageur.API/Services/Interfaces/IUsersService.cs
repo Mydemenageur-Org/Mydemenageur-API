@@ -9,7 +9,7 @@ namespace Mydemenageur.API.Services.Interfaces
 {
     public interface IUsersService
     {
-
+        Task<List<User>> GetUsersAsync();
         Task<User> GetUserAsync(string id);
         Task UpdateUserAsync(string id, UserUpdateModel toUpdate);
 

@@ -24,6 +24,12 @@ namespace Mydemenageur.API.Services.Interfaces
             _users = database.GetCollection<User>(mongoSettings.UsersCollectionName);
         }
 
+        public async Task<List<Client>> GetClientsAsync()
+        {
+            var client = await _clients.FindAsync(client => true);
+            return await client.ToListAsync();
+        }
+
         public Task<Client> GetClientAsync(string id)
         {
             return GetClientFromIdAsync(id);
@@ -114,6 +120,5 @@ namespace Mydemenageur.API.Services.Interfaces
                 dbUser.Id == userId
             );
         }
-
     }
 }
