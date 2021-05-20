@@ -50,7 +50,7 @@ namespace Mydemenageur.API.Controllers
         }
 
         [HttpPut("{id:length(24)}")]
-        public async Task<IActionResult> UpdateVehicule(string id, [FromBody] VehiculeUpdateModel vehiculeUpdateModel)
+        public async Task<IActionResult> UpdateVehicule(string id, [FromBody] VehiculesUpdateModel vehiculeUpdateModel)
         {
             var currentMoverId = User.Identity.Name;
 
