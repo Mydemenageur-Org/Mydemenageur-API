@@ -35,7 +35,7 @@ namespace Mydemenageur.API.Controllers
 
         [AllowAnonymous]
         [HttpPost]
-        public async Task<ActionResult<string>> RegisterVehicule([FromBody] VehiculeRegisterModel toCreate)
+        public async Task<ActionResult<string>> RegisterVehicule([FromBody] VehiculesRegisterModel toCreate)
         {
             try
             {

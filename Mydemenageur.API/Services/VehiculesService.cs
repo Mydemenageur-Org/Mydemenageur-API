@@ -30,13 +30,13 @@ namespace Mydemenageur.API.Services
             return await vehicule.FirstOrDefaultAsync();
         }
 
-        public async Task<string> AddVehiculeAsync(VehiculeRegisterModel toRegister)
+        public async Task<string> AddVehiculeAsync(VehiculesRegisterModel toRegister)
         {
             string id = await RegisterToDatabase(toRegister);
             return id;
         }
 
-        public async Task UpdateVehiculeAsync(string currentUserId, string id, VehiculeUpdateModel toUpdate)
+        public async Task UpdateVehiculeAsync(string currentUserId, string id, VehiculesUpdateModel toUpdate)
         {
             var vehicule = await GetVehiculeAsync(id);
             var society = await (await _societies.FindAsync<Society>(society => society.ManagerId == currentUserId)).FirstOrDefaultAsync();
@@ -46,13 +46,13 @@ namespace Mydemenageur.API.Services
             if (society.VehiculeId == id) throw new UnauthorizedAccessException("Your are not the manager of this society");
 
             var update = Builders<Vehicules>.Update
-                .Set(dbVehicule => dbVehicule.VehiculesNumber, toUpdate.VehiculeNumber)
-                .Set(dbVehicule => dbVehicule.HasTarpaulinVehicule, toUpdate.TarpaulinVehicule)
+                .Set(dbVehicule => dbVehicule.VehiculesNumber, toUpdate.VehiculesNumber)
+                .Set(dbVehicule => dbVehicule.HasTarpaulinVehicule, toUpdate.HasTarpaulinVehicule)
                 .Set(dbVehicule => dbVehicule.PTAC_TarpaulinVehicule, toUpdate.PTAC_TarpaulinVehicule)
-                .Set(dbVehicule => dbVehicule.HasHardWallVehicule, toUpdate.HardWallVehicule)
+                .Set(dbVehicule => dbVehicule.HasHardWallVehicule, toUpdate.HasHardWallVehicule)
                 .Set(dbVehicule => dbVehicule.PTAC_HardWallVehicule, toUpdate.PTAC_HardWallVehicule)
-                .Set(dbVehicule => dbVehicule.HasHorseTransport, toUpdate.HorseTransport)
-                .Set(dbVehicule => dbVehicule.CanTransportVehicule, toUpdate.VehiculeTransport)
+                .Set(dbVehicule => dbVehicule.CanTransportHorse, toUpdate.CanTransportHorse)
+                .Set(dbVehicule => dbVehicule.CanTransportVehicule, toUpdate.CanTransportVehicule)
                 .Set(dbVehicule => dbVehicule.TotalCapacity, toUpdate.TotalCapacity);
 
             await _vehicules.UpdateOneAsync(dbVehicule =>
@@ -66,17 +66,17 @@ namespace Mydemenageur.API.Services
             await _vehicules.DeleteOneAsync<Vehicules>(vehicule => vehicule.Id == id);
         }
 
-        private async Task<string> RegisterToDatabase(VehiculeRegisterModel toRegister)
+        private async Task<string> RegisterToDatabase(VehiculesRegisterModel toRegister)
         {
             Vehicules dbVehicule = new()
             {
-                VehiculesNumber = toRegister.VehiculeNumber,
-                HasTarpaulinVehicule = toRegister.TarpaulinVehicule,
+                VehiculesNumber = toRegister.VehiculesNumber,
+                HasTarpaulinVehicule = toRegister.HasTarpaulinVehicule,
                 PTAC_TarpaulinVehicule = toRegister.PTAC_TarpaulinVehicule,
-                HasHardWallVehicule = toRegister.HardWallVehicule,
+                HasHardWallVehicule = toRegister.HasHardWallVehicule,
                 PTAC_HardWallVehicule = toRegister.PTAC_HardWallVehicule,
-                HasHorseTransport = toRegister.HorseTransport,
-                CanTransportVehicule = toRegister.VehiculeTransport,
+                CanTransportHorse = toRegister.CanTransportHorse,
+                CanTransportVehicule = toRegister.CanTransportVehicule,
                 TotalCapacity = toRegister.TotalCapacity
             };
 
