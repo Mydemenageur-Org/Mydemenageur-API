@@ -13,6 +13,7 @@ namespace Mydemenageur.API.Services
     public class VehiculesService : IVehiculesService
     {
         private readonly IMongoCollection<Vehicules> _vehicules;
+        private readonly IMongoCollection<Society> _societies;
 
         public VehiculesService(IMongoSettings mongoSettings)
         {
@@ -35,11 +36,14 @@ namespace Mydemenageur.API.Services
             return id;
         }
 
-        public async Task UpdateVehiculeAsync(string id, VehiculeUpdateModel toUpdate)
+        public async Task UpdateVehiculeAsync(string currentUserId, string id, VehiculeUpdateModel toUpdate)
         {
             var vehicule = await GetVehiculeAsync(id);
+            var society = await (await _societies.FindAsync<Society>(society => society.ManagerId == currentUserId)).FirstOrDefaultAsync();
 
             if (vehicule == null) throw new ArgumentException("The vehicule doesn't exist", nameof(id));
+
+            if (society.VehiculeId == id) throw new UnauthorizedAccessException("Your are not the manager of this society");
 
             var update = Builders<Vehicules>.Update
                 .Set(dbVehicule => dbVehicule.VehiculesNumber, toUpdate.VehiculeNumber)

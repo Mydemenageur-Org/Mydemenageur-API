@@ -53,7 +53,6 @@ namespace Mydemenageur.API.Controllers
         public async Task<IActionResult> UpdateVehicule(string id, [FromBody] VehiculeUpdateModel vehiculeUpdateModel)
         {
             var currentMoverId = User.Identity.Name;
-            var society = await _s
 
             try
             {
@@ -65,6 +64,10 @@ namespace Mydemenageur.API.Controllers
                 await _vehiculesService.UpdateVehiculeAsync(id, vehiculeUpdateModel);
 
                 return Ok();
+            }
+            catch(UnauthorizedAccessException e)
+            {
+                return Forbid($"Can't update the vehicule: {e.Message}");
             }
             catch (Exception e)
             {
