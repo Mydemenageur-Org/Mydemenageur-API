@@ -49,29 +49,28 @@ namespace Mydemenageur.API.Controllers
             }
         }
 
-        /* A Finir
         [HttpPut("{id:length(24)}")]
         public async Task<IActionResult> UpdateVehicule(string id, [FromBody] VehiculeUpdateModel vehiculeUpdateModel)
         {
             var currentMoverId = User.Identity.Name;
-            //var society = await _s
+            var society = await _s
 
             try
             {
                 if (currentMoverId != id)
                 {
-                    return Forbid("You can't edit that mover : you are not the mover you want to edit");
+                    return Forbid("You can't edit that vehicule : you are not the vehicule you want to edit");
                 }
 
-                await _moversService.UpdateMoverAsync(id, moverUpdateModel);
+                await _vehiculesService.UpdateVehiculeAsync(id, vehiculeUpdateModel);
 
                 return Ok();
             }
             catch (Exception e)
             {
-                return BadRequest($"Can't update the mover: {e.Message}");
+                return BadRequest($"Can't update the vehicule: {e.Message}");
             }
-        }*/
+        }
 
     }
 }
