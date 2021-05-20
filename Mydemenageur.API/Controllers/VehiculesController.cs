@@ -61,7 +61,7 @@ namespace Mydemenageur.API.Controllers
                     return Forbid("You can't edit that vehicule : you are not the vehicule you want to edit");
                 }
 
-                await _vehiculesService.UpdateVehiculeAsync(id, vehiculeUpdateModel);
+                await _vehiculesService.UpdateVehiculeAsync(currentMoverId, id, vehiculeUpdateModel);
 
                 return Ok();
             }
