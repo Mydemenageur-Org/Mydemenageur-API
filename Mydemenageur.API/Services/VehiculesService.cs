@@ -21,6 +21,7 @@ namespace Mydemenageur.API.Services
             var database = mongoClient.GetDatabase(mongoSettings.DatabaseName);
 
             _vehicules = database.GetCollection<Vehicules>(mongoSettings.VehiculesCollectionName);
+            _societies = database.GetCollection<Society>(mongoSettings.SocietiesCollectionName);
         }
 
         public async Task<List<Vehicules>> GetVehiculesAsync()
