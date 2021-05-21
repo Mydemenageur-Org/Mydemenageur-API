@@ -159,6 +159,66 @@
             </summary>
             <example>France</example>
         </member>
+        <member name="P:Mydemenageur.API.Entities.Housing.HousingType">
+            <summary>
+            The housing type
+            </summary>
+            <example>House</example>
+        </member>
+        <member name="P:Mydemenageur.API.Entities.Housing.HousingFloor">
+            <summary>
+            The housing floor
+            </summary>
+            <example>5</example>
+        </member>
+        <member name="P:Mydemenageur.API.Entities.Housing.IsElevator">
+            <summary>
+            If the housing have elevator
+            </summary>
+        </member>
+        <member name="P:Mydemenageur.API.Entities.Housing.Surface">
+            <summary>
+            The housing surface
+            </summary>
+            <example>36</example>
+        </member>
+        <member name="P:Mydemenageur.API.Entities.Housing.Adress">
+            <summary>
+            The housing adress
+            </summary>
+            <example>36 Rue les coquelicots</example>
+        </member>
+        <member name="P:Mydemenageur.API.Entities.Housing.Town">
+            <summary>
+            The housing town
+            </summary>
+            <example>Rennes</example>
+        </member>
+        <member name="P:Mydemenageur.API.Entities.Housing.Zipcode">
+            <summary>
+            The houisng zipcode
+            </summary>
+            <example>35000</example>
+        </member>
+        <member name="P:Mydemenageur.API.Entities.Housing.Region">
+            <summary>
+            The housing region
+            </summary>
+            <example>Bretagne</example>
+        </member>
+        <member name="P:Mydemenageur.API.Entities.Housing.Country">
+            <summary>
+            The housing country
+            </summary>
+            <example>France</example>
+        </member>
+        <member name="P:Mydemenageur.API.Entities.Housing.StartOrEndingHousingMove">
+            <summary>
+            If the housing is de start or the end
+            </summary>
+            <example>Start</example>
+            <example>End</example>
+        </member>
         <member name="P:Mydemenageur.API.Entities.Mover.UserId">
             <summary>
             The id of the user associated with the mover
@@ -175,6 +235,58 @@
             Average customer of the mover's
             </summary>
             <example>8.5</example>
+        </member>
+        <member name="P:Mydemenageur.API.Entities.MoveRequest.UserId">
+            <summary>
+            The user id who request the move
+            </summary>
+        </member>
+        <member name="P:Mydemenageur.API.Entities.MoveRequest.Title">
+            <summary>
+            The move request title
+            </summary>
+            <example>Déménagement d'une maison 4 pièces</example>
+        </member>
+        <member name="P:Mydemenageur.API.Entities.MoveRequest.MoveRequestVolume">
+            <summary>
+            The volume of move request
+            </summary>
+            <example>25</example>
+        </member>
+        <member name="P:Mydemenageur.API.Entities.MoveRequest.NeedFurnitures">
+            <summary>
+            If you need funitures to move
+            </summary>
+        </member>
+        <member name="P:Mydemenageur.API.Entities.MoveRequest.NeedAssembly">
+            <summary>
+            If you need assembly to move
+            </summary>
+        </member>
+        <member name="P:Mydemenageur.API.Entities.MoveRequest.NeedDiassembly">
+            <summary>
+            If you need diassembly to move
+            </summary>
+        </member>
+        <member name="P:Mydemenageur.API.Entities.MoveRequest.MinimumRequestDate">
+            <summary>
+            The minimum move request date
+            </summary>
+        </member>
+        <member name="P:Mydemenageur.API.Entities.MoveRequest.MaximumRequestDate">
+            <summary>
+            The maximum move request date
+            </summary>
+        </member>
+        <member name="P:Mydemenageur.API.Entities.MoveRequest.HeavyFurnitures">
+            <summary>
+            If the move request have heavy furnitures
+            </summary>
+        </member>
+        <member name="P:Mydemenageur.API.Entities.MoveRequest.AdditionalInformation">
+            <summary>
+            All other information for the move request
+            </summary>
         </member>
         <member name="P:Mydemenageur.API.Entities.Society.SocietyName">
             <summary>
@@ -318,6 +430,16 @@
             The id of the user associated with the client
             </summary>
             <example>6030deb57116e097987bcae5</example>
+        </member>
+        <member name="P:Mydemenageur.API.Models.MoveRequest.MoveRequestRegisterModel.AdditionalInformation">
+            <summary>
+            All other information for the move request
+            </summary>
+        </member>
+        <member name="P:Mydemenageur.API.Models.MoveRequest.MoveRequestUpdateModel.AdditionalInformation">
+            <summary>
+            All other information for the move request
+            </summary>
         </member>
         <member name="P:Mydemenageur.API.Models.Society.SocietyRegisterModel.SocietyName">
             <summary>
