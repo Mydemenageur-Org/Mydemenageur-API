@@ -13,6 +13,8 @@ namespace Mydemenageur.API.Settings
         public string MoversCollectionName { get; set; }
         public string SocietiesCollectionName { get; set; }
         public string VehiculesCollectionName { get; set; }
+        public string HousingsCollectionName { get; set; }
+        public string MoveRequestsCollectionName { get; set; }
 
         public string ConnectionString { get; set; }
         public string DatabaseName { get; set; }
