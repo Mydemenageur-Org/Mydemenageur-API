@@ -83,7 +83,8 @@ namespace Mydemenageur.API.Controllers
         /// <param name="id"></param>
         /// <param name="moverUpdateModel"></param>
         /// <response code="200">Return ok if the update is good</response>
-        /// <response code="400">Return an error if the body is bad</response>
+        /// <response code="400">Return an error if the Mover doesn't exist</response>
+        /// <response code="403">Return an error if you doesn't have authorization</response>
         /// <returns></returns>
         [HttpPut("{id:length(24)}")]
         public async Task<IActionResult> UpdateMover(string id, [FromBody] MoverUpdateModel moverUpdateModel)
