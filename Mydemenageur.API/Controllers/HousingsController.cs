@@ -23,6 +23,12 @@ namespace Mydemenageur.API.Controllers
             _housingsService = housingsService;
         }
 
+        /// <summary>
+        /// To get housing with his id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <response code="200">Return the new housing</response>
+        /// <returns></returns>
         [HttpGet("{id:length(24)}")]
         public async Task<ActionResult<Housing>> GetHousing(string id)
         {
@@ -30,6 +36,13 @@ namespace Mydemenageur.API.Controllers
             return Ok(housing);
         }
 
+        /// <summary>
+        /// To register new housing
+        /// </summary>
+        /// <param name="toCreate"></param>
+        /// <response code="200">Return the id of new housing</response>
+        /// <response code="400">Return an error if the body has an error</response>
+        /// <returns></returns>
         [AllowAnonymous]
         [HttpPost]
         public async Task<ActionResult<string>> RegisterHousing([FromBody] HousingRegisterModel toCreate)
@@ -46,6 +59,15 @@ namespace Mydemenageur.API.Controllers
             }
         }
 
+        /// <summary>
+        /// To update a housing
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="housingUpdateModel"></param>
+        /// <response code="200">Return ok</response>
+        /// <response code="400">Return bad response housing doesn't exist</response>
+        /// <response code="403">Return bad response you are not authorize to do this</response>
+        /// <returns></returns>
         [HttpPut("{id:length(24)}")]
         public async Task<IActionResult> UpdateHousing(string id, [FromBody] HousingUpdateModel housingUpdateModel)
         {
@@ -55,7 +77,7 @@ namespace Mydemenageur.API.Controllers
             {
                 if (currentMoverId != id)
                 {
-                    return Forbid("You can't edit that housing : you are not the housing you want to edit");
+                    return Forbid("You can't edit that housing : you are not own the housing you want to edit");
                 }
 
                 await _housingsService.UpdateHousingAsync(currentMoverId, id, housingUpdateModel);
