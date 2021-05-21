@@ -26,6 +26,7 @@ namespace Mydemenageur.API.Controllers
         /// To get a mover with his id
         /// </summary>
         /// <param name="id"></param>
+        /// <response code="200">Return the logged mover with valid token</response>
         /// <returns></returns>
         [HttpGet("{id:length(24)}")]
         public async Task<ActionResult<Mover>> GetMover(string id)
@@ -38,6 +39,7 @@ namespace Mydemenageur.API.Controllers
         /// To get user with mover id
         /// </summary>
         /// <param name="id"></param>
+        /// <response code="200">Return the user with valid token</response>
         /// <returns></returns>
         [HttpGet("{id:length(24)}/user")]
         public async Task<ActionResult<User>> GetUser(string id)
@@ -56,6 +58,8 @@ namespace Mydemenageur.API.Controllers
         /// To register mover
         /// </summary>
         /// <param name="toCreate"></param>
+        /// <response code="200">Return the id of the new Mover</response>
+        /// <response code="400">Return an error if the body is bad</response>
         /// <returns></returns>
         [AllowAnonymous]
         [HttpPost]
@@ -78,6 +82,8 @@ namespace Mydemenageur.API.Controllers
         /// </summary>
         /// <param name="id"></param>
         /// <param name="moverUpdateModel"></param>
+        /// <response code="200">Return ok if the update is good</response>
+        /// <response code="400">Return an error if the body is bad</response>
         /// <returns></returns>
         [HttpPut("{id:length(24)}")]
         public async Task<IActionResult> UpdateMover(string id, [FromBody] MoverUpdateModel moverUpdateModel)
