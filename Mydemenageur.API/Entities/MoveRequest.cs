@@ -49,16 +49,6 @@ namespace Mydemenageur.API.Entities
         /// </summary>
         public DateTime MaximumRequestDate { get; set; }
         /// <summary>
-        /// The housing id of start housing
-        /// </summary>
-        [BsonRepresentation(BsonType.ObjectId)]
-        public string StartHousingId { get; set; }
-        /// <summary>
-        /// The housing id of finish housing
-        /// </summary>
-        [BsonRepresentation(BsonType.ObjectId)]
-        public string FinishHousingId { get; set; }
-        /// <summary>
         /// If the move request have heavy furnitures
         /// </summary>
         public List<string> HeavyFurnitures { get; set; }

@@ -57,6 +57,17 @@ namespace Mydemenageur.API.Entities
         /// </summary>
         /// <example>France</example>
         public string Country { get; set; }
+        /// <summary>
+        /// If the housing is de start or the end
+        /// </summary>
+        /// <example>Start</example>
+        /// <example>End</example>
+        public string StartOrEndingHousingMove { get; set; }
+        [BsonRepresentation(BsonType.ObjectId)]
+        /// <summary>
+        /// The id of the move request
+        /// </summary>
+        public string MoveRequestId { get;set }
 
     }
 }
