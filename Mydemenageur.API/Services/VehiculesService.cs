@@ -69,6 +69,13 @@ namespace Mydemenageur.API.Services
 
         public async Task DeleteVehicule(string id, string userId)
         {
+            var vehicule = await GetVehiculeAsync(id);
+            var society = await (await _societies.FindAsync<Society>(society => society.ManagerId == userId)).FirstOrDefaultAsync();
+
+            if (vehicule == null) throw new ArgumentException("The vehicule doesn't exist", nameof(id));
+
+            if (society.VehiculeId == id) throw new UnauthorizedAccessException("Your are not the manager of this society");
+
             await _vehicules.DeleteOneAsync<Vehicules>(vehicule => vehicule.Id == id);
         }
 
