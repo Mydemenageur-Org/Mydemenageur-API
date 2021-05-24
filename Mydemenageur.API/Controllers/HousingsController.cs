@@ -79,6 +79,10 @@ namespace Mydemenageur.API.Controllers
 
                 return Ok();
             }
+            catch (UnauthorizedAccessException e)
+            {
+                return Unauthorized($"Can't update the housin: {e.Message}")
+            }
             catch (Exception e)
             {
                 return BadRequest($"Can't update the housing: {e.Message}");
