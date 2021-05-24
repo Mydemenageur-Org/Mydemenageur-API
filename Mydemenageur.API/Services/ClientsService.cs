@@ -66,6 +66,11 @@ namespace Mydemenageur.API.Services.Interfaces
             if (client == null) throw new Exception("The client doesn't exist");
             if (client.UserId != currentUserId) throw new UnauthorizedAccessException("You are not allowed to update this client");
 
+            await UpdateClientFromAdminAsync(id, toUpdate);
+        }
+
+        public async Task UpdateClientFromAdminAsync(string id, ClientUpdateModel toUpdate)
+        {
             var update = Builders<Client>.Update
                 .Set(dbClient => dbClient.Adress, toUpdate.Adress)
                 .Set(dbClient => dbClient.Town, toUpdate.Town)

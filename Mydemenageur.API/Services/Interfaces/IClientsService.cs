@@ -17,5 +17,6 @@ namespace Mydemenageur.API.Services.Interfaces
         Task<string> RegisterClientAsync(ClientRegisterModel toRegister);
 
         Task UpdateClientAsync(string currentUserId, string id, ClientUpdateModel toUpdate);
+        Task UpdateClientFromAdminAsync(string id, ClientUpdateModel toUpdate);
     }
 }

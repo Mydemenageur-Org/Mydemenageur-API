@@ -97,7 +97,14 @@ namespace Mydemenageur.API.Controllers
 
             try
             {
-                await _clientsService.UpdateClientAsync(currentUserId, id, clientUpdateModel);
+                if (User.IsInRole(Roles.Admin))
+                {
+                    await _clientsService.UpdateClientFromAdminAsync(id, clientUpdateModel);
+                }
+                else
+                {
+                    await _clientsService.UpdateClientAsync(currentUserId, id, clientUpdateModel);
+                }
 
                 return Ok();
             }
