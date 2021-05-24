@@ -90,21 +90,20 @@ namespace Mydemenageur.API.Controllers
         /// <response code="400">Their is an error in the request</response>
         /// <response code="403">You are not allowed to edit this client</response>
         /// <response code="200">The client has been updated</response>
-        [HttpPut("{id:length(24)}/update")]
+        [HttpPut("{id:length(24)}")]
         public async Task<IActionResult> UpdateClient(string id, [FromBody] ClientUpdateModel clientUpdateModel)
         {
-            var currentClientId = User.Identity.Name;
+            var currentUserId = User.Identity.Name;
 
             try
             {
-                if (currentClientId != id)
-                {
-                    return Forbid("You can't edit that client : you are not the client you want to edit");
-                }
-
-                await _clientsService.UpdateClientAsync(id, clientUpdateModel);
+                await _clientsService.UpdateClientAsync(currentUserId, id, clientUpdateModel);
 
                 return Ok();
+            }
+            catch (UnauthorizedAccessException e)
+            {
+                return Unauthorized($"Can't update the client: {e.Message}");
             }
             catch (Exception e)
             {
