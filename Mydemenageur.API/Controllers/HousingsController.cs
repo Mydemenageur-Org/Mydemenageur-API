@@ -71,16 +71,11 @@ namespace Mydemenageur.API.Controllers
         [HttpPut("{id:length(24)}")]
         public async Task<IActionResult> UpdateHousing(string id, [FromBody] HousingUpdateModel housingUpdateModel)
         {
-            var currentMoverId = User.Identity.Name;
+            var currentUserId = User.Identity.Name;
 
             try
             {
-                if (currentMoverId != id)
-                {
-                    return Forbid("You can't edit that housing : you are not own the housing you want to edit");
-                }
-
-                await _housingsService.UpdateHousingAsync(currentMoverId, id, housingUpdateModel);
+                await _housingsService.UpdateHousingAsync(currentUserId, id, housingUpdateModel);
 
                 return Ok();
             }

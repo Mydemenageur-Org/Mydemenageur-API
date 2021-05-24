@@ -45,11 +45,9 @@ namespace Mydemenageur.API.Services
         public async Task UpdateHousingAsync(string currentUserId, string id, HousingUpdateModel housingUpdateModel)
         {
             var housing = await GetHousingAsync(id);
-            var moveRequest = await(await _moveRequests.FindAsync<MoveRequest>(moveRequest => moveRequest.Id == housing.MoveRequestId)).FirstOrDefaultAsync();
 
-            if (housing == null) throw new ArgumentException("The housing doesn't exist", nameof(id));
-
-            if (moveRequest.UserId == currentUserId) throw new UnauthorizedAccessException("Your are not the user of this housing");
+            if (housing == null) throw new Exception("The housing doesn't exist");
+            if (housing.UserId == currentUserId) throw new UnauthorizedAccessException("Your are not allowed to update this housing");
 
             var update = Builders<Housing>.Update
                 .Set(dbHousing => dbHousing.HousingType, housingUpdateModel.HousingType)
@@ -102,6 +100,15 @@ namespace Mydemenageur.API.Services
             await _housings.InsertOneAsync(dbHousing);
 
             return dbHousing.Id;
+        }
+
+        private async Task<MoveRequest> GetMoveRequestFromIdAsync(string moveRequestId)
+        {
+            var moveRequest = await _moveRequests.FindAsync(dbMoveRequest =>
+                dbMoveRequest.Id == moveRequestId
+            );
+
+            return await moveRequest.FirstOrDefaultAsync();
         }
     }
 }

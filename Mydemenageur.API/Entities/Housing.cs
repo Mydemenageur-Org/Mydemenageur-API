@@ -13,6 +13,19 @@ namespace Mydemenageur.API.Entities
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]
         public string Id { get; set; }
+
+        /// <summary>
+        /// The id of the user possessing the housing
+        /// </summary>
+        [BsonRepresentation(BsonType.ObjectId)]
+        public string UserId { get; set; }
+
+        /// <summary>
+        /// The id of the move request
+        /// </summary>
+        [BsonRepresentation(BsonType.ObjectId)]
+        public string MoveRequestId { get; set; }
+        
         /// <summary>
         /// The housing type
         /// </summary>
@@ -63,11 +76,6 @@ namespace Mydemenageur.API.Entities
         /// <example>Start</example>
         /// <example>End</example>
         public string StartOrEndingHousingMove { get; set; }
-        [BsonRepresentation(BsonType.ObjectId)]
-        /// <summary>
-        /// The id of the move request
-        /// </summary>
-        public string MoveRequestId { get; set; }
 
     }
 }
