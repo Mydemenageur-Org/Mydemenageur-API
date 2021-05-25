@@ -25,6 +25,12 @@ namespace Mydemenageur.API.Controllers
             _societiesService = societiesService;
         }
 
+        /// <summary>
+        /// To get specific vehicule
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        /// <response code="200">The vehicule was get</response>
         [HttpGet("{id:length(24)}")]
         public async Task<ActionResult<Vehicules>> GetVehicule(string id)
         {
@@ -33,6 +39,13 @@ namespace Mydemenageur.API.Controllers
             return Ok(vehicule);
         }
 
+        /// <summary>
+        /// To register a new vehicule
+        /// </summary>
+        /// <param name="toCreate"></param>
+        /// <returns></returns>
+        /// <response code="200">The vehicule was register</response>
+        /// <response code="400">Bad request</response>
         [AllowAnonymous]
         [HttpPost]
         public async Task<ActionResult<string>> RegisterVehicule([FromBody] VehiculesRegisterModel toCreate)
@@ -49,6 +62,15 @@ namespace Mydemenageur.API.Controllers
             }
         }
 
+        /// <summary>
+        /// To update a vehicule
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="vehiculeUpdateModel"></param>
+        /// <returns></returns>
+        /// <response code="200">The vehicule is updated</response>
+        /// <response code="403">You are not authorize to update this vehicule</response>
+        /// <response code="400">Bad request</response>
         [HttpPut("{id:length(24)}")]
         public async Task<IActionResult> UpdateVehicule(string id, [FromBody] VehiculesUpdateModel vehiculeUpdateModel)
         {
