@@ -69,7 +69,7 @@ namespace Mydemenageur.API.Models.Housing
         /// </summary>
         /// <example>Start</example>
         /// <example>End</example>
-        public string StartOrEndingHousingMove { get; set; }
+        public string State { get; set; }
         [Required]
         [BsonRepresentation(BsonType.ObjectId)]
         /// <summary>

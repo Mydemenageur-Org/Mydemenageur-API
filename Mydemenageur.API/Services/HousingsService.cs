@@ -93,7 +93,7 @@ namespace Mydemenageur.API.Services
                 Zipcode = toRegister.Zipcode,
                 Region = toRegister.Region,
                 Country = toRegister.Country,
-                State = toRegister.StartOrEndingHousingMove,
+                State = toRegister.State,
                 MoveRequestId = toRegister.MoveRequestId,
             };
 
