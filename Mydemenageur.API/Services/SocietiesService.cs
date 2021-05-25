@@ -63,9 +63,14 @@ namespace Mydemenageur.API.Services
 
         public async Task DeleteSocietyAsync(string id)
         {
-            if(id != null)
+            if (id != null)
             {
+                var society = await GetSocietyAsync(id);
+
+                if (society == null) throw new Exception("The user doesn't exist");
+
                 await _societiesService.DeleteOneAsync<Society>(society => society.Id == id);
+
             }
         }
 

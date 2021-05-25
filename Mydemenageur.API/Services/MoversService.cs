@@ -76,12 +76,16 @@ namespace Mydemenageur.API.Services
 
         public async Task DeleteMover(string id, string userId)
         {
-            if (id != null && userId != null)
-            {
+            if (id != null && userId != null) {
+
+                if (!UserExist(userId)) throw new Exception("The user doesn't exist");
+                if (!MoverExist(id)) throw new Exception("The mover doesn't exist");
+
+
                 await _movers.DeleteOneAsync<Mover>(mover => mover.Id == id);
                 await _users.DeleteOneAsync<User>(user => user.Id == userId);
+                
             }
-
         }
 
         private async Task<string> RegisterToDatabase(MoverRegisterModel toRegister)

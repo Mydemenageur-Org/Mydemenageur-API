@@ -73,7 +73,7 @@ namespace Mydemenageur.API.Services
             var housing = await GetHousingAsync(id);
             var moveRequest = await (await _moveRequests.FindAsync<MoveRequest>(moveRequest => moveRequest.Id == housing.MoveRequestId)).FirstOrDefaultAsync();
 
-            if (housing == null) throw new ArgumentException("The housing doesn't exist", nameof(id));
+            if (housing == null) throw new Exception("The housing doesn't exist");
 
             if (moveRequest.UserId == userId) throw new UnauthorizedAccessException("Your are not the user of this housing");
 
