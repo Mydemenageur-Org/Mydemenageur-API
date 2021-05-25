@@ -42,7 +42,7 @@ namespace Mydemenageur.API.Services
         {
             var society = await GetSocietyAsync(id);
 
-            if (society == null) throw new ArgumentException("The society doesn't exist", nameof(id));
+            if (society == null) throw new Exception("The society doesn't exist");
 
             var update = Builders<Society>.Update
                 .Set(dbSociety => dbSociety.SocietyName, societyUpdateModel.SocietyName)

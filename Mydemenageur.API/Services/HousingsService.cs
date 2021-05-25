@@ -59,7 +59,7 @@ namespace Mydemenageur.API.Services
                 .Set(dbHousing => dbHousing.Zipcode, housingUpdateModel.Zipcode)
                 .Set(dbHousing => dbHousing.Region, housingUpdateModel.Region)
                 .Set(dbHousing => dbHousing.Country, housingUpdateModel.Country)
-                .Set(dbHousing => dbHousing.State, housingUpdateModel.StartOrEndingHousingMove)
+                .Set(dbHousing => dbHousing.State, housingUpdateModel.State)
                 .Set(dbHousing => dbHousing.MoveRequestId, housingUpdateModel.MoveRequestId);
 
             await _housings.UpdateOneAsync(dbHousing =>

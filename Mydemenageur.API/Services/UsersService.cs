@@ -43,7 +43,7 @@ namespace Mydemenageur.API.Services
         {
             var user = await GetUserAsync(id);
 
-            if (user == null) throw new ArgumentException("The user doesn't exist", nameof(id));
+            if (user == null) throw new Exception("The user doesn't exist");
 
             var update = Builders<User>.Update
                 .Set(dbUser => dbUser.FirstName, toUpdate.FirstName)

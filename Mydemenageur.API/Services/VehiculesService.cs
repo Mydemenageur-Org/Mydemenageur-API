@@ -48,7 +48,7 @@ namespace Mydemenageur.API.Services
             var vehicule = await GetVehiculeAsync(id);
             var society = await (await _societies.FindAsync<Society>(society => society.ManagerId == currentUserId)).FirstOrDefaultAsync();
 
-            if (vehicule == null) throw new ArgumentException("The vehicule doesn't exist", nameof(id));
+            if (vehicule == null) throw new Exception("The vehicule doesn't exist");
 
             if (society.VehiculeId == id) throw new UnauthorizedAccessException("Your are not the manager of this society");
 

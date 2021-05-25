@@ -51,7 +51,7 @@ namespace Mydemenageur.API.Services
         {
             var mover = await GetMoverAsync(id);
 
-            if (mover == null) throw new ArgumentException("The mover doesn't exist", nameof(id));
+            if (mover == null) throw new Exception("The mover doesn't exist");
 
             var update = Builders<Mover>.Update
                 .Set(dbMover => dbMover.IsVIP, toUpdate.IsVIP)

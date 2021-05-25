@@ -77,7 +77,7 @@ namespace Mydemenageur.API.Services
         {
             var moveRequest = await GetMoveRequestAsync(id);
 
-            if (moveRequest == null) throw new ArgumentException("The move request doesn't exist", nameof(id));
+            if (moveRequest == null) throw new Exception("The move request doesn't exist");
 
             if (moveRequest.UserId == userId) throw new UnauthorizedAccessException("Your are not the user of this move request");
 

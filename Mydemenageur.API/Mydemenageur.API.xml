@@ -59,11 +59,40 @@
             <response code="403">You are not allowed to edit this client</response>
             <response code="200">The client has been updated</response>
         </member>
+        <member name="M:Mydemenageur.API.Controllers.HousingsController.GetHousing(System.String)">
+            <summary>
+            To get housing with his id
+            </summary>
+            <param name="id"></param>
+            <response code="200">Return the new housing</response>
+            <returns></returns>
+        </member>
+        <member name="M:Mydemenageur.API.Controllers.HousingsController.RegisterHousing(Mydemenageur.API.Models.Housing.HousingRegisterModel)">
+            <summary>
+            To register new housing
+            </summary>
+            <param name="toCreate"></param>
+            <response code="200">Return the id of new housing</response>
+            <response code="400">Return an error if the body has an error</response>
+            <returns></returns>
+        </member>
+        <member name="M:Mydemenageur.API.Controllers.HousingsController.UpdateHousing(System.String,Mydemenageur.API.Models.Housing.HousingUpdateModel)">
+            <summary>
+            To update a housing
+            </summary>
+            <param name="id"></param>
+            <param name="housingUpdateModel"></param>
+            <response code="200">Return ok</response>
+            <response code="400">Return bad response housing doesn't exist</response>
+            <response code="403">Return bad response you are not authorize to do this</response>
+            <returns></returns>
+        </member>
         <member name="M:Mydemenageur.API.Controllers.MoversController.GetMover(System.String)">
             <summary>
             To get a mover with his id
             </summary>
             <param name="id"></param>
+            <response code="200">Return the logged mover with valid token</response>
             <returns></returns>
         </member>
         <member name="M:Mydemenageur.API.Controllers.MoversController.GetUser(System.String)">
@@ -71,6 +100,7 @@
             To get user with mover id
             </summary>
             <param name="id"></param>
+            <response code="200">Return the user with valid token</response>
             <returns></returns>
         </member>
         <member name="M:Mydemenageur.API.Controllers.MoversController.RegisterMover(Mydemenageur.API.Models.Movers.MoverRegisterModel)">
@@ -78,6 +108,8 @@
             To register mover
             </summary>
             <param name="toCreate"></param>
+            <response code="200">Return the id of the new Mover</response>
+            <response code="400">Return an error if the body is bad</response>
             <returns></returns>
         </member>
         <member name="M:Mydemenageur.API.Controllers.MoversController.UpdateMover(System.String,Mydemenageur.API.Models.Movers.MoverUpdateModel)">
@@ -86,6 +118,9 @@
             </summary>
             <param name="id"></param>
             <param name="moverUpdateModel"></param>
+            <response code="200">Return ok if the update is good</response>
+            <response code="400">Return an error if the Mover doesn't exist</response>
+            <response code="403">Return an error if you doesn't have authorization</response>
             <returns></returns>
         </member>
         <member name="M:Mydemenageur.API.Controllers.SocietiesController.GetSociety(System.String)">
@@ -159,6 +194,16 @@
             </summary>
             <example>France</example>
         </member>
+        <member name="P:Mydemenageur.API.Entities.Housing.UserId">
+            <summary>
+            The id of the user possessing the housing
+            </summary>
+        </member>
+        <member name="P:Mydemenageur.API.Entities.Housing.MoveRequestId">
+            <summary>
+            The id of the move request
+            </summary>
+        </member>
         <member name="P:Mydemenageur.API.Entities.Housing.HousingType">
             <summary>
             The housing type
@@ -212,7 +257,7 @@
             </summary>
             <example>France</example>
         </member>
-        <member name="P:Mydemenageur.API.Entities.Housing.StartOrEndingHousingMove">
+        <member name="P:Mydemenageur.API.Entities.Housing.State">
             <summary>
             If the housing is de start or the end
             </summary>
