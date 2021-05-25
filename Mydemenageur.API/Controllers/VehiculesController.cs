@@ -74,16 +74,11 @@ namespace Mydemenageur.API.Controllers
         [HttpPut("{id:length(24)}")]
         public async Task<IActionResult> UpdateVehicule(string id, [FromBody] VehiculesUpdateModel vehiculeUpdateModel)
         {
-            var currentMoverId = User.Identity.Name;
+            var currentUserId = User.Identity.Name;
 
             try
             {
-                if (currentMoverId != id)
-                {
-                    return Forbid("You can't edit that vehicule : you are not the vehicule you want to edit");
-                }
-
-                await _vehiculesService.UpdateVehiculeAsync(currentMoverId, id, vehiculeUpdateModel);
+                await _vehiculesService.UpdateVehiculeAsync(currentUserId, id, vehiculeUpdateModel);
 
                 return Ok();
             }

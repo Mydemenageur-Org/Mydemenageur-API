@@ -89,11 +89,12 @@ namespace Mydemenageur.API.Controllers
         [HttpPut("{id:length(24)}")]
         public async Task<IActionResult> UpdateMover(string id, [FromBody] MoverUpdateModel moverUpdateModel)
         {
-            var currentMoverId = User.Identity.Name;
+            var currentUserId = User.Identity.Name;
+            var moverUserId = (await _moversService.GetMoverAsync(id)).UserId;
 
             try
             {
-                if (currentMoverId != id)
+                if (currentUserId != moverUserId)
                 {
                     return Forbid("You can't edit that mover : you are not the mover you want to edit");
                 }
