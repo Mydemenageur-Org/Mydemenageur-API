@@ -25,7 +25,7 @@ namespace Mydemenageur.API.Services
             var mongoClient = new MongoClient(mongoSettings.ConnectionString);
             var database = mongoClient.GetDatabase(mongoSettings.DatabaseName);
 
-            _users = database.GetCollection<User>("users");
+            _users = database.GetCollection<User>(mongoSettings.UsersCollectionName);
 
             _mydemenageurSettings = mydemenageurSettings;
         }
@@ -67,7 +67,7 @@ namespace Mydemenageur.API.Services
             CreatePasswordHash(registerModel.Password, out byte[] passwordHash, out byte[] passwordSalt);
 
             // Now we register the user in the database
-            User dbUser = new User()
+            User dbUser = new()
             {
                 FirstName = registerModel.FirstName,
                 LastName = registerModel.LastName,
@@ -94,7 +94,7 @@ namespace Mydemenageur.API.Services
         }
 
         // Password related functions
-        private void CreatePasswordHash(string password, out byte[] passwordHash, out byte[] passwordSalt)
+        private static void CreatePasswordHash(string password, out byte[] passwordHash, out byte[] passwordSalt)
         {
             if (string.IsNullOrWhiteSpace(password)) { throw new Exception("The password must not be null or empty"); }
 
@@ -103,7 +103,7 @@ namespace Mydemenageur.API.Services
             passwordHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
         }
 
-        private bool VerifyPasswordHash(string password, string storedHash, byte[] storedSalt)
+        private static bool VerifyPasswordHash(string password, string storedHash, byte[] storedSalt)
         {
             if (string.IsNullOrWhiteSpace(password)) { throw new Exception("The password must not be null or empy"); }
             if (storedSalt.Length != 128) { throw new Exception("Invalid length of password salt (128 bytes expected)"); }
@@ -136,7 +136,7 @@ namespace Mydemenageur.API.Services
                 Subject = new ClaimsIdentity(new Claim[]
                 {
                     new Claim(ClaimTypes.Name, user.Id.ToString()),
-                    //new Claim(ClaimTypes.Role, user.Role)
+                    new Claim(ClaimTypes.Role, user.Role)
                 }),
                 Expires = DateTime.UtcNow.AddDays(20),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)

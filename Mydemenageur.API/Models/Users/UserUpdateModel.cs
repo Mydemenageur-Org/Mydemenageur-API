@@ -1,17 +1,21 @@
-﻿using System;
+﻿using MongoDB.Bson.Serialization.Attributes;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace Mydemenageur.API.Models.Users
 {
-    public class RegisterModel
+    public class UserUpdateModel
     {
         /// <summary>
         /// The user's profile picture id 
         /// </summary>
+        [BsonRepresentation(MongoDB.Bson.BsonType.ObjectId)]
         public string ProfilePicture { get; set; }
+
         /// <summary>
         /// The user's first name
         /// </summary>
@@ -45,12 +49,14 @@ namespace Mydemenageur.API.Models.Users
         /// <summary>
         /// The user's about
         /// </summary>
-        /// <example>Hello it's me</example>
+        [Required]
         public string About { get; set; }
+
         /// <summary>
         /// The user's password
         /// </summary>
-        /// <example>My very secure password</example>
-        public string Password { get; set; }
+        /// <example>MySecurePassword</example>
+        public string Password { get;  set; }
+
     }
 }

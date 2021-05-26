@@ -12,7 +12,11 @@ namespace Mydemenageur.API.Entities
         [BsonId]
         [BsonRepresentation(MongoDB.Bson.BsonType.ObjectId)]
         public string Id { get; set; }
-
+        /// <summary>
+        /// The user's profile picture id 
+        /// </summary>
+        [BsonRepresentation(MongoDB.Bson.BsonType.ObjectId)]
+        public string ProfilePicture { get; set; }
         /// <summary>
         /// The user's first name
         /// </summary>
@@ -23,7 +27,6 @@ namespace Mydemenageur.API.Entities
         /// </summary>
         /// <example>DENIS</example>
         public string LastName { get; set; }
-
         /// <summary>
         /// The user's email
         /// </summary>
@@ -35,10 +38,18 @@ namespace Mydemenageur.API.Entities
         /// <example>+33652809335</example>
         public string Phone { get; set; }
         /// <summary>
+        /// The user's birthday
+        /// </summary>     
+        public DateTime SignupDate { get; set; }
+        /// <summary>
         /// The user's username
         /// </summary>
         /// <example>Feldrise</example>
         public string Username { get; set; }
+        /// <summary>
+        /// The user's about
+        /// </summary>
+        public string About { get; set; }
 
         // Authentication related
         [JsonIgnore]
@@ -46,6 +57,11 @@ namespace Mydemenageur.API.Entities
         [JsonIgnore]
         public byte[] PasswordSalt { get; set; }
 
+        /// <summary>
+        /// The user's role. The roles are : Admin, Client, Mover
+        /// </summary>
+        /// <example>Client</example>
+        public string Role { get; set; }
         /// <summary>
         ///  The user's connection token
         /// </summary>

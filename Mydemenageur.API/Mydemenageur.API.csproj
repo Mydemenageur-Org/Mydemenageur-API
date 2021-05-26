@@ -5,8 +5,8 @@
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DocumentationFile>C:\Users\victo\Documents\Projets\API\Mydemenageur\Mydemenageur.API\Mydemenageur.API.xml</DocumentationFile>
-    <NoWarn>1701;1702;1591</NoWarn>
+    <DocumentationFile>C:\Users\Tom\source\repos\api\Mydemenageur.API\Mydemenageur.API.xml</DocumentationFile>
+    <NoWarn>1701;1702;1591;1587</NoWarn>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">

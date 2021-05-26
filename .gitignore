@@ -342,3 +342,4 @@ healthchecksdb
 # Other
 /BuildUp.API/appsettings.json
 DockerCommands.txt
+/Notes Tom.txt
