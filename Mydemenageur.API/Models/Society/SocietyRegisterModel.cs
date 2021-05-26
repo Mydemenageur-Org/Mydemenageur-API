@@ -18,11 +18,6 @@ namespace Mydemenageur.API.Models.Society
         /// The society manager first name
         /// </summary>
         public string ManagerId { get; set; }
-        [BsonRepresentation(BsonType.ObjectId)]
-        /// <summary>
-        /// The vehicule information id
-        /// </summary>
-        public string VehiculeId { get; set; }
         /// <summary>
         /// The employee number
         /// </summary>

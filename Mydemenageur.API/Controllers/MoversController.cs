@@ -90,23 +90,22 @@ namespace Mydemenageur.API.Controllers
         public async Task<IActionResult> UpdateMover(string id, [FromBody] MoverUpdateModel moverUpdateModel)
         {
             var currentUserId = User.Identity.Name;
-            var moverUserId = (await _moversService.GetMoverAsync(id)).UserId;
 
             try
             {
-                if (currentUserId != moverUserId)
-                {
-                    return Forbid("You can't edit that mover : you are not the mover you want to edit");
-                }
-
-                await _moversService.UpdateMoverAsync(id, moverUpdateModel);
+                await _moversService.UpdateMoverAsync(currentUserId, id, moverUpdateModel);
 
                 return Ok();
+            }
+            catch (UnauthorizedAccessException e)
+            {
+                return Forbid($"Can't update the mover: {e.Message}");
             }
             catch (Exception e)
             {
                 return BadRequest($"Can't update the mover: {e.Message}");
             }
+            
         }
     }
 }

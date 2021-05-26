@@ -13,7 +13,6 @@ namespace Mydemenageur.API.Services
     public class VehiculesService : IVehiculesService
     {
         private readonly IMongoCollection<Vehicules> _vehicules;
-        private readonly IMongoCollection<Society> _societies;
 
         public VehiculesService(IMongoSettings mongoSettings)
         {
@@ -21,7 +20,6 @@ namespace Mydemenageur.API.Services
             var database = mongoClient.GetDatabase(mongoSettings.DatabaseName);
 
             _vehicules = database.GetCollection<Vehicules>(mongoSettings.VehiculesCollectionName);
-            _societies = database.GetCollection<Society>(mongoSettings.SocietiesCollectionName);
         }
 
         public async Task<List<Vehicules>> GetVehiculesAsync()
@@ -46,11 +44,10 @@ namespace Mydemenageur.API.Services
         public async Task UpdateVehiculeAsync(string currentUserId, string id, VehiculesUpdateModel toUpdate)
         {
             var vehicule = await GetVehiculeAsync(id);
-            var society = await (await _societies.FindAsync<Society>(society => society.ManagerId == currentUserId)).FirstOrDefaultAsync();
 
             if (vehicule == null) throw new Exception("The vehicule doesn't exist");
 
-            if (society.VehiculeId == id) throw new UnauthorizedAccessException("Your are not the manager of this society");
+            if (vehicule.SocietyId == id) throw new UnauthorizedAccessException("Your are not the manager of this society");
 
             var update = Builders<Vehicules>.Update
                 .Set(dbVehicule => dbVehicule.VehiculesNumber, toUpdate.VehiculesNumber)
@@ -71,11 +68,10 @@ namespace Mydemenageur.API.Services
         public async Task DeleteVehicule(string id, string userId)
         {
             var vehicule = await GetVehiculeAsync(id);
-            var society = await (await _societies.FindAsync<Society>(society => society.ManagerId == userId)).FirstOrDefaultAsync();
 
             if (vehicule == null) throw new Exception("The vehicule doesn't exist");
 
-            if (society.VehiculeId == id) throw new UnauthorizedAccessException("Your are not the manager of this society");
+            if (vehicule.SocietyId == id) throw new UnauthorizedAccessException("Your are not the manager of this society");
 
             await _vehicules.DeleteOneAsync<Vehicules>(vehicule => vehicule.Id == id);
         }
@@ -98,5 +94,6 @@ namespace Mydemenageur.API.Services
 
             return dbVehicule.Id;
         }
+
     }
 }

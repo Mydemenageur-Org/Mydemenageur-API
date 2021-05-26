@@ -64,19 +64,18 @@ namespace Mydemenageur.API.Controllers
         [HttpPut("{id:length(24)}")]
         public async Task<IActionResult> UpdateSociety(string id, [FromBody] SocietyUpdateModel societyUpdateModel)
         {
-            var currentMoverId = User.Identity.Name;
-            var society = await _societiesService.GetSocietyAsync(id);
+            var currentUserId = User.Identity.Name;
 
             try
             {
-                if (currentMoverId != society.ManagerId)
-                {
-                    return Forbid("You can't edit that society : you are not the manager of society");
-                }
-
-                await _societiesService.UpdateSocietyAsync(id, societyUpdateModel);
+                await _societiesService.UpdateSocietyAsync(currentUserId, id, societyUpdateModel);
 
                 return Ok();
+
+            }
+            catch(UnauthorizedAccessException e)
+            {
+                return Forbid("You can't edit that society : you are not the manager of society");
             }
             catch (Exception e)
             {

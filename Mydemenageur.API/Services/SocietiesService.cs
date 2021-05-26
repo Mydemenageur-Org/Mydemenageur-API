@@ -38,16 +38,16 @@ namespace Mydemenageur.API.Services
             return id;
         }
 
-        public async Task UpdateSocietyAsync(string id, SocietyUpdateModel societyUpdateModel)
+        public async Task UpdateSocietyAsync(string currentUserId, string id, SocietyUpdateModel societyUpdateModel)
         {
             var society = await GetSocietyAsync(id);
 
             if (society == null) throw new Exception("The society doesn't exist");
+            if (society.ManagerId == currentUserId) throw new UnauthorizedAccessException("You are not authorize to update this society");
 
             var update = Builders<Society>.Update
                 .Set(dbSociety => dbSociety.SocietyName, societyUpdateModel.SocietyName)
                 .Set(dbSociety => dbSociety.ManagerId, societyUpdateModel.ManagerId)
-                .Set(dbSociety => dbSociety.VehiculeId, societyUpdateModel.VehiculeId)
                 .Set(dbSociety => dbSociety.EmployeeNumber, societyUpdateModel.EmployeeNumber)
                 .Set(dbSociety => dbSociety.Adress, societyUpdateModel.Adress)
                 .Set(dbSociety => dbSociety.Town, societyUpdateModel.Town)
@@ -80,7 +80,6 @@ namespace Mydemenageur.API.Services
             {
                 SocietyName = toRegister.SocietyName,
                 ManagerId = toRegister.ManagerId,
-                VehiculeId = toRegister.VehiculeId,
                 EmployeeNumber = toRegister.EmployeeNumber,
                 Adress = toRegister.Adress,
                 Town = toRegister.Town,

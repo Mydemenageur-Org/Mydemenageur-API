@@ -47,11 +47,12 @@ namespace Mydemenageur.API.Services
             return user;
         }
 
-        public async Task UpdateMoverAsync(string id, MoverUpdateModel toUpdate)
+        public async Task UpdateMoverAsync(string currentUserId, string id, MoverUpdateModel toUpdate)
         {
             var mover = await GetMoverAsync(id);
 
             if (mover == null) throw new Exception("The mover doesn't exist");
+            if (mover.UserId != currentUserId) throw new UnauthorizedAccessException("You are not authorize to update this mover");
 
             var update = Builders<Mover>.Update
                 .Set(dbMover => dbMover.IsVIP, toUpdate.IsVIP)

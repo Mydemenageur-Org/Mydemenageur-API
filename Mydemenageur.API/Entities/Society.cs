@@ -26,10 +26,6 @@ namespace Mydemenageur.API.Entities
         public string ManagerId { get; set; }
         [BsonRepresentation(BsonType.ObjectId)]
         /// <summary>
-        /// The vehicule information id
-        /// </summary>
-        public string VehiculeId { get; set; }
-        /// <summary>
         /// The employee number
         /// </summary>
         /// <example>36</example>

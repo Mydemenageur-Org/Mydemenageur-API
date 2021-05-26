@@ -18,11 +18,9 @@ namespace Mydemenageur.API.Controllers
     {
 
         private readonly IVehiculesService _vehiculesService;
-        private readonly ISocietiesService _societiesService;
         public VehiculesController(IVehiculesService vehiculesService,ISocietiesService societiesService)
         {
             _vehiculesService = vehiculesService;
-            _societiesService = societiesService;
         }
 
         /// <summary>

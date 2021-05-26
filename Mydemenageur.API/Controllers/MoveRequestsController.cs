@@ -87,15 +87,9 @@ namespace Mydemenageur.API.Controllers
         public async Task<IActionResult> UpdateMoveRequest(string id, [FromBody] MoveRequestUpdateModel toUpdate)
         {
             var currentUserId = User.Identity.Name;
-            var moveRequestUserId = (await _moveRequestsService.GetMoveRequestAsync(id)).UserId;
 
             try
             {
-                if (currentUserId != moveRequestUserId)
-                {
-                    return Forbid("You can't edit that move request : you are not the user own move request");
-                }
-
                 await _moveRequestsService.UpdateMoveRequestAsync(currentUserId, id, toUpdate);
 
                 return Ok();

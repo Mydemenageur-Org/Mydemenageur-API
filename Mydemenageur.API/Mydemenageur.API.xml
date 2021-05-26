@@ -87,6 +87,41 @@
             <response code="403">Return bad response you are not authorize to do this</response>
             <returns></returns>
         </member>
+        <member name="M:Mydemenageur.API.Controllers.MoveRequestsController.GetMoveRequest">
+            <summary>
+            To get all move request
+            </summary>
+            <returns></returns>
+            <response code="200">All move request was get</response>
+        </member>
+        <member name="M:Mydemenageur.API.Controllers.MoveRequestsController.GetMoveRequest(System.String)">
+            <summary>
+            To get a specific move request
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+            <response code="200">The move request was get</response>
+        </member>
+        <member name="M:Mydemenageur.API.Controllers.MoveRequestsController.RegisterMoveRequest(Mydemenageur.API.Models.MoveRequest.MoveRequestRegisterModel)">
+            <summary>
+            To register a new move request
+            </summary>
+            <param name="toCreate"></param>
+            <returns></returns>
+            <response code="200">The move request was register</response>
+            <response code="400">Bad request</response>
+        </member>
+        <member name="M:Mydemenageur.API.Controllers.MoveRequestsController.UpdateMoveRequest(System.String,Mydemenageur.API.Models.MoveRequest.MoveRequestUpdateModel)">
+            <summary>
+            To update a move request
+            </summary>
+            <param name="id"></param>
+            <param name="toUpdate"></param>
+            <returns></returns>
+            <response code="200">The move request is updated</response>
+            <response code="403">You are not authorize to update this move request</response>
+            <response code="400">Bad request</response>
+        </member>
         <member name="M:Mydemenageur.API.Controllers.MoversController.GetMover(System.String)">
             <summary>
             To get a mover with his id
@@ -163,6 +198,34 @@
             <response code="400">Their is an error in the request</response>
             <response code="403">You are not allowed to edit this user</response>
             <response code="200">The user has been updated</response>
+        </member>
+        <member name="M:Mydemenageur.API.Controllers.VehiculesController.GetVehicule(System.String)">
+            <summary>
+            To get specific vehicule
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+            <response code="200">The vehicule was get</response>
+        </member>
+        <member name="M:Mydemenageur.API.Controllers.VehiculesController.RegisterVehicule(Mydemenageur.API.Models.Vehicule.VehiculesRegisterModel)">
+            <summary>
+            To register a new vehicule
+            </summary>
+            <param name="toCreate"></param>
+            <returns></returns>
+            <response code="200">The vehicule was register</response>
+            <response code="400">Bad request</response>
+        </member>
+        <member name="M:Mydemenageur.API.Controllers.VehiculesController.UpdateVehicule(System.String,Mydemenageur.API.Models.Vehicule.VehiculesUpdateModel)">
+            <summary>
+            To update a vehicule
+            </summary>
+            <param name="id"></param>
+            <param name="vehiculeUpdateModel"></param>
+            <returns></returns>
+            <response code="200">The vehicule is updated</response>
+            <response code="403">You are not authorize to update this vehicule</response>
+            <response code="400">Bad request</response>
         </member>
         <member name="P:Mydemenageur.API.Entities.Client.UserId">
             <summary>
@@ -337,12 +400,6 @@
             <summary>
             The society name
             </summary>
-        </member>
-        <member name="P:Mydemenageur.API.Entities.Society.EmployeeNumber">
-            <summary>
-            The employee number
-            </summary>
-            <example>36</example>
         </member>
         <member name="P:Mydemenageur.API.Entities.Society.Adress">
             <summary>

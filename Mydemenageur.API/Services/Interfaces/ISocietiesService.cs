@@ -12,7 +12,7 @@ namespace Mydemenageur.API.Services.Interfaces
         Task<List<Society>> GetSocietiesAsync();
         Task<Society> GetSocietyAsync(string id);
         Task<string> RegisterSocietyAsync(SocietyRegisterModel societyRegisterModel);
-        Task UpdateSocietyAsync(string id, SocietyUpdateModel societyUpdateModel);
+        Task UpdateSocietyAsync(string currentUserId, string id, SocietyUpdateModel societyUpdateModel);
         Task DeleteSocietyAsync(string id);
 
     }

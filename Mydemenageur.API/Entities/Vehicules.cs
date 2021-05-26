@@ -13,6 +13,11 @@ namespace Mydemenageur.API.Entities
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]
         public string Id { get; set; }
+        [BsonRepresentation(BsonType.ObjectId)]
+        /// <summary>
+        /// The society own this vehicule
+        /// </summary>
+        public string SocietyId { get; set; }
         /// <summary>
         /// Number of vehicule in society
         /// </summary>
