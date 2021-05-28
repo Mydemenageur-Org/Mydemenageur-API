@@ -1,8 +1,5 @@
-using System;
 using Xunit;
-using Mydemenageur.API.Controllers;
 using Mydemenageur.API.Services;
-using Mydemenageur.API.Services.Interfaces;
 using Microsoft.AspNetCore.TestHost;
 using System.Net.Http;
 using Microsoft.AspNetCore.Hosting;
@@ -11,8 +8,6 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
 using System.IO;
 using System.Net.Http.Headers;
-using Mydemenageur.Test.UnitTest;
-using Mydemenageur.API.Settings.Interfaces;
 
 namespace Mydemenageur.Test
 {
@@ -22,8 +17,6 @@ namespace Mydemenageur.Test
         private readonly TestServer _server;
         private readonly HttpClient _client;
         private readonly AuthenticationTestService _fakeAuth;
-
-        private string token;
 
         public UserTests()
         {
@@ -37,10 +30,6 @@ namespace Mydemenageur.Test
                 .UseStartup<Startup>()
                 .UseConfiguration(configuration));
             _client = _server.CreateClient();
-
-            _fakeAuth = null;
-
-            token = _fakeAuth.TokenForUser("c02da7e40a2ec30b5e60dd89", "Client");
         }
 
         [Fact]
@@ -58,9 +47,6 @@ namespace Mydemenageur.Test
         public async Task PutUserTest()
         {
             //Arrange
-
-            _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
-
             var stringContent = new StringContent(
                     "{ \"profilePicture\": \"string\",\"firstName\": \"Victor\",\"lastName\": \"DENIS\",\"email\": \"admin@feldrise.com\",\"phone\": \" + 33652809335\",\"username\": \"Feldrise\",\"about\": \"string\"}"
                 );
