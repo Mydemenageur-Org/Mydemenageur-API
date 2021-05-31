@@ -1,15 +1,12 @@
-using Microsoft.AspNetCore.Authentication.JwtBearer;
+﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using Mydemenageur.API;
 using Mydemenageur.API.Services;
 using Mydemenageur.API.Services.Interfaces;
 using Mydemenageur.API.Settings;
@@ -18,21 +15,22 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using WebMotions.Fake.Authentication.JwtBearer;
 
-namespace Mydemenageur.API
+namespace Mydemenageur.IntegrationTests.Helpers
 {
-    public class Startup
-    {
-        public Startup(IConfiguration configuration)
+    public class FakeStartup
+    { 
+        public FakeStartup(IConfiguration configuration)
         {
             Configuration = configuration;
         }
 
         public IConfiguration Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
         public virtual void ConfigureServices(IServiceCollection services)
         {
             services.Configure<MongoSettings>(Configuration.GetSection(nameof(MongoSettings)));
@@ -45,23 +43,27 @@ namespace Mydemenageur.API
             var mydemenageurSettings = Configuration.GetSection(nameof(MydemenageurSettings)).Get<MydemenageurSettings>();
             var key = Encoding.ASCII.GetBytes(mydemenageurSettings.ApiSecret);
 
-            services.AddAuthentication(x =>
-            {
-                x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-            })
-            .AddJwtBearer(x =>
-            {
-                x.RequireHttpsMetadata = false;
-                x.SaveToken = true;
-                x.TokenValidationParameters = new TokenValidationParameters
-                {
-                    ValidateIssuerSigningKey = true,
-                    IssuerSigningKey = new SymmetricSecurityKey(key),
-                    ValidateIssuer = false,
-                    ValidateAudience = false
-                };
-            });
+            //services.AddAuthentication(x =>
+            //{
+            //    x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+            //    x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            //})
+            //.AddJwtBearer(x =>
+            //{
+            //    x.RequireHttpsMetadata = false;
+            //    x.SaveToken = true;
+            //    x.TokenValidationParameters = new TokenValidationParameters
+            //    {
+            //        ValidateIssuerSigningKey = true,
+            //        IssuerSigningKey = new SymmetricSecurityKey(key),
+            //        ValidateIssuer = false,
+            //        ValidateAudience = false
+            //    };
+            //});
+            services.AddAuthentication(FakeJwtBearerDefaults.AuthenticationScheme).AddFakeJwtBearer();
+            services.AddControllers();
+
+            services.AddMvc().AddApplicationPart(Assembly.Load(new AssemblyName("Mydemenageur.API"))); //"IntegrationTestMVC" is your original project name
 
             services.AddScoped<IAuthenticationService, AuthenticationService>();
             services.AddScoped<IClientsService, ClientsService>();
@@ -73,19 +75,6 @@ namespace Mydemenageur.API
             services.AddScoped<IUsersService, UsersService>();
             services.AddScoped<IVehiculesService, VehiculesService>();
 
-            services.AddCors(options =>
-            {
-                options.AddPolicy("developerPolicy", builder =>
-                {
-                    builder
-                        .AllowAnyHeader()
-                        .AllowAnyMethod()
-                        .SetIsOriginAllowed((host) => true)
-                        .AllowCredentials();
-                });
-            });
-
-            services.AddControllers();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Mydemenageur.API", Version = "v1" });
@@ -93,17 +82,13 @@ namespace Mydemenageur.API
                 var filePath = Path.Combine(System.AppContext.BaseDirectory, "Mydemenageur.API.xml");
                 c.IncludeXmlComments(filePath);
             });
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public virtual void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             app.UseStaticFiles();
-
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-            }
 
             app.UseSwagger();
             app.UseSwaggerUI(c =>
@@ -113,11 +98,6 @@ namespace Mydemenageur.API
                 c.InjectJavascript("/swagger/custom-script.js", "text/javascript");
                 c.RoutePrefix = "documentation";
             });
-
-
-            app.UseCors("developerPolicy");
-
-            app.UseHttpsRedirection();
 
             app.UseRouting();
 
