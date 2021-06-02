@@ -24,7 +24,6 @@ namespace Mydemenageur.API.Entities
         /// The society manager id
         /// </summary>
         public string ManagerId { get; set; }
-        [BsonRepresentation(BsonType.ObjectId)]
         /// <summary>
         /// The employee number
         /// </summary>

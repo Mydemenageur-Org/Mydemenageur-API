@@ -12,7 +12,7 @@ namespace Mydemenageur.API.Services
 {
     public class SocietiesService : ISocietiesService
     {
-        private readonly IMongoCollection<Society> _societiesService;
+        private readonly IMongoCollection<Society> _societies;
         //private readonly IMongoCollection<Mover> _moversService;
 
         public SocietiesService(IMongoSettings mongoSettings)
@@ -20,16 +20,17 @@ namespace Mydemenageur.API.Services
             var mongoClient = new MongoClient(mongoSettings.ConnectionString);
             var database = mongoClient.GetDatabase(mongoSettings.DatabaseName);
 
-            _societiesService = database.GetCollection<Society>(mongoSettings.SocietiesCollectionName);
+            _societies = database.GetCollection<Society>(mongoSettings.SocietiesCollectionName);
         }
+
         public async Task<Society> GetSocietyAsync(string id)
         {
-            var society = await _societiesService.FindAsync<Society>(society => society.Id == id);
+            var society = await _societies.FindAsync<Society>(society => society.Id == id);
             return await society.FirstOrDefaultAsync();
         }
         public async Task<List<Society>> GetSocietiesAsync()
         {
-            var societies = await _societiesService.FindAsync(societies => true);
+            var societies = await _societies.FindAsync(societies => true);
             return await societies.ToListAsync();
         }
         public async Task<string> RegisterSocietyAsync(SocietyRegisterModel societyRegisterModel)
@@ -55,7 +56,7 @@ namespace Mydemenageur.API.Services
                 .Set(dbSociety => dbSociety.Country, societyUpdateModel.Country)
                 .Set(dbSociety => dbSociety.Region, societyUpdateModel.Region);
 
-            await _societiesService.UpdateOneAsync(dbSociety =>
+            await _societies.UpdateOneAsync(dbSociety =>
                 dbSociety.Id == id,
                 update
             );
@@ -69,7 +70,7 @@ namespace Mydemenageur.API.Services
 
                 if (society == null) throw new Exception("The user doesn't exist");
 
-                await _societiesService.DeleteOneAsync<Society>(society => society.Id == id);
+                await _societies.DeleteOneAsync<Society>(society => society.Id == id);
 
             }
         }
@@ -88,7 +89,7 @@ namespace Mydemenageur.API.Services
                 Region = toRegister.Region
             };
 
-            await _societiesService.InsertOneAsync(dbSociety);
+            await _societies.InsertOneAsync(dbSociety);
 
             return dbSociety.Id;
         }

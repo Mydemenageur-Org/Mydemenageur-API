@@ -401,6 +401,12 @@
             The society name
             </summary>
         </member>
+        <member name="P:Mydemenageur.API.Entities.Society.EmployeeNumber">
+            <summary>
+            The employee number
+            </summary>
+            <example>36</example>
+        </member>
         <member name="P:Mydemenageur.API.Entities.Society.Adress">
             <summary>
             The user's adress

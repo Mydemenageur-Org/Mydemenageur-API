@@ -47,7 +47,7 @@ namespace Mydemenageur.API.Services
             var housing = await GetHousingAsync(id);
 
             if (housing == null) throw new Exception("The housing doesn't exist");
-            if (housing.UserId == currentUserId) throw new UnauthorizedAccessException("Your are not allowed to update this housing");
+            if (housing.UserId != currentUserId) throw new UnauthorizedAccessException("Your are not allowed to update this housing");
 
             var update = Builders<Housing>.Update
                 .Set(dbHousing => dbHousing.HousingType, housingUpdateModel.HousingType)

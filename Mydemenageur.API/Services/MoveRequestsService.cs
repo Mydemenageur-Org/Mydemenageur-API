@@ -53,7 +53,7 @@ namespace Mydemenageur.API.Services
 
             if (moveRequest == null) throw new ArgumentException("The move request doesn't exist", nameof(id));
 
-            if (moveRequest.UserId == currentUserId) throw new UnauthorizedAccessException("Your are not the user of this move request");
+            if (moveRequest.UserId != currentUserId) throw new UnauthorizedAccessException("Your are not the user of this move request");
 
             var update = Builders<MoveRequest>.Update
                 .Set(dbMoveRequest => dbMoveRequest.UserId, moveRequestUpdateModel.UserId)
