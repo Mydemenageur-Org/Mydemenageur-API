@@ -17,18 +17,21 @@ using System.Dynamic;
 using System.Net;
 using Newtonsoft.Json;
 using Mydemenageur.API.Models.Clients;
+using Mydemenageur.API.Models.Users;
+using Mydemenageur.API.Models.Society;
+using Mydemenageur.API.Models.Housing;
 
 namespace Mydemenageur.IntegrationTests.Tests
 {
-    public class ClientTests : TestBase
+    public class HousingTests : TestBase
     {
-        public ClientTests(TestApplicationFactory<Startup, FakeStartup> factory) : base(factory)
+        public HousingTests(TestApplicationFactory<Startup, FakeStartup> factory) : base(factory)
         {
         }
 
         [Theory]
-        [InlineData("/api/Clients/93a8ac56bd2d9d2a13995f9b")]
-        public async Task Get_Client(string url)
+        [InlineData("/api/Housings/9f30c23e20c027855197bfef")]
+        public async Task Get_Housing(string url)
         {
             dynamic data = new ExpandoObject();
             data.name = "c02da7e40a2ec30b5e60dd89";
@@ -47,8 +50,8 @@ namespace Mydemenageur.IntegrationTests.Tests
         }
 
         [Theory]
-        [InlineData("/api/Clients/93a8ac56bd2d9d2a13995f9b/user")]
-        public async Task Get_ClientUser(string url)
+        [InlineData("/api/Housings")]
+        public async Task Post_Housing(string url)
         {
             dynamic data = new ExpandoObject();
             data.name = "c02da7e40a2ec30b5e60dd89";
@@ -58,8 +61,23 @@ namespace Mydemenageur.IntegrationTests.Tests
             var client = Factory.CreateClient();
             client.SetFakeBearerToken((object)data);
 
+            var housingRegis = new HousingRegisterModel
+            {
+                HousingType = "Appartement",
+                HousingFloor = 36,
+                IsElevator = false,
+                Surface = 25.3f,
+                Adress = "85 Rue de l'enceinte",
+                Town = "Nantes",
+                Zipcode = "44000",
+                Country = "France",
+                Region = "Pays de la Loire",
+                State = "Start",
+                MoveRequestId = "412f25549488c88751e09e99"
+            };
+
             //// Act
-            var response = await client.GetAsync(url);
+            var response = await client.PostAsync(url, new StringContent(JsonConvert.SerializeObject(housingRegis), Encoding.UTF8, "application/json"));
             response.EnsureSuccessStatusCode();
 
             // Assert
@@ -67,56 +85,39 @@ namespace Mydemenageur.IntegrationTests.Tests
         }
 
         [Theory]
-        [InlineData("/api/Clients")]
-        public async Task Post_Client(string url)
+        [InlineData("/api/Housings/11eec27e7df06675383d1617")]
+        public async Task Put_Housing(string url)
         {
             dynamic data = new ExpandoObject();
-            data.name = "60b6064ff2f2711ff6e96e13";
+            data.name = "58e36d708a4987491e589c0e";
             data.role = new[] { Roles.Client };
 
             //// Arrange
             var client = Factory.CreateClient();
             client.SetFakeBearerToken((object)data);
 
-            var clientRegis = new ClientRegisterModel
+            var housingUpd = new HousingUpdateModel
             {
-                UserId = "60b6064ff2f2711ff6e96e13"
+                HousingType = "Appartement",
+                HousingFloor = 36,
+                IsElevator = false,
+                Surface = 25.3f,
+                Adress = "85 Rue de l'enceinte",
+                Town = "Nantes",
+                Zipcode = "44000",
+                Country = "France",
+                Region = "Pays de la Loire",
+                State = "Start",
+                MoveRequestId = "412f25549488c88751e09e99"
             };
 
             //// Act
-            var response = await client.PostAsync(url, new StringContent(JsonConvert.SerializeObject(clientRegis), Encoding.UTF8, "application/json"));
+            var response = await client.PutAsync(url, new StringContent(JsonConvert.SerializeObject(housingUpd), Encoding.UTF8, "application/json"));
             response.EnsureSuccessStatusCode();
 
             // Assert
             Assert.True(true);
         }
 
-        [Theory]
-        [InlineData("/api/Clients/45d5ae0ad9221e701ceeba5b")]
-        public async Task Put_Client(string url)
-        {
-            dynamic data = new ExpandoObject();
-            data.name = "addc792a46a7f43619201a5b";
-            data.role = new[] { Roles.Client };
-
-            //// Arrange
-            var client = Factory.CreateClient();
-            client.SetFakeBearerToken((object)data);
-
-            var clientUpd = new ClientUpdateModel
-            {
-                Adress = "26 Rue les cerisiés",
-                Town = "Rouen",
-                Zipcode = "76000",
-                Country = "France"
-            };
-
-            //// Act
-            var response = await client.PutAsync(url, new StringContent(JsonConvert.SerializeObject(clientUpd), Encoding.UTF8, "application/json"));
-            response.EnsureSuccessStatusCode();
-
-            // Assert
-            Assert.True(true);
-        }
     }
 }

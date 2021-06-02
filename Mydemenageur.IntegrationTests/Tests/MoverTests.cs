@@ -17,21 +17,23 @@ using System.Dynamic;
 using System.Net;
 using Newtonsoft.Json;
 using Mydemenageur.API.Models.Clients;
+using Mydemenageur.API.Models.Vehicule;
+using Mydemenageur.API.Models.Movers;
 
 namespace Mydemenageur.IntegrationTests.Tests
 {
-    public class ClientTests : TestBase
+    public class MoverTests : TestBase
     {
-        public ClientTests(TestApplicationFactory<Startup, FakeStartup> factory) : base(factory)
+        public MoverTests(TestApplicationFactory<Startup, FakeStartup> factory) : base(factory)
         {
         }
 
         [Theory]
-        [InlineData("/api/Clients/93a8ac56bd2d9d2a13995f9b")]
-        public async Task Get_Client(string url)
+        [InlineData("/api/Movers/c6b9e1ee60530ec4bc82d701")]
+        public async Task Get_Mover(string url)
         {
             dynamic data = new ExpandoObject();
-            data.name = "c02da7e40a2ec30b5e60dd89";
+            data.name = "c6b9e1ee60530ec4bc82d701";
             data.role = new[] { Roles.Client };
 
             //// Arrange
@@ -47,19 +49,25 @@ namespace Mydemenageur.IntegrationTests.Tests
         }
 
         [Theory]
-        [InlineData("/api/Clients/93a8ac56bd2d9d2a13995f9b/user")]
-        public async Task Get_ClientUser(string url)
+        [InlineData("/api/Movers")]
+        public async Task Post_Vehicule(string url)
         {
             dynamic data = new ExpandoObject();
-            data.name = "c02da7e40a2ec30b5e60dd89";
+            data.name = "8ff13858c921c857cfa53401";
             data.role = new[] { Roles.Client };
 
             //// Arrange
             var client = Factory.CreateClient();
             client.SetFakeBearerToken((object)data);
 
+            var MoverRegis = new MoverRegisterModel
+            {
+                UserId = "60b751e920d55070861a34a2",
+                FileId = null
+            };
+
             //// Act
-            var response = await client.GetAsync(url);
+            var response = await client.PostAsync(url, new StringContent(JsonConvert.SerializeObject(MoverRegis), Encoding.UTF8, "application/json"));
             response.EnsureSuccessStatusCode();
 
             // Assert
@@ -67,52 +75,25 @@ namespace Mydemenageur.IntegrationTests.Tests
         }
 
         [Theory]
-        [InlineData("/api/Clients")]
-        public async Task Post_Client(string url)
+        [InlineData("/api/Movers/c6b9e1ee60530ec4bc82d701")]
+        public async Task Put_Vehicule(string url)
         {
             dynamic data = new ExpandoObject();
-            data.name = "60b6064ff2f2711ff6e96e13";
+            data.name = "ead29c8d187a26eaf3b39885";
             data.role = new[] { Roles.Client };
 
             //// Arrange
             var client = Factory.CreateClient();
             client.SetFakeBearerToken((object)data);
 
-            var clientRegis = new ClientRegisterModel
+            var MoverUpd = new MoverUpdateModel
             {
-                UserId = "60b6064ff2f2711ff6e96e13"
+                IsVIP = false,
+                AverageCustomer = 6.6f
             };
 
             //// Act
-            var response = await client.PostAsync(url, new StringContent(JsonConvert.SerializeObject(clientRegis), Encoding.UTF8, "application/json"));
-            response.EnsureSuccessStatusCode();
-
-            // Assert
-            Assert.True(true);
-        }
-
-        [Theory]
-        [InlineData("/api/Clients/45d5ae0ad9221e701ceeba5b")]
-        public async Task Put_Client(string url)
-        {
-            dynamic data = new ExpandoObject();
-            data.name = "addc792a46a7f43619201a5b";
-            data.role = new[] { Roles.Client };
-
-            //// Arrange
-            var client = Factory.CreateClient();
-            client.SetFakeBearerToken((object)data);
-
-            var clientUpd = new ClientUpdateModel
-            {
-                Adress = "26 Rue les cerisiés",
-                Town = "Rouen",
-                Zipcode = "76000",
-                Country = "France"
-            };
-
-            //// Act
-            var response = await client.PutAsync(url, new StringContent(JsonConvert.SerializeObject(clientUpd), Encoding.UTF8, "application/json"));
+            var response = await client.PutAsync(url, new StringContent(JsonConvert.SerializeObject(MoverUpd), Encoding.UTF8, "application/json"));
             response.EnsureSuccessStatusCode();
 
             // Assert

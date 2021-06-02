@@ -17,21 +17,22 @@ using System.Dynamic;
 using System.Net;
 using Newtonsoft.Json;
 using Mydemenageur.API.Models.Clients;
+using Mydemenageur.API.Models.Vehicule;
 
 namespace Mydemenageur.IntegrationTests.Tests
 {
-    public class ClientTests : TestBase
+    public class VehiculeTests : TestBase
     {
-        public ClientTests(TestApplicationFactory<Startup, FakeStartup> factory) : base(factory)
+        public VehiculeTests(TestApplicationFactory<Startup, FakeStartup> factory) : base(factory)
         {
         }
 
         [Theory]
-        [InlineData("/api/Clients/93a8ac56bd2d9d2a13995f9b")]
-        public async Task Get_Client(string url)
+        [InlineData("/api/Vehicules/728387adfe9be99566803885")]
+        public async Task Get_Vehicule(string url)
         {
             dynamic data = new ExpandoObject();
-            data.name = "c02da7e40a2ec30b5e60dd89";
+            data.name = "c6b9e1ee60530ec4bc82d701";
             data.role = new[] { Roles.Client };
 
             //// Arrange
@@ -47,19 +48,31 @@ namespace Mydemenageur.IntegrationTests.Tests
         }
 
         [Theory]
-        [InlineData("/api/Clients/93a8ac56bd2d9d2a13995f9b/user")]
-        public async Task Get_ClientUser(string url)
+        [InlineData("/api/Vehicules")]
+        public async Task Post_Vehicule(string url)
         {
             dynamic data = new ExpandoObject();
-            data.name = "c02da7e40a2ec30b5e60dd89";
+            data.name = "8ff13858c921c857cfa53401";
             data.role = new[] { Roles.Client };
 
             //// Arrange
             var client = Factory.CreateClient();
             client.SetFakeBearerToken((object)data);
 
+            var VehiculeRegis = new VehiculesRegisterModel
+            {
+                VehiculesNumber = 5,
+                HasTarpaulinVehicule = true,
+                PTAC_TarpaulinVehicule = 750,
+                HasHardWallVehicule = true,
+                PTAC_HardWallVehicule = 4500,
+                CanTransportHorse = true,
+                CanTransportVehicule = false,
+                TotalCapacity = 5250
+            };
+
             //// Act
-            var response = await client.GetAsync(url);
+            var response = await client.PostAsync(url, new StringContent(JsonConvert.SerializeObject(VehiculeRegis), Encoding.UTF8, "application/json"));
             response.EnsureSuccessStatusCode();
 
             // Assert
@@ -67,52 +80,31 @@ namespace Mydemenageur.IntegrationTests.Tests
         }
 
         [Theory]
-        [InlineData("/api/Clients")]
-        public async Task Post_Client(string url)
+        [InlineData("/api/Vehicules/728387adfe9be99566803885")]
+        public async Task Put_Vehicule(string url)
         {
             dynamic data = new ExpandoObject();
-            data.name = "60b6064ff2f2711ff6e96e13";
+            data.name = "c6b9e1ee60530ec4bc82d701";
             data.role = new[] { Roles.Client };
 
             //// Arrange
             var client = Factory.CreateClient();
             client.SetFakeBearerToken((object)data);
 
-            var clientRegis = new ClientRegisterModel
+            var VehiculeUpd = new VehiculesUpdateModel
             {
-                UserId = "60b6064ff2f2711ff6e96e13"
+                VehiculesNumber = 5,
+                HasTarpaulinVehicule = true,
+                PTAC_TarpaulinVehicule = 750,
+                HasHardWallVehicule = true,
+                PTAC_HardWallVehicule = 4500,
+                CanTransportHorse = true,
+                CanTransportVehicule = false,
+                TotalCapacity = 5250
             };
 
             //// Act
-            var response = await client.PostAsync(url, new StringContent(JsonConvert.SerializeObject(clientRegis), Encoding.UTF8, "application/json"));
-            response.EnsureSuccessStatusCode();
-
-            // Assert
-            Assert.True(true);
-        }
-
-        [Theory]
-        [InlineData("/api/Clients/45d5ae0ad9221e701ceeba5b")]
-        public async Task Put_Client(string url)
-        {
-            dynamic data = new ExpandoObject();
-            data.name = "addc792a46a7f43619201a5b";
-            data.role = new[] { Roles.Client };
-
-            //// Arrange
-            var client = Factory.CreateClient();
-            client.SetFakeBearerToken((object)data);
-
-            var clientUpd = new ClientUpdateModel
-            {
-                Adress = "26 Rue les cerisiés",
-                Town = "Rouen",
-                Zipcode = "76000",
-                Country = "France"
-            };
-
-            //// Act
-            var response = await client.PutAsync(url, new StringContent(JsonConvert.SerializeObject(clientUpd), Encoding.UTF8, "application/json"));
+            var response = await client.PutAsync(url, new StringContent(JsonConvert.SerializeObject(VehiculeUpd), Encoding.UTF8, "application/json"));
             response.EnsureSuccessStatusCode();
 
             // Assert

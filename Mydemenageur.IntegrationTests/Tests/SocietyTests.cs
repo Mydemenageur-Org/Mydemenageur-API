@@ -17,38 +17,20 @@ using System.Dynamic;
 using System.Net;
 using Newtonsoft.Json;
 using Mydemenageur.API.Models.Clients;
+using Mydemenageur.API.Models.Users;
+using Mydemenageur.API.Models.Society;
 
 namespace Mydemenageur.IntegrationTests.Tests
 {
-    public class ClientTests : TestBase
+    public class SocietyTests : TestBase
     {
-        public ClientTests(TestApplicationFactory<Startup, FakeStartup> factory) : base(factory)
+        public SocietyTests(TestApplicationFactory<Startup, FakeStartup> factory) : base(factory)
         {
         }
 
         [Theory]
-        [InlineData("/api/Clients/93a8ac56bd2d9d2a13995f9b")]
-        public async Task Get_Client(string url)
-        {
-            dynamic data = new ExpandoObject();
-            data.name = "c02da7e40a2ec30b5e60dd89";
-            data.role = new[] { Roles.Client };
-
-            //// Arrange
-            var client = Factory.CreateClient();
-            client.SetFakeBearerToken((object)data);
-
-            //// Act
-            var response = await client.GetAsync(url);
-            response.EnsureSuccessStatusCode();
-
-            // Assert
-            Assert.True(true);
-        }
-
-        [Theory]
-        [InlineData("/api/Clients/93a8ac56bd2d9d2a13995f9b/user")]
-        public async Task Get_ClientUser(string url)
+        [InlineData("/api/Societies/59daf9980effbd5bea0cd89a")]
+        public async Task Get_Society(string url)
         {
             dynamic data = new ExpandoObject();
             data.name = "c02da7e40a2ec30b5e60dd89";
@@ -67,8 +49,8 @@ namespace Mydemenageur.IntegrationTests.Tests
         }
 
         [Theory]
-        [InlineData("/api/Clients")]
-        public async Task Post_Client(string url)
+        [InlineData("/api/Societies")]
+        public async Task Post_Society(string url)
         {
             dynamic data = new ExpandoObject();
             data.name = "60b6064ff2f2711ff6e96e13";
@@ -78,13 +60,20 @@ namespace Mydemenageur.IntegrationTests.Tests
             var client = Factory.CreateClient();
             client.SetFakeBearerToken((object)data);
 
-            var clientRegis = new ClientRegisterModel
+            var societyRegis = new SocietyRegisterModel
             {
-                UserId = "60b6064ff2f2711ff6e96e13"
+                SocietyName = "TestSociety15",
+                ManagerId = "8ff13858c921c857cfa53401",
+                EmployeeNumber = 666,
+                Adress = "85 Rue de l'enceinte",
+                Town = "Nantes",
+                Zipcode = "44000",
+                Country = "France",
+                Region = "Pays de la Loire"
             };
 
             //// Act
-            var response = await client.PostAsync(url, new StringContent(JsonConvert.SerializeObject(clientRegis), Encoding.UTF8, "application/json"));
+            var response = await client.PostAsync(url, new StringContent(JsonConvert.SerializeObject(societyRegis), Encoding.UTF8, "application/json"));
             response.EnsureSuccessStatusCode();
 
             // Assert
@@ -92,31 +81,36 @@ namespace Mydemenageur.IntegrationTests.Tests
         }
 
         [Theory]
-        [InlineData("/api/Clients/45d5ae0ad9221e701ceeba5b")]
-        public async Task Put_Client(string url)
+        [InlineData("/api/Societies/59daf9980effbd5bea0cd89a")]
+        public async Task Put_Society(string url)
         {
             dynamic data = new ExpandoObject();
-            data.name = "addc792a46a7f43619201a5b";
+            data.name = "8ff13858c921c857cfa53401";
             data.role = new[] { Roles.Client };
 
             //// Arrange
             var client = Factory.CreateClient();
             client.SetFakeBearerToken((object)data);
 
-            var clientUpd = new ClientUpdateModel
+            var SocietyUpd = new SocietyUpdateModel
             {
-                Adress = "26 Rue les cerisiés",
-                Town = "Rouen",
-                Zipcode = "76000",
-                Country = "France"
+                SocietyName = "Gyslaine & co",
+                ManagerId = "de2b15c7b3f97f6bdd0d8bde",
+                EmployeeNumber = 78,
+                Adress = "93 Rue du vélo d'appartement",
+                Town = "Lille",
+                Zipcode = "59000",
+                Country = "France",
+                Region = "Hauts-de-France"
             };
 
             //// Act
-            var response = await client.PutAsync(url, new StringContent(JsonConvert.SerializeObject(clientUpd), Encoding.UTF8, "application/json"));
+            var response = await client.PutAsync(url, new StringContent(JsonConvert.SerializeObject(SocietyUpd), Encoding.UTF8, "application/json"));
             response.EnsureSuccessStatusCode();
 
             // Assert
             Assert.True(true);
         }
+
     }
 }
