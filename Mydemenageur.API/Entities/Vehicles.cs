@@ -15,39 +15,39 @@ namespace Mydemenageur.API.Entities
         public string Id { get; set; }
         [BsonRepresentation(BsonType.ObjectId)]
         /// <summary>
-        /// The society own this vehicule
+        /// The society own this vehicle
         /// </summary>
         public string SocietyId { get; set; }
         /// <summary>
-        /// Number of vehicule in society
+        /// Number of vehicle in society
         /// </summary>
         public int VehiclesNumber { get; set; }
         /// <summary>
-        /// If the society have tarpaulin vehicule
+        /// If the society have tarpaulin vehicle
         /// </summary>
-        public bool HasTarpaulinVehicule { get; set; }
+        public bool HasTarpaulinVehicle { get; set; }
         /// <summary>
         /// PTAC of tarpaulin ptac
         /// </summary>
-        public float PTAC_TarpaulinVehicule { get; set; }
+        public float PTAC_TarpaulinVehicle { get; set; }
         /// <summary>
-        /// If the society have hard wall vehicule
+        /// If the society have hard wall vehicle
         /// </summary>
-        public bool HasHardWallVehicule { get; set; }
+        public bool HasHardWallVehicle { get; set; }
         /// <summary>
         /// PTAC of hard wall ptac
         /// </summary>
-        public float PTAC_HardWallVehicule { get; set; }
+        public float PTAC_HardWallVehicle { get; set; }
         /// <summary>
         /// If he can transport horse
         /// </summary>
         public bool CanTransportHorse { get; set; }
         /// <summary>
-        /// If he can transport vehicule
+        /// If he can transport vehicle
         /// </summary>
-        public bool CanTransportVehicule { get; set; }
+        public bool CanTransportVehicle { get; set; }
         /// <summary>
-        /// Total capacity of all vehicule in the society
+        /// Total capacity of all vehicle in the society
         /// </summary>
         public float TotalCapacity { get; set; }
 
