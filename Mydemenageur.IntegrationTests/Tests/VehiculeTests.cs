@@ -28,7 +28,7 @@ namespace Mydemenageur.IntegrationTests.Tests
         }
 
         [Theory]
-        [InlineData("/api/Vehicules/728387adfe9be99566803885")]
+        [InlineData("/api/Vehicles/728387adfe9be99566803885")]
         public async Task Get_Vehicule(string url)
         {
             dynamic data = new ExpandoObject();
@@ -48,7 +48,7 @@ namespace Mydemenageur.IntegrationTests.Tests
         }
 
         [Theory]
-        [InlineData("/api/Vehicules")]
+        [InlineData("/api/Vehicles")]
         public async Task Post_Vehicule(string url)
         {
             dynamic data = new ExpandoObject();
@@ -59,9 +59,9 @@ namespace Mydemenageur.IntegrationTests.Tests
             var client = Factory.CreateClient();
             client.SetFakeBearerToken((object)data);
 
-            var VehiculeRegis = new VehiculesRegisterModel
+            var VehiculeRegis = new VehiclesRegisterModel
             {
-                VehiculesNumber = 5,
+                VehiclesNumber = 5,
                 HasTarpaulinVehicule = true,
                 PTAC_TarpaulinVehicule = 750,
                 HasHardWallVehicule = true,
@@ -80,7 +80,7 @@ namespace Mydemenageur.IntegrationTests.Tests
         }
 
         [Theory]
-        [InlineData("/api/Vehicules/728387adfe9be99566803885")]
+        [InlineData("/api/Vehicles/728387adfe9be99566803885")]
         public async Task Put_Vehicule(string url)
         {
             dynamic data = new ExpandoObject();
@@ -91,9 +91,9 @@ namespace Mydemenageur.IntegrationTests.Tests
             var client = Factory.CreateClient();
             client.SetFakeBearerToken((object)data);
 
-            var VehiculeUpd = new VehiculesUpdateModel
+            var VehiculeUpd = new VehiclesUpdateModel
             {
-                VehiculesNumber = 5,
+                VehiclesNumber = 5,
                 HasTarpaulinVehicule = true,
                 PTAC_TarpaulinVehicule = 750,
                 HasHardWallVehicule = true,

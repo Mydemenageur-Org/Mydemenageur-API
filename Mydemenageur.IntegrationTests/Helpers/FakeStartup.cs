@@ -73,7 +73,7 @@ namespace Mydemenageur.IntegrationTests.Helpers
             services.AddScoped<IMoversService, MoversService>();
             services.AddScoped<ISocietiesService, SocietiesService>();
             services.AddScoped<IUsersService, UsersService>();
-            services.AddScoped<IVehiculesService, VehiculesService>();
+            services.AddScoped<IVehiclesService, VehiclesService>();
 
             services.AddSwaggerGen(c =>
             {

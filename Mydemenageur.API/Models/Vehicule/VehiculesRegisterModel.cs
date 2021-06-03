@@ -5,12 +5,12 @@ using System.Threading.Tasks;
 
 namespace Mydemenageur.API.Models.Vehicule
 {
-    public class VehiculesRegisterModel
+    public class VehiclesRegisterModel
     {
         /// <summary>
         /// Number of vehicule in society
         /// </summary>
-        public int VehiculesNumber { get; set; }
+        public int VehiclesNumber { get; set; }
         /// <summary>
         /// If the society have tarpaulin vehicule
         /// </summary>

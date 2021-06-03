@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Mydemenageur.API.Entities
 {
-    public class Vehicules
+    public class Vehicles
     {
 
         [BsonId]
@@ -21,7 +21,7 @@ namespace Mydemenageur.API.Entities
         /// <summary>
         /// Number of vehicule in society
         /// </summary>
-        public int VehiculesNumber { get; set; }
+        public int VehiclesNumber { get; set; }
         /// <summary>
         /// If the society have tarpaulin vehicule
         /// </summary>

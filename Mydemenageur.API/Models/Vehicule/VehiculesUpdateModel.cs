@@ -6,13 +6,13 @@ using System.Threading.Tasks;
 
 namespace Mydemenageur.API.Models.Vehicule
 {
-    public class VehiculesUpdateModel
+    public class VehiclesUpdateModel
     {
         [Required]
         /// <summary>
         /// Number of vehicule in society
         /// </summary>
-        public int VehiculesNumber { get; set; }
+        public int VehiclesNumber { get; set; }
         [Required]
         /// <summary>
         /// If the society have tarpaulin vehicule

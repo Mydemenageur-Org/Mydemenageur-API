@@ -26,7 +26,7 @@ namespace Mydemenageur.API.Services
         }
         public async Task<List<Mover>> GetMoversAsync()
         {
-            var movers = await _movers.FindAsync(vehicules => true);
+            var movers = await _movers.FindAsync(Vehicles => true);
             return await movers.ToListAsync();
         }
         public Task<Mover> GetMoverAsync(string id)
