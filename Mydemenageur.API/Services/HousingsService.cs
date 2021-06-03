@@ -54,7 +54,7 @@ namespace Mydemenageur.API.Services
                 .Set(dbHousing => dbHousing.HousingFloor, housingUpdateModel.HousingFloor)
                 .Set(dbHousing => dbHousing.IsElevator, housingUpdateModel.IsElevator)
                 .Set(dbHousing => dbHousing.Surface, housingUpdateModel.Surface)
-                .Set(dbHousing => dbHousing.Adress, housingUpdateModel.Adress)
+                .Set(dbHousing => dbHousing.Address, housingUpdateModel.Address)
                 .Set(dbHousing => dbHousing.Town, housingUpdateModel.Town)
                 .Set(dbHousing => dbHousing.Zipcode, housingUpdateModel.Zipcode)
                 .Set(dbHousing => dbHousing.Region, housingUpdateModel.Region)
@@ -88,7 +88,7 @@ namespace Mydemenageur.API.Services
                 HousingFloor = toRegister.HousingFloor,
                 IsElevator = toRegister.IsElevator,
                 Surface = toRegister.Surface,
-                Adress = toRegister.Adress,
+                Address = toRegister.Address,
                 Town = toRegister.Town,
                 Zipcode = toRegister.Zipcode,
                 Region = toRegister.Region,

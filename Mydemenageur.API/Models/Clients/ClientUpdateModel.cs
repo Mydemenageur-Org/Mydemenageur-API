@@ -11,10 +11,10 @@ namespace Mydemenageur.API.Models.Clients
     {
         [Required]
         /// <summary>
-        /// The user's adress
+        /// The user's Address
         /// </summary>
         /// <example>36 Rue des Coquelicots</example>
-        public string Adress { get; set; }
+        public string Address { get; set; }
 
         [Required]
         /// <summary>

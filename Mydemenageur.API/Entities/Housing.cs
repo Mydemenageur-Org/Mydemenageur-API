@@ -46,10 +46,10 @@ namespace Mydemenageur.API.Entities
         /// <example>36</example>
         public float Surface { get; set; }
         /// <summary>
-        /// The housing adress
+        /// The housing Address
         /// </summary>
         /// <example>36 Rue les coquelicots</example>
-        public string Adress { get; set; }
+        public string Address { get; set; }
         /// <summary>
         /// The housing town
         /// </summary>

@@ -233,9 +233,9 @@
             </summary>
             <example>6030deb57116e097987bcae5</example>
         </member>
-        <member name="P:Mydemenageur.API.Entities.Client.Adress">
+        <member name="P:Mydemenageur.API.Entities.Client.Address">
             <summary>
-            The user's adress
+            The user's Address
             </summary>
             <example>36 Rue des Coquelicots</example>
         </member>
@@ -290,9 +290,9 @@
             </summary>
             <example>36</example>
         </member>
-        <member name="P:Mydemenageur.API.Entities.Housing.Adress">
+        <member name="P:Mydemenageur.API.Entities.Housing.Address">
             <summary>
-            The housing adress
+            The housing Address
             </summary>
             <example>36 Rue les coquelicots</example>
         </member>
@@ -407,9 +407,9 @@
             </summary>
             <example>36</example>
         </member>
-        <member name="P:Mydemenageur.API.Entities.Society.Adress">
+        <member name="P:Mydemenageur.API.Entities.Society.Address">
             <summary>
-            The user's adress
+            The user's Address
             </summary>
             <example>36 Rue des Coquelicots</example>
         </member>
@@ -560,9 +560,9 @@
             </summary>
             <example>36</example>
         </member>
-        <member name="P:Mydemenageur.API.Models.Society.SocietyRegisterModel.Adress">
+        <member name="P:Mydemenageur.API.Models.Society.SocietyRegisterModel.Address">
             <summary>
-            The user's adress
+            The user's Address
             </summary>
             <example>36 Rue des Coquelicots</example>
         </member>

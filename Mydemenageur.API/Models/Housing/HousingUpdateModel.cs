@@ -36,10 +36,10 @@ namespace Mydemenageur.API.Models.Housing
         public float Surface { get; set; }
         [Required]
         /// <summary>
-        /// The housing adress
+        /// The housing Address
         /// </summary>
         /// <example>36 Rue les coquelicots</example>
-        public string Adress { get; set; }
+        public string Address { get; set; }
         [Required]
         /// <summary>
         /// The housing town

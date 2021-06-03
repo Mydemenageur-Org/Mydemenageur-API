@@ -29,10 +29,10 @@ namespace Mydemenageur.API.Models.Society
         public int EmployeeNumber { get; set; }
         [Required]
         /// <summary>
-        /// The user's adress
+        /// The user's Address
         /// </summary>
         /// <example>36 Rue des Coquelicots</example>
-        public string Adress { get; set; }
+        public string Address { get; set; }
         [Required]
         /// <summary>
         /// The user's town

@@ -105,7 +105,7 @@ namespace Mydemenageur.IntegrationTests.Tests
 
             var clientUpd = new ClientUpdateModel
             {
-                Adress = "26 Rue les cerisiés",
+                Address = "26 Rue les cerisiés",
                 Town = "Rouen",
                 Zipcode = "76000",
                 Country = "France"

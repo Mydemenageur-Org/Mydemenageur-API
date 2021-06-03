@@ -72,7 +72,7 @@ namespace Mydemenageur.API.Services.Interfaces
         public async Task UpdateClientFromAdminAsync(string id, ClientUpdateModel toUpdate)
         {
             var update = Builders<Client>.Update
-                .Set(dbClient => dbClient.Adress, toUpdate.Adress)
+                .Set(dbClient => dbClient.Address, toUpdate.Address)
                 .Set(dbClient => dbClient.Town, toUpdate.Town)
                 .Set(dbClient => dbClient.Zipcode, toUpdate.Zipcode)
                 .Set(dbClient => dbClient.Country, toUpdate.Country);

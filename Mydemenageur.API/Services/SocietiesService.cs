@@ -50,7 +50,7 @@ namespace Mydemenageur.API.Services
                 .Set(dbSociety => dbSociety.SocietyName, societyUpdateModel.SocietyName)
                 .Set(dbSociety => dbSociety.ManagerId, societyUpdateModel.ManagerId)
                 .Set(dbSociety => dbSociety.EmployeeNumber, societyUpdateModel.EmployeeNumber)
-                .Set(dbSociety => dbSociety.Adress, societyUpdateModel.Adress)
+                .Set(dbSociety => dbSociety.Address, societyUpdateModel.Address)
                 .Set(dbSociety => dbSociety.Town, societyUpdateModel.Town)
                 .Set(dbSociety => dbSociety.Zipcode, societyUpdateModel.Zipcode)
                 .Set(dbSociety => dbSociety.Country, societyUpdateModel.Country)
@@ -82,7 +82,7 @@ namespace Mydemenageur.API.Services
                 SocietyName = toRegister.SocietyName,
                 ManagerId = toRegister.ManagerId,
                 EmployeeNumber = toRegister.EmployeeNumber,
-                Adress = toRegister.Adress,
+                Address = toRegister.Address,
                 Town = toRegister.Town,
                 Zipcode = toRegister.Zipcode,
                 Country = toRegister.Country,
