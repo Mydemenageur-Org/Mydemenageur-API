@@ -5,7 +5,12 @@ VisualStudioVersion = 16.0.31005.135
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mydemenageur.API", "Mydemenageur.API\Mydemenageur.API.csproj", "{B2BFABAD-DB46-4F4B-B3DC-38EC5959BE8E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mydemenageur.IntegrationTests", "Mydemenageur.IntegrationTests\Mydemenageur.IntegrationTests.csproj", "{B4FD2543-DF4D-4F97-94DF-9EEBE4EE0EE4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mydemenageur.IntegrationTests", "Mydemenageur.IntegrationTests\Mydemenageur.IntegrationTests.csproj", "{B4FD2543-DF4D-4F97-94DF-9EEBE4EE0EE4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyDemenageur.ScenarioTests", "MyDemenageur.ScenarioTests\MyDemenageur.ScenarioTests.csproj", "{342FDB26-D2DF-4261-8244-6E6DFA6C0DF7}"
+	ProjectSection(ProjectDependencies) = postProject
+		{B2BFABAD-DB46-4F4B-B3DC-38EC5959BE8E} = {B2BFABAD-DB46-4F4B-B3DC-38EC5959BE8E}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +26,10 @@ Global
 		{B4FD2543-DF4D-4F97-94DF-9EEBE4EE0EE4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B4FD2543-DF4D-4F97-94DF-9EEBE4EE0EE4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B4FD2543-DF4D-4F97-94DF-9EEBE4EE0EE4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{342FDB26-D2DF-4261-8244-6E6DFA6C0DF7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{342FDB26-D2DF-4261-8244-6E6DFA6C0DF7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{342FDB26-D2DF-4261-8244-6E6DFA6C0DF7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{342FDB26-D2DF-4261-8244-6E6DFA6C0DF7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
