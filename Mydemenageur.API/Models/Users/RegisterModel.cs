@@ -47,10 +47,17 @@ namespace Mydemenageur.API.Models.Users
         /// </summary>
         /// <example>Hello it's me</example>
         public string About { get; set; }
+        [Required]
         /// <summary>
         /// The user's password
         /// </summary>
         /// <example>My very secure password</example>
         public string Password { get; set; }
+        [Required]
+        /// <summary>
+        /// The role of user 
+        /// </summary>
+        /// <example>Client</example>
+        public string Role { get; set; }
     }
 }

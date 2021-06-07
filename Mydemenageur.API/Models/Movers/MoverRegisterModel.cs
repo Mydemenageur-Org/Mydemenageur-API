@@ -19,7 +19,7 @@ namespace Mydemenageur.API.Models.Movers
         /// <summary>
         /// The file is list
         /// </summary>
-        public string[] FileId { get; set; }
+        public List<string> FileId { get; set; }
 
     }
 }

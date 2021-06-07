@@ -1,4 +1,6 @@
-﻿using System;
+﻿using MongoDB.Bson;
+using MongoDB.Bson.Serialization.Attributes;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -7,6 +9,11 @@ namespace Mydemenageur.API.Models.Vehicule
 {
     public class VehiclesRegisterModel
     {
+        [BsonRepresentation(BsonType.ObjectId)]
+        /// <summary>
+        /// The society of this vehicle
+        /// </summary>
+        public string SocietyId { get; set; }
         /// <summary>
         /// Number of vehicule in society
         /// </summary>

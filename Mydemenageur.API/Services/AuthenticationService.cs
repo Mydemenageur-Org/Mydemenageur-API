@@ -62,6 +62,7 @@ namespace Mydemenageur.API.Services
             if (string.IsNullOrWhiteSpace(registerModel.Email)) { throw new Exception("An email is required for the registration");  }
             if (string.IsNullOrWhiteSpace(registerModel.Username)) { throw new Exception("A username is required for the registration"); }
             if (UserExist(registerModel.Email, registerModel.Username)) { throw new Exception("The user already exist"); }
+            if(registerModel.Role.Equals("Admin")) { throw new UnauthorizedAccessException("You are not authorized to register with this role"); }
 
             // Password stuff, to ensure we never have clear password stored
             CreatePasswordHash(registerModel.Password, out byte[] passwordHash, out byte[] passwordSalt);
@@ -75,6 +76,8 @@ namespace Mydemenageur.API.Services
                 Email = registerModel.Email.ToLower(),
                 Phone = registerModel.Phone,
                 Username = registerModel.Username.ToLower(),
+                Role = registerModel.Role,
+                About = registerModel.About,
 
                 PasswordHash = Convert.ToBase64String(passwordHash),
                 PasswordSalt = passwordSalt

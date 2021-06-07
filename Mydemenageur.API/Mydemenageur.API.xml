@@ -495,25 +495,25 @@
         </member>
         <member name="P:Mydemenageur.API.Entities.Vehicles.VehiclesNumber">
             <summary>
-            Number of vehicule in society
+            Number of vehicle in society
             </summary>
         </member>
-        <member name="P:Mydemenageur.API.Entities.Vehicles.HasTarpaulinVehicule">
+        <member name="P:Mydemenageur.API.Entities.Vehicles.HasTarpaulinVehicle">
             <summary>
-            If the society have tarpaulin vehicule
+            If the society have tarpaulin vehicle
             </summary>
         </member>
-        <member name="P:Mydemenageur.API.Entities.Vehicles.PTAC_TarpaulinVehicule">
+        <member name="P:Mydemenageur.API.Entities.Vehicles.PTAC_TarpaulinVehicle">
             <summary>
             PTAC of tarpaulin ptac
             </summary>
         </member>
-        <member name="P:Mydemenageur.API.Entities.Vehicles.HasHardWallVehicule">
+        <member name="P:Mydemenageur.API.Entities.Vehicles.HasHardWallVehicle">
             <summary>
-            If the society have hard wall vehicule
+            If the society have hard wall vehicle
             </summary>
         </member>
-        <member name="P:Mydemenageur.API.Entities.Vehicles.PTAC_HardWallVehicule">
+        <member name="P:Mydemenageur.API.Entities.Vehicles.PTAC_HardWallVehicle">
             <summary>
             PTAC of hard wall ptac
             </summary>
@@ -523,14 +523,14 @@
             If he can transport horse
             </summary>
         </member>
-        <member name="P:Mydemenageur.API.Entities.Vehicles.CanTransportVehicule">
+        <member name="P:Mydemenageur.API.Entities.Vehicles.CanTransportVehicle">
             <summary>
-            If he can transport vehicule
+            If he can transport vehicle
             </summary>
         </member>
         <member name="P:Mydemenageur.API.Entities.Vehicles.TotalCapacity">
             <summary>
-            Total capacity of all vehicule in the society
+            Total capacity of all vehicle in the society
             </summary>
         </member>
         <member name="P:Mydemenageur.API.Models.Clients.ClientRegisterModel.UserId">
@@ -642,12 +642,6 @@
             The user's about
             </summary>
             <example>Hello it's me</example>
-        </member>
-        <member name="P:Mydemenageur.API.Models.Users.RegisterModel.Password">
-            <summary>
-            The user's password
-            </summary>
-            <example>My very secure password</example>
         </member>
         <member name="P:Mydemenageur.API.Models.Users.UserUpdateModel.ProfilePicture">
             <summary>

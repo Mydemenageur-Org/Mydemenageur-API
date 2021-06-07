@@ -51,12 +51,12 @@ namespace Mydemenageur.API.Services
 
             var update = Builders<Vehicles>.Update
                 .Set(dbVehicule => dbVehicule.VehiclesNumber, toUpdate.VehiclesNumber)
-                .Set(dbVehicule => dbVehicule.HasTarpaulinVehicule, toUpdate.HasTarpaulinVehicule)
-                .Set(dbVehicule => dbVehicule.PTAC_TarpaulinVehicule, toUpdate.PTAC_TarpaulinVehicule)
-                .Set(dbVehicule => dbVehicule.HasHardWallVehicule, toUpdate.HasHardWallVehicule)
-                .Set(dbVehicule => dbVehicule.PTAC_HardWallVehicule, toUpdate.PTAC_HardWallVehicule)
+                .Set(dbVehicule => dbVehicule.HasTarpaulinVehicle, toUpdate.HasTarpaulinVehicule)
+                .Set(dbVehicule => dbVehicule.PTAC_TarpaulinVehicle, toUpdate.PTAC_TarpaulinVehicule)
+                .Set(dbVehicule => dbVehicule.HasHardWallVehicle, toUpdate.HasHardWallVehicule)
+                .Set(dbVehicule => dbVehicule.PTAC_HardWallVehicle, toUpdate.PTAC_HardWallVehicule)
                 .Set(dbVehicule => dbVehicule.CanTransportHorse, toUpdate.CanTransportHorse)
-                .Set(dbVehicule => dbVehicule.CanTransportVehicule, toUpdate.CanTransportVehicule)
+                .Set(dbVehicule => dbVehicule.CanTransportVehicle, toUpdate.CanTransportVehicule)
                 .Set(dbVehicule => dbVehicule.TotalCapacity, toUpdate.TotalCapacity);
 
             await _Vehicles.UpdateOneAsync(dbVehicule =>
@@ -81,12 +81,12 @@ namespace Mydemenageur.API.Services
             Vehicles dbVehicule = new()
             {
                 VehiclesNumber = toRegister.VehiclesNumber,
-                HasTarpaulinVehicule = toRegister.HasTarpaulinVehicule,
-                PTAC_TarpaulinVehicule = toRegister.PTAC_TarpaulinVehicule,
-                HasHardWallVehicule = toRegister.HasHardWallVehicule,
-                PTAC_HardWallVehicule = toRegister.PTAC_HardWallVehicule,
+                HasTarpaulinVehicle = toRegister.HasTarpaulinVehicule,
+                PTAC_TarpaulinVehicle = toRegister.PTAC_TarpaulinVehicule,
+                HasHardWallVehicle = toRegister.HasHardWallVehicule,
+                PTAC_HardWallVehicle = toRegister.PTAC_HardWallVehicule,
                 CanTransportHorse = toRegister.CanTransportHorse,
-                CanTransportVehicule = toRegister.CanTransportVehicule,
+                CanTransportVehicle = toRegister.CanTransportVehicule,
                 TotalCapacity = toRegister.TotalCapacity
             };
 
