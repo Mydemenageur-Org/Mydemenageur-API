@@ -49,8 +49,33 @@ namespace Mydemenageur.IntegrationTests.Tests
         }
 
         [Theory]
+        [InlineData("/api/Movers/60c088baca53c985efbb1ab1")]
+        public async Task Get_Mover_Fail(string url)
+        {
+            dynamic data = new ExpandoObject();
+            data.name = "c6b9e1ee60530ec4bc82d701";
+            data.role = new[] { Roles.Client };
+
+            //// Arrange
+            var client = Factory.CreateClient();
+            client.SetFakeBearerToken((object)data);
+
+            //// Act
+            var response = await client.GetAsync(url);
+
+            if (!response.StatusCode.ToString().Equals("400"))
+            {
+                Assert.True(true);
+            }
+            else
+            {
+                Assert.True(false);
+            }
+        }
+
+        [Theory]
         [InlineData("/api/Movers")]
-        public async Task Post_Vehicule(string url)
+        public async Task Post_Mover(string url)
         {
             dynamic data = new ExpandoObject();
             data.name = "8ff13858c921c857cfa53401";
@@ -75,8 +100,39 @@ namespace Mydemenageur.IntegrationTests.Tests
         }
 
         [Theory]
+        [InlineData("/api/Movers")]
+        public async Task Post_Mover_Fail(string url)
+        {
+            dynamic data = new ExpandoObject();
+            data.name = "8ff13858c921c857cfa53401";
+            data.role = new[] { Roles.Client };
+
+            //// Arrange
+            var client = Factory.CreateClient();
+            client.SetFakeBearerToken((object)data);
+
+            var MoverRegis = new MoverRegisterModel
+            {
+                UserId = "60c089005c454fac81e3846b",
+                FileId = null
+            };
+
+            //// Act
+            var response = await client.PostAsync(url, new StringContent(JsonConvert.SerializeObject(MoverRegis), Encoding.UTF8, "application/json"));
+
+            if (!response.StatusCode.ToString().Equals("400"))
+            {
+                Assert.True(true);
+            }
+            else
+            {
+                Assert.True(false);
+            }
+        }
+
+        [Theory]
         [InlineData("/api/Movers/c6b9e1ee60530ec4bc82d701")]
-        public async Task Put_Vehicule(string url)
+        public async Task Put_Mover(string url)
         {
             dynamic data = new ExpandoObject();
             data.name = "ead29c8d187a26eaf3b39885";
@@ -98,6 +154,37 @@ namespace Mydemenageur.IntegrationTests.Tests
 
             // Assert
             Assert.True(true);
+        }
+
+        [Theory]
+        [InlineData("/api/Movers/60c089155f4e2a4c3bb25819")]
+        public async Task Put_Mover_Fail(string url)
+        {
+            dynamic data = new ExpandoObject();
+            data.name = "ead29c8d187a26eaf3b39885";
+            data.role = new[] { Roles.Client };
+
+            //// Arrange
+            var client = Factory.CreateClient();
+            client.SetFakeBearerToken((object)data);
+
+            var MoverUpd = new MoverUpdateModel
+            {
+                IsVIP = false,
+                AverageCustomer = 6.6f
+            };
+
+            //// Act
+            var response = await client.PutAsync(url, new StringContent(JsonConvert.SerializeObject(MoverUpd), Encoding.UTF8, "application/json"));
+
+            if (!response.StatusCode.ToString().Equals("400"))
+            {
+                Assert.True(true);
+            }
+            else
+            {
+                Assert.True(false);
+            }
         }
     }
 }

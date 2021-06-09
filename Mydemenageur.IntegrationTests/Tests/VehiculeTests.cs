@@ -48,11 +48,36 @@ namespace Mydemenageur.IntegrationTests.Tests
         }
 
         [Theory]
+        [InlineData("/api/Vehicles/60c08a8f0f241271fc022bc7")]
+        public async Task Get_Vehicule_Fail(string url)
+        {
+            dynamic data = new ExpandoObject();
+            data.name = "c6b9e1ee60530ec4bc82d701";
+            data.role = new[] { Roles.Client };
+
+            //// Arrange
+            var client = Factory.CreateClient();
+            client.SetFakeBearerToken((object)data);
+
+            //// Act
+            var response = await client.GetAsync(url);
+
+            if (!response.StatusCode.ToString().Equals("400"))
+            {
+                Assert.True(true);
+            }
+            else
+            {
+                Assert.True(false);
+            }
+        }
+
+        [Theory]
         [InlineData("/api/Vehicles")]
         public async Task Post_Vehicule(string url)
         {
             dynamic data = new ExpandoObject();
-            data.name = "8ff13858c921c857cfa53401";
+            data.name = "ead29c8d187a26eaf3b39885";
             data.role = new[] { Roles.Client };
 
             //// Arrange
@@ -61,6 +86,7 @@ namespace Mydemenageur.IntegrationTests.Tests
 
             var VehiculeRegis = new VehiclesRegisterModel
             {
+                SocietyId = "507f1f77bcf86cd799439011",
                 VehiclesNumber = 5,
                 HasTarpaulinVehicule = true,
                 PTAC_TarpaulinVehicule = 750,
@@ -77,6 +103,44 @@ namespace Mydemenageur.IntegrationTests.Tests
 
             // Assert
             Assert.True(true);
+        }
+
+        [Theory]
+        [InlineData("/api/Vehicles")]
+        public async Task Post_Vehicule_Fail(string url)
+        {
+            dynamic data = new ExpandoObject();
+            data.name = "8ff13858c921c857cfa53401";
+            data.role = new[] { Roles.Client };
+
+            //// Arrange
+            var client = Factory.CreateClient();
+            client.SetFakeBearerToken((object)data);
+
+            var VehiculeRegis = new VehiclesRegisterModel
+            {
+                SocietyId = "60c08af8c0e46c3b0403b62d",
+                VehiclesNumber = 5,
+                HasTarpaulinVehicule = true,
+                PTAC_TarpaulinVehicule = 750,
+                HasHardWallVehicule = true,
+                PTAC_HardWallVehicule = 4500,
+                CanTransportHorse = true,
+                CanTransportVehicule = false,
+                TotalCapacity = 5250
+            };
+
+            //// Act
+            var response = await client.PostAsync(url, new StringContent(JsonConvert.SerializeObject(VehiculeRegis), Encoding.UTF8, "application/json"));
+
+            if (!response.StatusCode.ToString().Equals("400"))
+            {
+                Assert.True(true);
+            }
+            else
+            {
+                Assert.True(false);
+            }
         }
 
         [Theory]
@@ -109,6 +173,43 @@ namespace Mydemenageur.IntegrationTests.Tests
 
             // Assert
             Assert.True(true);
+        }
+
+        [Theory]
+        [InlineData("/api/Vehicles/60c08bd907f3551cb0865fb4")]
+        public async Task Put_Vehicule_Fail(string url)
+        {
+            dynamic data = new ExpandoObject();
+            data.name = "c6b9e1ee60530ec4bc82d701";
+            data.role = new[] { Roles.Client };
+
+            //// Arrange
+            var client = Factory.CreateClient();
+            client.SetFakeBearerToken((object)data);
+
+            var VehiculeUpd = new VehiclesUpdateModel
+            {
+                VehiclesNumber = 5,
+                HasTarpaulinVehicule = true,
+                PTAC_TarpaulinVehicule = 750,
+                HasHardWallVehicule = true,
+                PTAC_HardWallVehicule = 4500,
+                CanTransportHorse = true,
+                CanTransportVehicule = false,
+                TotalCapacity = 5250
+            };
+
+            //// Act
+            var response = await client.PutAsync(url, new StringContent(JsonConvert.SerializeObject(VehiculeUpd), Encoding.UTF8, "application/json"));
+
+            if (!response.StatusCode.ToString().Equals("400"))
+            {
+                Assert.True(true);
+            }
+            else
+            {
+                Assert.True(false);
+            }
         }
     }
 }

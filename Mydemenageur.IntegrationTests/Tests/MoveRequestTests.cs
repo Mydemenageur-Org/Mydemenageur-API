@@ -50,8 +50,33 @@ namespace Mydemenageur.IntegrationTests.Tests
         }
 
         [Theory]
+        [InlineData("/api/MoveRequests/60c087d7397befc7bc2c6870")]
+        public async Task Get_MoveRequest_Fail(string url)
+        {
+            dynamic data = new ExpandoObject();
+            data.name = "addc792a46a7f43619201a5b";
+            data.role = new[] { Roles.Client };
+
+            //// Arrange
+            var client = Factory.CreateClient();
+            client.SetFakeBearerToken((object)data);
+
+            //// Act
+            var response = await client.GetAsync(url);
+
+            if (!response.StatusCode.ToString().Equals("400"))
+            {
+                Assert.True(true);
+            }
+            else
+            {
+                Assert.True(false);
+            }
+        }
+
+        [Theory]
         [InlineData("/api/MoveRequests")]
-        public async Task Post_Society(string url)
+        public async Task Post_MoveRequest(string url)
         {
             dynamic data = new ExpandoObject();
             data.name = "60b6064ff2f2711ff6e96e13";
@@ -84,8 +109,47 @@ namespace Mydemenageur.IntegrationTests.Tests
         }
 
         [Theory]
+        [InlineData("/api/MoveRequests")]
+        public async Task Post_MoveRequest_Fail(string url)
+        {
+            dynamic data = new ExpandoObject();
+            data.name = "60b6064ff2f2711ff6e96e13";
+            data.role = new[] { Roles.Client };
+
+            //// Arrange
+            var client = Factory.CreateClient();
+            client.SetFakeBearerToken((object)data);
+
+            var moveRequestRegis = new MoveRequestRegisterModel
+            {
+                UserId = "60c0880f1e9a15c0cbf8f291",
+                Title = "Test démé test",
+                MoveRequestVolume = 35,
+                NeedFurnitures = false,
+                NeedAssembly = false,
+                NeedDiassembly = true,
+                MinimumRequestDate = new DateTime(),
+                MaximumRequestDate = new DateTime(),
+                HeavyFurnitures = new List<string>(),
+                AdditionalInformation = "Non"
+            };
+
+            //// Act
+            var response = await client.PostAsync(url, new StringContent(JsonConvert.SerializeObject(moveRequestRegis), Encoding.UTF8, "application/json"));
+
+            if (!response.StatusCode.ToString().Equals("400"))
+            {
+                Assert.True(true);
+            }
+            else
+            {
+                Assert.True(false);
+            }
+        }
+
+        [Theory]
         [InlineData("/api/MoveRequests/ee540bb5a8acc64a029b28b7")]
-        public async Task Put_Society(string url)
+        public async Task Put_MoveRequest(string url)
         {
             dynamic data = new ExpandoObject();
             data.name = "58e36d708a4987491e589c0e";
@@ -115,6 +179,45 @@ namespace Mydemenageur.IntegrationTests.Tests
 
             // Assert
             Assert.True(true);
+        }
+
+        [Theory]
+        [InlineData("/api/MoveRequests/ee540bb5a8acc64a029b28b7")]
+        public async Task Put_MoveRequest_Fail(string url)
+        {
+            dynamic data = new ExpandoObject();
+            data.name = "58e36d708a4987491e589c0e";
+            data.role = new[] { Roles.Client };
+
+            //// Arrange
+            var client = Factory.CreateClient();
+            client.SetFakeBearerToken((object)data);
+
+            var moveRequestUpd = new MoveRequestUpdateModel
+            {
+                UserId = "60c0884d759c4e38c7b31237",
+                Title = "Test démé test",
+                MoveRequestVolume = 35,
+                NeedFurnitures = false,
+                NeedAssembly = false,
+                NeedDiassembly = true,
+                MinimumRequestDate = new DateTime(),
+                MaximumRequestDate = new DateTime(),
+                HeavyFurnitures = new List<string>(),
+                AdditionalInformation = "Non"
+            };
+
+            //// Act
+            var response = await client.PutAsync(url, new StringContent(JsonConvert.SerializeObject(moveRequestUpd), Encoding.UTF8, "application/json"));
+
+            if (!response.StatusCode.ToString().Equals("400"))
+            {
+                Assert.True(true);
+            }
+            else
+            {
+                Assert.True(false);
+            }
         }
 
     }
