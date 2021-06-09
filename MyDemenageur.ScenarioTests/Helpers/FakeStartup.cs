@@ -13,10 +13,12 @@ using Mydemenageur.API.Settings;
 using Mydemenageur.API.Settings.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Mydemenageur.ScenarioTests.Helpers
@@ -32,6 +34,12 @@ namespace Mydemenageur.ScenarioTests.Helpers
 
         public virtual void ConfigureServices(IServiceCollection services)
         {
+            var path = Directory.GetCurrentDirectory()+ "\\..\\..\\..\\MyDemenageur_filling_script_test.js";
+
+            Process.Start("mongo", "localhost:27017/MydemenageurTestDb " + path);
+
+            Thread.Sleep(500);
+
             services.Configure<MongoSettings>(Configuration.GetSection(nameof(MongoSettings)));
             services.Configure<MydemenageurSettings>(Configuration.GetSection(nameof(MydemenageurSettings)));
 

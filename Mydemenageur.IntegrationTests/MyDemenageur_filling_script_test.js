@@ -87,10 +87,10 @@ function Filling_Vehicles(){
 
     v.drop();
 
-    v.insert({_id:ObjectId("728387adfe9be99566803885"),SocietyId:ObjectId("507f1f77bcf86cd799439011"),VehiclesNumber:2,HasTarpaulinVehicule:true,PTAC_TarpaulinVehicule:1500,HasHardWallVehicule:true,PTAC_HardWallVehicule:2500,CanTransportHorse:true,CanTransportHorse:true,TotalCapacity:4000})
-    v.insert({_id:ObjectId("a53cf6867de07075adfdb82e"),SocietyId:ObjectId("59daf9980effbd5bea0cd89a"),VehiclesNumber:1,HasTarpaulinVehicule:true,PTAC_TarpaulinVehicule:1700,HasHardWallVehicule:false,PTAC_HardWallVehicule:0,CanTransportHorse:false,CanTransportHorse:false,TotalCapacity:1700})
-    v.insert({_id:ObjectId("25f5db764122886ad306169d"),SocietyId:ObjectId("66a02c537bae9ac56aaefe91"),VehiclesNumber:4,HasTarpaulinVehicule:true,PTAC_TarpaulinVehicule:1500,HasHardWallVehicule:true,PTAC_HardWallVehicule:2500,CanTransportHorse:true,CanTransportHorse:true,TotalCapacity:8000})
-    v.insert({_id:ObjectId("dfce265168fe9d08eb790057"),SocietyId:ObjectId("ee98e05f2e7376924d149b2f"),VehiclesNumber:3,HasTarpaulinVehicule:true,PTAC_TarpaulinVehicule:1500,HasHardWallVehicule:true,PTAC_HardWallVehicule:2500,CanTransportHorse:true,CanTransportHorse:true,TotalCapacity:5500})
+    v.insert({_id:ObjectId("728387adfe9be99566803885"),SocietyId:ObjectId("507f1f77bcf86cd799439011"),VehiclesNumber:2,HasTarpaulinVehicle:true,PTAC_TarpaulinVehicle:1500,HasHardWallVehicle:true,PTAC_HardWallVehicle:2500,CanTransportHorse:true,CanTransportHorse:true,TotalCapacity:4000})
+    v.insert({_id:ObjectId("a53cf6867de07075adfdb82e"),SocietyId:ObjectId("59daf9980effbd5bea0cd89a"),VehiclesNumber:1,HasTarpaulinVehicle:true,PTAC_TarpaulinVehicle:1700,HasHardWallVehicle:false,PTAC_HardWallVehicle:0,CanTransportHorse:false,CanTransportHorse:false,TotalCapacity:1700})
+    v.insert({_id:ObjectId("25f5db764122886ad306169d"),SocietyId:ObjectId("66a02c537bae9ac56aaefe91"),VehiclesNumber:4,HasTarpaulinVehicle:true,PTAC_TarpaulinVehicle:1500,HasHardWallVehicle:true,PTAC_HardWallVehicle:2500,CanTransportHorse:true,CanTransportHorse:true,TotalCapacity:8000})
+    v.insert({_id:ObjectId("dfce265168fe9d08eb790057"),SocietyId:ObjectId("ee98e05f2e7376924d149b2f"),VehiclesNumber:3,HasTarpaulinVehicle:true,PTAC_TarpaulinVehicle:1500,HasHardWallVehicle:true,PTAC_HardWallVehicle:2500,CanTransportHorse:true,CanTransportHorse:true,TotalCapacity:5500})
 }
 
 Filling_Client();
