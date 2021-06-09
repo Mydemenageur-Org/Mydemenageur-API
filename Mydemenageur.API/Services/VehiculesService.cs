@@ -13,6 +13,7 @@ namespace Mydemenageur.API.Services
     public class VehiclesService : IVehiclesService
     {
         private readonly IMongoCollection<Vehicles> _Vehicles;
+        private readonly IMongoCollection<Society> _societies;
 
         public VehiclesService(IMongoSettings mongoSettings)
         {
@@ -20,6 +21,7 @@ namespace Mydemenageur.API.Services
             var database = mongoClient.GetDatabase(mongoSettings.DatabaseName);
 
             _Vehicles = database.GetCollection<Vehicles>(mongoSettings.VehiclesCollectionName);
+            _societies = database.GetCollection<Society>(mongoSettings.SocietiesCollectionName);
         }
 
         public async Task<List<Vehicles>> GetVehiclesAsync()
@@ -37,6 +39,8 @@ namespace Mydemenageur.API.Services
 
         public async Task<string> AddVehiculeAsync(VehiclesRegisterModel toRegister)
         {
+            if (!SocietyExist(toRegister.SocietyId)) throw new Exception("The society doesn't exist");
+
             string id = await RegisterToDatabase(toRegister);
             return id;
         }
@@ -80,6 +84,7 @@ namespace Mydemenageur.API.Services
         {
             Vehicles dbVehicule = new()
             {
+                SocietyId = toRegister.SocietyId,
                 VehiclesNumber = toRegister.VehiclesNumber,
                 HasTarpaulinVehicle = toRegister.HasTarpaulinVehicule,
                 PTAC_TarpaulinVehicle = toRegister.PTAC_TarpaulinVehicule,
@@ -93,6 +98,13 @@ namespace Mydemenageur.API.Services
             await _Vehicles.InsertOneAsync(dbVehicule);
 
             return dbVehicule.Id;
+        }
+
+        private bool SocietyExist(string societyId)
+        {
+            return _societies.AsQueryable<Society>().Any(dbVehicles =>
+                dbVehicles.Id == societyId
+            );
         }
 
     }
