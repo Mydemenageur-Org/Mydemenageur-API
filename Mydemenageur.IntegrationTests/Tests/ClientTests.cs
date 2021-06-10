@@ -61,15 +61,9 @@ namespace Mydemenageur.IntegrationTests.Tests
             //// Act
             var response = await client.GetAsync(url);
 
-            if (!response.StatusCode.ToString().Equals("400"))
-            {
-                Assert.True(true);
-            }
-            else
-            {
-                Assert.True(false);
-            }
 
+            Assert.True(response.StatusCode != HttpStatusCode.OK);
+            
         }
 
         [Theory]
@@ -107,14 +101,7 @@ namespace Mydemenageur.IntegrationTests.Tests
             //// Act
             var response = await client.GetAsync(url);
 
-            if (!response.StatusCode.ToString().Equals("400"))
-            {
-                Assert.True(true);
-            }
-            else
-            {
-                Assert.True(false);
-            }
+            Assert.True(response.StatusCode != HttpStatusCode.OK);
         }
 
         [Theory]
@@ -162,14 +149,7 @@ namespace Mydemenageur.IntegrationTests.Tests
             //// Act
             var response = await client.PostAsync(url, new StringContent(JsonConvert.SerializeObject(clientRegis), Encoding.UTF8, "application/json"));
 
-            if (!response.StatusCode.ToString().Equals("400"))
-            {
-                Assert.True(true);
-            }
-            else
-            {
-                Assert.True(false);
-            }
+            Assert.True(response.StatusCode != HttpStatusCode.OK);
         }
 
         [Theory]
@@ -222,14 +202,7 @@ namespace Mydemenageur.IntegrationTests.Tests
             //// Act
             var response = await client.PutAsync(url, new StringContent(JsonConvert.SerializeObject(clientUpd), Encoding.UTF8, "application/json"));
 
-            if (!response.StatusCode.ToString().Equals("400"))
-            {
-                Assert.True(true);
-            }
-            else
-            {
-                Assert.True(false);
-            }
+            Assert.True(response.StatusCode != HttpStatusCode.OK);
         }
     }
 }

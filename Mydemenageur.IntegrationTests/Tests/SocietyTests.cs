@@ -63,14 +63,7 @@ namespace Mydemenageur.IntegrationTests.Tests
             //// Act
             var response = await client.GetAsync(url);
 
-            if (!response.StatusCode.ToString().Equals("400"))
-            {
-                Assert.True(true);
-            }
-            else
-            {
-                Assert.True(false);
-            }
+            Assert.True(response.StatusCode != HttpStatusCode.OK);
         }
 
         [Theory]
@@ -88,7 +81,7 @@ namespace Mydemenageur.IntegrationTests.Tests
             var societyRegis = new SocietyRegisterModel
             {
                 SocietyName = "TestSociety15",
-                ManagerId = "8ff13858c921c857cfa53401",
+                ManagerId = "ead29c8d187a26eaf3b39885",
                 EmployeeNumber = 666,
                 Address = "85 Rue de l'enceinte",
                 Town = "Nantes",
@@ -132,14 +125,7 @@ namespace Mydemenageur.IntegrationTests.Tests
             //// Act
             var response = await client.PostAsync(url, new StringContent(JsonConvert.SerializeObject(societyRegis), Encoding.UTF8, "application/json"));
 
-            if (!response.StatusCode.ToString().Equals("400"))
-            {
-                Assert.True(true);
-            }
-            else
-            {
-                Assert.True(false);
-            }
+            Assert.True(response.StatusCode != HttpStatusCode.OK);
         }
 
         [Theory]
@@ -201,14 +187,7 @@ namespace Mydemenageur.IntegrationTests.Tests
             //// Act
             var response = await client.PutAsync(url, new StringContent(JsonConvert.SerializeObject(SocietyUpd), Encoding.UTF8, "application/json"));
 
-            if (!response.StatusCode.ToString().Equals("400"))
-            {
-                Assert.True(true);
-            }
-            else
-            {
-                Assert.True(false);
-            }
+            Assert.True(response.StatusCode != HttpStatusCode.OK);
         }
 
     }
