@@ -29,12 +29,12 @@ namespace Mydemenageur.IntegrationTests.Tests
         }
 
         [Theory]
-        [InlineData("/api/Movers/c6b9e1ee60530ec4bc82d701")]
-        public async Task Get_Mover(string url)
+        [InlineData("/api/Movers/c6b9e1ee60530ec4bc82d701", "c6b9e1ee60530ec4bc82d701", Roles.Client)]
+        public async Task Get_Mover(string url, string name, string role)
         {
             dynamic data = new ExpandoObject();
-            data.name = "c6b9e1ee60530ec4bc82d701";
-            data.role = new[] { Roles.Client };
+            data.name = name;
+            data.role = new[] { role };
 
             //// Arrange
             var client = Factory.CreateClient();
@@ -49,12 +49,12 @@ namespace Mydemenageur.IntegrationTests.Tests
         }
 
         [Theory]
-        [InlineData("/api/Movers/60c088baca53c985efbb1ab1")]
-        public async Task Get_Mover_Fail(string url)
+        [InlineData("/api/Movers/60c088baca53c985efbb1ab1", "c6b9e1ee60530ec4bc82d701", Roles.Client)]
+        public async Task Get_Mover_Fail(string url, string name, string role)
         {
             dynamic data = new ExpandoObject();
-            data.name = "c6b9e1ee60530ec4bc82d701";
-            data.role = new[] { Roles.Client };
+            data.name = name;
+            data.role = new[] { role };
 
             //// Arrange
             var client = Factory.CreateClient();
@@ -67,12 +67,12 @@ namespace Mydemenageur.IntegrationTests.Tests
         }
 
         [Theory]
-        [InlineData("/api/Movers")]
-        public async Task Post_Mover(string url)
+        [InlineData("/api/Movers", "8ff13858c921c857cfa53401", Roles.Client)]
+        public async Task Post_Mover(string url, string name, string role)
         {
             dynamic data = new ExpandoObject();
-            data.name = "8ff13858c921c857cfa53401";
-            data.role = new[] { Roles.Client };
+            data.name = name;
+            data.role = new[] { role };
 
             //// Arrange
             var client = Factory.CreateClient();
@@ -93,12 +93,12 @@ namespace Mydemenageur.IntegrationTests.Tests
         }
 
         [Theory]
-        [InlineData("/api/Movers")]
-        public async Task Post_Mover_Fail(string url)
+        [InlineData("/api/Movers", "c6b9e1ee60530ec4bc82d701", Roles.Client)]
+        public async Task Post_Mover_Fail(string url, string name, string role)
         {
             dynamic data = new ExpandoObject();
-            data.name = "8ff13858c921c857cfa53401";
-            data.role = new[] { Roles.Client };
+            data.name = name;
+            data.role = new[] { role };
 
             //// Arrange
             var client = Factory.CreateClient();
@@ -117,12 +117,12 @@ namespace Mydemenageur.IntegrationTests.Tests
         }
 
         [Theory]
-        [InlineData("/api/Movers/c6b9e1ee60530ec4bc82d701")]
-        public async Task Put_Mover(string url)
+        [InlineData("/api/Movers/c6b9e1ee60530ec4bc82d701", "ead29c8d187a26eaf3b39885", Roles.Client)]
+        public async Task Put_Mover(string url, string name, string role)
         {
             dynamic data = new ExpandoObject();
-            data.name = "ead29c8d187a26eaf3b39885";
-            data.role = new[] { Roles.Client };
+            data.name = name;
+            data.role = new[] { role };
 
             //// Arrange
             var client = Factory.CreateClient();
@@ -143,12 +143,12 @@ namespace Mydemenageur.IntegrationTests.Tests
         }
 
         [Theory]
-        [InlineData("/api/Movers/60c089155f4e2a4c3bb25819")]
-        public async Task Put_Mover_Fail(string url)
+        [InlineData("/api/Movers/60c089155f4e2a4c3bb25819", "ead29c8d187a26eaf3b39885", Roles.Client)]
+        public async Task Put_Mover_Fail(string url, string name, string role)
         {
             dynamic data = new ExpandoObject();
-            data.name = "ead29c8d187a26eaf3b39885";
-            data.role = new[] { Roles.Client };
+            data.name = name;
+            data.role = new[] { role };
 
             //// Arrange
             var client = Factory.CreateClient();

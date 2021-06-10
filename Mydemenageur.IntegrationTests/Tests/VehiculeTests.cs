@@ -28,12 +28,12 @@ namespace Mydemenageur.IntegrationTests.Tests
         }
 
         [Theory]
-        [InlineData("/api/Vehicles/728387adfe9be99566803885")]
-        public async Task Get_Vehicule(string url)
+        [InlineData("/api/Vehicles/728387adfe9be99566803885", "c6b9e1ee60530ec4bc82d701", Roles.Client)]
+        public async Task Get_Vehicule(string url, string name, string role)
         {
             dynamic data = new ExpandoObject();
-            data.name = "c6b9e1ee60530ec4bc82d701";
-            data.role = new[] { Roles.Client };
+            data.name = name;
+            data.role = new[] { role };
 
             //// Arrange
             var client = Factory.CreateClient();
@@ -48,12 +48,12 @@ namespace Mydemenageur.IntegrationTests.Tests
         }
 
         [Theory]
-        [InlineData("/api/Vehicles/60c08a8f0f241271fc022bc7")]
-        public async Task Get_Vehicule_Fail(string url)
+        [InlineData("/api/Vehicles/60c08a8f0f241271fc022bc7", "c6b9e1ee60530ec4bc82d701", Roles.Client)]
+        public async Task Get_Vehicule_Fail(string url, string name, string role)
         {
             dynamic data = new ExpandoObject();
-            data.name = "c6b9e1ee60530ec4bc82d701";
-            data.role = new[] { Roles.Client };
+            data.name = name;
+            data.role = new[] { role };
 
             //// Arrange
             var client = Factory.CreateClient();
@@ -66,12 +66,12 @@ namespace Mydemenageur.IntegrationTests.Tests
         }
 
         [Theory]
-        [InlineData("/api/Vehicles")]
-        public async Task Post_Vehicule(string url)
+        [InlineData("/api/Vehicles", "ead29c8d187a26eaf3b39885", Roles.Client)]
+        public async Task Post_Vehicule(string url, string name, string role)
         {
             dynamic data = new ExpandoObject();
-            data.name = "ead29c8d187a26eaf3b39885";
-            data.role = new[] { Roles.Client };
+            data.name = name;
+            data.role = new[] { role };
 
             //// Arrange
             var client = Factory.CreateClient();
@@ -99,12 +99,12 @@ namespace Mydemenageur.IntegrationTests.Tests
         }
 
         [Theory]
-        [InlineData("/api/Vehicles")]
-        public async Task Post_Vehicule_Fail(string url)
+        [InlineData("/api/Vehicles", "8ff13858c921c857cfa53401", Roles.Client)]
+        public async Task Post_Vehicule_Fail(string url, string name, string role)
         {
             dynamic data = new ExpandoObject();
-            data.name = "8ff13858c921c857cfa53401";
-            data.role = new[] { Roles.Client };
+            data.name = name;
+            data.role = new[] { role };
 
             //// Arrange
             var client = Factory.CreateClient();
@@ -130,12 +130,12 @@ namespace Mydemenageur.IntegrationTests.Tests
         }
 
         [Theory]
-        [InlineData("/api/Vehicles/728387adfe9be99566803885")]
-        public async Task Put_Vehicule(string url)
+        [InlineData("/api/Vehicles/728387adfe9be99566803885", "c6b9e1ee60530ec4bc82d701", Roles.Client)]
+        public async Task Put_Vehicule(string url, string name, string role)
         {
             dynamic data = new ExpandoObject();
-            data.name = "c6b9e1ee60530ec4bc82d701";
-            data.role = new[] { Roles.Client };
+            data.name = name;
+            data.role = new[] { role };
 
             //// Arrange
             var client = Factory.CreateClient();
@@ -162,12 +162,12 @@ namespace Mydemenageur.IntegrationTests.Tests
         }
 
         [Theory]
-        [InlineData("/api/Vehicles/60c08bd907f3551cb0865fb4")]
-        public async Task Put_Vehicule_Fail(string url)
+        [InlineData("/api/Vehicles/60c08bd907f3551cb0865fb4", "c6b9e1ee60530ec4bc82d701", Roles.Client)]
+        public async Task Put_Vehicule_Fail(string url, string name, string role)
         {
             dynamic data = new ExpandoObject();
-            data.name = "c6b9e1ee60530ec4bc82d701";
-            data.role = new[] { Roles.Client };
+            data.name = name;
+            data.role = new[] { role };
 
             //// Arrange
             var client = Factory.CreateClient();
