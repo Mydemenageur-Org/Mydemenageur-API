@@ -36,9 +36,11 @@ namespace Mydemenageur.API.Services
             return await housings.FirstOrDefaultAsync();
         }
 
-        public async Task<string> RegisterHousingAsync(HousingRegisterModel housingRegisterModel)
+        public async Task<string> RegisterHousingAsync(HousingRegisterModel toRegister)
         {
-            string id = await RegisterToDatabase(housingRegisterModel);
+            if (!MoveRequestExist(toRegister.MoveRequestId)) throw new Exception("The moveRequest doesn't exist");
+
+            string id = await RegisterToDatabase(toRegister);
             return id;
         }
 
@@ -109,6 +111,13 @@ namespace Mydemenageur.API.Services
             );
 
             return await moveRequest.FirstOrDefaultAsync();
+        }
+
+        private bool MoveRequestExist(string moveRequestId)
+        {
+            return _moveRequests.AsQueryable<MoveRequest>().Any(dbMoveRequest =>
+                dbMoveRequest.Id == moveRequestId
+            );
         }
     }
 }

@@ -13,7 +13,7 @@ namespace Mydemenageur.API.Services
     public class SocietiesService : ISocietiesService
     {
         private readonly IMongoCollection<Society> _societies;
-        //private readonly IMongoCollection<Mover> _moversService;
+        private readonly IMongoCollection<User> _users;
 
         public SocietiesService(IMongoSettings mongoSettings)
         {
@@ -21,6 +21,7 @@ namespace Mydemenageur.API.Services
             var database = mongoClient.GetDatabase(mongoSettings.DatabaseName);
 
             _societies = database.GetCollection<Society>(mongoSettings.SocietiesCollectionName);
+            _users = database.GetCollection<User>(mongoSettings.UsersCollectionName);
         }
 
         public async Task<Society> GetSocietyAsync(string id)
@@ -33,9 +34,11 @@ namespace Mydemenageur.API.Services
             var societies = await _societies.FindAsync(societies => true);
             return await societies.ToListAsync();
         }
-        public async Task<string> RegisterSocietyAsync(SocietyRegisterModel societyRegisterModel)
+        public async Task<string> RegisterSocietyAsync(SocietyRegisterModel toRegister)
         {
-            string id = await RegisterToDatabase(societyRegisterModel);
+            if (!UserExist(toRegister.ManagerId)) throw new Exception("The user doesn't exist");
+
+            string id = await RegisterToDatabase(toRegister);
             return id;
         }
 
@@ -92,6 +95,13 @@ namespace Mydemenageur.API.Services
             await _societies.InsertOneAsync(dbSociety);
 
             return dbSociety.Id;
+        }
+
+        private bool UserExist(string userId)
+        {
+            return _users.AsQueryable<User>().Any(dbUser =>
+                dbUser.Id == userId
+            );
         }
     }
 }
