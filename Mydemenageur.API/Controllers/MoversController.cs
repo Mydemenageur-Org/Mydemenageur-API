@@ -107,5 +107,30 @@ namespace Mydemenageur.API.Controllers
             }
             
         }
+
+        /// <summary>
+        /// Delete a mover. Only admin can delete mover
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpDelete("{id:length(24)}")]
+        public async Task<IActionResult> DeleteMover(string id)
+        {
+            try
+            {
+                if (User.IsInRole(Roles.Admin))
+                {
+                    await _moversService.DeleteMoverFromAdminAsync(id);
+                    return Ok();
+                }
+
+                return Unauthorized();
+
+            }
+            catch (Exception e)
+            {
+                return BadRequest($"Can't delete the mover: {e.Message}");
+            }
+        }
     }
 }

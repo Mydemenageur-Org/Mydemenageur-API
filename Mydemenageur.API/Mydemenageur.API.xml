@@ -59,6 +59,13 @@
             <response code="403">You are not allowed to edit this client</response>
             <response code="200">The client has been updated</response>
         </member>
+        <member name="M:Mydemenageur.API.Controllers.ClientsController.DeleteClient(System.String)">
+            <summary>
+            Delete a client. Only admin can delete client
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
         <member name="M:Mydemenageur.API.Controllers.HousingsController.GetHousing(System.String)">
             <summary>
             To get housing with his id
@@ -156,6 +163,13 @@
             <response code="200">Return ok if the update is good</response>
             <response code="400">Return an error if the Mover doesn't exist</response>
             <response code="403">Return an error if you doesn't have authorization</response>
+            <returns></returns>
+        </member>
+        <member name="M:Mydemenageur.API.Controllers.MoversController.DeleteMover(System.String)">
+            <summary>
+            Delete a mover. Only admin can delete mover
+            </summary>
+            <param name="id"></param>
             <returns></returns>
         </member>
         <member name="M:Mydemenageur.API.Controllers.SocietiesController.GetSociety(System.String)">

@@ -65,5 +65,6 @@ namespace Mydemenageur.API.Controllers
                 return BadRequest($"Can't update the user: {e.Message}");
             }
         }
+
     }
 }

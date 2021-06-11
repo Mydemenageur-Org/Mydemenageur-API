@@ -83,6 +83,23 @@ namespace Mydemenageur.API.Services.Interfaces
             );
         }
 
+        public async Task DeleteClientFromAdminAsync(string id)
+        {
+            if (id != null)
+            {
+                if (!ClientExist(id)) throw new Exception("The client doesn't exist");
+
+                User user = await GetUserAsync(id);
+
+                if (!UserExist(user.Id)) throw new Exception("The user doesn't exist");
+
+
+                await _clients.DeleteOneAsync<Client>(client => client.Id == id);
+                await _users.DeleteOneAsync<User>(user => user.Id == user.Id);
+
+            }
+        }
+
         private async Task<Client> GetClientFromIdAsync(string id)
         {
             var client = await _clients.FindAsync(dbClient =>
