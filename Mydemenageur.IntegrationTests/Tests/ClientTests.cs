@@ -204,5 +204,43 @@ namespace Mydemenageur.IntegrationTests.Tests
 
             Assert.True(response.StatusCode != HttpStatusCode.OK);
         }
+
+        [Theory]
+        [InlineData("/api/Clients/5055d2f398a5efc83f4f19d5", "addc792a46a7f43619201a5b", Roles.Admin)]
+        public async Task X_Delete_Client(string url, string name, string role)
+        {
+            dynamic data = new ExpandoObject();
+            data.name = name;
+            data.role = new[] { role };
+
+            //// Arrange
+            var client = Factory.CreateClient();
+            client.SetFakeBearerToken((object)data);
+
+            //// Act
+            var response = await client.DeleteAsync(url);
+
+            Assert.True(true);
+        }
+
+        [Theory]
+        [InlineData("/api/Clients/60c36560ba08a89566e390d1", "addc792a46a7f43619201a5b", Roles.Admin)]
+        [InlineData("/api/Clients/5055d2f398a5efc83f4f19d5", "addc792a46a7f43619201a5b", Roles.Client)]
+        [InlineData("/api/Clients/5055d2f398a5efc83f4f19d5", "addc792a46a7f43619201a5b", Roles.Mover)]
+        public async Task X_Delete_Client_Fail(string url, string name, string role)
+        {
+            dynamic data = new ExpandoObject();
+            data.name = name;
+            data.role = new[] { role };
+
+            //// Arrange
+            var client = Factory.CreateClient();
+            client.SetFakeBearerToken((object)data);
+
+            //// Act
+            var response = await client.DeleteAsync(url);
+
+            Assert.True(response.StatusCode != HttpStatusCode.OK);
+        }
     }
 }
