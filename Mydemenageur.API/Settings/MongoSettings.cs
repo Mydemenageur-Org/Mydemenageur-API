@@ -15,6 +15,7 @@ namespace Mydemenageur.API.Settings
         public string VehiclesCollectionName { get; set; }
         public string HousingsCollectionName { get; set; }
         public string MoveRequestsCollectionName { get; set; }
+        public string PastActionsCollectionName { get; set; }
 
         public string ConnectionString { get; set; }
         public string DatabaseName { get; set; }

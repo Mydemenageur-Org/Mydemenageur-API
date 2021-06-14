@@ -14,6 +14,7 @@ namespace Mydemenageur.API.Settings.Interfaces
         string VehiclesCollectionName { get; set; }
         string HousingsCollectionName { get; set; }
         string MoveRequestsCollectionName { get; set; }
+        string PastActionsCollectionName { get; set; }
 
         string ConnectionString { get; set; }
         string DatabaseName { get; set; }
