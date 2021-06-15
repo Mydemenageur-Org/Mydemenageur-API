@@ -219,6 +219,15 @@
             <returns></returns>
             <response code="200">The user was get</response>
         </member>
+        <member name="M:Mydemenageur.API.Controllers.UsersController.GetPastActionFromUser(System.String)">
+            <summary>
+            To get all action of one user
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+            <response code="200">Return all actions of a user</response>
+            <response code="403">Actual user don't have access to this request</response>
+        </member>
         <member name="M:Mydemenageur.API.Controllers.UsersController.UpdateUser(System.String,Mydemenageur.API.Models.Users.UserUpdateModel)">
             <summary>
             Update a user. Only admin can edit every users

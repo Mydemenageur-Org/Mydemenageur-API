@@ -42,7 +42,7 @@ namespace Mydemenageur.API.Controllers
         /// <returns></returns>
         /// <response code="200">Return all actions of a user</response>
         /// <response code="403">Actual user don't have access to this request</response>
-        [HttpGet("{id:length(24)/pastActions}")]
+        [HttpGet("{id:length(24)}/pastActions")]
         public async Task<ActionResult<List<PastAction>>> GetPastActionFromUser(string id)
         {
 

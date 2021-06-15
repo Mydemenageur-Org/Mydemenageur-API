@@ -43,9 +43,9 @@ namespace Mydemenageur.API.Services
 
         public async Task<List<PastAction>> GetPastActionListFromUserAsync(string id)
         {
-            var pastAction = await _pastActions.FindAsync(dbPastAction => dbPastAction.UserId == id);
+            var pastAction = await(await _pastActions.FindAsync(dbPastAction => dbPastAction.UserId == id)).ToListAsync();
 
-            return await pastAction.ToListAsync();
+            return pastAction;
         }
 
         public async Task UpdateUserAsync(string id, UserUpdateModel toUpdate)
