@@ -12,6 +12,7 @@ namespace Mydemenageur.API.Services.Interfaces
         Task<List<User>> GetUsersAsync();
         Task<User> GetUserAsync(string id);
         Task UpdateUserAsync(string id, UserUpdateModel toUpdate);
+        Task<List<PastAction>> GetPastActionListFromUserAsync(string id);
 
     }
 }

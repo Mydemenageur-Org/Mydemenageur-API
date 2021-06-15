@@ -12,8 +12,6 @@ namespace Mydemenageur.API.Services.Interfaces
 
         Task<PastAction> GetPastActionAsync(string id);
 
-        Task<List<PastAction>> GetPastActionListFromUserAsync(string userId);
-
         Task<User> GetUserAsync(string id);
 
         Task<string> RegisterPastActionAsync(PastActionRegisterModel toRegister);

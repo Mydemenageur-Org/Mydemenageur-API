@@ -172,6 +172,23 @@
             <param name="id"></param>
             <returns></returns>
         </member>
+        <member name="M:Mydemenageur.API.Controllers.PastActionsController.GetPastAction(System.String)">
+            <summary>
+            To get a past action 
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+            <response code="200">Return the past action with this id</response>
+        </member>
+        <member name="M:Mydemenageur.API.Controllers.PastActionsController.RegisterNewAction(Mydemenageur.API.Models.PastAction.PastActionRegisterModel)">
+            <summary>
+            To register a new action of user
+            </summary>
+            <param name="toRegister"></param>
+            <returns></returns>
+            <response code="200">Return the id of the new action</response>
+            <response code ="400">They are an error the the request</response>
+        </member>
         <member name="M:Mydemenageur.API.Controllers.SocietiesController.GetSociety(System.String)">
             <summary>
             To get society with his id
@@ -410,6 +427,26 @@
             All other information for the move request
             </summary>
         </member>
+        <member name="P:Mydemenageur.API.Entities.PastAction.ActionIcon">
+            <summary>
+            The icon of the action 
+            </summary>
+        </member>
+        <member name="P:Mydemenageur.API.Entities.PastAction.Title">
+            <summary>
+            The title of action
+            </summary>
+        </member>
+        <member name="P:Mydemenageur.API.Entities.PastAction.Description">
+            <summary>
+            The description of the action
+            </summary>
+        </member>
+        <member name="P:Mydemenageur.API.Entities.PastAction.UserId">
+            <summary>
+            The user's id 
+            </summary>
+        </member>
         <member name="P:Mydemenageur.API.Entities.Society.SocietyName">
             <summary>
             The society name
@@ -561,6 +598,26 @@
         <member name="P:Mydemenageur.API.Models.MoveRequest.MoveRequestUpdateModel.AdditionalInformation">
             <summary>
             All other information for the move request
+            </summary>
+        </member>
+        <member name="P:Mydemenageur.API.Models.PastAction.PastActionRegisterModel.ActionIcon">
+            <summary>
+            The icon of the action 
+            </summary>
+        </member>
+        <member name="P:Mydemenageur.API.Models.PastAction.PastActionRegisterModel.Title">
+            <summary>
+            The title of action
+            </summary>
+        </member>
+        <member name="P:Mydemenageur.API.Models.PastAction.PastActionRegisterModel.Description">
+            <summary>
+            The description of the action
+            </summary>
+        </member>
+        <member name="P:Mydemenageur.API.Models.PastAction.PastActionRegisterModel.UserId">
+            <summary>
+            The user's id 
             </summary>
         </member>
         <member name="P:Mydemenageur.API.Models.Society.SocietyRegisterModel.SocietyName">

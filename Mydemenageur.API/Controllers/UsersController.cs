@@ -36,6 +36,29 @@ namespace Mydemenageur.API.Controllers
         }
 
         /// <summary>
+        /// To get all action of one user
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        /// <response code="200">Return all actions of a user</response>
+        /// <response code="403">Actual user don't have access to this request</response>
+        [HttpGet("{id:length(24)/pastActions}")]
+        public async Task<ActionResult<List<PastAction>>> GetPastActionFromUser(string id)
+        {
+
+            if (User.IsInRole(Roles.Admin))
+            {
+                var pastActions = await _usersService.GetPastActionListFromUserAsync(id);
+
+                return Ok(pastActions);
+            }
+            else
+            {
+                return Forbid();
+            }
+        }
+
+        /// <summary>
         /// Update a user. Only admin can edit every users
         /// </summary>
         /// <param name="id" exemple="5f1fe90a58c8ab093c4f772a"></param>

@@ -17,6 +17,7 @@ namespace Mydemenageur.API.Services
     public class UsersService : IUsersService
     {
         private readonly IMongoCollection<User> _users;
+        private readonly IMongoCollection<PastAction> _pastActions;
 
         public UsersService(IMongoSettings mongoSettings)
         {
@@ -24,6 +25,7 @@ namespace Mydemenageur.API.Services
             var database = mongoClient.GetDatabase(mongoSettings.DatabaseName);
 
             _users = database.GetCollection<User>(mongoSettings.UsersCollectionName);
+            _pastActions = database.GetCollection<PastAction>(mongoSettings.PastActionsCollectionName);
         }
         public async Task<List<User>> GetUsersAsync()
         {
@@ -37,6 +39,13 @@ namespace Mydemenageur.API.Services
             );
 
             return await user.FirstOrDefaultAsync();
+        }
+
+        public async Task<List<PastAction>> GetPastActionListFromUserAsync(string id)
+        {
+            var pastAction = await _pastActions.FindAsync(dbPastAction => dbPastAction.UserId == id);
+
+            return await pastAction.ToListAsync();
         }
 
         public async Task UpdateUserAsync(string id, UserUpdateModel toUpdate)

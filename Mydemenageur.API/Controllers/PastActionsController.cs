@@ -14,12 +14,12 @@ namespace Mydemenageur.API.Controllers
     [Route("api/[controller]")]
     [Authorize]
     [ApiController]
-    public class PastActionController : ControllerBase
+    public class PastActionsController : ControllerBase
     {
 
         private readonly IPastActionsService _pastActionsService;
 
-        public PastActionController(IPastActionsService pastActionsService)
+        public PastActionsController(IPastActionsService pastActionsService)
         {
             _pastActionsService = pastActionsService;
         }
@@ -29,27 +29,22 @@ namespace Mydemenageur.API.Controllers
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        /// <response code="200"W>Return the past action with this id</response>
+        /// <response code="200">Return the past action with this id</response>
         [HttpGet("{id:length(24)}")]
         public async Task<ActionResult<PastAction>> GetPastAction(string id)
         {
-            var pastAction = await _pastActionsService.GetPastActionAsync(id);
 
-            return Ok(pastAction);
-        }
+            if (User.IsInRole(Roles.Admin))
+            {
+                var pastAction = await _pastActionsService.GetPastActionAsync(id);
 
-        /// <summary>
-        /// To get the list of past action of one user
-        /// </summary>
-        /// <param name="userId"></param>
-        /// <returns></returns>
-        /// <reponse code="200">Return list of past action of this user id</reponse>
-        [HttpGet("{userId:length(24)}")]
-        public async Task<ActionResult<List<PastAction>>> GetPastActionListFromUser(string userId)
-        {
-            var pastActionList = await _pastActionsService.GetPastActionListFromUserAsync(userId);
-
-            return Ok(pastActionList);
+                return Ok(pastAction);
+            }
+            else
+            {
+                return Forbid();
+            }
+            
         }
 
         /// <summary>

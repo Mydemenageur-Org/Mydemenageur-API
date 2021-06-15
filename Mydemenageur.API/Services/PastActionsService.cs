@@ -30,12 +30,6 @@ namespace Mydemenageur.API.Services.Interfaces
 
             return await pastAction.FirstOrDefaultAsync();
         }
-        public async Task<List<PastAction>> GetPastActionListFromUserAsync(string userId)
-        {
-            var pastAction = await _pastActions.FindAsync(dbPastAction => dbPastAction.UserId == userId);
-
-            return await pastAction.ToListAsync();
-        }
 
         public async Task<User> GetUserAsync(string id)
         {
