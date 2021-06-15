@@ -66,6 +66,25 @@ namespace Mydemenageur.IntegrationTests.Tests
         }
 
         [Theory]
+        [InlineData("/api/Users/c02da7e40a2ec30b5e60dd89/pastActions", "58e36d708a4987491e589c0e", Roles.Admin)]
+        public async Task Get_PastActions(string url, string name, string role)
+        {
+            dynamic data = new ExpandoObject();
+            data.name = name;
+            data.role = new[] { role };
+
+            //// Arrange
+            var client = Factory.CreateClient();
+            client.SetFakeBearerToken((object)data);
+
+            //// Act
+            var response = await client.GetAsync(url);
+            response.EnsureSuccessStatusCode();
+            // Assert
+            Assert.True(true);
+        }
+
+        [Theory]
         [InlineData("/api/Users/60b6064ff2f2711ff6e96e13", "60b6064ff2f2711ff6e96e13", Roles.Client)]
         public async Task Put_User(string url, string name, string role)
         {

@@ -82,6 +82,7 @@ namespace Mydemenageur.IntegrationTests.Helpers
             services.AddScoped<ISocietiesService, SocietiesService>();
             services.AddScoped<IUsersService, UsersService>();
             services.AddScoped<IVehiclesService, VehiclesService>();
+            services.AddScoped<IPastActionsService, PastActionsService>();
 
             services.AddSwaggerGen(c =>
             {

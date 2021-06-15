@@ -39,7 +39,7 @@ function Filling_Mover(){
 }
 
 function Filling_MoveRequest(){
-    var mr = db.moverequests;
+    var mr = db.move_requests;
 
     mr.drop();
 
@@ -83,7 +83,7 @@ function Filling_User(){
 }
 
 function Filling_Vehicles(){
-    var v = db.Vehicles;
+    var v = db.vehicles;
 
     v.drop();
 
@@ -93,6 +93,17 @@ function Filling_Vehicles(){
     v.insert({_id:ObjectId("dfce265168fe9d08eb790057"),SocietyId:ObjectId("ee98e05f2e7376924d149b2f"),VehiclesNumber:3,HasTarpaulinVehicle:true,PTAC_TarpaulinVehicle:1500,HasHardWallVehicle:true,PTAC_HardWallVehicle:2500,CanTransportHorse:true,CanTransportHorse:true,TotalCapacity:5500})
 }
 
+function Filling_PastActions() {
+    var v = db.past_actions;
+
+    v.drop();
+
+    v.insert({ _id: ObjectId("60c86eb9745cd564a5bb3f79"), ActionIcon: ObjectId("60c86ec0316ecdf5078c42a9"), Title: 'Message', Description: 'Un message a été envoyé', UserId: ObjectId("c02da7e40a2ec30b5e60dd89")})
+    v.insert({ _id: ObjectId("60c86ed19755bbead23272a9"), ActionIcon: ObjectId("60c86ee954fbbaf43122603a"), Title: 'Clique contact téléphonique', Description: 'Clique contact téléphonique', UserId: ObjectId("c02da7e40a2ec30b5e60dd89")})
+    v.insert({ _id: ObjectId("60c86ed9c760c1676ce3d9fc"), ActionIcon: ObjectId("60c86ef05e6a6665f42acc45"), Title: 'Message', Description: 'Un message a été envoyé', UserId: ObjectId("c02da7e40a2ec30b5e60dd89")})
+    v.insert({ _id: ObjectId("60c86ee0c6df8eefab9d5d01"), ActionIcon: ObjectId("60c86ef753c97fe35da0b1cb"), Title: 'Clique contact messagerie', Description: 'Clique contact téléphonique', UserId: ObjectId("addc792a46a7f43619201a5b")})
+}
+
 Filling_Client();
 Filling_Housing();
 Filling_Mover();
@@ -100,3 +111,4 @@ Filling_MoveRequest();
 Filling_Society();
 Filling_User();
 Filling_Vehicles();
+Filling_PastActions();
