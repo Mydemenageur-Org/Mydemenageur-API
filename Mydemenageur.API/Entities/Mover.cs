@@ -13,7 +13,6 @@ namespace Mydemenageur.API.Entities
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]
         public string Id { get; set; }
-
         /// <summary>
         /// The id of the user associated with the mover
         /// </summary>
@@ -34,6 +33,5 @@ namespace Mydemenageur.API.Entities
         /// The file is list
         /// </summary>
         public List<string> FileIds { get; set; }
-
     }
 }

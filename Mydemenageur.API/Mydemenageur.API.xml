@@ -531,6 +531,11 @@
             The user's birthday
             </summary>     
         </member>
+        <member name="P:Mydemenageur.API.Entities.User.LastConnection">
+            <summary>
+            The last connection of the mover
+            </summary>
+        </member>
         <member name="P:Mydemenageur.API.Entities.User.Username">
             <summary>
             The user's username

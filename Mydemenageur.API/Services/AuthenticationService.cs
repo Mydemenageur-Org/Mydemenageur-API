@@ -53,6 +53,14 @@ namespace Mydemenageur.API.Services
             // generate the token
             user.Token = TokenForUser(user);
 
+            var update = Builders<User>.Update
+                .Set(dbUser => dbUser.LastConnection, DateTime.Now);
+
+            await _users.UpdateOneAsync(dbUser =>
+                dbUser.Id == user.Id,
+                update
+            );
+
             return user;
         }
 
@@ -78,6 +86,7 @@ namespace Mydemenageur.API.Services
                 Username = registerModel.Username.ToLower(),
                 Role = registerModel.Role,
                 About = registerModel.About,
+                SignupDate = DateTime.Now,
 
                 PasswordHash = Convert.ToBase64String(passwordHash),
                 PasswordSalt = passwordSalt

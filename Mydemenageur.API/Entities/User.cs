@@ -42,6 +42,10 @@ namespace Mydemenageur.API.Entities
         /// </summary>     
         public DateTime SignupDate { get; set; }
         /// <summary>
+        /// The last connection of the mover
+        /// </summary>
+        public DateTime LastConnection { get; set; }
+        /// <summary>
         /// The user's username
         /// </summary>
         /// <example>Feldrise</example>
