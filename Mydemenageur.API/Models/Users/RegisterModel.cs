@@ -36,6 +36,11 @@ namespace Mydemenageur.API.Models.Users
         /// <example>+33652809335</example>
         [Required]
         public string Phone { get; set; }
+        [Required]
+        /// <summary>
+        /// The user's birthday
+        /// </summary>     
+        public DateTime Birthday { get; set; }
         /// <summary>
         /// The user's username
         /// </summary>

@@ -40,6 +40,10 @@ namespace Mydemenageur.API.Entities
         /// <summary>
         /// The user's birthday
         /// </summary>     
+        public DateTime Birthday { get; set; }
+        /// <summary>
+        /// The user's signup date
+        /// </summary>     
         public DateTime SignupDate { get; set; }
         /// <summary>
         /// The last connection of the mover

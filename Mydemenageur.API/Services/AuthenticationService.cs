@@ -86,6 +86,7 @@ namespace Mydemenageur.API.Services
                 Username = registerModel.Username.ToLower(),
                 Role = registerModel.Role,
                 About = registerModel.About,
+                Birthday = registerModel.Birthday,
                 SignupDate = DateTime.Now,
 
                 PasswordHash = Convert.ToBase64String(passwordHash),
