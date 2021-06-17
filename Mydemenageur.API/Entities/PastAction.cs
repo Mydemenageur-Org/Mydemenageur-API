@@ -31,6 +31,11 @@ namespace Mydemenageur.API.Entities
         public string Description { get; set; }
 
         /// <summary>
+        /// The date of this action
+        /// </summary>
+        public DateTime Date { get; set; }
+
+        /// <summary>
         /// The user's id 
         /// </summary>
         [BsonRepresentation(MongoDB.Bson.BsonType.ObjectId)]

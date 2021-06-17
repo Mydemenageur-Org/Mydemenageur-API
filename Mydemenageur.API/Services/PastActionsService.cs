@@ -60,7 +60,8 @@ namespace Mydemenageur.API.Services.Interfaces
                 ActionIcon = toRegister.ActionIcon,
                 Title = toRegister.Title,
                 Description = toRegister.Description,
-                UserId = toRegister.UserId
+                UserId = toRegister.UserId,
+                Date = DateTime.Now
             };
 
             await _pastActions.InsertOneAsync(dbPastAction);
