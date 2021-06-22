@@ -29,7 +29,7 @@ namespace Mydemenageur.API.Entities
         /// <summary>
         /// PTAC of tarpaulin ptac
         /// </summary>
-        public float PTAC_TarpaulinVehicle { get; set; }
+        public double PTAC_TarpaulinVehicle { get; set; }
         /// <summary>
         /// If the society have hard wall vehicle
         /// </summary>
@@ -37,7 +37,7 @@ namespace Mydemenageur.API.Entities
         /// <summary>
         /// PTAC of hard wall ptac
         /// </summary>
-        public float PTAC_HardWallVehicle { get; set; }
+        public double PTAC_HardWallVehicle { get; set; }
         /// <summary>
         /// If he can transport horse
         /// </summary>
@@ -49,7 +49,7 @@ namespace Mydemenageur.API.Entities
         /// <summary>
         /// Total capacity of all vehicle in the society
         /// </summary>
-        public float TotalCapacity { get; set; }
+        public double TotalCapacity { get; set; }
 
 
 

@@ -24,7 +24,7 @@ namespace Mydemenageur.API.Models.MoveRequest
         /// The volume of move request
         /// </summary>
         /// <example>25</example>
-        public float MoveRequestVolume { get; set; }
+        public double MoveRequestVolume { get; set; }
         [Required]
         /// <summary>
         /// If you need funitures to move

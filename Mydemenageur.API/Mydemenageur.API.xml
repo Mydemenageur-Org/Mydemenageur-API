@@ -451,6 +451,11 @@
             The description of the action
             </summary>
         </member>
+        <member name="P:Mydemenageur.API.Entities.PastAction.Date">
+            <summary>
+            The date of this action
+            </summary>
+        </member>
         <member name="P:Mydemenageur.API.Entities.PastAction.UserId">
             <summary>
             The user's id 
@@ -526,9 +531,14 @@
             </summary>
             <example>+33652809335</example>
         </member>
-        <member name="P:Mydemenageur.API.Entities.User.SignupDate">
+        <member name="P:Mydemenageur.API.Entities.User.Birthday">
             <summary>
             The user's birthday
+            </summary>     
+        </member>
+        <member name="P:Mydemenageur.API.Entities.User.SignupDate">
+            <summary>
+            The user's signup date
             </summary>     
         </member>
         <member name="P:Mydemenageur.API.Entities.User.LastConnection">
@@ -627,6 +637,11 @@
         <member name="P:Mydemenageur.API.Models.PastAction.PastActionRegisterModel.Description">
             <summary>
             The description of the action
+            </summary>
+        </member>
+        <member name="P:Mydemenageur.API.Models.PastAction.PastActionRegisterModel.Date">
+            <summary>
+            The date of this action
             </summary>
         </member>
         <member name="P:Mydemenageur.API.Models.PastAction.PastActionRegisterModel.UserId">

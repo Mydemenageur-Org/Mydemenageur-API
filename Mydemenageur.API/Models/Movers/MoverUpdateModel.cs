@@ -20,6 +20,6 @@ namespace Mydemenageur.API.Models.Movers
         /// Average customer of the mover's
         /// </summary>
         /// <example>8.5</example>
-        public float AverageCustomer { get; set; }
+        public double AverageCustomer { get; set; }
     }
 }

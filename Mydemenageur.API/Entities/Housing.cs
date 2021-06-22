@@ -44,7 +44,7 @@ namespace Mydemenageur.API.Entities
         /// The housing surface
         /// </summary>
         /// <example>36</example>
-        public float Surface { get; set; }
+        public double Surface { get; set; }
         /// <summary>
         /// The housing Address
         /// </summary>

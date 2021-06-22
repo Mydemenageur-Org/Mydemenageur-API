@@ -27,7 +27,7 @@ namespace Mydemenageur.API.Entities
         /// Average customer of the mover's
         /// </summary>
         /// <example>8.5</example>
-        public float AverageCustomerRating { get; set; }
+        public double AverageCustomerRating { get; set; }
         [BsonRepresentation(BsonType.ObjectId)]
         /// <summary>
         /// The file is list

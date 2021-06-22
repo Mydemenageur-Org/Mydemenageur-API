@@ -27,7 +27,7 @@ namespace Mydemenageur.API.Entities
         /// The volume of move request
         /// </summary>
         /// <example>25</example>
-        public float MoveRequestVolume { get; set; }
+        public double MoveRequestVolume { get; set; }
         /// <summary>
         /// If you need funitures to move
         /// </summary>
