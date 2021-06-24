@@ -36,6 +36,7 @@ namespace Mydemenageur.ScenarioTests.Tests
                 ProfilePicture = null,
                 FirstName = "Julien",
                 LastName = "TRIK",
+                Gender = "Male",
                 Email = "julientrick@gmail.Com",
                 Phone = "0606060606",
                 Username = "Jrick",
@@ -93,6 +94,7 @@ namespace Mydemenageur.ScenarioTests.Tests
                 FirstName = user.FirstName,
                 LastName = user.LastName,
                 Email = user.Email,
+                Gender = user.Gender,
                 Phone = "0707070707",
                 Username = user.Username,
                 About = user.About
