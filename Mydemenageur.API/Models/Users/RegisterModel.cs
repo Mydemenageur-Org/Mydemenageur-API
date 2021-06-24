@@ -24,6 +24,11 @@ namespace Mydemenageur.API.Models.Users
         /// <example>DENIS</example>
         [Required]
         public string LastName { get; set; }
+        [Required]
+        /// <summary>
+        /// The user's gender
+        /// </summary>
+        public string Gender { get; set; }
         /// <summary>
         /// The user's email
         /// </summary>

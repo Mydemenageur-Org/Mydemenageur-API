@@ -27,6 +27,11 @@ namespace Mydemenageur.API.Entities
         /// </summary>
         /// <example>DENIS</example>
         public string LastName { get; set; }
+
+        /// <summary>
+        /// The user's gender
+        /// </summary>
+        public string Gender { get; set; }
         /// <summary>
         /// The user's email
         /// </summary>

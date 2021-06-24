@@ -519,6 +519,11 @@
             </summary>
             <example>DENIS</example>
         </member>
+        <member name="P:Mydemenageur.API.Entities.User.Gender">
+            <summary>
+            The user's gender
+            </summary>
+        </member>
         <member name="P:Mydemenageur.API.Entities.User.Email">
             <summary>
             The user's email
@@ -765,6 +770,7 @@
             The user's email
             </summary>
             <example>admin@feldrise.com</example>
+            
         </member>
         <member name="P:Mydemenageur.API.Models.Users.UserUpdateModel.Phone">
             <summary>

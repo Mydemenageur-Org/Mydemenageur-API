@@ -84,6 +84,7 @@ namespace Mydemenageur.API.Services
                 Email = registerModel.Email.ToLower(),
                 Phone = registerModel.Phone,
                 Username = registerModel.Username.ToLower(),
+                Gender = registerModel.Gender,
                 Role = registerModel.Role,
                 About = registerModel.About,
                 Birthday = registerModel.Birthday,

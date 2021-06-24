@@ -58,6 +58,7 @@ namespace Mydemenageur.API.Services
                 .Set(dbUser => dbUser.FirstName, toUpdate.FirstName)
                 .Set(dbUser => dbUser.LastName, toUpdate.LastName)
                 .Set(dbUser => dbUser.Username, toUpdate.Username)
+                .Set(dbUser => dbUser.Gender, toUpdate.Gender)
                 .Set(dbUser => dbUser.Email, toUpdate.Email)
                 .Set(dbUser => dbUser.Phone, toUpdate.Phone)
                 .Set(dbUser => dbUser.About, toUpdate.About);
