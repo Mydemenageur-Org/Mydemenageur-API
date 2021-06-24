@@ -211,6 +211,14 @@
             <param name="societyUpdateModel"></param>
             <returns></returns>
         </member>
+        <member name="M:Mydemenageur.API.Controllers.UsersController.GetAllUser">
+            <summary>
+            Get all user
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+            <response code="200">The user's were get</response>
+        </member>
         <member name="M:Mydemenageur.API.Controllers.UsersController.GetUser(System.String)">
             <summary>
             Get a user

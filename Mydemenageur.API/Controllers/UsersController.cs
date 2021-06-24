@@ -24,6 +24,27 @@ namespace Mydemenageur.API.Controllers
         }
 
         /// <summary>
+        /// Get all user
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        /// <response code="200">The user's were get</response>
+        [HttpGet]
+        public async Task<ActionResult<List<User>>> GetAllUser()
+        {
+            if (User.IsInRole(Roles.Admin))
+            {
+                var pastActions = await _usersService.GetUsersAsync();
+
+                return Ok(pastActions);
+            }
+            else
+            {
+                return Forbid();
+            }
+        }
+
+        /// <summary>
         /// Get a user
         /// </summary>
         /// <param name="id"></param>
