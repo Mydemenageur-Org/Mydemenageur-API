@@ -24,7 +24,7 @@ namespace Mydemenageur.API.Controllers
         }
 
         /// <summary>
-        /// Get all user
+        /// Get all user. Only admin can use this
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>

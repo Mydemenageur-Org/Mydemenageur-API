@@ -213,7 +213,7 @@
         </member>
         <member name="M:Mydemenageur.API.Controllers.UsersController.GetAllUser">
             <summary>
-            Get all user
+            Get all user. Only admin can use this
             </summary>
             <param name="id"></param>
             <returns></returns>
