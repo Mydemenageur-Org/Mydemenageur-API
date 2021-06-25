@@ -33,7 +33,7 @@ namespace Mydemenageur.API
         public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
-        public void ConfigureServices(IServiceCollection services)
+        public virtual void ConfigureServices(IServiceCollection services)
         {
             services.Configure<MongoSettings>(Configuration.GetSection(nameof(MongoSettings)));
             services.Configure<MydemenageurSettings>(Configuration.GetSection(nameof(MydemenageurSettings)));
@@ -71,7 +71,8 @@ namespace Mydemenageur.API
             services.AddScoped<IMoversService, MoversService>();
             services.AddScoped<ISocietiesService, SocietiesService>();
             services.AddScoped<IUsersService, UsersService>();
-            services.AddScoped<IVehiculesService, VehiculesService>();
+            services.AddScoped<IVehiclesService, VehiclesService>();
+            services.AddScoped<IPastActionsService, PastActionsService>();
 
             services.AddCors(options =>
             {
@@ -96,7 +97,7 @@ namespace Mydemenageur.API
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public virtual void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             app.UseStaticFiles();
 

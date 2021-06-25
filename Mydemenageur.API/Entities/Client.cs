@@ -21,10 +21,10 @@ namespace Mydemenageur.API.Entities
         public string UserId { get; set; }
 
         /// <summary>
-        /// The user's adress
+        /// The user's Address
         /// </summary>
         /// <example>36 Rue des Coquelicots</example>
-        public string Adress { get; set; }
+        public string Address { get; set; }
 
         /// <summary>
         /// The user's town

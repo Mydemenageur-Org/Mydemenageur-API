@@ -18,5 +18,6 @@ namespace Mydemenageur.API.Services.Interfaces
 
         Task UpdateClientAsync(string currentUserId, string id, ClientUpdateModel toUpdate);
         Task UpdateClientFromAdminAsync(string id, ClientUpdateModel toUpdate);
+        Task DeleteClientFromAdminAsync(string id);
     }
 }

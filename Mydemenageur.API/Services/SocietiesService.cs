@@ -12,29 +12,33 @@ namespace Mydemenageur.API.Services
 {
     public class SocietiesService : ISocietiesService
     {
-        private readonly IMongoCollection<Society> _societiesService;
-        //private readonly IMongoCollection<Mover> _moversService;
+        private readonly IMongoCollection<Society> _societies;
+        private readonly IMongoCollection<User> _users;
 
         public SocietiesService(IMongoSettings mongoSettings)
         {
             var mongoClient = new MongoClient(mongoSettings.ConnectionString);
             var database = mongoClient.GetDatabase(mongoSettings.DatabaseName);
 
-            _societiesService = database.GetCollection<Society>(mongoSettings.SocietiesCollectionName);
+            _societies = database.GetCollection<Society>(mongoSettings.SocietiesCollectionName);
+            _users = database.GetCollection<User>(mongoSettings.UsersCollectionName);
         }
+
         public async Task<Society> GetSocietyAsync(string id)
         {
-            var society = await _societiesService.FindAsync<Society>(society => society.Id == id);
+            var society = await _societies.FindAsync<Society>(society => society.Id == id);
             return await society.FirstOrDefaultAsync();
         }
         public async Task<List<Society>> GetSocietiesAsync()
         {
-            var societies = await _societiesService.FindAsync(societies => true);
+            var societies = await _societies.FindAsync(societies => true);
             return await societies.ToListAsync();
         }
-        public async Task<string> RegisterSocietyAsync(SocietyRegisterModel societyRegisterModel)
+        public async Task<string> RegisterSocietyAsync(SocietyRegisterModel toRegister)
         {
-            string id = await RegisterToDatabase(societyRegisterModel);
+            if (!UserExist(toRegister.ManagerId)) throw new Exception("The user doesn't exist");
+
+            string id = await RegisterToDatabase(toRegister);
             return id;
         }
 
@@ -49,13 +53,13 @@ namespace Mydemenageur.API.Services
                 .Set(dbSociety => dbSociety.SocietyName, societyUpdateModel.SocietyName)
                 .Set(dbSociety => dbSociety.ManagerId, societyUpdateModel.ManagerId)
                 .Set(dbSociety => dbSociety.EmployeeNumber, societyUpdateModel.EmployeeNumber)
-                .Set(dbSociety => dbSociety.Adress, societyUpdateModel.Adress)
+                .Set(dbSociety => dbSociety.Address, societyUpdateModel.Address)
                 .Set(dbSociety => dbSociety.Town, societyUpdateModel.Town)
                 .Set(dbSociety => dbSociety.Zipcode, societyUpdateModel.Zipcode)
                 .Set(dbSociety => dbSociety.Country, societyUpdateModel.Country)
                 .Set(dbSociety => dbSociety.Region, societyUpdateModel.Region);
 
-            await _societiesService.UpdateOneAsync(dbSociety =>
+            await _societies.UpdateOneAsync(dbSociety =>
                 dbSociety.Id == id,
                 update
             );
@@ -69,7 +73,7 @@ namespace Mydemenageur.API.Services
 
                 if (society == null) throw new Exception("The user doesn't exist");
 
-                await _societiesService.DeleteOneAsync<Society>(society => society.Id == id);
+                await _societies.DeleteOneAsync<Society>(society => society.Id == id);
 
             }
         }
@@ -81,16 +85,23 @@ namespace Mydemenageur.API.Services
                 SocietyName = toRegister.SocietyName,
                 ManagerId = toRegister.ManagerId,
                 EmployeeNumber = toRegister.EmployeeNumber,
-                Adress = toRegister.Adress,
+                Address = toRegister.Address,
                 Town = toRegister.Town,
                 Zipcode = toRegister.Zipcode,
                 Country = toRegister.Country,
                 Region = toRegister.Region
             };
 
-            await _societiesService.InsertOneAsync(dbSociety);
+            await _societies.InsertOneAsync(dbSociety);
 
             return dbSociety.Id;
+        }
+
+        private bool UserExist(string userId)
+        {
+            return _users.AsQueryable<User>().Any(dbUser =>
+                dbUser.Id == userId
+            );
         }
     }
 }

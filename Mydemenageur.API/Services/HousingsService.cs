@@ -36,9 +36,11 @@ namespace Mydemenageur.API.Services
             return await housings.FirstOrDefaultAsync();
         }
 
-        public async Task<string> RegisterHousingAsync(HousingRegisterModel housingRegisterModel)
+        public async Task<string> RegisterHousingAsync(HousingRegisterModel toRegister)
         {
-            string id = await RegisterToDatabase(housingRegisterModel);
+            if (!MoveRequestExist(toRegister.MoveRequestId)) throw new Exception("The moveRequest doesn't exist");
+
+            string id = await RegisterToDatabase(toRegister);
             return id;
         }
 
@@ -47,14 +49,14 @@ namespace Mydemenageur.API.Services
             var housing = await GetHousingAsync(id);
 
             if (housing == null) throw new Exception("The housing doesn't exist");
-            if (housing.UserId == currentUserId) throw new UnauthorizedAccessException("Your are not allowed to update this housing");
+            if (housing.UserId != currentUserId) throw new UnauthorizedAccessException("Your are not allowed to update this housing");
 
             var update = Builders<Housing>.Update
                 .Set(dbHousing => dbHousing.HousingType, housingUpdateModel.HousingType)
                 .Set(dbHousing => dbHousing.HousingFloor, housingUpdateModel.HousingFloor)
                 .Set(dbHousing => dbHousing.IsElevator, housingUpdateModel.IsElevator)
                 .Set(dbHousing => dbHousing.Surface, housingUpdateModel.Surface)
-                .Set(dbHousing => dbHousing.Adress, housingUpdateModel.Adress)
+                .Set(dbHousing => dbHousing.Address, housingUpdateModel.Address)
                 .Set(dbHousing => dbHousing.Town, housingUpdateModel.Town)
                 .Set(dbHousing => dbHousing.Zipcode, housingUpdateModel.Zipcode)
                 .Set(dbHousing => dbHousing.Region, housingUpdateModel.Region)
@@ -88,7 +90,7 @@ namespace Mydemenageur.API.Services
                 HousingFloor = toRegister.HousingFloor,
                 IsElevator = toRegister.IsElevator,
                 Surface = toRegister.Surface,
-                Adress = toRegister.Adress,
+                Address = toRegister.Address,
                 Town = toRegister.Town,
                 Zipcode = toRegister.Zipcode,
                 Region = toRegister.Region,
@@ -109,6 +111,13 @@ namespace Mydemenageur.API.Services
             );
 
             return await moveRequest.FirstOrDefaultAsync();
+        }
+
+        private bool MoveRequestExist(string moveRequestId)
+        {
+            return _moveRequests.AsQueryable<MoveRequest>().Any(dbMoveRequest =>
+                dbMoveRequest.Id == moveRequestId
+            );
         }
     }
 }

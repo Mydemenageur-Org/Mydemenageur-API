@@ -1,16 +1,23 @@
-﻿using System;
+﻿using MongoDB.Bson;
+using MongoDB.Bson.Serialization.Attributes;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace Mydemenageur.API.Models.Vehicule
 {
-    public class VehiculesRegisterModel
+    public class VehiclesRegisterModel
     {
+        [BsonRepresentation(BsonType.ObjectId)]
+        /// <summary>
+        /// The society of this vehicle
+        /// </summary>
+        public string SocietyId { get; set; }
         /// <summary>
         /// Number of vehicule in society
         /// </summary>
-        public int VehiculesNumber { get; set; }
+        public int VehiclesNumber { get; set; }
         /// <summary>
         /// If the society have tarpaulin vehicule
         /// </summary>
@@ -18,7 +25,7 @@ namespace Mydemenageur.API.Models.Vehicule
         /// <summary>
         /// PTAC of tarpaulin ptac
         /// </summary>
-        public float PTAC_TarpaulinVehicule { get; set; }
+        public double PTAC_TarpaulinVehicule { get; set; }
         /// <summary>
         /// If the society have hard wall vehicule
         /// </summary>
@@ -26,7 +33,7 @@ namespace Mydemenageur.API.Models.Vehicule
         /// <summary>
         /// PTAC of hard wall ptac
         /// </summary>
-        public float PTAC_HardWallVehicule { get; set; }
+        public double PTAC_HardWallVehicule { get; set; }
         /// <summary>
         /// If he can transport horse
         /// </summary>
@@ -38,7 +45,7 @@ namespace Mydemenageur.API.Models.Vehicule
         /// <summary>
         /// Total capacity of all vehicule in the society
         /// </summary>
-        public float TotalCapacity { get; set; }
+        public double TotalCapacity { get; set; }
 
     }
 }

@@ -117,5 +117,33 @@ namespace Mydemenageur.API.Controllers
                 return BadRequest($"Can't update the client: {e.Message}");
             }
         }
+
+        /// <summary>
+        /// Delete a client. Only admin can delete client
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpDelete("{id:length(24)}")]
+        public async Task<IActionResult> DeleteClient(string id)
+        {
+            try
+            {
+                if (User.IsInRole(Roles.Admin))
+                {
+                    await _clientsService.DeleteClientFromAdminAsync(id);
+
+                    return Ok();
+                }
+                else
+                {
+                    return Unauthorized();
+                }
+
+            }
+            catch (Exception e)
+            {
+                return BadRequest($"Can't delete the client: {e.Message}");
+            }
+        }
     }
 }

@@ -59,6 +59,13 @@
             <response code="403">You are not allowed to edit this client</response>
             <response code="200">The client has been updated</response>
         </member>
+        <member name="M:Mydemenageur.API.Controllers.ClientsController.DeleteClient(System.String)">
+            <summary>
+            Delete a client. Only admin can delete client
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
         <member name="M:Mydemenageur.API.Controllers.HousingsController.GetHousing(System.String)">
             <summary>
             To get housing with his id
@@ -158,6 +165,30 @@
             <response code="403">Return an error if you doesn't have authorization</response>
             <returns></returns>
         </member>
+        <member name="M:Mydemenageur.API.Controllers.MoversController.DeleteMover(System.String)">
+            <summary>
+            Delete a mover. Only admin can delete mover
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Mydemenageur.API.Controllers.PastActionsController.GetPastAction(System.String)">
+            <summary>
+            To get a past action 
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+            <response code="200">Return the past action with this id</response>
+        </member>
+        <member name="M:Mydemenageur.API.Controllers.PastActionsController.RegisterNewAction(Mydemenageur.API.Models.PastAction.PastActionRegisterModel)">
+            <summary>
+            To register a new action of user
+            </summary>
+            <param name="toRegister"></param>
+            <returns></returns>
+            <response code="200">Return the id of the new action</response>
+            <response code ="400">They are an error the the request</response>
+        </member>
         <member name="M:Mydemenageur.API.Controllers.SocietiesController.GetSociety(System.String)">
             <summary>
             To get society with his id
@@ -180,6 +211,14 @@
             <param name="societyUpdateModel"></param>
             <returns></returns>
         </member>
+        <member name="M:Mydemenageur.API.Controllers.UsersController.GetAllUser">
+            <summary>
+            Get all user. Only admin can use this
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+            <response code="200">The user's were get</response>
+        </member>
         <member name="M:Mydemenageur.API.Controllers.UsersController.GetUser(System.String)">
             <summary>
             Get a user
@@ -187,6 +226,15 @@
             <param name="id"></param>
             <returns></returns>
             <response code="200">The user was get</response>
+        </member>
+        <member name="M:Mydemenageur.API.Controllers.UsersController.GetPastActionFromUser(System.String)">
+            <summary>
+            To get all action of one user
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+            <response code="200">Return all actions of a user</response>
+            <response code="403">Actual user don't have access to this request</response>
         </member>
         <member name="M:Mydemenageur.API.Controllers.UsersController.UpdateUser(System.String,Mydemenageur.API.Models.Users.UserUpdateModel)">
             <summary>
@@ -199,7 +247,7 @@
             <response code="403">You are not allowed to edit this user</response>
             <response code="200">The user has been updated</response>
         </member>
-        <member name="M:Mydemenageur.API.Controllers.VehiculesController.GetVehicule(System.String)">
+        <member name="M:Mydemenageur.API.Controllers.VehiclesController.GetVehicule(System.String)">
             <summary>
             To get specific vehicule
             </summary>
@@ -207,7 +255,7 @@
             <returns></returns>
             <response code="200">The vehicule was get</response>
         </member>
-        <member name="M:Mydemenageur.API.Controllers.VehiculesController.RegisterVehicule(Mydemenageur.API.Models.Vehicule.VehiculesRegisterModel)">
+        <member name="M:Mydemenageur.API.Controllers.VehiclesController.RegisterVehicule(Mydemenageur.API.Models.Vehicule.VehiclesRegisterModel)">
             <summary>
             To register a new vehicule
             </summary>
@@ -216,7 +264,7 @@
             <response code="200">The vehicule was register</response>
             <response code="400">Bad request</response>
         </member>
-        <member name="M:Mydemenageur.API.Controllers.VehiculesController.UpdateVehicule(System.String,Mydemenageur.API.Models.Vehicule.VehiculesUpdateModel)">
+        <member name="M:Mydemenageur.API.Controllers.VehiclesController.UpdateVehicule(System.String,Mydemenageur.API.Models.Vehicule.VehiclesUpdateModel)">
             <summary>
             To update a vehicule
             </summary>
@@ -233,9 +281,9 @@
             </summary>
             <example>6030deb57116e097987bcae5</example>
         </member>
-        <member name="P:Mydemenageur.API.Entities.Client.Adress">
+        <member name="P:Mydemenageur.API.Entities.Client.Address">
             <summary>
-            The user's adress
+            The user's Address
             </summary>
             <example>36 Rue des Coquelicots</example>
         </member>
@@ -290,9 +338,9 @@
             </summary>
             <example>36</example>
         </member>
-        <member name="P:Mydemenageur.API.Entities.Housing.Adress">
+        <member name="P:Mydemenageur.API.Entities.Housing.Address">
             <summary>
-            The housing adress
+            The housing Address
             </summary>
             <example>36 Rue les coquelicots</example>
         </member>
@@ -396,14 +444,45 @@
             All other information for the move request
             </summary>
         </member>
+        <member name="P:Mydemenageur.API.Entities.PastAction.ActionIcon">
+            <summary>
+            The icon of the action 
+            </summary>
+        </member>
+        <member name="P:Mydemenageur.API.Entities.PastAction.Title">
+            <summary>
+            The title of action
+            </summary>
+        </member>
+        <member name="P:Mydemenageur.API.Entities.PastAction.Description">
+            <summary>
+            The description of the action
+            </summary>
+        </member>
+        <member name="P:Mydemenageur.API.Entities.PastAction.Date">
+            <summary>
+            The date of this action
+            </summary>
+        </member>
+        <member name="P:Mydemenageur.API.Entities.PastAction.UserId">
+            <summary>
+            The user's id 
+            </summary>
+        </member>
         <member name="P:Mydemenageur.API.Entities.Society.SocietyName">
             <summary>
             The society name
             </summary>
         </member>
-        <member name="P:Mydemenageur.API.Entities.Society.Adress">
+        <member name="P:Mydemenageur.API.Entities.Society.EmployeeNumber">
             <summary>
-            The user's adress
+            The employee number
+            </summary>
+            <example>36</example>
+        </member>
+        <member name="P:Mydemenageur.API.Entities.Society.Address">
+            <summary>
+            The user's Address
             </summary>
             <example>36 Rue des Coquelicots</example>
         </member>
@@ -448,6 +527,11 @@
             </summary>
             <example>DENIS</example>
         </member>
+        <member name="P:Mydemenageur.API.Entities.User.Gender">
+            <summary>
+            The user's gender
+            </summary>
+        </member>
         <member name="P:Mydemenageur.API.Entities.User.Email">
             <summary>
             The user's email
@@ -460,10 +544,20 @@
             </summary>
             <example>+33652809335</example>
         </member>
-        <member name="P:Mydemenageur.API.Entities.User.SignupDate">
+        <member name="P:Mydemenageur.API.Entities.User.Birthday">
             <summary>
             The user's birthday
             </summary>     
+        </member>
+        <member name="P:Mydemenageur.API.Entities.User.SignupDate">
+            <summary>
+            The user's signup date
+            </summary>     
+        </member>
+        <member name="P:Mydemenageur.API.Entities.User.LastConnection">
+            <summary>
+            The last connection of the mover
+            </summary>
         </member>
         <member name="P:Mydemenageur.API.Entities.User.Username">
             <summary>
@@ -487,44 +581,44 @@
              The user's connection token
             </summary>
         </member>
-        <member name="P:Mydemenageur.API.Entities.Vehicules.VehiculesNumber">
+        <member name="P:Mydemenageur.API.Entities.Vehicles.VehiclesNumber">
             <summary>
-            Number of vehicule in society
+            Number of vehicle in society
             </summary>
         </member>
-        <member name="P:Mydemenageur.API.Entities.Vehicules.HasTarpaulinVehicule">
+        <member name="P:Mydemenageur.API.Entities.Vehicles.HasTarpaulinVehicle">
             <summary>
-            If the society have tarpaulin vehicule
+            If the society have tarpaulin vehicle
             </summary>
         </member>
-        <member name="P:Mydemenageur.API.Entities.Vehicules.PTAC_TarpaulinVehicule">
+        <member name="P:Mydemenageur.API.Entities.Vehicles.PTAC_TarpaulinVehicle">
             <summary>
             PTAC of tarpaulin ptac
             </summary>
         </member>
-        <member name="P:Mydemenageur.API.Entities.Vehicules.HasHardWallVehicule">
+        <member name="P:Mydemenageur.API.Entities.Vehicles.HasHardWallVehicle">
             <summary>
-            If the society have hard wall vehicule
+            If the society have hard wall vehicle
             </summary>
         </member>
-        <member name="P:Mydemenageur.API.Entities.Vehicules.PTAC_HardWallVehicule">
+        <member name="P:Mydemenageur.API.Entities.Vehicles.PTAC_HardWallVehicle">
             <summary>
             PTAC of hard wall ptac
             </summary>
         </member>
-        <member name="P:Mydemenageur.API.Entities.Vehicules.CanTransportHorse">
+        <member name="P:Mydemenageur.API.Entities.Vehicles.CanTransportHorse">
             <summary>
             If he can transport horse
             </summary>
         </member>
-        <member name="P:Mydemenageur.API.Entities.Vehicules.CanTransportVehicule">
+        <member name="P:Mydemenageur.API.Entities.Vehicles.CanTransportVehicle">
             <summary>
-            If he can transport vehicule
+            If he can transport vehicle
             </summary>
         </member>
-        <member name="P:Mydemenageur.API.Entities.Vehicules.TotalCapacity">
+        <member name="P:Mydemenageur.API.Entities.Vehicles.TotalCapacity">
             <summary>
-            Total capacity of all vehicule in the society
+            Total capacity of all vehicle in the society
             </summary>
         </member>
         <member name="P:Mydemenageur.API.Models.Clients.ClientRegisterModel.UserId">
@@ -543,6 +637,31 @@
             All other information for the move request
             </summary>
         </member>
+        <member name="P:Mydemenageur.API.Models.PastAction.PastActionRegisterModel.ActionIcon">
+            <summary>
+            The icon of the action 
+            </summary>
+        </member>
+        <member name="P:Mydemenageur.API.Models.PastAction.PastActionRegisterModel.Title">
+            <summary>
+            The title of action
+            </summary>
+        </member>
+        <member name="P:Mydemenageur.API.Models.PastAction.PastActionRegisterModel.Description">
+            <summary>
+            The description of the action
+            </summary>
+        </member>
+        <member name="P:Mydemenageur.API.Models.PastAction.PastActionRegisterModel.Date">
+            <summary>
+            The date of this action
+            </summary>
+        </member>
+        <member name="P:Mydemenageur.API.Models.PastAction.PastActionRegisterModel.UserId">
+            <summary>
+            The user's id 
+            </summary>
+        </member>
         <member name="P:Mydemenageur.API.Models.Society.SocietyRegisterModel.SocietyName">
             <summary>
             The society name
@@ -554,9 +673,9 @@
             </summary>
             <example>36</example>
         </member>
-        <member name="P:Mydemenageur.API.Models.Society.SocietyRegisterModel.Adress">
+        <member name="P:Mydemenageur.API.Models.Society.SocietyRegisterModel.Address">
             <summary>
-            The user's adress
+            The user's Address
             </summary>
             <example>36 Rue des Coquelicots</example>
         </member>
@@ -637,12 +756,6 @@
             </summary>
             <example>Hello it's me</example>
         </member>
-        <member name="P:Mydemenageur.API.Models.Users.RegisterModel.Password">
-            <summary>
-            The user's password
-            </summary>
-            <example>My very secure password</example>
-        </member>
         <member name="P:Mydemenageur.API.Models.Users.UserUpdateModel.ProfilePicture">
             <summary>
             The user's profile picture id 
@@ -665,6 +778,7 @@
             The user's email
             </summary>
             <example>admin@feldrise.com</example>
+            
         </member>
         <member name="P:Mydemenageur.API.Models.Users.UserUpdateModel.Phone">
             <summary>
@@ -689,42 +803,42 @@
             </summary>
             <example>MySecurePassword</example>
         </member>
-        <member name="P:Mydemenageur.API.Models.Vehicule.VehiculesRegisterModel.VehiculesNumber">
+        <member name="P:Mydemenageur.API.Models.Vehicule.VehiclesRegisterModel.VehiclesNumber">
             <summary>
             Number of vehicule in society
             </summary>
         </member>
-        <member name="P:Mydemenageur.API.Models.Vehicule.VehiculesRegisterModel.HasTarpaulinVehicule">
+        <member name="P:Mydemenageur.API.Models.Vehicule.VehiclesRegisterModel.HasTarpaulinVehicule">
             <summary>
             If the society have tarpaulin vehicule
             </summary>
         </member>
-        <member name="P:Mydemenageur.API.Models.Vehicule.VehiculesRegisterModel.PTAC_TarpaulinVehicule">
+        <member name="P:Mydemenageur.API.Models.Vehicule.VehiclesRegisterModel.PTAC_TarpaulinVehicule">
             <summary>
             PTAC of tarpaulin ptac
             </summary>
         </member>
-        <member name="P:Mydemenageur.API.Models.Vehicule.VehiculesRegisterModel.HasHardWallVehicule">
+        <member name="P:Mydemenageur.API.Models.Vehicule.VehiclesRegisterModel.HasHardWallVehicule">
             <summary>
             If the society have hard wall vehicule
             </summary>
         </member>
-        <member name="P:Mydemenageur.API.Models.Vehicule.VehiculesRegisterModel.PTAC_HardWallVehicule">
+        <member name="P:Mydemenageur.API.Models.Vehicule.VehiclesRegisterModel.PTAC_HardWallVehicule">
             <summary>
             PTAC of hard wall ptac
             </summary>
         </member>
-        <member name="P:Mydemenageur.API.Models.Vehicule.VehiculesRegisterModel.CanTransportHorse">
+        <member name="P:Mydemenageur.API.Models.Vehicule.VehiclesRegisterModel.CanTransportHorse">
             <summary>
             If he can transport horse
             </summary>
         </member>
-        <member name="P:Mydemenageur.API.Models.Vehicule.VehiculesRegisterModel.CanTransportVehicule">
+        <member name="P:Mydemenageur.API.Models.Vehicule.VehiclesRegisterModel.CanTransportVehicule">
             <summary>
             If he can transport vehicule
             </summary>
         </member>
-        <member name="P:Mydemenageur.API.Models.Vehicule.VehiculesRegisterModel.TotalCapacity">
+        <member name="P:Mydemenageur.API.Models.Vehicule.VehiclesRegisterModel.TotalCapacity">
             <summary>
             Total capacity of all vehicule in the society
             </summary>

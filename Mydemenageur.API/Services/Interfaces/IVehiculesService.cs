@@ -7,12 +7,12 @@ using System.Threading.Tasks;
 
 namespace Mydemenageur.API.Services.Interfaces
 {
-    public interface IVehiculesService
+    public interface IVehiclesService
     {
-        Task<List<Vehicules>> GetVehiculesAsync();
-        Task<Vehicules> GetVehiculeAsync(string id);
-        Task<string> AddVehiculeAsync(VehiculesRegisterModel toRegister);
-        Task UpdateVehiculeAsync(string currentUserId, string id, VehiculesUpdateModel toUpdate);
+        Task<List<Vehicles>> GetVehiclesAsync();
+        Task<Vehicles> GetVehiculeAsync(string id);
+        Task<string> AddVehiculeAsync(VehiclesRegisterModel toRegister);
+        Task UpdateVehiculeAsync(string currentUserId, string id, VehiclesUpdateModel toUpdate);
         Task DeleteVehicule(string id, string userId);
 
     }

@@ -10,5 +10,6 @@ namespace Mydemenageur.API.Entities
         public const string Admin = "Admin";
         public const string Client = "Client";
         public const string Mover = "Mover";
+        public const string Society = "Society";
     }
 }

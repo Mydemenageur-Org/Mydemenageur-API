@@ -72,7 +72,7 @@ namespace Mydemenageur.API.Services.Interfaces
         public async Task UpdateClientFromAdminAsync(string id, ClientUpdateModel toUpdate)
         {
             var update = Builders<Client>.Update
-                .Set(dbClient => dbClient.Adress, toUpdate.Adress)
+                .Set(dbClient => dbClient.Address, toUpdate.Address)
                 .Set(dbClient => dbClient.Town, toUpdate.Town)
                 .Set(dbClient => dbClient.Zipcode, toUpdate.Zipcode)
                 .Set(dbClient => dbClient.Country, toUpdate.Country);
@@ -81,6 +81,23 @@ namespace Mydemenageur.API.Services.Interfaces
                 dbClient.Id == id,
                 update
             );
+        }
+
+        public async Task DeleteClientFromAdminAsync(string id)
+        {
+            if (id != null)
+            {
+                if (!ClientExist(id)) throw new Exception("The client doesn't exist");
+
+                User user = await GetUserAsync(id);
+
+                if (!UserExist(user.Id)) throw new Exception("The user doesn't exist");
+
+
+                await _clients.DeleteOneAsync<Client>(client => client.Id == id);
+                await _users.DeleteOneAsync<User>(user => user.Id == user.Id);
+
+            }
         }
 
         private async Task<Client> GetClientFromIdAsync(string id)

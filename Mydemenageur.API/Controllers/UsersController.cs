@@ -24,6 +24,27 @@ namespace Mydemenageur.API.Controllers
         }
 
         /// <summary>
+        /// Get all user. Only admin can use this
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        /// <response code="200">The user's were get</response>
+        [HttpGet]
+        public async Task<ActionResult<List<User>>> GetAllUser()
+        {
+            if (User.IsInRole(Roles.Admin))
+            {
+                var pastActions = await _usersService.GetUsersAsync();
+
+                return Ok(pastActions);
+            }
+            else
+            {
+                return Forbid();
+            }
+        }
+
+        /// <summary>
         /// Get a user
         /// </summary>
         /// <param name="id"></param>
@@ -33,6 +54,29 @@ namespace Mydemenageur.API.Controllers
         public async Task<ActionResult<User>> GetUser(string id)
         {
             return await _usersService.GetUserAsync(id);
+        }
+
+        /// <summary>
+        /// To get all action of one user
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        /// <response code="200">Return all actions of a user</response>
+        /// <response code="403">Actual user don't have access to this request</response>
+        [HttpGet("{id:length(24)}/pastActions")]
+        public async Task<ActionResult<List<PastAction>>> GetPastActionFromUser(string id)
+        {
+
+            if (User.IsInRole(Roles.Admin))
+            {
+                var pastActions = await _usersService.GetPastActionListFromUserAsync(id);
+
+                return Ok(pastActions);
+            }
+            else
+            {
+                return Forbid();
+            }
         }
 
         /// <summary>
@@ -65,5 +109,6 @@ namespace Mydemenageur.API.Controllers
                 return BadRequest($"Can't update the user: {e.Message}");
             }
         }
+
     }
 }

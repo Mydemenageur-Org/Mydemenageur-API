@@ -26,7 +26,7 @@ namespace Mydemenageur.API.Services
         }
         public async Task<List<Mover>> GetMoversAsync()
         {
-            var movers = await _movers.FindAsync(vehicules => true);
+            var movers = await _movers.FindAsync(Vehicles => true);
             return await movers.ToListAsync();
         }
         public Task<Mover> GetMoverAsync(string id)
@@ -75,17 +75,20 @@ namespace Mydemenageur.API.Services
 
         }
 
-        public async Task DeleteMover(string id, string userId)
+        public async Task DeleteMoverFromAdminAsync(string id)
         {
-            if (id != null && userId != null) {
-
-                if (!UserExist(userId)) throw new Exception("The user doesn't exist");
+            if (id != null)
+            {
                 if (!MoverExist(id)) throw new Exception("The mover doesn't exist");
+
+                User user = await GetUserAsync(id);
+
+                if (!UserExist(user.Id)) throw new Exception("The user doesn't exist");
 
 
                 await _movers.DeleteOneAsync<Mover>(mover => mover.Id == id);
-                await _users.DeleteOneAsync<User>(user => user.Id == userId);
-                
+                await _users.DeleteOneAsync<User>(user => user.Id == user.Id);
+
             }
         }
 

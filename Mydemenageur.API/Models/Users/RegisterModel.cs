@@ -24,6 +24,11 @@ namespace Mydemenageur.API.Models.Users
         /// <example>DENIS</example>
         [Required]
         public string LastName { get; set; }
+        [Required]
+        /// <summary>
+        /// The user's gender
+        /// </summary>
+        public string Gender { get; set; }
         /// <summary>
         /// The user's email
         /// </summary>
@@ -36,6 +41,11 @@ namespace Mydemenageur.API.Models.Users
         /// <example>+33652809335</example>
         [Required]
         public string Phone { get; set; }
+        [Required]
+        /// <summary>
+        /// The user's birthday
+        /// </summary>     
+        public DateTime Birthday { get; set; }
         /// <summary>
         /// The user's username
         /// </summary>
@@ -47,10 +57,17 @@ namespace Mydemenageur.API.Models.Users
         /// </summary>
         /// <example>Hello it's me</example>
         public string About { get; set; }
+        [Required]
         /// <summary>
         /// The user's password
         /// </summary>
         /// <example>My very secure password</example>
         public string Password { get; set; }
+        [Required]
+        /// <summary>
+        /// The role of user 
+        /// </summary>
+        /// <example>Client</example>
+        public string Role { get; set; }
     }
 }

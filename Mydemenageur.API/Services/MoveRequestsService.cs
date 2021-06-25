@@ -14,6 +14,7 @@ namespace Mydemenageur.API.Services
     {
         private readonly IMongoCollection<MoveRequest> _moveRequests;
         private readonly IMongoCollection<Housing> _housings;
+        private readonly IMongoCollection<User> _users;
 
         public MoveRequestsService(IMongoSettings mongoSettings)
         {
@@ -22,6 +23,7 @@ namespace Mydemenageur.API.Services
 
             _moveRequests = database.GetCollection<MoveRequest>(mongoSettings.MoveRequestsCollectionName);
             _housings = database.GetCollection<Housing>(mongoSettings.HousingsCollectionName);
+            _users = database.GetCollection<User>(mongoSettings.UsersCollectionName);
         }
         public async Task<List<MoveRequest>> GetMoveRequestAsync()
         {
@@ -41,9 +43,11 @@ namespace Mydemenageur.API.Services
             return await housings.ToListAsync();
         }
 
-        public async Task<string> RegisterMoveRequestAsync(MoveRequestRegisterModel moveRequestRegisterModel)
+        public async Task<string> RegisterMoveRequestAsync(MoveRequestRegisterModel toRegister)
         {
-            string id = await RegisterToDatabase(moveRequestRegisterModel);
+            if (!UserExist(toRegister.UserId)) throw new Exception("The user doesn't exist");
+
+            string id = await RegisterToDatabase(toRegister);
             return id;
         }
 
@@ -53,7 +57,9 @@ namespace Mydemenageur.API.Services
 
             if (moveRequest == null) throw new ArgumentException("The move request doesn't exist", nameof(id));
 
-            if (moveRequest.UserId == currentUserId) throw new UnauthorizedAccessException("Your are not the user of this move request");
+            if (!UserExist(moveRequestUpdateModel.UserId)) throw new Exception("The user doesn't exist");
+
+            if (moveRequest.UserId != currentUserId) throw new UnauthorizedAccessException("Your are not the user of this move request");
 
             var update = Builders<MoveRequest>.Update
                 .Set(dbMoveRequest => dbMoveRequest.UserId, moveRequestUpdateModel.UserId)
@@ -109,6 +115,13 @@ namespace Mydemenageur.API.Services
             await _moveRequests.InsertOneAsync(dbMoveRequest);
 
             return dbMoveRequest.Id;
+        }
+
+        private bool UserExist(string userId)
+        {
+            return _users.AsQueryable<User>().Any(dbUser =>
+                dbUser.Id == userId
+            );
         }
 
     }

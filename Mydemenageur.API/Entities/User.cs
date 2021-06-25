@@ -27,6 +27,11 @@ namespace Mydemenageur.API.Entities
         /// </summary>
         /// <example>DENIS</example>
         public string LastName { get; set; }
+
+        /// <summary>
+        /// The user's gender
+        /// </summary>
+        public string Gender { get; set; }
         /// <summary>
         /// The user's email
         /// </summary>
@@ -40,7 +45,15 @@ namespace Mydemenageur.API.Entities
         /// <summary>
         /// The user's birthday
         /// </summary>     
+        public DateTime Birthday { get; set; }
+        /// <summary>
+        /// The user's signup date
+        /// </summary>     
         public DateTime SignupDate { get; set; }
+        /// <summary>
+        /// The last connection of the mover
+        /// </summary>
+        public DateTime LastConnection { get; set; }
         /// <summary>
         /// The user's username
         /// </summary>

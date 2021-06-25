@@ -10,38 +10,42 @@ using System.Threading.Tasks;
 
 namespace Mydemenageur.API.Services
 {
-    public class VehiculesService : IVehiculesService
+    public class VehiclesService : IVehiclesService
     {
-        private readonly IMongoCollection<Vehicules> _vehicules;
+        private readonly IMongoCollection<Vehicles> _Vehicles;
+        private readonly IMongoCollection<Society> _societies;
 
-        public VehiculesService(IMongoSettings mongoSettings)
+        public VehiclesService(IMongoSettings mongoSettings)
         {
             var mongoClient = new MongoClient(mongoSettings.ConnectionString);
             var database = mongoClient.GetDatabase(mongoSettings.DatabaseName);
 
-            _vehicules = database.GetCollection<Vehicules>(mongoSettings.VehiculesCollectionName);
+            _Vehicles = database.GetCollection<Vehicles>(mongoSettings.VehiclesCollectionName);
+            _societies = database.GetCollection<Society>(mongoSettings.SocietiesCollectionName);
         }
 
-        public async Task<List<Vehicules>> GetVehiculesAsync()
+        public async Task<List<Vehicles>> GetVehiclesAsync()
         {
-            var vehicules = await _vehicules.FindAsync(vehicules => true);
-            return await vehicules.ToListAsync();
+            var Vehicles = await _Vehicles.FindAsync(Vehicles => true);
+            return await Vehicles.ToListAsync();
         }
 
-        public async Task<Vehicules> GetVehiculeAsync(string id)
+        public async Task<Vehicles> GetVehiculeAsync(string id)
         {
-            var vehicule = await _vehicules.FindAsync<Vehicules>(vehicule => vehicule.Id == id);
+            var vehicule = await _Vehicles.FindAsync<Vehicles>(vehicule => vehicule.Id == id);
 
             return await vehicule.FirstOrDefaultAsync();
         }
 
-        public async Task<string> AddVehiculeAsync(VehiculesRegisterModel toRegister)
+        public async Task<string> AddVehiculeAsync(VehiclesRegisterModel toRegister)
         {
+            if (!SocietyExist(toRegister.SocietyId)) throw new Exception("The society doesn't exist");
+
             string id = await RegisterToDatabase(toRegister);
             return id;
         }
 
-        public async Task UpdateVehiculeAsync(string currentUserId, string id, VehiculesUpdateModel toUpdate)
+        public async Task UpdateVehiculeAsync(string currentUserId, string id, VehiclesUpdateModel toUpdate)
         {
             var vehicule = await GetVehiculeAsync(id);
 
@@ -49,17 +53,17 @@ namespace Mydemenageur.API.Services
 
             if (vehicule.SocietyId == id) throw new UnauthorizedAccessException("Your are not the manager of this society");
 
-            var update = Builders<Vehicules>.Update
-                .Set(dbVehicule => dbVehicule.VehiculesNumber, toUpdate.VehiculesNumber)
-                .Set(dbVehicule => dbVehicule.HasTarpaulinVehicule, toUpdate.HasTarpaulinVehicule)
-                .Set(dbVehicule => dbVehicule.PTAC_TarpaulinVehicule, toUpdate.PTAC_TarpaulinVehicule)
-                .Set(dbVehicule => dbVehicule.HasHardWallVehicule, toUpdate.HasHardWallVehicule)
-                .Set(dbVehicule => dbVehicule.PTAC_HardWallVehicule, toUpdate.PTAC_HardWallVehicule)
+            var update = Builders<Vehicles>.Update
+                .Set(dbVehicule => dbVehicule.VehiclesNumber, toUpdate.VehiclesNumber)
+                .Set(dbVehicule => dbVehicule.HasTarpaulinVehicle, toUpdate.HasTarpaulinVehicule)
+                .Set(dbVehicule => dbVehicule.PTAC_TarpaulinVehicle, toUpdate.PTAC_TarpaulinVehicule)
+                .Set(dbVehicule => dbVehicule.HasHardWallVehicle, toUpdate.HasHardWallVehicule)
+                .Set(dbVehicule => dbVehicule.PTAC_HardWallVehicle, toUpdate.PTAC_HardWallVehicule)
                 .Set(dbVehicule => dbVehicule.CanTransportHorse, toUpdate.CanTransportHorse)
-                .Set(dbVehicule => dbVehicule.CanTransportVehicule, toUpdate.CanTransportVehicule)
+                .Set(dbVehicule => dbVehicule.CanTransportVehicle, toUpdate.CanTransportVehicule)
                 .Set(dbVehicule => dbVehicule.TotalCapacity, toUpdate.TotalCapacity);
 
-            await _vehicules.UpdateOneAsync(dbVehicule =>
+            await _Vehicles.UpdateOneAsync(dbVehicule =>
                 dbVehicule.Id == id,
                 update
             );
@@ -73,26 +77,34 @@ namespace Mydemenageur.API.Services
 
             if (vehicule.SocietyId == id) throw new UnauthorizedAccessException("Your are not the manager of this society");
 
-            await _vehicules.DeleteOneAsync<Vehicules>(vehicule => vehicule.Id == id);
+            await _Vehicles.DeleteOneAsync<Vehicles>(vehicule => vehicule.Id == id);
         }
 
-        private async Task<string> RegisterToDatabase(VehiculesRegisterModel toRegister)
+        private async Task<string> RegisterToDatabase(VehiclesRegisterModel toRegister)
         {
-            Vehicules dbVehicule = new()
+            Vehicles dbVehicule = new()
             {
-                VehiculesNumber = toRegister.VehiculesNumber,
-                HasTarpaulinVehicule = toRegister.HasTarpaulinVehicule,
-                PTAC_TarpaulinVehicule = toRegister.PTAC_TarpaulinVehicule,
-                HasHardWallVehicule = toRegister.HasHardWallVehicule,
-                PTAC_HardWallVehicule = toRegister.PTAC_HardWallVehicule,
+                SocietyId = toRegister.SocietyId,
+                VehiclesNumber = toRegister.VehiclesNumber,
+                HasTarpaulinVehicle = toRegister.HasTarpaulinVehicule,
+                PTAC_TarpaulinVehicle = toRegister.PTAC_TarpaulinVehicule,
+                HasHardWallVehicle = toRegister.HasHardWallVehicule,
+                PTAC_HardWallVehicle = toRegister.PTAC_HardWallVehicule,
                 CanTransportHorse = toRegister.CanTransportHorse,
-                CanTransportVehicule = toRegister.CanTransportVehicule,
+                CanTransportVehicle = toRegister.CanTransportVehicule,
                 TotalCapacity = toRegister.TotalCapacity
             };
 
-            await _vehicules.InsertOneAsync(dbVehicule);
+            await _Vehicles.InsertOneAsync(dbVehicule);
 
             return dbVehicule.Id;
+        }
+
+        private bool SocietyExist(string societyId)
+        {
+            return _societies.AsQueryable<Society>().Any(dbVehicles =>
+                dbVehicles.Id == societyId
+            );
         }
 
     }
