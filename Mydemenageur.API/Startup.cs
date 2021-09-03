@@ -25,6 +25,8 @@ namespace Mydemenageur.API
 {
     public class Startup
     {
+        readonly string MyAllowSpecificOrigins = "_developerPolicy";
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -76,9 +78,10 @@ namespace Mydemenageur.API
 
             services.AddCors(options =>
             {
-                options.AddPolicy("developerPolicy", builder =>
+                options.AddPolicy(MyAllowSpecificOrigins, builder =>
                 {
                     builder
+                        .WithOrigins("http://localhost:3000/")
                         .AllowAnyHeader()
                         .AllowAnyMethod()
                         .SetIsOriginAllowed((host) => true)
@@ -116,7 +119,7 @@ namespace Mydemenageur.API
             });
 
 
-            app.UseCors("developerPolicy");
+            app.UseCors(MyAllowSpecificOrigins);
 
             app.UseHttpsRedirection();
 

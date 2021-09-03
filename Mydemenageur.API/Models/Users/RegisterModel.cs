@@ -16,15 +16,12 @@ namespace Mydemenageur.API.Models.Users
         /// The user's first name
         /// </summary>
         /// <example>Victor</example>
-        [Required]
         public string FirstName { get; set; }
         /// <summary>
         /// The user's last name
         /// </summary>
         /// <example>DENIS</example>
-        [Required]
         public string LastName { get; set; }
-        [Required]
         /// <summary>
         /// The user's gender
         /// </summary>
@@ -39,9 +36,7 @@ namespace Mydemenageur.API.Models.Users
         /// The user's phone
         /// </summary>
         /// <example>+33652809335</example>
-        [Required]
         public string Phone { get; set; }
-        [Required]
         /// <summary>
         /// The user's birthday
         /// </summary>     

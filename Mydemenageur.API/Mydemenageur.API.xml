@@ -732,6 +732,11 @@
             </summary>
             <example>DENIS</example>
         </member>
+        <member name="P:Mydemenageur.API.Models.Users.RegisterModel.Gender">
+            <summary>
+            The user's gender
+            </summary>
+        </member>
         <member name="P:Mydemenageur.API.Models.Users.RegisterModel.Email">
             <summary>
             The user's email
@@ -743,6 +748,11 @@
             The user's phone
             </summary>
             <example>+33652809335</example>
+        </member>
+        <member name="P:Mydemenageur.API.Models.Users.RegisterModel.Birthday">
+            <summary>
+            The user's birthday
+            </summary>     
         </member>
         <member name="P:Mydemenageur.API.Models.Users.RegisterModel.Username">
             <summary>
