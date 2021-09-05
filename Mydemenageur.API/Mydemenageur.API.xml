@@ -662,6 +662,16 @@
             The user's id 
             </summary>
         </member>
+        <member name="P:Mydemenageur.API.Models.Reviews.ReviewModel.Id">
+            <summary>
+            Review id
+            </summary>
+        </member>
+        <member name="P:Mydemenageur.API.Models.Reviews.ReviewModel.ProfilePicture">
+            <summary>
+            It corresonds to the author of the review
+            </summary>
+        </member>
         <member name="P:Mydemenageur.API.Models.Society.SocietyRegisterModel.SocietyName">
             <summary>
             The society name
@@ -703,7 +713,7 @@
             </summary>
             <example>Provence-Alpes-Côte d'Azur</example>
         </member>
-        <member name="P:Mydemenageur.API.Models.Users.LoginModel.Username">
+        <member name="P:Mydemenageur.API.Models.Users.LoginModel.Email">
             <summary>
             The user's username or the user's
             email

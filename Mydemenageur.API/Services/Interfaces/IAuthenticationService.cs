@@ -10,6 +10,6 @@ namespace Mydemenageur.API.Services.Interfaces
     public interface IAuthenticationService
     {
         Task<User> LoginAsync(string username, string password);
-        Task<string> RegisterAsync(RegisterModel registerModel);
+        Task<User> RegisterAsync(RegisterModel registerModel);
     }
 }

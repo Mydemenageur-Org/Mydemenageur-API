@@ -1,12 +1,9 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
@@ -14,12 +11,10 @@ using Mydemenageur.API.Services;
 using Mydemenageur.API.Services.Interfaces;
 using Mydemenageur.API.Settings;
 using Mydemenageur.API.Settings.Interfaces;
-using System;
-using System.Collections.Generic;
+using Mydemenageur.API.DP.DataProvider;
+using Mydemenageur.API.DP.Interface;
 using System.IO;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace Mydemenageur.API
 {
@@ -75,6 +70,8 @@ namespace Mydemenageur.API
             services.AddScoped<IUsersService, UsersService>();
             services.AddScoped<IVehiclesService, VehiclesService>();
             services.AddScoped<IPastActionsService, PastActionsService>();
+
+            services.AddScoped<IDPUser, DPUser>();
 
             services.AddCors(options =>
             {

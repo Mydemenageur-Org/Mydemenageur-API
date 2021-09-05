@@ -14,7 +14,7 @@ namespace Mydemenageur.API.Models.Users
         /// </summary>
         /// <example>admin@feldrise.com</example>
         [Required]
-        public string Username { get; set; }
+        public string Email { get; set; }
 
         /// <summary>
         /// The user's password
