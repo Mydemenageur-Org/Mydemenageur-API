@@ -469,6 +469,35 @@
             The user's id 
             </summary>
         </member>
+        <member name="P:Mydemenageur.API.Entities.Review.UserId">
+            <summary>
+            The id of the user associated with the review
+            </summary>
+            <example>6030deb57116e097987bcae5</example>
+        </member>
+        <member name="P:Mydemenageur.API.Entities.Review.Title">
+            <summary>
+            The title review
+            </summary>
+            <example>Je recommande ce site !</example>
+        </member>
+        <member name="P:Mydemenageur.API.Entities.Review.CreatedAt">
+            <summary>
+            The date when it has been created
+            </summary>
+        </member>
+        <member name="P:Mydemenageur.API.Entities.Review.Description">
+            <summary>
+            The description of the review
+            </summary>
+            <example> Tout seul pour déménager c'était compliqué. Mais grâce aux gros bras, en 2h c'était plié</example>
+        </member>
+        <member name="P:Mydemenageur.API.Entities.Review.Grade">
+            <summary>
+            The grade of the review
+            </summary>
+            <example> 5 </example>
+        </member>
         <member name="P:Mydemenageur.API.Entities.Society.SocietyName">
             <summary>
             The society name
@@ -662,15 +691,40 @@
             The user's id 
             </summary>
         </member>
-        <member name="P:Mydemenageur.API.Models.Reviews.ReviewModel.Id">
+        <member name="P:Mydemenageur.API.Models.Reviews.ReviewModel.Title">
             <summary>
-            Review id
+            The title review
+            </summary>
+            <example>Je recommande ce site !</example>
+        </member>
+        <member name="P:Mydemenageur.API.Models.Reviews.ReviewModel.CreatedAt">
+            <summary>
+            The date when it has been created
             </summary>
         </member>
-        <member name="P:Mydemenageur.API.Models.Reviews.ReviewModel.ProfilePicture">
+        <member name="P:Mydemenageur.API.Models.Reviews.ReviewModel.Description">
             <summary>
-            It corresonds to the author of the review
+            The description of the review
             </summary>
+            <example> Tout seul pour déménager c'était compliqué. Mais grâce aux gros bras, en 2h c'était plié</example>
+        </member>
+        <member name="P:Mydemenageur.API.Models.Reviews.ReviewModel.Grade">
+            <summary>
+            The grade of the review
+            </summary>
+            <example> 5 </example>
+        </member>
+        <member name="P:Mydemenageur.API.Models.Reviews.ReviewModel.FirstName">
+            <summary>
+            The firstname of the author
+            </summary>
+            <example> Léo </example>
+        </member>
+        <member name="P:Mydemenageur.API.Models.Reviews.ReviewModel.LastName">
+            <summary>
+            The lastname of the author
+            </summary>
+            <example> Delpon </example>
         </member>
         <member name="P:Mydemenageur.API.Models.Society.SocietyRegisterModel.SocietyName">
             <summary>

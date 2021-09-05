@@ -7,12 +7,11 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
-using Mydemenageur.API.Services;
-using Mydemenageur.API.Services.Interfaces;
+using Mydemenageur.API;
 using Mydemenageur.API.Settings;
 using Mydemenageur.API.Settings.Interfaces;
-using Mydemenageur.API.DP.DataProvider;
-using Mydemenageur.API.DP.Interface;
+using Mydemenageur.API.Services;
+using Mydemenageur.API.Services.Interfaces;
 using System.IO;
 using System.Text;
 
@@ -34,7 +33,7 @@ namespace Mydemenageur.API
         {
             services.Configure<MongoSettings>(Configuration.GetSection(nameof(MongoSettings)));
             services.Configure<MydemenageurSettings>(Configuration.GetSection(nameof(MydemenageurSettings)));
-
+            services.InitLocator(Configuration);
             services.AddSingleton<IMongoSettings>(Span => Span.GetRequiredService<IOptions<MongoSettings>>().Value);
             services.AddSingleton<IMydemenageurSettings>(Span => Span.GetRequiredService<IOptions<MydemenageurSettings>>().Value);
 
@@ -60,18 +59,6 @@ namespace Mydemenageur.API
                 };
             });
 
-            services.AddScoped<IAuthenticationService, AuthenticationService>();
-            services.AddScoped<IClientsService, ClientsService>();
-            services.AddScoped<IFilesService, FilesService>();
-            services.AddScoped<IHousingsService, HousingsService>();
-            services.AddScoped<IMoveRequestsService, MoveRequestsService>();
-            services.AddScoped<IMoversService, MoversService>();
-            services.AddScoped<ISocietiesService, SocietiesService>();
-            services.AddScoped<IUsersService, UsersService>();
-            services.AddScoped<IVehiclesService, VehiclesService>();
-            services.AddScoped<IPastActionsService, PastActionsService>();
-
-            services.AddScoped<IDPUser, DPUser>();
 
             services.AddCors(options =>
             {

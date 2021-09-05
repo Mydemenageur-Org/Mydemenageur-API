@@ -2,13 +2,20 @@
 using MongoDB.Bson.Serialization.Attributes;
 using System;
 
-namespace Mydemenageur.API.Models.Reviews
+namespace Mydemenageur.API.Entities
 {
-    public class ReviewModel
+    public class Review
     {
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]
         public string Id { get; set; }
+
+        /// <summary>
+        /// The id of the user associated with the review
+        /// </summary>
+        /// <example>6030deb57116e097987bcae5</example>
+        [BsonRepresentation(BsonType.ObjectId)]
+        public string UserId { get; set; }
 
         /// <summary>
         /// The title review
@@ -33,16 +40,5 @@ namespace Mydemenageur.API.Models.Reviews
         /// <example> 5 </example>
         public int Grade { get; set; }
 
-        /// <summary>
-        /// The firstname of the author
-        /// </summary>
-        /// <example> Léo </example>
-        public string FirstName { get; set; }
-
-        /// <summary>
-        /// The lastname of the author
-        /// </summary>
-        /// <example> Delpon </example>
-        public string LastName { get; set; }
     }
 }
