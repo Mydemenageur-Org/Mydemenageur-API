@@ -38,7 +38,7 @@ namespace Mydemenageur.API.Entities
         /// The grade of the review
         /// </summary>
         /// <example> 5 </example>
-        public int Grade { get; set; }
+        public string Grade { get; set; }
 
     }
 }

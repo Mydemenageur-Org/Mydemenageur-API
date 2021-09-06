@@ -31,7 +31,7 @@ namespace Mydemenageur.API.Models.Reviews
         /// The grade of the review
         /// </summary>
         /// <example> 5 </example>
-        public int Grade { get; set; }
+        public string Grade { get; set; }
 
         /// <summary>
         /// The firstname of the author
