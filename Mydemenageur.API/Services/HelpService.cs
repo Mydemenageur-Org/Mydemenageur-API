@@ -7,6 +7,7 @@ using Mydemenageur.API.DP.Interface;
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using MongoDB.Driver.Linq;
+using Mydemenageur.API.Services.Interfaces;
 
 namespace Mydemenageur.API.Services
 {
@@ -19,7 +20,7 @@ namespace Mydemenageur.API.Services
             _dpHelp = dpHelp;
         }
 
-        public async Task<IList<HelpModel>> GetAllHelpAnnounces(string type, string title, DateTime createdAt, string personNumber, DateTime timeNeeded, string start, string destination, string budget, List<Service> services, int size)
+        public async Task<IList<Help>> GetAllHelpAnnounces(string type, string title, Nullable<DateTime> createdAt, string personNumber, Nullable<DateTime> timeNeeded, string start, string destination, string budget, List<Service> services, int size)
         {
             int iterator = 0;
             List<HelpModel> dtoAnnounces = new List<HelpModel>();
@@ -56,28 +57,76 @@ namespace Mydemenageur.API.Services
             }
 
             
+            if(services.Count > 0)
+            {
+                foreach(Service service in services)
+                {
+                    _helps = _helps.Where(w => w.services.Contains(service)) ;
+                }
+            }
 
+            if(size != 0)
+            {
+                _helps.Take(size);
+            }
 
+            return await _helps.ToListAsync();
         }
 
-        public async Task<HelpModel> GetHelpAnnounceById(string id)
+        public async Task<Help> GetHelpAnnounceById(string id)
         {
-
+            return await _dpHelp.GetHelpById(id).FirstOrDefaultAsync();
         }
 
-        public async Task<string> CreateHelpAnnounce(string type, string title, DateTime createdAt, string personNumber, DateTime timeNeeded, string start, string destination, string budget, List<Service> services)
+        public async Task<string> CreateHelpAnnounce(string type, string title, string personNumber, DateTime timeNeeded, string start, string destination, string budget, List<Service> services)
         {
+            Help helpAnnounce = new Help()
+            {
+                Type = type,
+                Title = title,
+                CreatedAt = DateTime.Now,
+                TimeNeeded = timeNeeded,
+                FromCity = start,
+                ToCity = destination,
+                Budget = budget,
+                services = services
+            };
 
+            await _dpHelp.GetCollection().InsertOneAsync(helpAnnounce);
+
+            return helpAnnounce.Id;
         }
 
-        public async Task UpdateHelpAnnounce(string id)
+        public async Task UpdateHelpAnnounce(string id, string type, string title, string personNumber, DateTime timeNeeded, string start, string destination, string budget, List<Service> services)
         {
+            Help helpToBeUpdated = await _dpHelp.GetHelpById(id).FirstOrDefaultAsync();
+            if (helpToBeUpdated == null) throw new Exception("The help announce does not exist");
 
+            var update = Builders<Help>.Update
+                .Set(db => db.Type, type)
+                .Set(db => db.Title, title)
+                .Set(db => db.PersonNumber, personNumber)
+                .Set(db => db.TimeNeeded, timeNeeded)
+                .Set(db => db.FromCity, start)
+                .Set(db => db.ToCity, destination)
+                .Set(db => db.Budget, budget)
+                .Set(db => db.services, services);
+
+            await _dpHelp.GetCollection().UpdateOneAsync(db =>
+                db.Id == id,
+                update
+            );
         }
 
         public async Task DeleteHelpAnnounce(string id)
         {
+            if (id != null)
+            {
+                Help reviewToBeDeleted = await _dpHelp.GetHelpById(id).FirstOrDefaultAsync();
+                if (reviewToBeDeleted == null) throw new Exception("The help announce does not exist");
 
+                await _dpHelp.GetCollection().DeleteOneAsync<Help>(db => db.Id == id);
+            }
         }
     }
 }

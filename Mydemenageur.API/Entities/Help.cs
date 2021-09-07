@@ -1,6 +1,7 @@
 ﻿using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 using System;
+using System.Collections.Generic;
 
 namespace Mydemenageur.API.Entities
 {
@@ -70,7 +71,7 @@ namespace Mydemenageur.API.Entities
         /// <summary>
         /// The additional services needed
         /// </summary>
-        public string[] services { get; set; }
+        public List<Service> services { get; set; }
 
     }
 }

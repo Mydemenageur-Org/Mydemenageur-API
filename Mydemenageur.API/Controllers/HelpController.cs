@@ -17,9 +17,11 @@ namespace Mydemenageur.API.Controllers
     [ApiController]
     public class HelpController: ControllerBase
     {
-        public HelpController()
-        {
+        private readonly IHelpService _helpService;
 
+        public HelpController(IHelpService helpService)
+        {
+            _helpService = helpService;
         }
 
         /// <summary>
@@ -28,9 +30,9 @@ namespace Mydemenageur.API.Controllers
         /// <returns></returns>
         /// <response code="200">Return the list of the helps</response>returns></returns>
         [HttpGet]
-        public async Task<ActionResult<IList<HelpModel>>> GetHelps(string type, string title, DateTime createdAt, string personNumber, DateTime timeNeeded, string start, string destination, string budget, string[] services)
+        public async Task<ActionResult<IList<HelpModel>>> GetHelps([FromQuery] string type = null, [FromQuery] string title = null, [FromQuery] Nullable<DateTime> createdAt = null, [FromQuery] string personNumber = null, [FromQuery] Nullable<DateTime> timeNeeded = null, [FromQuery] string start = null, [FromQuery] string destination = null, [FromQuery] string budget = null, [FromQuery] List<Service> services = null, [FromQuery] int size = 0)
         {
-
+            return Ok(await _helpService.GetAllHelpAnnounces(type, title, createdAt, personNumber, timeNeeded, start, destination,budget, services, size)); 
         }
 
         /// <summary>
@@ -41,7 +43,8 @@ namespace Mydemenageur.API.Controllers
         [HttpGet("{id:length(24)}")]
         public async Task<ActionResult<Help>> GetHelpById(string id)
         {
-
+            if (String.IsNullOrEmpty(id)) return BadRequest("Id is null of empty");
+            return Ok(await _helpService.GetHelpAnnounceById(id));
         }
 
         /// <summary>
@@ -51,9 +54,19 @@ namespace Mydemenageur.API.Controllers
         /// <response code="200">Return the id of the help announce created</response>returns></returns>
         [AllowAnonymous]
         [HttpPost]
-        public async Task<ActionResult<string>> CreateHelp()
+        public async Task<ActionResult<string>> CreateHelp(string type, string title, string personNumber, DateTime timeNeeded, string start, string destination, string budget, List<Service> services)
         {
+            if(string.IsNullOrEmpty(type) || 
+                string.IsNullOrEmpty(title) || 
+                string.IsNullOrEmpty(personNumber) || 
+                string.IsNullOrEmpty(start) || 
+                string.IsNullOrEmpty(destination) ||
+                string.IsNullOrEmpty(budget))
+            {
+                return BadRequest("You must enter params");
+            }
 
+            return Ok(await _helpService.CreateHelpAnnounce(type, title, personNumber, timeNeeded, start, destination, budget, services));
         }
 
         /// <summary>
@@ -61,9 +74,18 @@ namespace Mydemenageur.API.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpPut("{id:length(24)}")]
-        public async Task<IActionResult> UpdateHelpAnnounce()
+        public async Task<IActionResult> UpdateHelpAnnounce(string id, string type, string title, string personNumber, DateTime timeNeeded, string start, string destination, string budget, List<Service> service)
         {
+            try
+            {
+                await _helpService.UpdateHelpAnnounce(id, type, title, personNumber, timeNeeded, start,destination, budget, service);
+            }
+            catch (Exception err)
+            {
+                return BadRequest(err);
+            }
 
+            return Ok();
         }
 
         /// <summary>
@@ -73,7 +95,16 @@ namespace Mydemenageur.API.Controllers
         [HttpDelete("{id:length(24)}")]
         public async Task<IActionResult> DeleteReview(string id)
         {
+            try
+            {
+                await _helpService.DeleteHelpAnnounce(id);
+            }
+            catch (Exception err)
+            {
+                return BadRequest(err);
+            }
 
+            return Ok();
         }
 
 

@@ -1,5 +1,6 @@
 ﻿using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
+using Mydemenageur.API.Entities;
 using System;
 
 namespace Mydemenageur.API.Models.Demands
@@ -73,6 +74,6 @@ namespace Mydemenageur.API.Models.Demands
         /// <summary>
         /// The additional services needed
         /// </summary>
-        public string[] services { get; set; }
+        public Service[] services { get; set; }
     }
 }

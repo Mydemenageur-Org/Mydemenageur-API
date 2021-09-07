@@ -21,5 +21,15 @@ namespace Mydemenageur.API.DP.DataProvider
         {
             return _db.Help.AsQueryable();
         }
+
+        public IMongoQueryable<Help> GetHelpById(string id)
+        {
+            return _db.Help.AsQueryable().Where(db => db.Id == id);
+        }
+
+        public IMongoCollection<Help> GetCollection()
+        {
+            return _db.Help;
+        }
     }
 }
