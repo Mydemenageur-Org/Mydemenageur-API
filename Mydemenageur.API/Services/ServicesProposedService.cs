@@ -5,10 +5,11 @@ using System;
 using System.Threading.Tasks;
 using Mydemenageur.API.DP.Interface;
 using MongoDB.Driver;
+using Mydemenageur.API.Services.Interfaces;
 
 namespace Mydemenageur.API.Services
 {
-    public class ServicesProposedService
+    public class ServicesProposedService: IServiceProposedService
     {
 
         private readonly IDPService _dpService;
