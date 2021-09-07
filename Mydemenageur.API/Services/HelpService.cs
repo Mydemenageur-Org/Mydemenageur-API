@@ -20,11 +20,11 @@ namespace Mydemenageur.API.Services
             _dpHelp = dpHelp;
         }
 
-        public async Task<IList<Help>> GetAllHelpAnnounces(string type, string title, Nullable<DateTime> createdAt, string personNumber, Nullable<DateTime> timeNeeded, string start, string destination, string budget, List<Service> services, int size)
+        public async Task<IList<Help>> GetAllHelpAnnounces(string type, string title, Nullable<DateTime> createdAt, string personNumber, Nullable<DateTime> timeNeeded, string start, string destination, bool isFlexible, bool isEmergency, Nullable<DateTime> plannifiedDate, string volume, bool askStart, bool askEnd, int size)
         {
             int iterator = 0;
             List<HelpModel> dtoAnnounces = new List<HelpModel>();
-            List<string> paramsFilters = new List<string>() { type, title, personNumber, start, destination, budget };
+            List<string> paramsFilters = new List<string>() { type, title, personNumber, start, destination, volume };
             List<Expression<Func<Help, bool>>> queries = new List<Expression<Func<Help, bool>>>();
 
             queries.Add(w => w.Type == paramsFilters[0]);
@@ -32,7 +32,7 @@ namespace Mydemenageur.API.Services
             queries.Add(w => w.PersonNumber == paramsFilters[2]);
             queries.Add(w => w.FromCity == paramsFilters[3]);
             queries.Add(w => w.ToCity == paramsFilters[4]);
-            queries.Add(w => w.Budget == paramsFilters[5]);
+            queries.Add(w => w.Volume == paramsFilters[5]);
 
             IMongoQueryable<Help> _helps = _dpHelp.Obtain();
 
@@ -56,16 +56,17 @@ namespace Mydemenageur.API.Services
                 _helps = _helps.Where(w => w.TimeNeeded == timeNeeded);
             }
 
-            
-            if(services.Count > 0)
+           if(plannifiedDate != null)
             {
-                foreach(Service service in services)
-                {
-                    _helps = _helps.Where(w => w.services.Contains(service)) ;
-                }
+                _helps = _helps.Where(w => w.PlannifiedDate == plannifiedDate);
             }
 
-            if(size != 0)
+            _helps = _helps.Where(w => w.IsFlexible == isFlexible);
+            _helps = _helps.Where(w => w.IsEmergency == isEmergency);
+            _helps = _helps.Where(w => w.AskHelpEndCity == askEnd);
+            _helps = _helps.Where(w => w.AskHelpEndCity == askStart);
+
+            if (size != 0)
             {
                 _helps.Take(size);
             }
@@ -78,7 +79,7 @@ namespace Mydemenageur.API.Services
             return await _dpHelp.GetHelpById(id).FirstOrDefaultAsync();
         }
 
-        public async Task<string> CreateHelpAnnounce(string type, string title, string personNumber, DateTime timeNeeded, string start, string destination, string budget, List<Service> services)
+        public async Task<string> CreateHelpAnnounce(string type, string title, string personNumber, DateTime timeNeeded, string start, string destination, bool isFlexible, bool isEmergency, DateTime plannifiedDate, string volume, bool askStart, bool askEnd)
         {
             Help helpAnnounce = new Help()
             {
@@ -87,9 +88,14 @@ namespace Mydemenageur.API.Services
                 CreatedAt = DateTime.Now,
                 TimeNeeded = timeNeeded,
                 FromCity = start,
+                PersonNumber = personNumber,
                 ToCity = destination,
-                Budget = budget,
-                services = services
+                IsFlexible = isFlexible,
+                IsEmergency = isEmergency,
+                PlannifiedDate = plannifiedDate,
+                Volume = volume,
+                AskHelpEndCity = askEnd,
+                AskHelpStartedCity = askStart
             };
 
             await _dpHelp.GetCollection().InsertOneAsync(helpAnnounce);
@@ -97,7 +103,7 @@ namespace Mydemenageur.API.Services
             return helpAnnounce.Id;
         }
 
-        public async Task UpdateHelpAnnounce(string id, string type, string title, string personNumber, DateTime timeNeeded, string start, string destination, string budget, List<Service> services)
+        public async Task UpdateHelpAnnounce(string id, string type, string title, string personNumber, DateTime timeNeeded, string start, string destination, bool isFlexible, bool isEmergency, DateTime plannifiedDate, string volume, bool askStart, bool askEnd)
         {
             Help helpToBeUpdated = await _dpHelp.GetHelpById(id).FirstOrDefaultAsync();
             if (helpToBeUpdated == null) throw new Exception("The help announce does not exist");
@@ -109,8 +115,12 @@ namespace Mydemenageur.API.Services
                 .Set(db => db.TimeNeeded, timeNeeded)
                 .Set(db => db.FromCity, start)
                 .Set(db => db.ToCity, destination)
-                .Set(db => db.Budget, budget)
-                .Set(db => db.services, services);
+                .Set(db => db.IsFlexible, isFlexible)
+                .Set(db => db.IsEmergency, isEmergency)
+                .Set(db => db.PlannifiedDate, plannifiedDate)
+                .Set(db => db.Volume, volume)
+                .Set(db => db.AskHelpStartedCity, askStart)
+                .Set(db => db.AskHelpEndCity, askEnd);
 
             await _dpHelp.GetCollection().UpdateOneAsync(db =>
                 db.Id == id,

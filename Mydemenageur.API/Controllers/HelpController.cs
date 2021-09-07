@@ -30,9 +30,9 @@ namespace Mydemenageur.API.Controllers
         /// <returns></returns>
         /// <response code="200">Return the list of the helps</response>returns></returns>
         [HttpGet]
-        public async Task<ActionResult<IList<HelpModel>>> GetHelps([FromQuery] string type = null, [FromQuery] string title = null, [FromQuery] Nullable<DateTime> createdAt = null, [FromQuery] string personNumber = null, [FromQuery] Nullable<DateTime> timeNeeded = null, [FromQuery] string start = null, [FromQuery] string destination = null, [FromQuery] string budget = null, [FromQuery] List<Service> services = null, [FromQuery] int size = 0)
+        public async Task<ActionResult<IList<HelpModel>>> GetHelps([FromQuery] bool isFlexible, [FromQuery] bool isEmergencybool, [FromQuery] bool askStart, [FromQuery] bool askEnd,[FromQuery] string type = null, [FromQuery] string title = null, [FromQuery] Nullable<DateTime> createdAt = null, [FromQuery] string personNumber = null, [FromQuery] Nullable<DateTime> timeNeeded = null, [FromQuery] string start = null, [FromQuery] string destination = null, [FromQuery] Nullable<DateTime> plannifiedDate = null, [FromQuery] string volume = null , [FromQuery] int size = 0)
         {
-            return Ok(await _helpService.GetAllHelpAnnounces(type, title, createdAt, personNumber, timeNeeded, start, destination,budget, services, size)); 
+            return Ok(await _helpService.GetAllHelpAnnounces(type, title, createdAt, personNumber, timeNeeded, start, destination,isFlexible,isEmergencybool, plannifiedDate, volume, askStart, askEnd, size)); 
         }
 
         /// <summary>
@@ -54,7 +54,7 @@ namespace Mydemenageur.API.Controllers
         /// <response code="200">Return the id of the help announce created</response>returns></returns>
         [AllowAnonymous]
         [HttpPost]
-        public async Task<ActionResult<string>> CreateHelp(string type, string title, string personNumber, DateTime timeNeeded, string start, string destination, string budget, List<Service> services)
+        public async Task<ActionResult<string>> CreateHelp(string type, string title, string personNumber, DateTime timeNeeded, string start, string destination, bool isFlexible, bool isEmergency, DateTime plannifiedDate, string volume, bool askStart, bool askEnd)
         {
             if(string.IsNullOrEmpty(type) || 
                 string.IsNullOrEmpty(title) || 
@@ -66,7 +66,7 @@ namespace Mydemenageur.API.Controllers
                 return BadRequest("You must enter params");
             }
 
-            return Ok(await _helpService.CreateHelpAnnounce(type, title, personNumber, timeNeeded, start, destination, budget, services));
+            return Ok(await _helpService.CreateHelpAnnounce(type, title, personNumber, timeNeeded, start, destination, isFlexible, isEmergency, plannifiedDate, volume, askStart, askEnd));
         }
 
         /// <summary>
@@ -74,11 +74,11 @@ namespace Mydemenageur.API.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpPut("{id:length(24)}")]
-        public async Task<IActionResult> UpdateHelpAnnounce(string id, string type, string title, string personNumber, DateTime timeNeeded, string start, string destination, string budget, List<Service> service)
+        public async Task<IActionResult> UpdateHelpAnnounce(string id, string type, string title, string personNumber, DateTime timeNeeded, string start, string destination, bool isFlexible, bool isEmergency, DateTime plannifiedDate, string volume, bool askStart, bool askEnd)
         {
             try
             {
-                await _helpService.UpdateHelpAnnounce(id, type, title, personNumber, timeNeeded, start,destination, budget, service);
+                await _helpService.UpdateHelpAnnounce(id, type, title, personNumber, timeNeeded, start,destination, isFlexible, isEmergency, plannifiedDate, volume, askStart, askEnd);
             }
             catch (Exception err)
             {
@@ -106,7 +106,5 @@ namespace Mydemenageur.API.Controllers
 
             return Ok();
         }
-
-
     }
 }

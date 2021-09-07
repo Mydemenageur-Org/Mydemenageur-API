@@ -36,10 +36,25 @@ namespace Mydemenageur.API.Entities
         public DateTime CreatedAt { get; set; }
 
         /// <summary>
+        /// The purpose is to know if the date are flexible
+        /// </summary>
+        public bool IsFlexible { get; set; }
+
+        /// <summary>
+        /// The purpose is to know if it is an emergency
+        /// </summary>
+        public bool IsEmergency { get; set; }
+
+        /// <summary>
+        /// The plannified date
+        /// </summary>
+        public DateTime PlannifiedDate { get; set; }
+
+        /// <summary>
         /// The description of the help
         /// </summary>
         /// <example> Bonjour, je recherche de l'aide pour mon déménagement</example>
-        public string[] Description { get; set; }
+        public string Description { get; set; }
 
         /// <summary>
         /// Person number
@@ -63,15 +78,11 @@ namespace Mydemenageur.API.Entities
         /// <example> Paris </example>
         public string ToCity { get; set; }
 
-        /// <summary>
-        /// The budget for the client need
-        /// </summary>
-        public string Budget { get; set; }
+        public string Volume { get; set; }
 
-        /// <summary>
-        /// The additional services needed
-        /// </summary>
-        public List<Service> services { get; set; }
+        public bool AskHelpStartedCity { get; set; }
+
+        public bool AskHelpEndCity { get; set; }
 
     }
 }
