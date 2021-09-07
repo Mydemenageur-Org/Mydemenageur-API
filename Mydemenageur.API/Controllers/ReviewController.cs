@@ -1,12 +1,9 @@
 ﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Mydemenageur.API.Entities;
-using Mydemenageur.API.Models.Movers;
 using Mydemenageur.API.Services.Interfaces;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace Mydemenageur.API.Controllers
@@ -29,7 +26,7 @@ namespace Mydemenageur.API.Controllers
         /// <returns></returns>
         /// <response code="200">Return the list of reviews</response>returns></returns>
         [HttpGet]
-        public async Task<ActionResult<Review>> GetReviews([FromQuery] string grade, [FromQuery] string title = null, [FromQuery] string description = null, [FromQuery] string username = null, int size = 0)
+        public async Task<ActionResult<IList<Review>>> GetReviews([FromQuery] string grade, [FromQuery] string title = null, [FromQuery] string description = null, [FromQuery] string username = null, int size = 0)
         {
             return Ok(await _reviewService.GetAllReviews(title, description, grade, username, size));
         }
@@ -57,7 +54,7 @@ namespace Mydemenageur.API.Controllers
         /// <response code="200">Return the id of the review created</response>returns></returns>
         [AllowAnonymous]
         [HttpPost]
-        public async Task<ActionResult<Review>> CreateReview(string title, string description, string grade, string userId)
+        public async Task<ActionResult<string>> CreateReview(string title, string description, string grade, string userId)
         {
             if(string.IsNullOrEmpty(title) || string.IsNullOrEmpty(description) || string.IsNullOrEmpty(grade) || string.IsNullOrEmpty(userId))
             {
@@ -71,7 +68,6 @@ namespace Mydemenageur.API.Controllers
         /// To update a review
         /// </summary>
         /// <returns></returns>
-        /// <response code="200">Return the id of the review created</response>returns></returns>
         [HttpPut("{id:length(24)}")]
         public async Task<IActionResult> UpdateReview(string title, string description, string grade, string reviewId, string userId)
         {
@@ -91,7 +87,6 @@ namespace Mydemenageur.API.Controllers
         /// To delete a review
         /// </summary>
         /// <returns></returns>
-        /// <response code="200">Return the id of the review deleted</response>returns></returns>
         [HttpDelete("{id:length(24)}")]
         public async Task<IActionResult> DeleteReview(string id)
         {

@@ -4,7 +4,6 @@ using Mydemenageur.API.Models.Reviews;
 using System.Collections.Generic;
 using Mydemenageur.API.Services.Interfaces;
 using System;
-using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Threading.Tasks;
 using Mydemenageur.API.DP.Interface;
@@ -41,7 +40,7 @@ namespace Mydemenageur.API.Services
             {
                 string tmp = filterLabel;
                 if(tmp != null) {
-                    _reviews.Where(queries[iterator]);
+                    _reviews = _reviews.Where(queries[iterator]);
                 }
                 ++iterator;
             }
@@ -78,6 +77,7 @@ namespace Mydemenageur.API.Services
         public async Task<ReviewModel> GetReviewById(string id)
         {
             Review _review = await _dpReview.GetReviewById(id).FirstOrDefaultAsync();
+            if (_review == null) throw new Exception("The review does not exist");
             var user = _dpUser.GetUserById(id).FirstOrDefault();
             ReviewModel dtoReview = new ReviewModel()
             {

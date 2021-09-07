@@ -21,7 +21,7 @@ namespace Mydemenageur.API.Entities
         /// The type of provider
         /// </summary>
         /// <example>1 or 0</example>
-        public bool isIndividual { get; set; }
+        public string Type { get; set; }
 
         /// <summary>
         /// The title help's card
@@ -43,7 +43,7 @@ namespace Mydemenageur.API.Entities
         /// <summary>
         /// Person number
         /// </summary>
-        public int PersonNumber { get; set; }
+        public string PersonNumber { get; set; }
 
         /// <summary>
         /// The time needed to finish the work
@@ -65,7 +65,7 @@ namespace Mydemenageur.API.Entities
         /// <summary>
         /// The budget for the client need
         /// </summary>
-        public int Budget { get; set; }
+        public string Budget { get; set; }
 
         /// <summary>
         /// The additional services needed

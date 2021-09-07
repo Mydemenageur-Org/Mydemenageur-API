@@ -2,8 +2,9 @@
 using Mydemenageur.API.Contexts;
 using Mydemenageur.API.Settings;
 using Microsoft.Extensions.Options;
-using MongoDB.Driver;
+using MongoDB.Driver.Linq;
 using Mydemenageur.API.Entities;
+using MongoDB.Driver;
 
 namespace Mydemenageur.API.DP.DataProvider
 {
@@ -16,9 +17,9 @@ namespace Mydemenageur.API.DP.DataProvider
             _db = new MyDemenageurContext(setting);
         }
 
-        public IMongoCollection<Help> Obtain()
+        public IMongoQueryable<Help> Obtain()
         {
-            return _db.Help;
+            return _db.Help.AsQueryable();
         }
     }
 }
