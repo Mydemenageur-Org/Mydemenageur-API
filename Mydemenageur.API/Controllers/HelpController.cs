@@ -61,7 +61,7 @@ namespace Mydemenageur.API.Controllers
                 string.IsNullOrEmpty(personNumber) || 
                 string.IsNullOrEmpty(start) || 
                 string.IsNullOrEmpty(destination) ||
-                string.IsNullOrEmpty(budget))
+                string.IsNullOrEmpty(volume))
             {
                 return BadRequest("You must enter params");
             }
