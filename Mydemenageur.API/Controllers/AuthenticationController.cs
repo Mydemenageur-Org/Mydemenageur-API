@@ -4,8 +4,6 @@ using Mydemenageur.API.Entities;
 using Mydemenageur.API.Models.Users;
 using Mydemenageur.API.Services.Interfaces;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace Mydemenageur.API.Controllers
@@ -33,7 +31,7 @@ namespace Mydemenageur.API.Controllers
         [ProducesResponseType(typeof(User), StatusCodes.Status200OK)]
         public async Task<ActionResult<User>> Login([FromBody] LoginModel loginModel)
         {
-            User user = await _authenticationService.LoginAsync(loginModel.Username, loginModel.Password);
+            User user = await _authenticationService.LoginAsync(loginModel.Email, loginModel.Password);
 
             if (user == null)
             {
@@ -53,18 +51,19 @@ namespace Mydemenageur.API.Controllers
         [HttpPost("register")]
         public async Task<ActionResult<string>> Register([FromBody] RegisterModel registerModel)
         {
-            string userId;
+            User user;
 
             try
             {
-                userId = await _authenticationService.RegisterAsync(registerModel);
+                user = await _authenticationService.RegisterAsync(registerModel);
             }
             catch (Exception e)
             {
                 return BadRequest($"Error during the user registration: {e.Message}");
             }
 
-            return Ok(userId);
+
+             return Content("Félicitation ton compte a été crée");
         }
     }
 }

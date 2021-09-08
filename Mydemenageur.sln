@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mydemenageur.API", "Mydemen
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mydemenageur.IntegrationTests", "Mydemenageur.IntegrationTests\Mydemenageur.IntegrationTests.csproj", "{B4FD2543-DF4D-4F97-94DF-9EEBE4EE0EE4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyDemenageur.ScenarioTests", "MyDemenageur.ScenarioTests\MyDemenageur.ScenarioTests.csproj", "{342FDB26-D2DF-4261-8244-6E6DFA6C0DF7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyDemenageur.ScenarioTests", "MyDemenageur.ScenarioTests\MyDemenageur.ScenarioTests.csproj", "{342FDB26-D2DF-4261-8244-6E6DFA6C0DF7}"
 	ProjectSection(ProjectDependencies) = postProject
 		{B2BFABAD-DB46-4F4B-B3DC-38EC5959BE8E} = {B2BFABAD-DB46-4F4B-B3DC-38EC5959BE8E}
 	EndProjectSection

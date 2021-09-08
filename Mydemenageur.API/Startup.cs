@@ -1,30 +1,25 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
-using Mydemenageur.API.Services;
-using Mydemenageur.API.Services.Interfaces;
 using Mydemenageur.API.Settings;
 using Mydemenageur.API.Settings.Interfaces;
-using System;
-using System.Collections.Generic;
+using Mydemenageur.API.Services;
+using Mydemenageur.API.Services.Interfaces;
 using System.IO;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace Mydemenageur.API
 {
     public class Startup
     {
+        readonly string MyAllowSpecificOrigins = "_developerPolicy";
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -37,7 +32,7 @@ namespace Mydemenageur.API
         {
             services.Configure<MongoSettings>(Configuration.GetSection(nameof(MongoSettings)));
             services.Configure<MydemenageurSettings>(Configuration.GetSection(nameof(MydemenageurSettings)));
-
+            services.InitLocator(Configuration);
             services.AddSingleton<IMongoSettings>(Span => Span.GetRequiredService<IOptions<MongoSettings>>().Value);
             services.AddSingleton<IMydemenageurSettings>(Span => Span.GetRequiredService<IOptions<MydemenageurSettings>>().Value);
 
@@ -63,22 +58,13 @@ namespace Mydemenageur.API
                 };
             });
 
-            services.AddScoped<IAuthenticationService, AuthenticationService>();
-            services.AddScoped<IClientsService, ClientsService>();
-            services.AddScoped<IFilesService, FilesService>();
-            services.AddScoped<IHousingsService, HousingsService>();
-            services.AddScoped<IMoveRequestsService, MoveRequestsService>();
-            services.AddScoped<IMoversService, MoversService>();
-            services.AddScoped<ISocietiesService, SocietiesService>();
-            services.AddScoped<IUsersService, UsersService>();
-            services.AddScoped<IVehiclesService, VehiclesService>();
-            services.AddScoped<IPastActionsService, PastActionsService>();
 
             services.AddCors(options =>
             {
-                options.AddPolicy("developerPolicy", builder =>
+                options.AddPolicy(MyAllowSpecificOrigins, builder =>
                 {
                     builder
+                        .WithOrigins("http://localhost:3000/")
                         .AllowAnyHeader()
                         .AllowAnyMethod()
                         .SetIsOriginAllowed((host) => true)
@@ -116,7 +102,7 @@ namespace Mydemenageur.API
             });
 
 
-            app.UseCors("developerPolicy");
+            app.UseCors(MyAllowSpecificOrigins);
 
             app.UseHttpsRedirection();
 

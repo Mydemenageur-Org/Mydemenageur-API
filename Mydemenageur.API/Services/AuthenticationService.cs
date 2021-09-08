@@ -3,29 +3,26 @@ using MongoDB.Driver;
 using Mydemenageur.API.Entities;
 using Mydemenageur.API.Models.Users;
 using Mydemenageur.API.Services.Interfaces;
-using Mydemenageur.API.Settings.Interfaces;
 using System;
-using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
+using Mydemenageur.API.DP.Interface;
 
 namespace Mydemenageur.API.Services
 {
     public class AuthenticationService : IAuthenticationService
     {
+        private readonly IDPUser _dpUser;
         private readonly IMongoCollection<User> _users;
-
         private readonly IMydemenageurSettings _mydemenageurSettings;
 
-        public AuthenticationService(IMongoSettings mongoSettings, IMydemenageurSettings mydemenageurSettings)
+        public AuthenticationService(IDPUser dpUser, IMydemenageurSettings mydemenageurSettings)
         {
-            var mongoClient = new MongoClient(mongoSettings.ConnectionString);
-            var database = mongoClient.GetDatabase(mongoSettings.DatabaseName);
-
-            _users = database.GetCollection<User>(mongoSettings.UsersCollectionName);
+            _dpUser = dpUser;
+            _users = _dpUser.Obtain();
 
             _mydemenageurSettings = mydemenageurSettings;
         }
@@ -64,7 +61,7 @@ namespace Mydemenageur.API.Services
             return user;
         }
 
-        public async Task<string> RegisterAsync(RegisterModel registerModel)
+        public async Task<User> RegisterAsync(RegisterModel registerModel)
         {
             // We need some basic checks
             if (string.IsNullOrWhiteSpace(registerModel.Email)) { throw new Exception("An email is required for the registration");  }
@@ -96,7 +93,7 @@ namespace Mydemenageur.API.Services
 
             await _users.InsertOneAsync(dbUser);
 
-            return dbUser.Id;
+            return dbUser;
         }
 
         private bool UserExist(string email, string username)

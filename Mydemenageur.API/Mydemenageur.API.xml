@@ -66,6 +66,21 @@
             <param name="id"></param>
             <returns></returns>
         </member>
+        <!-- Badly formed XML comment ignored for member "M:Mydemenageur.API.Controllers.HelpController.GetHelps(System.String,System.String,System.Nullable{System.DateTime},System.String,System.Nullable{System.DateTime},System.String,System.String,System.String,System.Collections.Generic.List{Mydemenageur.API.Entities.Service},System.Int32)" -->
+        <!-- Badly formed XML comment ignored for member "M:Mydemenageur.API.Controllers.HelpController.GetHelpById(System.String)" -->
+        <!-- Badly formed XML comment ignored for member "M:Mydemenageur.API.Controllers.HelpController.CreateHelp(System.String,System.String,System.String,System.DateTime,System.String,System.String,System.String,System.Collections.Generic.List{Mydemenageur.API.Entities.Service})" -->
+        <member name="M:Mydemenageur.API.Controllers.HelpController.UpdateHelpAnnounce(System.String,System.String,System.String,System.String,System.DateTime,System.String,System.String,System.String,System.Collections.Generic.List{Mydemenageur.API.Entities.Service})">
+            <summary>
+            To update a help announce
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Mydemenageur.API.Controllers.HelpController.DeleteReview(System.String)">
+            <summary>
+            To delete a help announce
+            </summary>
+            <returns></returns>
+        </member>
         <member name="M:Mydemenageur.API.Controllers.HousingsController.GetHousing(System.String)">
             <summary>
             To get housing with his id
@@ -189,6 +204,36 @@
             <response code="200">Return the id of the new action</response>
             <response code ="400">They are an error the the request</response>
         </member>
+        <!-- Badly formed XML comment ignored for member "M:Mydemenageur.API.Controllers.ReviewController.GetReviews(System.String,System.String,System.String,System.String,System.Int32)" -->
+        <!-- Badly formed XML comment ignored for member "M:Mydemenageur.API.Controllers.ReviewController.GetReviewById(System.String)" -->
+        <!-- Badly formed XML comment ignored for member "M:Mydemenageur.API.Controllers.ReviewController.CreateReview(System.String,System.String,System.String,System.String)" -->
+        <member name="M:Mydemenageur.API.Controllers.ReviewController.UpdateReview(System.String,System.String,System.String,System.String,System.String)">
+            <summary>
+            To update a review
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Mydemenageur.API.Controllers.ReviewController.DeleteReview(System.String)">
+            <summary>
+            To delete a review
+            </summary>
+            <returns></returns>
+        </member>
+        <!-- Badly formed XML comment ignored for member "M:Mydemenageur.API.Controllers.ServiceController.GetReviews" -->
+        <!-- Badly formed XML comment ignored for member "M:Mydemenageur.API.Controllers.ServiceController.GetServiceById(System.String)" -->
+        <!-- Badly formed XML comment ignored for member "M:Mydemenageur.API.Controllers.ServiceController.CreateService(System.String,System.Byte)" -->
+        <member name="M:Mydemenageur.API.Controllers.ServiceController.UpdateReview(System.String,System.String,System.Byte)">
+            <summary>
+            To update a service
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Mydemenageur.API.Controllers.ServiceController.DeleteReview(System.String)">
+            <summary>
+            To delete a service
+            </summary>
+            <returns></returns>
+        </member>
         <member name="M:Mydemenageur.API.Controllers.SocietiesController.GetSociety(System.String)">
             <summary>
             To get society with his id
@@ -304,6 +349,67 @@
             The user's country
             </summary>
             <example>France</example>
+        </member>
+        <member name="P:Mydemenageur.API.Entities.Help.UserId">
+            <summary>
+            The id of the user associated to the help card
+            </summary>
+            <example>6030deb57116e097987bcae5</example>
+        </member>
+        <member name="P:Mydemenageur.API.Entities.Help.Type">
+            <summary>
+            The type of provider
+            </summary>
+            <example>1 or 0</example>
+        </member>
+        <member name="P:Mydemenageur.API.Entities.Help.Title">
+            <summary>
+            The title help's card
+            </summary>
+            <example>Déménagement d'un 100 m2 à Bordeaux</example>
+        </member>
+        <member name="P:Mydemenageur.API.Entities.Help.CreatedAt">
+            <summary>
+            The date when it has been created
+            </summary>
+        </member>
+        <member name="P:Mydemenageur.API.Entities.Help.Description">
+            <summary>
+            The description of the help
+            </summary>
+            <example> Bonjour, je recherche de l'aide pour mon déménagement</example>
+        </member>
+        <member name="P:Mydemenageur.API.Entities.Help.PersonNumber">
+            <summary>
+            Person number
+            </summary>
+        </member>
+        <member name="P:Mydemenageur.API.Entities.Help.TimeNeeded">
+            <summary>
+            The time needed to finish the work
+            </summary>
+        </member>
+        <member name="P:Mydemenageur.API.Entities.Help.FromCity">
+            <summary>
+            The departure city
+            </summary>
+            <example> Bordeaux </example>
+        </member>
+        <member name="P:Mydemenageur.API.Entities.Help.ToCity">
+            <summary>
+            The final city
+            </summary>
+            <example> Paris </example>
+        </member>
+        <member name="P:Mydemenageur.API.Entities.Help.Budget">
+            <summary>
+            The budget for the client need
+            </summary>
+        </member>
+        <member name="P:Mydemenageur.API.Entities.Help.services">
+            <summary>
+            The additional services needed
+            </summary>
         </member>
         <member name="P:Mydemenageur.API.Entities.Housing.UserId">
             <summary>
@@ -469,6 +575,46 @@
             The user's id 
             </summary>
         </member>
+        <member name="P:Mydemenageur.API.Entities.Review.UserId">
+            <summary>
+            The id of the user associated with the review
+            </summary>
+            <example>6030deb57116e097987bcae5</example>
+        </member>
+        <member name="P:Mydemenageur.API.Entities.Review.Title">
+            <summary>
+            The title review
+            </summary>
+            <example>Je recommande ce site !</example>
+        </member>
+        <member name="P:Mydemenageur.API.Entities.Review.CreatedAt">
+            <summary>
+            The date when it has been created
+            </summary>
+        </member>
+        <member name="P:Mydemenageur.API.Entities.Review.Description">
+            <summary>
+            The description of the review
+            </summary>
+            <example> Tout seul pour déménager c'était compliqué. Mais grâce aux gros bras, en 2h c'était plié</example>
+        </member>
+        <member name="P:Mydemenageur.API.Entities.Review.Grade">
+            <summary>
+            The grade of the review
+            </summary>
+            <example> 5 </example>
+        </member>
+        <member name="P:Mydemenageur.API.Entities.Service.Label">
+            <summary>
+            The label of the specified service
+            </summary>
+            <example>Bricolage à domicile</example>
+        </member>
+        <member name="P:Mydemenageur.API.Entities.Service.Picture">
+            <summary>
+            The picture of the service
+            </summary>
+        </member>
         <member name="P:Mydemenageur.API.Entities.Society.SocietyName">
             <summary>
             The society name
@@ -627,6 +773,71 @@
             </summary>
             <example>6030deb57116e097987bcae5</example>
         </member>
+        <member name="P:Mydemenageur.API.Models.Demands.HelpModel.Title">
+            <summary>
+            The title help's card
+            </summary>
+            <example>Déménagement d'un 100 m2 à Bordeaux</example>
+        </member>
+        <member name="P:Mydemenageur.API.Models.Demands.HelpModel.CreatedAt">
+            <summary>
+            The date when it has been created
+            </summary>
+        </member>
+        <member name="P:Mydemenageur.API.Models.Demands.HelpModel.Description">
+            <summary>
+            The description of the help
+            </summary>
+            <example> Bonjour, je recherche de l'aide pour mon déménagement</example>
+        </member>
+        <member name="P:Mydemenageur.API.Models.Demands.HelpModel.PersonNumber">
+            <summary>
+            Person number
+            </summary>
+        </member>
+        <member name="P:Mydemenageur.API.Models.Demands.HelpModel.TimeNeeded">
+            <summary>
+            The time needed to finish the work
+            </summary>
+        </member>
+        <member name="P:Mydemenageur.API.Models.Demands.HelpModel.FirstName">
+            <summary>
+            The firstname of the author
+            </summary>
+            <example> Léo </example>
+        </member>
+        <member name="P:Mydemenageur.API.Models.Demands.HelpModel.LastName">
+            <summary>
+            The lastname of the author
+            </summary>
+            <example> Delpon </example>
+        </member>
+        <member name="P:Mydemenageur.API.Models.Demands.HelpModel.FromCity">
+            <summary>
+            The departure city
+            </summary>
+        </member>
+        <member name="P:Mydemenageur.API.Models.Demands.HelpModel.ToCity">
+            <summary>
+            The final city
+            </summary>
+        </member>
+        <member name="P:Mydemenageur.API.Models.Demands.HelpModel.Type">
+            <summary>
+            The type of provider
+            </summary>
+            <example>1 or 0</example>
+        </member>
+        <member name="P:Mydemenageur.API.Models.Demands.HelpModel.Budget">
+            <summary>
+            The budget for the client need
+            </summary>
+        </member>
+        <member name="P:Mydemenageur.API.Models.Demands.HelpModel.services">
+            <summary>
+            The additional services needed
+            </summary>
+        </member>
         <member name="P:Mydemenageur.API.Models.MoveRequest.MoveRequestRegisterModel.AdditionalInformation">
             <summary>
             All other information for the move request
@@ -661,6 +872,41 @@
             <summary>
             The user's id 
             </summary>
+        </member>
+        <member name="P:Mydemenageur.API.Models.Reviews.ReviewModel.Title">
+            <summary>
+            The title review
+            </summary>
+            <example>Je recommande ce site !</example>
+        </member>
+        <member name="P:Mydemenageur.API.Models.Reviews.ReviewModel.CreatedAt">
+            <summary>
+            The date when it has been created
+            </summary>
+        </member>
+        <member name="P:Mydemenageur.API.Models.Reviews.ReviewModel.Description">
+            <summary>
+            The description of the review
+            </summary>
+            <example> Tout seul pour déménager c'était compliqué. Mais grâce aux gros bras, en 2h c'était plié</example>
+        </member>
+        <member name="P:Mydemenageur.API.Models.Reviews.ReviewModel.Grade">
+            <summary>
+            The grade of the review
+            </summary>
+            <example> 5 </example>
+        </member>
+        <member name="P:Mydemenageur.API.Models.Reviews.ReviewModel.FirstName">
+            <summary>
+            The firstname of the author
+            </summary>
+            <example> Léo </example>
+        </member>
+        <member name="P:Mydemenageur.API.Models.Reviews.ReviewModel.LastName">
+            <summary>
+            The lastname of the author
+            </summary>
+            <example> Delpon </example>
         </member>
         <member name="P:Mydemenageur.API.Models.Society.SocietyRegisterModel.SocietyName">
             <summary>
@@ -703,7 +949,7 @@
             </summary>
             <example>Provence-Alpes-Côte d'Azur</example>
         </member>
-        <member name="P:Mydemenageur.API.Models.Users.LoginModel.Username">
+        <member name="P:Mydemenageur.API.Models.Users.LoginModel.Email">
             <summary>
             The user's username or the user's
             email
@@ -732,6 +978,11 @@
             </summary>
             <example>DENIS</example>
         </member>
+        <member name="P:Mydemenageur.API.Models.Users.RegisterModel.Gender">
+            <summary>
+            The user's gender
+            </summary>
+        </member>
         <member name="P:Mydemenageur.API.Models.Users.RegisterModel.Email">
             <summary>
             The user's email
@@ -743,6 +994,11 @@
             The user's phone
             </summary>
             <example>+33652809335</example>
+        </member>
+        <member name="P:Mydemenageur.API.Models.Users.RegisterModel.Birthday">
+            <summary>
+            The user's birthday
+            </summary>     
         </member>
         <member name="P:Mydemenageur.API.Models.Users.RegisterModel.Username">
             <summary>
