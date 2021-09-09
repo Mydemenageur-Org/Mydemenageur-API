@@ -66,10 +66,10 @@
             <param name="id"></param>
             <returns></returns>
         </member>
-        <!-- Badly formed XML comment ignored for member "M:Mydemenageur.API.Controllers.HelpController.GetHelps(System.String,System.String,System.Nullable{System.DateTime},System.String,System.Nullable{System.DateTime},System.String,System.String,System.String,System.Collections.Generic.List{Mydemenageur.API.Entities.Service},System.Int32)" -->
+        <!-- Badly formed XML comment ignored for member "M:Mydemenageur.API.Controllers.HelpController.GetHelps(System.Boolean,System.Boolean,System.Boolean,System.Boolean,System.String,System.String,System.Nullable{System.DateTime},System.String,System.Nullable{System.DateTime},System.String,System.String,System.Nullable{System.DateTime},System.String,System.Int32)" -->
         <!-- Badly formed XML comment ignored for member "M:Mydemenageur.API.Controllers.HelpController.GetHelpById(System.String)" -->
-        <!-- Badly formed XML comment ignored for member "M:Mydemenageur.API.Controllers.HelpController.CreateHelp(System.String,System.String,System.String,System.DateTime,System.String,System.String,System.String,System.Collections.Generic.List{Mydemenageur.API.Entities.Service})" -->
-        <member name="M:Mydemenageur.API.Controllers.HelpController.UpdateHelpAnnounce(System.String,System.String,System.String,System.String,System.DateTime,System.String,System.String,System.String,System.Collections.Generic.List{Mydemenageur.API.Entities.Service})">
+        <!-- Badly formed XML comment ignored for member "M:Mydemenageur.API.Controllers.HelpController.CreateHelp(System.String,System.String,System.String,System.DateTime,System.String,System.String,System.Boolean,System.Boolean,System.DateTime,System.String,System.Boolean,System.Boolean)" -->
+        <member name="M:Mydemenageur.API.Controllers.HelpController.UpdateHelpAnnounce(System.String,System.String,System.String,System.String,System.DateTime,System.String,System.String,System.Boolean,System.Boolean,System.DateTime,System.String,System.Boolean,System.Boolean)">
             <summary>
             To update a help announce
             </summary>
@@ -350,6 +350,41 @@
             </summary>
             <example>France</example>
         </member>
+        <member name="P:Mydemenageur.API.Entities.Client.Civility">
+            <summary>
+            The user's civility
+            </summary>
+            <example>France</example>
+        </member>
+        <member name="P:Mydemenageur.API.Entities.Client.Firstname">
+            <summary>
+            The user's firstname
+            </summary>
+            <example>France</example>
+        </member>
+        <member name="P:Mydemenageur.API.Entities.Client.Lastname">
+            <summary>
+            The user's lastname
+            </summary>
+            <example>France</example>
+        </member>
+        <member name="P:Mydemenageur.API.Entities.Client.PhoneNumber">
+            <summary>
+            The user's phoneNumber
+            </summary>
+            <example>France</example>
+        </member>
+        <member name="P:Mydemenageur.API.Entities.Client.Email">
+            <summary>
+            The user's email
+            </summary>
+            <example>France</example>
+        </member>
+        <member name="P:Mydemenageur.API.Entities.Demenagement.StartedDate">
+            <summary>
+            It will describe the announce a little bit further
+            </summary>
+        </member>
         <member name="P:Mydemenageur.API.Entities.Help.UserId">
             <summary>
             The id of the user associated to the help card
@@ -371,6 +406,21 @@
         <member name="P:Mydemenageur.API.Entities.Help.CreatedAt">
             <summary>
             The date when it has been created
+            </summary>
+        </member>
+        <member name="P:Mydemenageur.API.Entities.Help.IsFlexible">
+            <summary>
+            The purpose is to know if the date are flexible
+            </summary>
+        </member>
+        <member name="P:Mydemenageur.API.Entities.Help.IsEmergency">
+            <summary>
+            The purpose is to know if it is an emergency
+            </summary>
+        </member>
+        <member name="P:Mydemenageur.API.Entities.Help.PlannifiedDate">
+            <summary>
+            The plannified date
             </summary>
         </member>
         <member name="P:Mydemenageur.API.Entities.Help.Description">
@@ -400,16 +450,6 @@
             The final city
             </summary>
             <example> Paris </example>
-        </member>
-        <member name="P:Mydemenageur.API.Entities.Help.Budget">
-            <summary>
-            The budget for the client need
-            </summary>
-        </member>
-        <member name="P:Mydemenageur.API.Entities.Help.services">
-            <summary>
-            The additional services needed
-            </summary>
         </member>
         <member name="P:Mydemenageur.API.Entities.Housing.UserId">
             <summary>
@@ -604,6 +644,21 @@
             </summary>
             <example> 5 </example>
         </member>
+        <member name="P:Mydemenageur.API.Entities.Root.Service.Title">
+            <summary>
+            It corresponds to the title of the announce
+            </summary>
+        </member>
+        <member name="P:Mydemenageur.API.Entities.Root.Service.Description">
+            <summary>
+            It will describe the announce a little bit further
+            </summary>
+        </member>
+        <member name="P:Mydemenageur.API.Entities.Root.Service.CreatedAt">
+            <summary>
+            The date of the announce's creation
+            </summary>
+        </member>
         <member name="P:Mydemenageur.API.Entities.Service.Label">
             <summary>
             The label of the specified service
@@ -784,6 +839,21 @@
             The date when it has been created
             </summary>
         </member>
+        <member name="P:Mydemenageur.API.Models.Demands.HelpModel.isFlexible">
+            <summary>
+            The purpose is to know if the date are flexible
+            </summary>
+        </member>
+        <member name="P:Mydemenageur.API.Models.Demands.HelpModel.isEmergency">
+            <summary>
+            The purpose is to know if it is an emergency
+            </summary>
+        </member>
+        <member name="P:Mydemenageur.API.Models.Demands.HelpModel.PlannifiedDate">
+            <summary>
+            The plannified date
+            </summary>
+        </member>
         <member name="P:Mydemenageur.API.Models.Demands.HelpModel.Description">
             <summary>
             The description of the help
@@ -827,16 +897,6 @@
             The type of provider
             </summary>
             <example>1 or 0</example>
-        </member>
-        <member name="P:Mydemenageur.API.Models.Demands.HelpModel.Budget">
-            <summary>
-            The budget for the client need
-            </summary>
-        </member>
-        <member name="P:Mydemenageur.API.Models.Demands.HelpModel.services">
-            <summary>
-            The additional services needed
-            </summary>
         </member>
         <member name="P:Mydemenageur.API.Models.MoveRequest.MoveRequestRegisterModel.AdditionalInformation">
             <summary>

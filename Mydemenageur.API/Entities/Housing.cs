@@ -9,7 +9,6 @@ namespace Mydemenageur.API.Entities
 {
     public class Housing
     {
-
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]
         public string Id { get; set; }

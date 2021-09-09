@@ -45,7 +45,7 @@ namespace Mydemenageur.API
                 x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
                 x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
             })
-            .AddJwtBearer(x =>
+            .AddJwtBearer("Default", x =>
             {
                 x.RequireHttpsMetadata = false;
                 x.SaveToken = true;
@@ -56,6 +56,18 @@ namespace Mydemenageur.API
                     ValidateIssuer = false,
                     ValidateAudience = false
                 };
+            })
+            .AddJwtBearer("Firebase", options =>
+            {
+                options.Authority = "https://securetoken.google.com/mydemenageur-v2";
+                options.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuer = true,
+                    ValidIssuer = "mydemenageur-v2",
+                    ValidateAudience = true,
+                    ValidAudience = "mydemenageur-v2",
+                    ValidateLifetime = true
+                };
             });
 
 
@@ -64,7 +76,7 @@ namespace Mydemenageur.API
                 options.AddPolicy(MyAllowSpecificOrigins, builder =>
                 {
                     builder
-                        .WithOrigins("http://localhost:3000/")
+                        .WithOrigins("http://localhost:3000/", "http://my-demenageur.local:3000", "https://my-demenageur.local:3000")
                         .AllowAnyHeader()
                         .AllowAnyMethod()
                         .SetIsOriginAllowed((host) => true)

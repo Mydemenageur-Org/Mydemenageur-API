@@ -44,5 +44,34 @@ namespace Mydemenageur.API.Entities
         /// <example>France</example>
         public string Country { get; set; }
 
+        /// <summary>
+        /// The user's civility
+        /// </summary>
+        /// <example>France</example>
+        public string Civility { get; set; }
+
+        /// <summary>
+        /// The user's firstname
+        /// </summary>
+        /// <example>France</example>
+        public string Firstname { get; set; }
+
+        /// <summary>
+        /// The user's lastname
+        /// </summary>
+        /// <example>France</example>
+        public string Lastname { get; set; }
+
+        /// <summary>
+        /// The user's phoneNumber
+        /// </summary>
+        /// <example>France</example>
+        public string PhoneNumber { get; set; }
+
+        /// <summary>
+        /// The user's email
+        /// </summary>
+        /// <example>France</example>
+        public string Email { get; set; }
     }
 }
