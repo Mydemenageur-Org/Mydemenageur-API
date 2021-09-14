@@ -20,6 +20,9 @@ namespace Mydemenageur.API.Contexts
         public IMongoCollection<Help> Help { get { return _database.GetCollection<Help>("helps"); } }
         public IMongoCollection<Service> Service { get { return _database.GetCollection<Service>("services"); } }
         public IMongoCollection<Carton> Carton { get { return _database.GetCollection<Carton>("cartons"); } }
+        public IMongoCollection<Demenagement> Demenagement { get { return _database.GetCollection<Demenagement>("demenagement"); } }
+        public IMongoCollection<DemenagementIndividuel> DemenagementIndiv { get { return _database.GetCollection<DemenagementIndividuel>("demenagementIndiv"); } }
+        public IMongoCollection<DemenagementPro> DemenagementPro { get { return _database.GetCollection<DemenagementPro>("demenagementPro"); } }
 
     }
 }
