@@ -9,5 +9,6 @@ namespace Mydemenageur.API.Contexts
         public IMongoCollection<Review> Review { get; }
         public IMongoCollection<Help> Help { get; }
         public IMongoCollection<Service> Service { get; }
+        public IMongoCollection<Carton> Carton { get; }
     }
 }

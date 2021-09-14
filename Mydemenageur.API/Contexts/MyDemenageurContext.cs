@@ -19,5 +19,7 @@ namespace Mydemenageur.API.Contexts
         public IMongoCollection<Review> Review { get { return _database.GetCollection<Review>("reviews"); } }
         public IMongoCollection<Help> Help { get { return _database.GetCollection<Help>("helps"); } }
         public IMongoCollection<Service> Service { get { return _database.GetCollection<Service>("services"); } }
+        public IMongoCollection<Carton> Carton { get { return _database.GetCollection<Carton>("cartons"); } }
+
     }
 }
