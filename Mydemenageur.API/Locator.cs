@@ -25,12 +25,10 @@ namespace Mydemenageur.API
             services.AddScoped<IPastActionsService, PastActionsService>();
             services.AddScoped<IReviewService, ReviewService>();
             services.AddScoped<IHelpService, HelpService>();
-            services.AddScoped<IServiceProposedService, ServicesProposedService>();
 
             services.AddScoped<IDPUser, DPUser>();
             services.AddScoped<IDPReview, DPReview>();
             services.AddScoped<IDPHelp, DPHelp>();
-            services.AddScoped<IDPService, DPService>();
         }
     }
 }

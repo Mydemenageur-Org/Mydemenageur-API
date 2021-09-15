@@ -9,7 +9,7 @@ using Mydemenageur.API.Entities;
 
 namespace Mydemenageur.API.DP.DataProvider
 {
-    public class DPDemenagementPro
+    public class DPDemenagementPro: IDPDemenagementPro
     {
         private readonly MyDemenageurContext _db;
 

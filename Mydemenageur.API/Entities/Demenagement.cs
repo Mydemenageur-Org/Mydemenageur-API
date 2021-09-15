@@ -9,6 +9,8 @@ namespace Mydemenageur.API.Entities
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]
         public string Id { get; set; }
+        [BsonRepresentation(BsonType.ObjectId)]
+        public string DemenagementId { get; set; }
         public DateTime? MoveDate { get; set; }
         public string FromCity { get; set; }
         public string ToCity { get; set; }

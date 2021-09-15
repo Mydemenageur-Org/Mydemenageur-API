@@ -1,13 +1,10 @@
 ﻿using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using Mydemenageur.API.Entities;
 
-namespace Mydemenageur.API.Entities
+namespace Mydemenageur.API.Models.Services
 {
-    public class DemenagementPro
+    public class DemenagementProModel
     {
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]
@@ -22,6 +19,5 @@ namespace Mydemenageur.API.Entities
         public bool IsStartingDateKnown { get; set; }
         public string? Volume { get; set; }
         public string? Surface { get; set; }
-
     }
 }
