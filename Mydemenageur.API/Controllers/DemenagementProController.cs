@@ -25,10 +25,10 @@ namespace Mydemenageur.API.Controllers
         }
 
         /// <summary>
-        /// To get all helps card
+        /// To get all demenagement card
         /// </summary>
         /// <returns></returns>
-        /// <response code="200">Return the list of the helps</response>returns></returns>
+        /// <response code="200">Return the list of the demenagement</response>returns></returns>
         [HttpGet]
         public async Task<ActionResult<IList<DemenagementProModel>>> GetDemenagementsPro([FromQuery] bool isStartingDateKnown, [FromQuery] bool isHouse, [FromQuery] bool hasMultipleFloors, [FromQuery] Nullable<DateTime> date = null, [FromQuery] string startZipCode = null, [FromQuery] string startAddr = null, [FromQuery] string fromCity = null, [FromQuery] string endZipCode = null, [FromQuery] string endAddr = null, [FromQuery] string toCity = null, [FromQuery] string volume = null, [FromQuery] string surface = null, [FromQuery] string serviceType = null, [FromQuery] string demenagementType = null, [FromQuery] int size = 0)
         {
@@ -39,7 +39,7 @@ namespace Mydemenageur.API.Controllers
         /// To create an announce
         /// </summary>
         /// <returns></returns>
-        /// <response code="200">Return the id of the help announce created</response>returns></returns>
+        /// <response code="200">Return the id of the demenagement announce created</response>returns></returns>
         [AllowAnonymous]
         [HttpPost]
         public async Task<ActionResult<string>> CreateDemenagementPro(DemenagementProModel demPro)
@@ -48,7 +48,7 @@ namespace Mydemenageur.API.Controllers
         }
 
         /// <summary>
-        /// To update a help announce
+        /// To update a demenagement announce
         /// </summary>
         /// <returns></returns>
         [HttpPut("{id:length(24)}")]
@@ -67,7 +67,7 @@ namespace Mydemenageur.API.Controllers
         }
 
         /// <summary>
-        /// To delete a help announce
+        /// To delete a demenagement announce
         /// </summary>
         /// <returns></returns>
         [HttpDelete("{id:length(24)}")]

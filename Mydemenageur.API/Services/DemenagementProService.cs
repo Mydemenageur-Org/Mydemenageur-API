@@ -12,7 +12,7 @@ using System.Linq.Expressions;
 
 namespace Mydemenageur.API.Services
 {
-    public class DemenagementProService
+    public class DemenagementProService: IDemenagementProService
     {
         private IDPDemenagementPro _dpDemenagementPro;
 

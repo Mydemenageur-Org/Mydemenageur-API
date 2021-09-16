@@ -25,10 +25,10 @@ namespace Mydemenageur.API.Controllers
         }
 
         /// <summary>
-        /// To get all helps card
+        /// To get all carton card
         /// </summary>
         /// <returns></returns>
-        /// <response code="200">Return the list of the helps</response>returns></returns>
+        /// <response code="200">Return the list of the cartons</response>returns></returns>
         [HttpGet]
         public async Task<ActionResult<IList<CartonModel>>> GetCartons([FromQuery] bool isFlexible, [FromQuery]  string typeService, [FromQuery] string boxNb = null, [FromQuery] string boxSize = null, [FromQuery] string zipCode = null, [FromQuery] string city = null, [FromQuery] Nullable<DateTime> dateDisponibility = null, [FromQuery] Nullable<DateTime> startDisponibility = null, [FromQuery] Nullable<DateTime> endDisponibility = null, [FromQuery] int size = 0)
         {
@@ -39,7 +39,7 @@ namespace Mydemenageur.API.Controllers
         /// To create an announce
         /// </summary>
         /// <returns></returns>
-        /// <response code="200">Return the id of the help announce created</response>returns></returns>
+        /// <response code="200">Return the id of the carton announce created</response>returns></returns>
         [AllowAnonymous]
         [HttpPost]
         public async Task<ActionResult<string>> CreateCarton(CartonModel cartonModel)
@@ -58,7 +58,7 @@ namespace Mydemenageur.API.Controllers
 
 
         /// <summary>
-        /// To update a help announce
+        /// To update a carton announce
         /// </summary>
         /// <returns></returns>
         [HttpPut("{id:length(24)}")]
@@ -77,7 +77,7 @@ namespace Mydemenageur.API.Controllers
         }
 
         /// <summary>
-        /// To delete a help announce
+        /// To delete a carton announce
         /// </summary>
         /// <returns></returns>
         [HttpDelete("{id:length(24)}")]

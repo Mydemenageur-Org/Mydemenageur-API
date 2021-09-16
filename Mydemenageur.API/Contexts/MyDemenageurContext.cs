@@ -22,6 +22,10 @@ namespace Mydemenageur.API.Contexts
         public IMongoCollection<Demenagement> Demenagement { get { return _database.GetCollection<Demenagement>("demenagement"); } }
         public IMongoCollection<DemenagementIndividuel> DemenagementIndiv { get { return _database.GetCollection<DemenagementIndividuel>("demenagementIndiv"); } }
         public IMongoCollection<DemenagementPro> DemenagementPro { get { return _database.GetCollection<DemenagementPro>("demenagementPro"); } }
-
+        public IMongoCollection<Menage> Menage { get { return _database.GetCollection<Menage>("Menage"); } }
+        public IMongoCollection<MenageLavageAuto> MenageLavageAuto { get { return _database.GetCollection<MenageLavageAuto>("MenageLavageAuto"); } }
+        public IMongoCollection<MenageDomicile> MenageDomicile { get { return _database.GetCollection<MenageDomicile>("MenageDomicile"); } }
+        public IMongoCollection<MenageNettoyageVitre> MenageNettoyageVitre { get { return _database.GetCollection<MenageNettoyageVitre>("MenageNettoyageVitre"); } }
+        public IMongoCollection<MenageRepassage> MenageRepassage { get; { return _database.GetCollection<MenageRepassage>("MenageRepassage"); } }
     }
 }
