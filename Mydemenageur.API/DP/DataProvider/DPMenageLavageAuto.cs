@@ -8,7 +8,7 @@ using Mydemenageur.API.Entities;
 
 namespace Mydemenageur.API.DP.DataProvider
 {
-    public class DPMenageLavageAuto
+    public class DPMenageLavageAuto: IDPMenageLavageAuto
     {
         public readonly MyDemenageurContext _db;
         public DPMenageLavageAuto(IOptions<MongoSettings> settings)

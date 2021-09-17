@@ -8,6 +8,6 @@ namespace Mydemenageur.API.DP.Interface
     {
         public IMongoQueryable<MenageLavageAuto> Obtain();
         public IMongoCollection<MenageLavageAuto> GetCollection();
-        public IMongoQueryable<MenageLavageAuto> GetCartonById(string id);
+        public IMongoQueryable<MenageLavageAuto> GetMenageById(string id);
     }
 }

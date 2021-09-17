@@ -2,9 +2,9 @@
 using MongoDB.Bson.Serialization.Attributes;
 using System;
 
-namespace Mydemenageur.API.Entities
+namespace Mydemenageur.API.Models.Demarche
 {
-    public class Demarche
+    public class DemarcheModel
     {
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]

@@ -8,7 +8,7 @@ using Mydemenageur.API.Entities;
 
 namespace Mydemenageur.API.DP.DataProvider
 {
-    public class DPMenageDomicile
+    public class DPMenageDomicile: IDPMenageDomicile
     {
         public readonly MyDemenageurContext _db;
         public DPMenageDomicile(IOptions<MongoSettings> settings)

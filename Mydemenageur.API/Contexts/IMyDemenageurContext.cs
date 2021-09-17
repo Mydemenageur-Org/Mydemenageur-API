@@ -11,5 +11,6 @@ namespace Mydemenageur.API.Contexts
         public IMongoCollection<Carton> Carton { get; }
         public IMongoCollection<DemenagementIndividuel> DemenagementIndiv { get; }
         public IMongoCollection<DemenagementPro> DemenagementPro { get; }
+        public IMongoCollection<Demarche> Demarche { get; }
     }
 }

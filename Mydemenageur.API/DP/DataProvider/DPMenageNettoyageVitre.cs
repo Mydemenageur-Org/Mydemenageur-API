@@ -8,7 +8,7 @@ using Mydemenageur.API.Entities;
 
 namespace Mydemenageur.API.DP.DataProvider
 {
-    public class DPMenageNettoyageVitre
+    public class DPMenageNettoyageVitre: IDPMenageNettoyageVitre
     {
         public readonly MyDemenageurContext _db;
         public DPMenageNettoyageVitre(IOptions<MongoSettings> settings)

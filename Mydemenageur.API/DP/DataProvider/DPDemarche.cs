@@ -5,30 +5,29 @@ using Microsoft.Extensions.Options;
 using MongoDB.Driver;
 using MongoDB.Driver.Linq;
 using Mydemenageur.API.Entities;
-
 namespace Mydemenageur.API.DP.DataProvider
 {
-    public class DPMenage: IDPMenage
+    public class DPDemarche: IDPDemarche
     {
         public readonly MyDemenageurContext _db;
-        public DPMenage(IOptions<MongoSettings> settings)
+        public DPDemarche(IOptions<MongoSettings> settings)
         {
             _db = new MyDemenageurContext(settings);
         }
 
-        public IMongoQueryable<Menage> Obtain()
+        public IMongoQueryable<Demarche> Obtain()
         {
-            return _db.Menage.AsQueryable();
+            return _db.Demarche.AsQueryable();
         }
 
-        public IMongoCollection<Menage> GetCollection()
+        public IMongoCollection<Demarche> GetCollection()
         {
-            return _db.Menage;
+            return _db.Demarche;
         }
 
-        public IMongoQueryable<Menage> GetMenageById(string id)
+        public IMongoQueryable<Demarche> GetDemarcheById(string id)
         {
-            return _db.Menage.AsQueryable().Where(db => db.Id == id);
+            return _db.Demarche.AsQueryable().Where(db => db.Id == id);
         }
     }
 }
