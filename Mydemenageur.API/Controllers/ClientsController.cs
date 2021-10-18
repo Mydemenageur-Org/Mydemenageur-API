@@ -1,10 +1,10 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Mydemenageur.API.Entities;
-using Mydemenageur.API.Models.Clients;
-using Mydemenageur.API.Models.Users;
-using Mydemenageur.API.Services.Interfaces;
+using Mydemenageur.DAL.Entities;
+using Mydemenageur.DAL.Models.Clients;
+using Mydemenageur.DAL.Models.Users;
+using Mydemenageur.BLL.Services.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;

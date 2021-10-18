@@ -12,6 +12,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyDemenageur.ScenarioTests"
 		{B2BFABAD-DB46-4F4B-B3DC-38EC5959BE8E} = {B2BFABAD-DB46-4F4B-B3DC-38EC5959BE8E}
 	EndProjectSection
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mydemenageur.DAL", "Mydemenageur.DAL\Mydemenageur.DAL.csproj", "{8B94A1A0-17A3-4CE1-8FC9-09F2D2968A61}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mydemenageur.BLL", "Mydemenageur.BLL\Mydemenageur.BLL.csproj", "{2798F130-6EE7-4F34-8512-D7D3BFF187D3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -30,6 +34,14 @@ Global
 		{342FDB26-D2DF-4261-8244-6E6DFA6C0DF7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{342FDB26-D2DF-4261-8244-6E6DFA6C0DF7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{342FDB26-D2DF-4261-8244-6E6DFA6C0DF7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8B94A1A0-17A3-4CE1-8FC9-09F2D2968A61}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8B94A1A0-17A3-4CE1-8FC9-09F2D2968A61}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8B94A1A0-17A3-4CE1-8FC9-09F2D2968A61}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8B94A1A0-17A3-4CE1-8FC9-09F2D2968A61}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2798F130-6EE7-4F34-8512-D7D3BFF187D3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2798F130-6EE7-4F34-8512-D7D3BFF187D3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2798F130-6EE7-4F34-8512-D7D3BFF187D3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2798F130-6EE7-4F34-8512-D7D3BFF187D3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

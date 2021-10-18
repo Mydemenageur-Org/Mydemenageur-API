@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Mydemenageur.API.Entities;
-using Mydemenageur.API.Services.Interfaces;
+using Mydemenageur.DAL.Entities;
+using Mydemenageur.BLL.Services.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;

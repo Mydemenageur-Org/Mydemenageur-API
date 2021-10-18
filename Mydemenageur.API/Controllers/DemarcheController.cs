@@ -1,9 +1,9 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Mydemenageur.API.Models.Demarche;
-using Mydemenageur.API.Models.Services;
-using Mydemenageur.API.Services.Interfaces;
+using Mydemenageur.DAL.Models.Demarche;
+using Mydemenageur.DAL.Models.Services;
+using Mydemenageur.BLL.Services.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;

@@ -7,10 +7,8 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
-using Mydemenageur.API.Settings;
-using Mydemenageur.API.Settings.Interfaces;
-using Mydemenageur.API.Services;
-using Mydemenageur.API.Services.Interfaces;
+using Mydemenageur.DAL.Settings;
+using Mydemenageur.DAL.Settings.Interfaces;
 using System.IO;
 using System.Text;
 

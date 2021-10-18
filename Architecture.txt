@@ -1,0 +1,16 @@
+Projet principale :
+ - controller
+ - appSettings
+ - Program et Startup
+
+DAL :
+ - Contexte
+ - DP
+ - Modèle
+ - Settings
+
+BLL : 
+ - BS 
+ - DTO 
+ - Extensions 
+ - Locator 

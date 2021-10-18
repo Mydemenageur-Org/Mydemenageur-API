@@ -1,11 +1,11 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-using Mydemenageur.API.DP.DataProvider;
-using Mydemenageur.API.DP.Interface;
+using Mydemenageur.DAL.DP.DataProvider;
+using Mydemenageur.DAL.DP.Interface;
 
-using Mydemenageur.API.Services;
-using Mydemenageur.API.Services.Interfaces;
+using Mydemenageur.BLL.Services;
+using Mydemenageur.BLL.Services.Interfaces;
 
 namespace Mydemenageur.API
 {
