@@ -1,0 +1,4 @@
+apiVersion: v1
+description: The Helm chart for the MyDemenageur API
+name: mydemenageur-api
+version: 1.0.0
