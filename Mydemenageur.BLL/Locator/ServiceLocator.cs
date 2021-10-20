@@ -7,12 +7,13 @@ using Mydemenageur.DAL.DP.Interface;
 using Mydemenageur.BLL.Services;
 using Mydemenageur.BLL.Services.Interfaces;
 
-namespace Mydemenageur.BLL
+namespace Mydemenageur.BLL.Locator
 {
-    public static class Locator
+    public static class ServiceLocator
     {
-        public static void InitLocator(this IServiceCollection services, IConfiguration configuration)
+        public static void AddBusinessservices(this IServiceCollection services)
         {
+            // Business services
             services.AddScoped<IAuthenticationService, AuthenticationService>();
             services.AddScoped<IClientsService, ClientsService>();
             services.AddScoped<IFilesService, FilesService>();
@@ -26,6 +27,7 @@ namespace Mydemenageur.BLL
             services.AddScoped<IReviewService, ReviewService>();
             services.AddScoped<IHelpService, HelpService>();
 
+            // DataProvider services
             services.AddScoped<IDPUser, DPUser>();
             services.AddScoped<IDPReview, DPReview>();
             services.AddScoped<IDPHelp, DPHelp>();
