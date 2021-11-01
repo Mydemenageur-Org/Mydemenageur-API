@@ -16,6 +16,8 @@ namespace Mydemenageur.DAL.Models.GenericService
         [BsonRepresentation(BsonType.ObjectId)]
         public string UserId { get; set; }
 
+        public string Name { get; set; }
+
         public DateTime Date { get; set; }
 
         public IList<GenericServiceField> Fields { get; set; }

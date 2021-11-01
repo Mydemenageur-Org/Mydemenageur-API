@@ -1,5 +1,4 @@
-﻿using Mydemenageur.DAL.Entities;
-using Mydemenageur.DAL.Models.Users;
+﻿using Mydemenageur.DAL.Models.Users;
 using System;
 using System.Collections.Generic;
 using System.Linq;

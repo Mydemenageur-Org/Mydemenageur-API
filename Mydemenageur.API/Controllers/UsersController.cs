@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Mydemenageur.DAL.Entities;
 using Mydemenageur.DAL.Models.Users;
 using Mydemenageur.BLL.Services.Interfaces;
 using System;
@@ -16,7 +15,12 @@ namespace Mydemenageur.API.Controllers
     [ApiController]
     public class UsersController : ControllerBase
     {
-      
+        private readonly IUsersService _usersService;
 
+        public UsersController(IUsersService usersService)
+        {
+            _usersService = usersService;
+        }
+      
     }
 }
