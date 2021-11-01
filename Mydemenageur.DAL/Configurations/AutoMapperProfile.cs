@@ -13,6 +13,7 @@ namespace Mydemenageur.BLL.Configurations
         {
             CreateMap<RegisterModel, MyDemenageurUser>();
                 //.ForMember(dest => dest.Username, opt => opt.MapFrom(src => src.RegisterUsername));
+            CreateMap<UserUpdateModel, MyDemenageurUser>();
         }
     }
 }

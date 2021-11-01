@@ -19,7 +19,12 @@ namespace Mydemenageur.DAL.DP.DataProvider
             this._db = new MyDemenageurContext(setting);
         }
 
-        public IMongoCollection<MyDemenageurUser> Obtain()
+        public IMongoQueryable<MyDemenageurUser> Obtain()
+        {
+            return this._db.MyDemenageurUser.AsQueryable();
+        }
+
+        public IMongoCollection<MyDemenageurUser> GetCollection()
         {
             return this._db.MyDemenageurUser;
         }

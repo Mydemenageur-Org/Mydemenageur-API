@@ -44,5 +44,26 @@
             <param name="toCreate"></param>
             <returns></returns>
         </member>
+        <member name="M:Mydemenageur.API.Controllers.UsersController.GetUsers">
+            <summary>
+            Get all users 
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Mydemenageur.API.Controllers.UsersController.GetUser(System.String)">
+            <summary>
+            Get a specific user by it's id
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Mydemenageur.API.Controllers.UsersController.UpdateUser(System.String,Mydemenageur.DAL.Models.Users.UserUpdateModel)">
+            <summary>
+            Update a user
+            </summary>
+            <param name="id"></param>
+            <param name="toUpdate"></param>
+            <returns></returns>
+        </member>
     </members>
 </doc>

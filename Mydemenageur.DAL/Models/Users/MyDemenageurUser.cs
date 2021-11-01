@@ -13,7 +13,7 @@ namespace Mydemenageur.DAL.Models.Users
         /// The user's profile picture id 
         /// </summary>
         [BsonRepresentation(MongoDB.Bson.BsonType.ObjectId)]
-        public string ProfilePicture { get; set; }
+        public string ProfilePictureId { get; set; }
         /// <summary>
         /// The user's id
         /// </summary>
@@ -58,6 +58,7 @@ namespace Mydemenageur.DAL.Models.Users
         /// <summary>
         /// The user's about
         /// </summary>
+        /// <example>Je suis un super jeune qui déménage tous les jours</example>
         public string About { get; set; }
         /// <summary>
         /// The user's role. The roles are : Admin, Client, Mover

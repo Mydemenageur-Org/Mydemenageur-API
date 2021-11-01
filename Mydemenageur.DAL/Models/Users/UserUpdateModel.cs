@@ -1,4 +1,5 @@
-﻿using MongoDB.Bson.Serialization.Attributes;
+﻿using MongoDB.Bson;
+using MongoDB.Bson.Serialization.Attributes;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -10,11 +11,12 @@ namespace Mydemenageur.DAL.Models.Users
 {
     public class UserUpdateModel
     {
+        [BsonRepresentation(BsonType.ObjectId)]
+        public string Id { get; set; }
         /// <summary>
         /// The user's profile picture id 
         /// </summary>
-        [BsonRepresentation(MongoDB.Bson.BsonType.ObjectId)]
-        public string ProfilePicture { get; set; }
+        public byte[] ProfilePicture { get; set; }
 
         /// <summary>
         /// The user's first name

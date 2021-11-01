@@ -11,7 +11,7 @@ namespace Mydemenageur.DAL.Models.Users
         /// <summary>
         /// The user's profile picture id 
         /// </summary>
-        public string ProfilePicture { get; set; }
+        public byte[] ProfilePicture { get; set; }
         /// <summary>
         /// The user's first name
         /// </summary>

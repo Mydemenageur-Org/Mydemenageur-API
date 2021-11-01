@@ -59,9 +59,9 @@ namespace Mydemenageur.BLL.Services
                 .Set(dbMyDemUser => dbMyDemUser.LastConnection, DateTime.Now)
                 .Set(dbMyDemUser => dbMyDemUser.Token, user.Token);
 
-            var myDemUser = await (await _dpMyDemUser.Obtain().FindAsync(dbMyDemUser => dbMyDemUser.UserId == user.Id)).FirstOrDefaultAsync();
+            var myDemUser = await (await _dpMyDemUser.GetCollection().FindAsync(dbMyDemUser => dbMyDemUser.UserId == user.Id)).FirstOrDefaultAsync();
 
-            await _dpMyDemUser.Obtain().UpdateOneAsync(dbMyDemUser => dbMyDemUser.UserId == user.Id, update);
+            await _dpMyDemUser.GetCollection().UpdateOneAsync(dbMyDemUser => dbMyDemUser.UserId == user.Id, update);
             return myDemUser;
         }
 
@@ -89,7 +89,7 @@ namespace Mydemenageur.BLL.Services
             MyDemenageurUser mdUser = _mapper.Map<MyDemenageurUser>(registerModel);
             mdUser.UserId = dbUser.Id;
 
-            await _dpMyDemUser.Obtain().InsertOneAsync(mdUser);
+            await _dpMyDemUser.GetCollection().InsertOneAsync(mdUser);
 
             return mdUser;
         }

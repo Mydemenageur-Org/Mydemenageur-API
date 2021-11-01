@@ -8,7 +8,10 @@ namespace Mydemenageur.DAL.DP.Interface
 {
     public interface IDPMyDemenageurUser
     {
-        public IMongoCollection<MyDemenageurUser> Obtain();
+        public IMongoQueryable<MyDemenageurUser> Obtain();
+
+        public IMongoCollection<MyDemenageurUser> GetCollection();
+
         public IMongoQueryable<MyDemenageurUser> GetUserById(string idUser);
         public IMongoQueryable<MyDemenageurUser> GetFiltered(Expression<Func<MyDemenageurUser, bool>> predicate);
     }

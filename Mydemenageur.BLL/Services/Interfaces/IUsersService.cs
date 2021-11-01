@@ -8,6 +8,11 @@ namespace Mydemenageur.BLL.Services.Interfaces
 {
     public interface IUsersService
     {
+        Task<MyDemenageurUser> GetUser(string id);
+        Task<IList<MyDemenageurUser>> GetUsers();
 
+        Task<byte[]> GetProfilePicture(string id);
+
+        Task UpdateUser(byte[] profilePicture, string newPassword, MyDemenageurUser toUpdate);
     }
 }
