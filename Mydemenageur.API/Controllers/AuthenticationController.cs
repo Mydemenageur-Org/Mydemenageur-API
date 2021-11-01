@@ -30,7 +30,7 @@ namespace Mydemenageur.API.Controllers
         [ProducesResponseType(typeof(User), StatusCodes.Status200OK)]
         public async Task<ActionResult<User>> Login([FromBody] LoginModel loginModel)
         {
-            User user = await _authenticationService.LoginAsync(loginModel.Email, loginModel.Password);
+            MyDemenageurUser user = await _authenticationService.LoginAsync(loginModel.Email, loginModel.Password);
 
             if (user == null)
             {
@@ -50,7 +50,7 @@ namespace Mydemenageur.API.Controllers
         [HttpPost("register")]
         public async Task<ActionResult<string>> Register([FromBody] RegisterModel registerModel)
         {
-            User user;
+            MyDemenageurUser user;
 
             try
             {
