@@ -16,7 +16,6 @@ namespace Mydemenageur.BLL.Locator
             // Business services
             services.AddScoped<IAuthenticationService, AuthenticationService>();
             services.AddScoped<IFilesService, FilesService>();
-            services.AddScoped<ISocietiesService, SocietiesService>();
             services.AddScoped<IUsersService, UsersService>();
 
             // DataProvider services
