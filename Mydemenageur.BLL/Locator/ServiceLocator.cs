@@ -15,22 +15,12 @@ namespace Mydemenageur.BLL.Locator
         {
             // Business services
             services.AddScoped<IAuthenticationService, AuthenticationService>();
-            services.AddScoped<IClientsService, ClientsService>();
             services.AddScoped<IFilesService, FilesService>();
-            services.AddScoped<IHousingsService, HousingsService>();
-            services.AddScoped<IMoveRequestsService, MoveRequestsService>();
-            services.AddScoped<IMoversService, MoversService>();
             services.AddScoped<ISocietiesService, SocietiesService>();
             services.AddScoped<IUsersService, UsersService>();
-            services.AddScoped<IVehiclesService, VehiclesService>();
-            services.AddScoped<IPastActionsService, PastActionsService>();
-            services.AddScoped<IReviewService, ReviewService>();
-            services.AddScoped<IHelpService, HelpService>();
 
             // DataProvider services
             services.AddScoped<IDPUser, DPUser>();
-            services.AddScoped<IDPReview, DPReview>();
-            services.AddScoped<IDPHelp, DPHelp>();
         }
     }
 }

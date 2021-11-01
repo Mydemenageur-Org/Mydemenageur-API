@@ -1,6 +1,5 @@
 ﻿using Microsoft.IdentityModel.Tokens;
 using MongoDB.Driver;
-using Mydemenageur.DAL.Entities;
 using Mydemenageur.DAL.Models.Users;
 using Mydemenageur.BLL.Services.Interfaces;
 using System;
@@ -11,6 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Mydemenageur.DAL.DP.Interface;
 using Mydemenageur.DAL.Settings.Interfaces;
+using AutoMapper;
 
 namespace Mydemenageur.BLL.Services
 {
@@ -19,11 +19,15 @@ namespace Mydemenageur.BLL.Services
         private readonly IDPUser _dpUser;
         private readonly IMongoCollection<User> _users;
         private readonly IMydemenageurSettings _mydemenageurSettings;
+        private readonly IMapper _mapper;
+        private readonly IDPMyDemenageurUser _dpMyDemUser;
 
-        public AuthenticationService(IDPUser dpUser, IMydemenageurSettings mydemenageurSettings)
+        public AuthenticationService(IDPUser dpUser, IMydemenageurSettings mydemenageurSettings, IMapper mapper, IDPMyDemenageurUser dpMyDemUser)
         {
             _dpUser = dpUser;
             _users = _dpUser.Obtain();
+            _mapper = mapper;
+            _dpMyDemUser = dpMyDemUser;
 
             _mydemenageurSettings = mydemenageurSettings;
         }
@@ -54,15 +58,15 @@ namespace Mydemenageur.BLL.Services
             var update = Builders<User>.Update
                 .Set(dbUser => dbUser.LastConnection, DateTime.Now);
 
-            await _users.UpdateOneAsync(dbUser =>
-                dbUser.Id == user.Id,
+            await _dpMyDemUser.Obtain().UpdateOneAsync(dbUser =>
+                dbUser.UserId == user.Id,
                 update
             );
 
             return user;
         }
 
-        public async Task<User> RegisterAsync(RegisterModel registerModel)
+        public async Task<MyDemenageurUser> RegisterAsync(RegisterModel registerModel)
         {
             // We need some basic checks
             if (string.IsNullOrWhiteSpace(registerModel.Email)) { throw new Exception("An email is required for the registration");  }
@@ -76,25 +80,19 @@ namespace Mydemenageur.BLL.Services
             // Now we register the user in the database
             User dbUser = new()
             {
-                FirstName = registerModel.FirstName,
-                LastName = registerModel.LastName,
-
-                Email = registerModel.Email.ToLower(),
-                Phone = registerModel.Phone,
-                Username = registerModel.Username.ToLower(),
-                Gender = registerModel.Gender,
-                Role = registerModel.Role,
-                About = registerModel.About,
-                Birthday = registerModel.Birthday,
-                SignupDate = DateTime.Now,
-
+                Email = registerModel.Email,
                 PasswordHash = Convert.ToBase64String(passwordHash),
                 PasswordSalt = passwordSalt
             };
 
             await _users.InsertOneAsync(dbUser);
 
-            return dbUser;
+            MyDemenageurUser mdUser = _mapper.Map<MyDemenageurUser>(registerModel);
+            mdUser.UserId = dbUser.Id;
+
+            await _dpMyDemUser.Obtain().InsertOneAsync(mdUser);
+
+            return mdUser;
         }
 
         private bool UserExist(string email, string username)

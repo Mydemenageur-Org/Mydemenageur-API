@@ -6,7 +6,7 @@ using System.Linq.Expressions;
 
 namespace Mydemenageur.DAL.DP.Interface
 {
-    public interface IDPUser
+    public interface IDPMyDemenageurUser
     {
         public IMongoCollection<User> Obtain();
         public IMongoQueryable<User> GetUserById(string idUser);

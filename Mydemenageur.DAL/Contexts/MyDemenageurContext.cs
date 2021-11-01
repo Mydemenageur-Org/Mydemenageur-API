@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.Options;
 using MongoDB.Driver;
+using Mydemenageur.DAL.Models.Users;
 using Mydemenageur.DAL.Settings;
-using Mydemenageur.DAL.Entities;
 
 namespace Mydemenageur.DAL.Contexts
 {
@@ -16,17 +16,6 @@ namespace Mydemenageur.DAL.Contexts
         }
 
         public IMongoCollection<User> User { get { return _database.GetCollection<User>("users"); } }
-        public IMongoCollection<Review> Review { get { return _database.GetCollection<Review>("reviews"); } }
-        public IMongoCollection<Help> Help { get { return _database.GetCollection<Help>("helps"); } }
-        public IMongoCollection<Carton> Carton { get { return _database.GetCollection<Carton>("cartons"); } }
-        public IMongoCollection<Demenagement> Demenagement { get { return _database.GetCollection<Demenagement>("demenagement"); } }
-        public IMongoCollection<DemenagementIndividuel> DemenagementIndiv { get { return _database.GetCollection<DemenagementIndividuel>("demenagementIndiv"); } }
-        public IMongoCollection<DemenagementPro> DemenagementPro { get { return _database.GetCollection<DemenagementPro>("demenagementPro"); } }
-        public IMongoCollection<Menage> Menage { get { return _database.GetCollection<Menage>("Menage"); } }
-        public IMongoCollection<MenageLavageAuto> MenageLavageAuto { get { return _database.GetCollection<MenageLavageAuto>("MenageLavageAuto"); } }
-        public IMongoCollection<MenageDomicile> MenageDomicile { get { return _database.GetCollection<MenageDomicile>("MenageDomicile"); } }
-        public IMongoCollection<MenageNettoyageVitre> MenageNettoyageVitre { get { return _database.GetCollection<MenageNettoyageVitre>("MenageNettoyageVitre"); } }
-        public IMongoCollection<MenageRepassage> MenageRepassage { get { return _database.GetCollection<MenageRepassage>("MenageRepassage"); } }
-        public IMongoCollection<Demarche> Demarche { get { return _database.GetCollection<Demarche>("Demarche"); } }
+        public IMongoCollection<MyDemenageurUser> MyDemenageurUser { get { return _database.GetCollection<MyDemenageurUser>("myDemenageurUser");  } }
     }
 }

@@ -6,11 +6,11 @@ using MongoDB.Driver;
 using MongoDB.Driver.Linq;
 using System.Linq.Expressions;
 using System;
-using Mydemenageur.DAL.Models.Users;
+using Mydemenageur.DAL.Models.MyDemenageurUser;
 
 namespace Mydemenageur.DAL.DP.DataProvider
 {
-    public class DPUser: IDPUser
+    public class DPMyDemenageurUser : IDPMyDemenageurUser
     {
         private readonly MyDemenageurContext _db;
 
@@ -21,17 +21,17 @@ namespace Mydemenageur.DAL.DP.DataProvider
 
         public IMongoCollection<User> Obtain()
         {
-            return this._db.User;
+            return this._db.MyDemenageurUser;
         }
 
         public IMongoQueryable<User> GetUserById(string idUser)
         {
-            return _db.User.AsQueryable().Where(w => w.Id == idUser);
+            return _db.MyDemenageurUser.AsQueryable().Where(w => w.Id == idUser);
         }
 
         public IMongoQueryable<User> GetFiltered(Expression<Func<User, bool>> predicate)
         {
-            return _db.User.AsQueryable()
+            return _db.MyDemenageurUser.AsQueryable()
                 .Where(predicate);
         }
     }

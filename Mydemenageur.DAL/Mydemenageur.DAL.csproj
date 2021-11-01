@@ -8,6 +8,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="DP\DataProvider\NewFile.txt" />
+    <None Remove="DP\Interface\NewFile.txt" />
+    <None Remove="Models\Users\NewFile.txt" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="MongoDB.Bson" Version="2.13.2" />
     <PackageReference Include="MongoDB.Driver" Version="2.13.2" />
     <PackageReference Include="MongoDB.Driver.GridFS" Version="2.13.2" />

@@ -9,6 +9,7 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Mydemenageur.DAL.Settings;
 using Mydemenageur.DAL.Settings.Interfaces;
+using System;
 using System.IO;
 using System.Text;
 
@@ -69,6 +70,7 @@ namespace Mydemenageur.API
             });
 
 
+            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             services.AddCors(options =>
             {
                 options.AddPolicy(MyAllowSpecificOrigins, builder =>

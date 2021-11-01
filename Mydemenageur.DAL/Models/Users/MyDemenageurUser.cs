@@ -2,9 +2,9 @@
 using System;
 using System.Text.Json.Serialization;
 
-namespace Mydemenageur.DAL.Entities
+namespace Mydemenageur.DAL.Models.Users
 {
-    public class User
+    public class MyDemenageurUser
     {
         [BsonId]
         [BsonRepresentation(MongoDB.Bson.BsonType.ObjectId)]
@@ -15,6 +15,11 @@ namespace Mydemenageur.DAL.Entities
         [BsonRepresentation(MongoDB.Bson.BsonType.ObjectId)]
         public string ProfilePicture { get; set; }
         /// <summary>
+        /// The user's id
+        /// </summary>
+        [BsonRepresentation(MongoDB.Bson.BsonType.ObjectId)]
+        public string UserId { get; set; }
+        /// <summary>
         /// The user's first name
         /// </summary>
         /// <example>Victor</example>
@@ -24,16 +29,10 @@ namespace Mydemenageur.DAL.Entities
         /// </summary>
         /// <example>DENIS</example>
         public string LastName { get; set; }
-
         /// <summary>
         /// The user's gender
         /// </summary>
         public string Gender { get; set; }
-        /// <summary>
-        /// The user's email
-        /// </summary>
-        /// <example>admin@feldrise.com</example>
-        public string Email { get; set; }
         /// <summary>
         /// The user's phone
         /// </summary>
@@ -60,22 +59,10 @@ namespace Mydemenageur.DAL.Entities
         /// The user's about
         /// </summary>
         public string About { get; set; }
-
-        // Authentication related
-        [JsonIgnore]
-        public string PasswordHash { get; set; }
-        [JsonIgnore]
-        public byte[] PasswordSalt { get; set; }
-
         /// <summary>
         /// The user's role. The roles are : Admin, Client, Mover
         /// </summary>
         /// <example>Client</example>
         public string Role { get; set; }
-        /// <summary>
-        ///  The user's connection token
-        /// </summary>
-        public string Token { get; set; }
-
     }
 }
