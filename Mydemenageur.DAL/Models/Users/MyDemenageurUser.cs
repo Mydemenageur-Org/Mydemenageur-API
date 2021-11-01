@@ -64,5 +64,10 @@ namespace Mydemenageur.DAL.Models.Users
         /// </summary>
         /// <example>Client</example>
         public string Role { get; set; }
+
+        /// <summary>
+        /// Token duplicate
+        /// </summary>
+        public string Token { get; set; }
     }
 }

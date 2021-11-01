@@ -32,7 +32,7 @@ namespace Mydemenageur.BLL.Services
             _mydemenageurSettings = mydemenageurSettings;
         }
 
-        public async Task<User> LoginAsync(string username, string password)
+        public async Task<MyDemenageurUser> LoginAsync(string username, string password)
         {
             // We don't send exception here, the request is only
             // valid for non null values
@@ -55,15 +55,14 @@ namespace Mydemenageur.BLL.Services
             // generate the token
             user.Token = TokenForUser(user);
 
-            var update = Builders<User>.Update
-                .Set(dbUser => dbUser.LastConnection, DateTime.Now);
+            var update = Builders<MyDemenageurUser>.Update
+                .Set(dbMyDemUser => dbMyDemUser.LastConnection, DateTime.Now)
+                .Set(dbMyDemUser => dbMyDemUser.Token, user.Token);
 
-            await _dpMyDemUser.Obtain().UpdateOneAsync(dbUser =>
-                dbUser.UserId == user.Id,
-                update
-            );
+            var myDemUser = await (await _dpMyDemUser.Obtain().FindAsync(dbMyDemUser => dbMyDemUser.UserId == user.Id)).FirstOrDefaultAsync();
 
-            return user;
+            await _dpMyDemUser.Obtain().UpdateOneAsync(dbMyDemUser => dbMyDemUser.UserId == user.Id, update);
+            return myDemUser;
         }
 
         public async Task<MyDemenageurUser> RegisterAsync(RegisterModel registerModel)
