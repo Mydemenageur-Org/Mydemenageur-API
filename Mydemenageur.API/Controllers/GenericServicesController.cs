@@ -26,11 +26,12 @@ namespace Mydemenageur.API.Controllers
         /// Get a service by ID
         /// </summary>
         /// <param name="id"></param>
+        /// <param name="fields"></param>
         /// <returns></returns>
         [HttpGet("{id:length(24)}")]
-        public async Task<ActionResult<GenericService>> GetGenericService(string id)
+        public async Task<ActionResult<GenericService>> GetGenericService(string id, [FromQuery] IList<string> fields)
         {
-            GenericService genericService = await _genericServicesService.GetGenericService(id);
+            GenericService genericService = await _genericServicesService.GetGenericService(id, fields);
 
             if (genericService == null)
             {
@@ -44,11 +45,12 @@ namespace Mydemenageur.API.Controllers
         /// Get all generic services. Can be filtered by name
         /// </summary>
         /// <param name="name"></param>
+        /// <param name="fields"></param>
         /// <returns></returns>
         [HttpGet]
-        public async Task<ActionResult<IList<GenericService>>> GetGenericServices([FromQuery] string name)
+        public async Task<ActionResult<IList<GenericService>>> GetGenericServices([FromQuery] string name, [FromQuery] IList<string> fields)
         {
-            IList<GenericService> genericServices = await _genericServicesService.GetGenericServices(name);
+            IList<GenericService> genericServices = await _genericServicesService.GetGenericServices(name, fields);
 
             return Ok(genericServices);
         }

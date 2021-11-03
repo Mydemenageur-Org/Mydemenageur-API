@@ -19,18 +19,47 @@ namespace Mydemenageur.BLL.Services
             _dpGenericService = dPGenericService;
         }
 
-        public async Task<GenericService> GetGenericService(string id)
+        public async Task<GenericService> GetGenericService(string id, IList<string> fields)
         {
-            return await _dpGenericService.GetGenericServiceById(id).FirstOrDefaultAsync();
+            GenericService service = await _dpGenericService.GetGenericServiceById(id).FirstOrDefaultAsync();
+
+
+            if (fields.Count > 0) {
+                foreach (var serviceField in service.Fields)
+                {
+                    if (!fields.Contains(serviceField.FieldId))
+                    {
+                        service.Fields.Remove(serviceField);
+                    }
+                }
+            }
+
+            return service;
         }
 
-        public async Task<IList<GenericService>> GetGenericServices(string name)
+        public async Task<IList<GenericService>> GetGenericServices(string name, IList<string> fields)
         {
             IMongoQueryable<GenericService> genericServices = _dpGenericService.GetFiltered(
                 dbGenericService => string.IsNullOrWhiteSpace(name) ? true : dbGenericService.Name == name
             );
 
-            return await genericServices.ToListAsync();
+            IList<GenericService> services = await genericServices.ToListAsync();
+
+            if (fields.Count > 0)
+            {
+                foreach (var service in services)
+                {
+                    foreach (var serviceField in service.Fields)
+                    {
+                        if (!fields.Contains(serviceField.FieldId))
+                        {
+                            service.Fields.Remove(serviceField);
+                        }
+                    }
+                }
+            }
+
+            return services;
         }
 
         public async Task<string> CreateGenericService(GenericService toCreate)
