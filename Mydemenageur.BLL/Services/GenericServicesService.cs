@@ -39,9 +39,17 @@ namespace Mydemenageur.BLL.Services
 
         public async Task<IList<GenericService>> GetGenericServices(string name, IList<string> fields)
         {
-            IMongoQueryable<GenericService> genericServices = _dpGenericService.GetFiltered(
-                dbGenericService => string.IsNullOrWhiteSpace(name) ? true : dbGenericService.Name == name
-            );
+
+            IMongoQueryable<GenericService> genericServices;
+
+            if (string.IsNullOrWhiteSpace(name)) {
+                genericServices = _dpGenericService.Obtain();
+            }
+            else {
+                genericServices = _dpGenericService.GetFiltered(
+                    dbGenericService => dbGenericService.Name == name    
+                );  
+            }
 
             IList<GenericService> services = await genericServices.ToListAsync();
 
