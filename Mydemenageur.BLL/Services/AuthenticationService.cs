@@ -140,12 +140,13 @@ namespace Mydemenageur.BLL.Services
         {
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.ASCII.GetBytes(_mydemenageurSettings.ApiSecret);
+            var myDemClient = _dpMyDemUser.Obtain().Where(mdUser => mdUser.UserId == user.Id).FirstOrDefault();
             var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(new Claim[]
                 {
                     new Claim(ClaimTypes.Name, user.Id.ToString()),
-                    new Claim(ClaimTypes.Role, user.Role)
+                    new Claim(ClaimTypes.Role, myDemClient.Role)
                 }),
                 Expires = DateTime.UtcNow.AddDays(20),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)

@@ -12,7 +12,6 @@ namespace Mydemenageur.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
     public class GenericServicesController : ControllerBase
     {
         private readonly IGenericServicesService _genericServicesService;
