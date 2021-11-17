@@ -39,6 +39,13 @@
             <param name="fields"></param>
             <returns></returns>
         </member>
+        <member name="M:Mydemenageur.API.Controllers.GenericServicesController.GetBaseGenericService(System.String)">
+            <summary>
+            Get a service by name
+            </summary>
+            <param name="name"></param>
+            <returns></returns>
+        </member>
         <member name="M:Mydemenageur.API.Controllers.GenericServicesController.CreateGenericService(Mydemenageur.DAL.Models.GenericService.GenericService)">
             <summary>
             Create a generic service

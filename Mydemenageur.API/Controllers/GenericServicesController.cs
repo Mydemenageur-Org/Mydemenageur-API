@@ -55,6 +55,24 @@ namespace Mydemenageur.API.Controllers
         }
 
         /// <summary>
+        /// Get a service by name
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        [HttpGet("base")]
+        public async Task<ActionResult<GenericService>> GetBaseGenericService([FromQuery] string name)
+        {
+            GenericService genericService = await _genericServicesService.GetBaseGenericService(name);
+
+            if (genericService == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(genericService);
+        }
+
+        /// <summary>
         /// Create a generic service
         /// </summary>
         /// <param name="toCreate"></param>

@@ -13,6 +13,7 @@ namespace Mydemenageur.DAL.Models.GenericService
 
         [BsonRepresentation(BsonType.ObjectId)]
         public string UserId { get; set; }
+        public bool IsGenericForm { get; set; }
 
         public string Name { get; set; }
 

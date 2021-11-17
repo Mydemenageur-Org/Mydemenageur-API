@@ -37,6 +37,12 @@ namespace Mydemenageur.BLL.Services
             return service;
         }
 
+        public async Task<GenericService> GetBaseGenericService(string name)
+        {
+            GenericService service = await _dpGenericService.GetGenericServicesByName(name).Where(service => service.IsGenericForm == true).FirstOrDefaultAsync();
+            return service;
+        }
+
         public async Task<IList<GenericService>> GetGenericServices(string name, IList<string> fields)
         {
 
