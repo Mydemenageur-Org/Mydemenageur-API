@@ -76,11 +76,11 @@ namespace Mydemenageur.BLL.Services
             return services;
         }
 
-        public async Task<string> CreateGenericService(GenericService toCreate)
+        public async Task<GenericService> CreateGenericService(GenericService toCreate)
         {
             await _dpGenericService.GetCollection().InsertOneAsync(toCreate);
 
-            return toCreate.Id;
+            return toCreate;
         }
 
         public async Task UpdateGenericService(GenericService toUpdate)

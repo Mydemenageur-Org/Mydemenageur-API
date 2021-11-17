@@ -78,13 +78,13 @@ namespace Mydemenageur.API.Controllers
         /// <param name="toCreate"></param>
         /// <returns></returns>
         [HttpPost]
-        public async Task<ActionResult<string>> CreateGenericService([FromBody] GenericService toCreate)
+        public async Task<ActionResult<GenericService>> CreateGenericService([FromBody] GenericService toCreate)
         {
             try
             {
-                string id = await _genericServicesService.CreateGenericService(toCreate);
+                GenericService service = await _genericServicesService.CreateGenericService(toCreate);
 
-                return Ok(id);
+                return Ok(service);
             }
             catch (Exception e)
             {

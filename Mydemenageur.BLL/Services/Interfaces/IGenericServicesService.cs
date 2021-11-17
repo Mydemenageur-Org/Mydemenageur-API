@@ -12,7 +12,7 @@ namespace Mydemenageur.BLL.Services.Interfaces
         Task<GenericService> GetBaseGenericService(string name);
         Task<IList<GenericService>> GetGenericServices(string name, IList<string> fields);
 
-        Task<string> CreateGenericService(GenericService toCreate);
+        Task<GenericService> CreateGenericService(GenericService toCreate);
 
         Task UpdateGenericService(GenericService toUpdate);
     }
