@@ -23,16 +23,7 @@
             <response code="200">Return the newly registrated user's id</response>
             <returns></returns>
         </member>
-        <member name="M:Mydemenageur.API.Controllers.AuthenticationController.Logout(System.String)">
-            <summary>
-            Disconnect the user
-            </summary>
-            <param name="id"></param>
-            <response code="400">There was one or more errors during the disconnection process</response>
-            <response code="200">Return the id of the user that got disconnected</response>
-            <returns></returns>
-        </member>
-        <member name="M:Mydemenageur.API.Controllers.GenericServicesController.GetGenericService(System.String,System.Collections.Generic.IList{System.String})">
+        <member name="M:Mydemenageur.API.Controllers.GenericServicesController.GetGenericService(System.String,System.String)">
             <summary>
             Get a service by ID
             </summary>
@@ -40,7 +31,7 @@
             <param name="fields"></param>
             <returns></returns>
         </member>
-        <member name="M:Mydemenageur.API.Controllers.GenericServicesController.GetGenericServices(System.String,System.Collections.Generic.IList{System.String})">
+        <member name="M:Mydemenageur.API.Controllers.GenericServicesController.GetGenericServices(System.String,System.String)">
             <summary>
             Get all generic services. Can be filtered by name
             </summary>

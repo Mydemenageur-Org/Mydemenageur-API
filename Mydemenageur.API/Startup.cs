@@ -76,7 +76,12 @@ namespace Mydemenageur.API
                 options.AddPolicy(MyAllowSpecificOrigins, builder =>
                 {
                     builder
-                        .WithOrigins("http://localhost:3000/", "http://my-demenageur.local:3000", "https://my-demenageur.local:3000")
+                        .WithOrigins(
+                            "http://localhost:3000/", 
+                            "http://my-demenageur.local:3000", 
+                            "https://my-demenageur.local:3000",
+                            "http://test.mydemenageur.com",
+                            "https://test.mydemenageur.com")
                         .AllowAnyHeader()
                         .AllowAnyMethod()
                         .SetIsOriginAllowed((host) => true)
