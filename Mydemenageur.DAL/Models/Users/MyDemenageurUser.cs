@@ -65,7 +65,31 @@ namespace Mydemenageur.DAL.Models.Users
         /// </summary>
         /// <example>Client</example>
         public string Role { get; set; }
-
+        /// <summary>
+        /// The user's address
+        /// </summary>
+        /// <example>119 rue fondaudege</example>
+        public string Address { get; set; }
+        /// <summary>
+        /// The user's complementary addresss
+        /// </summary>
+        /// <example>de la rue fausse</example>
+        public string ComplementaryAddress { get; set; }
+        /// <summary>
+        /// The user's zipcode
+        /// </summary>
+        /// <example>01300</example>
+        public string ZipCode { get; set; }
+        /// <summary>
+        /// The user's city
+        /// </summary>
+        /// <example>Paris</example>
+        public string City { get; set; }
+        /// <summary>
+        /// The user's tokens
+        /// </summary>
+        /// <example>50</example>
+        public string MDToken { get; set; }
         /// <summary>
         /// Token duplicate
         /// </summary>

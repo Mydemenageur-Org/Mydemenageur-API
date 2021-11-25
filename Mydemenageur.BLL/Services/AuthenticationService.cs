@@ -62,6 +62,9 @@ namespace Mydemenageur.BLL.Services
             var myDemUser = await (await _dpMyDemUser.GetCollection().FindAsync(dbMyDemUser => dbMyDemUser.UserId == user.Id)).FirstOrDefaultAsync();
 
             await _dpMyDemUser.GetCollection().UpdateOneAsync(dbMyDemUser => dbMyDemUser.UserId == user.Id, update);
+
+            myDemUser = await (await _dpMyDemUser.GetCollection().FindAsync(dbMyDemUser => dbMyDemUser.UserId == user.Id)).FirstOrDefaultAsync();
+
             return myDemUser;
         }
 
@@ -88,11 +91,38 @@ namespace Mydemenageur.BLL.Services
 
             MyDemenageurUser mdUser = _mapper.Map<MyDemenageurUser>(registerModel);
             mdUser.UserId = dbUser.Id;
-
+                                
             await _dpMyDemUser.GetCollection().InsertOneAsync(mdUser);
 
             return mdUser;
         }
+
+        public async Task<string> LogoutAsync(string nameId)
+        {
+            if(nameId.Length == 0)
+            {
+                return null;
+            }
+
+            // It's important to note here that the username can
+            // be both the actual username or the email
+            var user = await (await _users.FindAsync(dbUser =>
+                    dbUser.Id == nameId
+            )).FirstOrDefaultAsync();
+
+            if (user == null) { return null; }
+
+            var update = Builders<MyDemenageurUser>.Update
+                .Set(dbMyDemUser => dbMyDemUser.Token, "");
+
+            var myDemUser = await (await _dpMyDemUser.GetCollection().FindAsync(dbMyDemUser => dbMyDemUser.UserId == user.Id)).FirstOrDefaultAsync();
+
+            await _dpMyDemUser.GetCollection().UpdateOneAsync(dbMyDemUser => dbMyDemUser.UserId == user.Id, update);
+
+            return nameId;
+        }
+
+
 
         private bool UserExist(string email, string username)
         {
@@ -145,8 +175,22 @@ namespace Mydemenageur.BLL.Services
             {
                 Subject = new ClaimsIdentity(new Claim[]
                 {
-                    new Claim(ClaimTypes.Name, user.Id.ToString()),
-                    new Claim(ClaimTypes.Role, myDemClient.Role)
+                    new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
+                    new Claim(ClaimTypes.Role, myDemClient.Role),
+                    new Claim("username", myDemClient.Username),
+                    new Claim("firstName", myDemClient.FirstName != null ? myDemClient.FirstName : ""),
+                    new Claim("lastName", myDemClient.LastName != null ? myDemClient.LastName : ""),
+                    new Claim("tokens", myDemClient.MDToken != null ? myDemClient.MDToken : "0"),
+                    new Claim("about", myDemClient.About != null ? myDemClient.MDToken : ""),
+                    new Claim("lastConnection", myDemClient.LastConnection.ToString()),
+                    new Claim(ClaimTypes.DateOfBirth, myDemClient.Birthday.ToString() != null ? myDemClient.Birthday.ToString() : ""),
+                    new Claim(ClaimTypes.Gender, myDemClient.Gender != null ? myDemClient.Gender : ""),
+                    new Claim("city", myDemClient.City != null ? myDemClient.City : ""),
+                    new Claim(ClaimTypes.MobilePhone, myDemClient.Phone != null ? myDemClient.Phone : ""),
+                    new Claim(ClaimTypes.Email, user.Email != null ? user.Email : ""),
+                    new Claim(ClaimTypes.StreetAddress, myDemClient.Address != null ? myDemClient.Address : ""),
+                    new Claim("complementaryAddress", myDemClient.ComplementaryAddress != null ? myDemClient.ComplementaryAddress : ""),
+                    new Claim(ClaimTypes.PostalCode, myDemClient.ZipCode != null ? myDemClient.ZipCode : ""),
                 }),
                 Expires = DateTime.UtcNow.AddDays(20),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)

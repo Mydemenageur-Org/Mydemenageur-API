@@ -64,5 +64,29 @@ namespace Mydemenageur.API.Controllers
 
              return Content("Félicitation ton compte a été crée");
         }
+
+        /// <summary>
+        /// Disconnect the user
+        /// </summary>
+        /// <param name="id"></param>
+        /// <response code="400">There was one or more errors during the disconnection process</response>
+        /// <response code="200">Return the id of the user that got disconnected</response>
+        /// <returns></returns>
+        [HttpPost("logout/{id:length(24)}")]
+        public async Task<ActionResult<string>> Logout(string id)
+        {
+            string identifier = "";
+            try
+            {
+                identifier = await _authenticationService.LogoutAsync(id);
+            }
+            catch(Exception e)
+            {
+                return BadRequest($"Error during the user logout: {e.Message}");
+            }
+
+            return NoContent();
+        }
+
     }
 }

@@ -8,5 +8,6 @@ namespace Mydemenageur.BLL.Services.Interfaces
     {
         Task<MyDemenageurUser> LoginAsync(string username, string password);
         Task<MyDemenageurUser> RegisterAsync(RegisterModel registerModel);
+        Task<string> LogoutAsync(string nameId);
     }
 }
