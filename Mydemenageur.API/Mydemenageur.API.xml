@@ -23,7 +23,7 @@
             <response code="200">Return the newly registrated user's id</response>
             <returns></returns>
         </member>
-        <member name="M:Mydemenageur.API.Controllers.GenericServicesController.GetGenericService(System.String,System.Collections.Generic.IList{System.String})">
+        <member name="M:Mydemenageur.API.Controllers.GenericServicesController.GetGenericService(System.String,System.String)">
             <summary>
             Get a service by ID
             </summary>
@@ -31,7 +31,7 @@
             <param name="fields"></param>
             <returns></returns>
         </member>
-        <member name="M:Mydemenageur.API.Controllers.GenericServicesController.GetGenericServices(System.String,System.Collections.Generic.IList{System.String})">
+        <member name="M:Mydemenageur.API.Controllers.GenericServicesController.GetGenericServices(System.String,System.String)">
             <summary>
             Get all generic services. Can be filtered by name
             </summary>

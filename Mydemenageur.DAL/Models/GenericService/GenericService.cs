@@ -19,7 +19,7 @@ namespace Mydemenageur.DAL.Models.GenericService
 
         public DateTime Date { get; set; }
 
-        public IList<GenericServiceField> Fields { get; set; }
+        public List<GenericServiceField> Fields { get; set; }
 
     }
 }

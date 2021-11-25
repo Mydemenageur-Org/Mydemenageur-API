@@ -27,7 +27,7 @@ namespace Mydemenageur.BLL.Services
             if (fields.Count > 0) {
                 foreach (var serviceField in service.Fields)
                 {
-                    if (!fields.Contains(serviceField.FieldId))
+                    if (!fields.Contains(serviceField.Name))
                     {
                         service.Fields.Remove(serviceField);
                     }
@@ -49,11 +49,14 @@ namespace Mydemenageur.BLL.Services
             IMongoQueryable<GenericService> genericServices;
 
             if (string.IsNullOrWhiteSpace(name)) {
-                genericServices = _dpGenericService.Obtain();
+                genericServices = _dpGenericService.GetFiltered(
+                    dbGenericService => !dbGenericService.IsGenericForm
+                );
             }
             else {
-                genericServices = _dpGenericService.GetFiltered(
-                    dbGenericService => dbGenericService.Name == name    
+                genericServices = _dpGenericService.GetFiltered(dbGenericService => 
+                    dbGenericService.Name == name &&
+                    !dbGenericService.IsGenericForm
                 );  
             }
 
@@ -63,13 +66,7 @@ namespace Mydemenageur.BLL.Services
             {
                 foreach (var service in services)
                 {
-                    foreach (var serviceField in service.Fields)
-                    {
-                        if (!fields.Contains(serviceField.FieldId))
-                        {
-                            service.Fields.Remove(serviceField);
-                        }
-                    }
+                    service.Fields.RemoveAll(field => !fields.Contains(field.Name));
                 }
             }
 
