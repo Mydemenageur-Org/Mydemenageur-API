@@ -58,7 +58,6 @@ namespace Mydemenageur.DAL.Models.Users
         /// </summary>
         /// <example>My very secure password</example>
         public string Password { get; set; }
-        [Required]
         /// <summary>
         /// The role of user 
         /// </summary>
