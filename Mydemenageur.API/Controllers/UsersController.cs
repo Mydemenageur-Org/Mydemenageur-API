@@ -55,6 +55,21 @@ namespace Mydemenageur.API.Controllers
 
             return Ok(user);
         }
+
+        /// <summary>
+        /// Get a user's profile picture
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpGet("{id:length(24)}/profile-picture")]
+        public async Task<ActionResult<byte[]>> GetProfilePicture(string id)
+        {
+            byte[] profilePicture = await _usersService.GetProfilePicture(id);
+
+            if (profilePicture == null) return NotFound();
+
+            return Ok(profilePicture);
+        }
         
         /// <summary>
         /// Update a user
