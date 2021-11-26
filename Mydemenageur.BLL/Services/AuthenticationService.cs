@@ -175,6 +175,7 @@ namespace Mydemenageur.BLL.Services
             {
                 Subject = new ClaimsIdentity(new Claim[]
                 {
+                    new Claim("id", myDemClient.Id.ToString()),
                     new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
                     new Claim(ClaimTypes.Role, myDemClient.Role),
                     new Claim("username", myDemClient.Username),

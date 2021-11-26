@@ -5,7 +5,6 @@ using Mydemenageur.DAL.Models.Users;
 using Mydemenageur.BLL.Services.Interfaces;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 
@@ -61,7 +60,7 @@ namespace Mydemenageur.API.Controllers
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        [HttpGet("{id:length(24)}/profile-picture")]
+        [HttpGet("profile-picture/{id:length(24)}")]
         public async Task<ActionResult<byte[]>> GetProfilePicture(string id)
         {
             byte[] profilePicture = await _usersService.GetProfilePicture(id);

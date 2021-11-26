@@ -75,6 +75,13 @@
             <param name="id"></param>
             <returns></returns>
         </member>
+        <member name="M:Mydemenageur.API.Controllers.UsersController.GetProfilePicture(System.String)">
+            <summary>
+            Get a user's profile picture
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
         <member name="M:Mydemenageur.API.Controllers.UsersController.UpdateUser(System.String,Mydemenageur.DAL.Models.Users.UserUpdateModel)">
             <summary>
             Update a user

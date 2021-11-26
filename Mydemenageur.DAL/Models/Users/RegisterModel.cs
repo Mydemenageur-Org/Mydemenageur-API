@@ -16,16 +16,16 @@ namespace Mydemenageur.DAL.Models.Users
         /// The user's first name
         /// </summary>
         /// <example>Victor</example>
-        public string FirstName { get; set; }
+        public string FirstName { get; set; } = "";
         /// <summary>
         /// The user's last name
         /// </summary>
         /// <example>DENIS</example>
-        public string LastName { get; set; }
+        public string LastName { get; set; } = "";
         /// <summary>
         /// The user's gender
         /// </summary>
-        public string Gender { get; set; }
+        public string Gender { get; set; } = "";
         /// <summary>
         /// The user's email
         /// </summary>
@@ -36,7 +36,7 @@ namespace Mydemenageur.DAL.Models.Users
         /// The user's phone
         /// </summary>
         /// <example>+33652809335</example>
-        public string Phone { get; set; }
+        public string Phone { get; set; } = "";
         /// <summary>
         /// The user's birthday
         /// </summary>     
@@ -46,12 +46,12 @@ namespace Mydemenageur.DAL.Models.Users
         /// </summary>
         /// <example>Feldrise</example>
         [Required]
-        public string Username { get; set; }
+        public string Username { get; set; } = "";
         /// <summary>
         /// The user's about
         /// </summary>
         /// <example>Hello it's me</example>
-        public string About { get; set; }
+        public string About { get; set; } = "";
         [Required]
         /// <summary>
         /// The user's password
