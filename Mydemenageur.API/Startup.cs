@@ -44,7 +44,7 @@ namespace Mydemenageur.API
                 x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
                 x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
             })
-            .AddJwtBearer("Default", x =>
+            .AddJwtBearer("Bearer", x =>
             {
                 x.RequireHttpsMetadata = false;
                 x.SaveToken = true;

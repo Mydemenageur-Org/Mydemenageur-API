@@ -124,8 +124,6 @@ namespace Mydemenageur.BLL.Services
             return nameId;
         }
 
-
-
         private bool UserExist(string email, string username)
         {
             return _users.AsQueryable().Any(dbUser =>
