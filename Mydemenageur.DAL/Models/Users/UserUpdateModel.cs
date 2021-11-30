@@ -13,6 +13,11 @@ namespace Mydemenageur.DAL.Models.Users
         /// </summary>
         public byte[] ProfilePicture { get; set; }
         /// <summary>
+        /// The user's id
+        /// </summary>
+        [BsonRepresentation(MongoDB.Bson.BsonType.ObjectId)]
+        public string UserId { get; set; }
+        /// <summary>
         /// The user's first name
         /// </summary>
         /// <example>Victor</example>
@@ -80,9 +85,6 @@ namespace Mydemenageur.DAL.Models.Users
         /// </summary>
         /// <example>Paris</example>
         public string City { get; set; } = "";
-        /// <summary>
-        /// Token duplicate
-        /// </summary>
         /// <summary>
         /// The user's password
         /// </summary>

@@ -66,6 +66,28 @@ namespace Mydemenageur.API.Controllers
         }
 
         /// <summary>
+        /// Update user's password
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="password"></param>
+        /// <response code="400">There was one or more errors during the password's udpate process</response>
+        /// <response code="200">Return the id of the user that changed his password</response>
+        /// <returns></returns>
+        [HttpPost("change-password/{id:length(24)}")]
+        public async Task<ActionResult<string>> UpdatePassword(string id, [FromBody] UpdatePassword password)
+        {   
+            try
+            {
+                var identifier = await _authenticationService.UpdatePassword(id, password.password);
+            } catch(Exception error)
+            {
+                return BadRequest($"Error during the user's password update: {error.Message}");
+            }
+
+            return NoContent();
+        }
+
+        /// <summary>
         /// Disconnect the user
         /// </summary>
         /// <param name="id"></param>

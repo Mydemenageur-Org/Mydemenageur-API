@@ -20,6 +20,16 @@ namespace Mydemenageur.DAL.Models.Users
         [BsonRepresentation(MongoDB.Bson.BsonType.ObjectId)]
         public string UserId { get; set; }
         /// <summary>
+        /// The user's email
+        /// </summary>
+        /// <example>Victor</example>
+        public string Email { get; set; } = "";
+        /// <summary>
+        /// The user's firebase profilPicture
+        /// </summary>
+        /// <example>Victor</example>
+        public string ProfilPictureFirebase { get; set; } = "";
+        /// <summary>
         /// The user's first name
         /// </summary>
         /// <example>Victor</example>
@@ -64,7 +74,7 @@ namespace Mydemenageur.DAL.Models.Users
         /// The user's role. The roles are : Admin, Client, Mover
         /// </summary>
         /// <example>Client</example>
-        public string Role { get; set; } = "";
+        public string Role { get; set; } = "User";
         /// <summary>
         /// The user's address
         /// </summary>
@@ -94,15 +104,16 @@ namespace Mydemenageur.DAL.Models.Users
         /// The user's notification settings for email
         /// </summary>
         /// <example>1</example>
-        public string EmailNotification { get; set; } = "";
+        public string EmailNotification { get; set; } = "0";
         /// <summary>
         /// The user's notification settings for phone
         /// </summary>
         /// <example>1</example>
-        public string PhoneNotification { get; set; } = "";
+        public string PhoneNotification { get; set; } = "0";
         /// <summary>
         /// Token duplicate
         /// </summary>
         public string Token { get; set; }
+
     }
 }

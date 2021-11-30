@@ -99,6 +99,26 @@ namespace Mydemenageur.BLL.Services
             return mdUser;
         }
 
+        public async Task<string> UpdatePassword(string id, string password)
+        {
+            MyDemenageurUser mdUser = await _dpMyDemUser.GetUserById(id).FirstOrDefaultAsync();
+            User userAuth = await _dpUser.GetUserById(mdUser.UserId).FirstOrDefaultAsync();
+
+            CreatePasswordHash(password, out byte[] passwordHash, out byte[] passwordSalt);
+
+            if (Convert.ToBase64String(passwordHash) == userAuth.PasswordHash)
+            {
+                return "The password must be different from the original";
+            }
+
+            var update = Builders<User>.Update
+                .Set(usr => usr.PasswordHash, Convert.ToBase64String(passwordHash))
+                .Set(usr => usr.PasswordSalt, passwordSalt);
+
+            await _dpUser.Obtain().UpdateOneAsync(user => user.Id == userAuth.Id, update);
+            return mdUser.Id;
+        }
+
         public async Task<string> LogoutAsync(string nameId)
         {
             if(nameId.Length == 0)

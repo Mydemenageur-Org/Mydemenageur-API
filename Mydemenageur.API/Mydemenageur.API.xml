@@ -23,6 +23,16 @@
             <response code="200">Return the newly registrated user's id</response>
             <returns></returns>
         </member>
+        <member name="M:Mydemenageur.API.Controllers.AuthenticationController.UpdatePassword(System.String,Mydemenageur.DAL.Models.Users.UpdatePassword)">
+            <summary>
+            Update user's password
+            </summary>
+            <param name="id"></param>
+            <param name="password"></param>
+            <response code="400">There was one or more errors during the password's udpate process</response>
+            <response code="200">Return the id of the user that changed his password</response>
+            <returns></returns>
+        </member>
         <member name="M:Mydemenageur.API.Controllers.AuthenticationController.Logout(System.String)">
             <summary>
             Disconnect the user

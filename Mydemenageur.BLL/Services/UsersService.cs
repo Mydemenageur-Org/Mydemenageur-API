@@ -19,12 +19,14 @@ namespace Mydemenageur.BLL.Services
     {
         private readonly IDPMyDemenageurUser _dpMyDemenageurUser;
 
+        private readonly IDPUser _dpUser;
+
         private readonly IFilesService _filesService;
 
-        public UsersService(IDPMyDemenageurUser dPMyDemenageurUser, IFilesService filesService)
+        public UsersService(IDPMyDemenageurUser dPMyDemenageurUser, IFilesService filesService, IDPUser dpUser)
         {
             _dpMyDemenageurUser = dPMyDemenageurUser;
-
+            _dpUser = dpUser;
             _filesService = filesService;
         }
 
@@ -52,12 +54,19 @@ namespace Mydemenageur.BLL.Services
         public async Task UpdateUser(byte[] profilePicture, string newPassword, MyDemenageurUser toUpdate)
         {
             MyDemenageurUser oldUser = await _dpMyDemenageurUser.GetUserById(toUpdate.Id).FirstOrDefaultAsync();
-
+            // This int check either the email toUpdate if it has changed does not exist in the database to avoid replicated email
+            int myDemUsers = await _dpMyDemenageurUser.GetCollection().AsQueryable().Where(user => user.Email == toUpdate.Email).CountAsync();
             if (oldUser == null)
             {
                 throw new Exception("The user doesn't exist");
             }
-
+            if (toUpdate.Email != oldUser.Email && myDemUsers < 2)
+            {
+                User userAuth = await _dpUser.GetUserById(oldUser.UserId).FirstOrDefaultAsync();
+                var update = Builders<User>.Update
+                    .Set(user => user.Email, toUpdate.Email);
+                await _dpUser.Obtain().UpdateOneAsync(user => user.Id == userAuth.Id, update);
+            }
             if (profilePicture != null)
             {
                 string imageId = await _filesService.UploadFile(toUpdate.FirstName.ToLower().Trim(), profilePicture);
