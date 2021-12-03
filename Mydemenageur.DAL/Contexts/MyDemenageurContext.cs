@@ -2,6 +2,7 @@
 using MongoDB.Driver;
 using Mydemenageur.DAL.Models.GenericService;
 using Mydemenageur.DAL.Models.Users;
+using Mydemenageur.DAL.Models.Demands;
 using Mydemenageur.DAL.Settings;
 
 namespace Mydemenageur.DAL.Contexts
@@ -19,5 +20,6 @@ namespace Mydemenageur.DAL.Contexts
         public IMongoCollection<User> User { get { return _database.GetCollection<User>("users"); } }
         public IMongoCollection<MyDemenageurUser> MyDemenageurUser { get { return _database.GetCollection<MyDemenageurUser>("myDemenageurUser"); } }
         public IMongoCollection<GenericService> GenericService { get { return _database.GetCollection<GenericService>("genericServices"); } }
+        public IMongoCollection<Demand> Demand { get { return _database.GetCollection<Demand>("demand"); } }
     }
 }
