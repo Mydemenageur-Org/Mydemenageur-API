@@ -42,9 +42,9 @@ namespace Mydemenageur.API.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet()]
-        public async Task<ActionResult<List<Demand>>> GetDemands()
+        public async Task<ActionResult<IList<Demand>>> GetDemands()
         {
-            List<Demand> demands = await _demandService.GetDemands();
+            IList<Demand> demands = await _demandService.GetDemands();
 
             return Ok(demands);
         }
@@ -55,9 +55,9 @@ namespace Mydemenageur.API.Controllers
         /// <param name="recipientId"></param>
         /// <returns></returns>
         [HttpGet("{id:length(24)}/recipient")]
-        public async Task<ActionResult<List<Demand>>> GetDemandsFromRecipient(string recipientId)
+        public async Task<ActionResult<IList<Demand>>> GetDemandsFromRecipient(string recipientId)
         {
-            List<Demand> demand = await _demandService.GetRecipientDemands(recipientId);
+            IList<Demand> demand = await _demandService.GetRecipientDemands(recipientId);
 
             if (demand.Count() == 0)
             {
@@ -74,9 +74,9 @@ namespace Mydemenageur.API.Controllers
         /// <param name="senderId"></param>
         /// <returns></returns>
         [HttpGet("{id:length(24)}/sender")]
-        public async Task<ActionResult<List<Demand>>> GetDemandsFromSender(string senderId)
+        public async Task<ActionResult<IList<Demand>>> GetDemandsFromSender(string senderId)
         {
-            List<Demand> demand = await _demandService.GetSenderDemands(senderId);
+            IList<Demand> demand = await _demandService.GetSenderDemands(senderId);
 
             if (demand.Count() == 0)
             {
