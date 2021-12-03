@@ -10,7 +10,7 @@ namespace Mydemenageur.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class DemandController: ControllerBase
+    public class DemandController : ControllerBase
     {
         private readonly IDemandService _demandService;
 
@@ -19,6 +19,128 @@ namespace Mydemenageur.API.Controllers
             _demandService = demandService;
         }
 
+        /// <summary>
+        /// Get a demand by ID
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpGet("{id:length(24)}")]
+        public async Task<ActionResult<Demand>> GetDemand(string id)
+        {
+            Demand demand = await _demandService.GetDemand(id);
 
+            if (demand == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(demand);
+        }
+
+        /// <summary>
+        /// Get all demands
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet()]
+        public async Task<ActionResult<List<Demand>>> GetDemands()
+        {
+            List<Demand> demands = await _demandService.GetDemands();
+
+            return Ok(demands);
+        }
+
+        /// <summary>
+        /// Get all demands from the recipient
+        /// </summary>
+        /// <param name="recipientId"></param>
+        /// <returns></returns>
+        [HttpGet("{id:length(24)}/recipient")]
+        public async Task<ActionResult<List<Demand>>> GetDemandsFromRecipient(string recipientId)
+        {
+            List<Demand> demand = await _demandService.GetRecipientDemands(recipientId);
+
+            if (demand.Count() == 0)
+            {
+                return NotFound();
+            }
+
+            return Ok(demand);
+        }
+
+
+        /// <summary>
+        /// Get all demands from the sender
+        /// </summary>
+        /// <param name="senderId"></param>
+        /// <returns></returns>
+        [HttpGet("{id:length(24)}/sender")]
+        public async Task<ActionResult<List<Demand>>> GetDemandsFromSender(string senderId)
+        {
+            List<Demand> demand = await _demandService.GetSenderDemands(senderId);
+
+            if (demand.Count() == 0)
+            {
+                return NotFound();
+            }
+
+            return Ok(demand);
+        }
+
+        /// <summary>
+        /// GCreate a new demand
+        /// </summary>
+        /// <param name="demandCreated"></param>
+        /// <returns></returns>
+        [HttpPost()]
+        public async Task<ActionResult<Demand>> CreateDemand(DemandCreation demandCreated)
+        {
+            try
+            {
+                Demand demand = await _demandService.CreateDemand(demandCreated);
+                return Ok(demand);
+            }
+            catch (Exception e)
+            {
+                return BadRequest($"Error during the request: {e.Message}");
+            }
+        }
+
+        /// <summary>
+        /// Update a demand
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="demandToUpdate"></param>
+        /// <returns></returns>
+        [HttpPut("{id:length(24)}")]
+        public async Task<ActionResult<string>> UpdateDemand(string id, [FromBody] DemandCreation demandToUpdate)
+        {
+            if (demandToUpdate.Id != id)
+            {
+                return BadRequest("The id of the generic demand doesn't match the resource id");
+            }
+
+            // TODO: improve security here
+            try
+            {
+                string result = await _demandService.UpdateDemand(demandToUpdate);
+
+                return Ok(result);
+            }
+            catch (Exception e)
+            {
+                return BadRequest($"Error during the request: {e.Message}");
+            }
+
+            ///// <summary>
+            ///// delete a demand
+            ///// </summary>
+            ///// <param name="id"></param>
+            ///// <returns></returns>
+            //[HttpDelete()]
+            //public async Task<ActionResult<string>> DeleteDemand(string id)
+            //{
+
+            //}
+        }
     }
 }

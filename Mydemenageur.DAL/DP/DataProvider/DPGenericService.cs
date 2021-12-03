@@ -1,5 +1,4 @@
 ﻿using Microsoft.Extensions.Options;
-using MongoDB.Bson;
 using MongoDB.Driver;
 using MongoDB.Driver.Linq;
 using Mydemenageur.DAL.Contexts;
@@ -7,10 +6,8 @@ using Mydemenageur.DAL.DP.Interface;
 using Mydemenageur.DAL.Models.GenericService;
 using Mydemenageur.DAL.Settings;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Threading.Tasks;
 
 namespace Mydemenageur.DAL.DP.DataProvider
 {

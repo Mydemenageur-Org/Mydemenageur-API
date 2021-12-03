@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Mydemenageur.BLL.Services
 {
-    public class DemandService: IDemandService
+    public class DemandService : IDemandService
     {
         private readonly IDPDemand _dpDemand;
 
@@ -44,6 +44,11 @@ namespace Mydemenageur.BLL.Services
         }
 
         public async Task<string> UpdateDemand(DemandCreation demand)
+        {
+            return null;
+        }
+
+        public async Task<string> DeleteDemand(string id)
         {
             return null;
         }

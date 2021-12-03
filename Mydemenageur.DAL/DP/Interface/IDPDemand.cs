@@ -1,11 +1,6 @@
 ﻿using MongoDB.Driver;
 using MongoDB.Driver.Linq;
 using Mydemenageur.DAL.Models.Demands;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Threading.Tasks;
 
 namespace Mydemenageur.DAL.DP.Interface
 {

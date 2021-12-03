@@ -42,6 +42,48 @@
             <response code="200">Return the id of the user that got disconnected</response>
             <returns></returns>
         </member>
+        <member name="M:Mydemenageur.API.Controllers.DemandController.GetDemand(System.String)">
+            <summary>
+            Get a demand by ID
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Mydemenageur.API.Controllers.DemandController.GetDemands">
+            <summary>
+            Get all demands
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Mydemenageur.API.Controllers.DemandController.GetDemandsFromRecipient(System.String)">
+            <summary>
+            Get all demands from the recipient
+            </summary>
+            <param name="recipientId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Mydemenageur.API.Controllers.DemandController.GetDemandsFromSender(System.String)">
+            <summary>
+            Get all demands from the sender
+            </summary>
+            <param name="senderId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Mydemenageur.API.Controllers.DemandController.CreateDemand(Mydemenageur.DAL.Models.Demands.DemandCreation)">
+            <summary>
+            GCreate a new demand
+            </summary>
+            <param name="demandCreated"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Mydemenageur.API.Controllers.DemandController.UpdateDemand(System.String,Mydemenageur.DAL.Models.Demands.DemandCreation)">
+            <summary>
+            Update a demand
+            </summary>
+            <param name="id"></param>
+            <param name="demandToUpdate"></param>
+            <returns></returns>
+        </member>
         <member name="M:Mydemenageur.API.Controllers.GenericServicesController.GetGenericService(System.String,System.String)">
             <summary>
             Get a service by ID
