@@ -8,7 +8,7 @@ namespace Mydemenageur.BLL.Services.Interfaces
 {
     public interface IGenericServicesService
     {
-        Task<GenericService> GetGenericService(string id, IList<string> fields);
+        Task<GenericServicePopulated> GetGenericService(string id, IList<string> fields);
         Task<GenericService> GetBaseGenericService(string name);
         Task<IList<GenericService>> GetGenericServices(string name, IList<string> fields);
 

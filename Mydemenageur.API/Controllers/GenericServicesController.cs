@@ -1,11 +1,8 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Mydemenageur.BLL.Services.Interfaces;
 using Mydemenageur.DAL.Models.GenericService;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace Mydemenageur.API.Controllers
@@ -28,10 +25,10 @@ namespace Mydemenageur.API.Controllers
         /// <param name="fields"></param>
         /// <returns></returns>
         [HttpGet("{id:length(24)}")]
-        public async Task<ActionResult<GenericService>> GetGenericService(string id, [FromQuery] string fields)
+        public async Task<ActionResult<GenericServicePopulated>> GetGenericService(string id, [FromQuery] string fields)
         {
             IList<string> fieldsList = fields != null ? fields.Split(',') : new List<string>();
-            GenericService genericService = await _genericServicesService.GetGenericService(id, fieldsList);
+            GenericServicePopulated genericService = await _genericServicesService.GetGenericService(id, fieldsList);
 
             if (genericService == null)
             {

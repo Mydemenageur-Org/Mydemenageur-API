@@ -3,6 +3,7 @@ using MongoDB.Driver.Linq;
 using Mydemenageur.BLL.Services.Interfaces;
 using Mydemenageur.DAL.DP.Interface;
 using Mydemenageur.DAL.Models.GenericService;
+using Mydemenageur.DAL.Models.Users;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,17 +14,18 @@ namespace Mydemenageur.BLL.Services
     public class GenericServicesService : IGenericServicesService
     {
         private readonly IDPGenericService _dpGenericService;
+        private readonly IDPMyDemenageurUser _dpUser;
 
-        public GenericServicesService(IDPGenericService dPGenericService)
+        public GenericServicesService(IDPGenericService dPGenericService, IDPMyDemenageurUser dpUser)
         {
             _dpGenericService = dPGenericService;
+            _dpUser = dpUser;
         }
 
-        public async Task<GenericService> GetGenericService(string id, IList<string> fields)
+        public async Task<GenericServicePopulated> GetGenericService(string id, IList<string> fields)
         {
             GenericService service = await _dpGenericService.GetGenericServiceById(id).FirstOrDefaultAsync();
-
-
+            MyDemenageurUser user = await _dpUser.GetUserById(service.UserId).FirstOrDefaultAsync();
             if (fields.Count > 0) {
                 foreach (var serviceField in service.Fields)
                 {
@@ -34,7 +36,16 @@ namespace Mydemenageur.BLL.Services
                 }
             }
 
-            return service;
+            GenericServicePopulated finalService = new GenericServicePopulated() {
+                Id = service.Id,
+                User = user,
+                IsGenericForm = service.IsGenericForm,
+                Name = service.Name,
+                Date = service.Date,
+                Fields = service.Fields
+            };
+ 
+            return finalService;
         }
 
         public async Task<GenericService> GetBaseGenericService(string name)
