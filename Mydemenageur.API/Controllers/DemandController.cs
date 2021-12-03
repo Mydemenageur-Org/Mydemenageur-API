@@ -101,7 +101,7 @@ namespace Mydemenageur.API.Controllers
                 {
                     return BadRequest("Not enough tokens");
                 }
-                return Ok(demand);
+                return NoContent();
             }
             catch (Exception e)
             {

@@ -23,7 +23,7 @@ namespace Mydemenageur.BLL.Services
 
         public async Task<Demand> GetDemand(string id)
         {
-            Demand demand = await _dpDemand.GetDemandById(id).FirstOrDefaultAsync();
+            Demand demand = await _dpDemand.Obtain().Where(x => x.AnnounceId == id).FirstOrDefaultAsync();
 
             return demand;
         }
@@ -64,7 +64,8 @@ namespace Mydemenageur.BLL.Services
                 PriceProposed = demand.PriceProposed,
                 DescriptionDemand = demand.DescriptionDemand,
                 Recipient = recipient,
-                Sender = sender
+                Sender = sender,
+                AnnounceId = demand.AnnounceId
             };
 
             sender.MDToken = (int.Parse(sender.MDToken) - 1).ToString();
