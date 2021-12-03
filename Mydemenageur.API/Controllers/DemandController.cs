@@ -97,6 +97,10 @@ namespace Mydemenageur.API.Controllers
             try
             {
                 Demand demand = await _demandService.CreateDemand(demandCreated);
+                if(demand == null)
+                {
+                    return BadRequest("Not enough tokens");
+                }
                 return Ok(demand);
             }
             catch (Exception e)

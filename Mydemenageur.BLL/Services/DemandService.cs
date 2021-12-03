@@ -53,6 +53,12 @@ namespace Mydemenageur.BLL.Services
             MyDemenageurUser recipient = await _dpUser.GetUserById(demand.RecipientId).FirstOrDefaultAsync();
             MyDemenageurUser sender = await _dpUser.GetUserById(demand.SenderId).FirstOrDefaultAsync();
 
+            string tokenAmount = sender.MDToken;
+            if(int.Parse(tokenAmount) < 1)
+            {
+                return null;
+            }
+
             Demand newDemand = new Demand()
             {
                 PriceProposed = demand.PriceProposed,
@@ -61,7 +67,12 @@ namespace Mydemenageur.BLL.Services
                 Sender = sender
             };
 
+            sender.MDToken = (int.Parse(sender.MDToken) - 1).ToString();
+
+            await _dpUser.GetCollection().ReplaceOneAsync(d => d.Id == sender.Id, sender);
+
             await _dpDemand.GetCollection().InsertOneAsync(newDemand);
+
 
             return newDemand;
         }
