@@ -15,6 +15,7 @@ namespace Mydemenageur.DAL.Models.GenericService
         public MyDemenageurUser User { get; set; }
         public bool IsGenericForm { get; set; }
 
+        public string Category { get; set; }
         public string Name { get; set; }
 
         public DateTime Date { get; set; }
