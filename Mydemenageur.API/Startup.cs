@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -81,7 +82,9 @@ namespace Mydemenageur.API
                             "http://my-demenageur.local:3000", 
                             "https://my-demenageur.local:3000",
                             "http://test.mydemenageur.com",
-                            "https://test.mydemenageur.com")
+                            "https://test.mydemenageur.com",
+                            "http://beta.mydemenageur.com",
+                            "https://beta.mydemenageur.com")
                         .AllowAnyHeader()
                         .AllowAnyMethod()
                         .SetIsOriginAllowed((host) => true)
@@ -124,6 +127,11 @@ namespace Mydemenageur.API
             app.UseHttpsRedirection();
 
             app.UseRouting();
+
+            app.UseForwardedHeaders(new ForwardedHeadersOptions
+            {
+                ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
+            });
 
             app.UseAuthentication();
             app.UseAuthorization();
