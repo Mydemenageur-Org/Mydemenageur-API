@@ -12,6 +12,7 @@ using Mydemenageur.DAL.Settings.Interfaces;
 using System;
 using System.IO;
 using System.Text;
+using Stripe;
 
 namespace Mydemenageur.API
 {
@@ -22,6 +23,8 @@ namespace Mydemenageur.API
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
+            // Stripe API Key configuration for granting access;
+            StripeConfiguration.ApiKey = Configuration.GetValue<string>("StripeSettings:StripePrivateKey");
         }
 
         public IConfiguration Configuration { get; }
@@ -31,6 +34,8 @@ namespace Mydemenageur.API
         {
             services.Configure<MongoSettings>(Configuration.GetSection(nameof(MongoSettings)));
             services.Configure<MydemenageurSettings>(Configuration.GetSection(nameof(MydemenageurSettings)));
+            // Stripe configuration for keys
+            services.Configure<StripeSettings>(Configuration.GetSection(nameof(StripeSettings)));
             services.InitLocator(Configuration);
             services.AddSingleton<IMongoSettings>(Span => Span.GetRequiredService<IOptions<MongoSettings>>().Value);
             services.AddSingleton<IMydemenageurSettings>(Span => Span.GetRequiredService<IOptions<MydemenageurSettings>>().Value);

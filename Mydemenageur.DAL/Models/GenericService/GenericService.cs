@@ -17,6 +17,8 @@ namespace Mydemenageur.DAL.Models.GenericService
 
         public string Name { get; set; }
 
+        public string Category { get; set; }
+
         public DateTime Date { get; set; }
 
         public List<GenericServiceField> Fields { get; set; }
