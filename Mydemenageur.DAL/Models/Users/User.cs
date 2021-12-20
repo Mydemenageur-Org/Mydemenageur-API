@@ -66,7 +66,9 @@ namespace Mydemenageur.DAL.Models.Users
         public string PasswordHash { get; set; }
         [JsonIgnore]
         public byte[] PasswordSalt { get; set; }
-
+        // Authentication related
+        [JsonIgnore]
+        public string OldHashedPassword { get; set; }
         /// <summary>
         /// The user's role. The roles are : Admin, Client, ServiceProvider
         /// </summary>

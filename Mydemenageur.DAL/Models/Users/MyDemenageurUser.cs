@@ -111,6 +111,12 @@ namespace Mydemenageur.DAL.Models.Users
         /// <example>1</example>
         public string PhoneNotification { get; set; } = "0";
         /// <summary>
+        /// Correspond to the services the user can propose as a potential "Gros Bras"
+        /// </summary>
+        /// <example>1</example>
+        public string[] ServicesProposed { get; set; }
+
+        /// <summary>
         /// Token duplicate
         /// </summary>
         public string Token { get; set; }

@@ -1,10 +1,11 @@
-﻿using MongoDB.Driver;
+﻿using Microsoft.AspNetCore.Http;
+using MongoDB.Driver;
 using MongoDB.Driver.Linq;
 using Mydemenageur.BLL.Services.Interfaces;
 using Mydemenageur.DAL.DP.Interface;
 using Mydemenageur.DAL.Models.GenericService;
 using Mydemenageur.DAL.Models.Users;
-using System;
+using Mydemenageur.BLL.Helpers;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -54,32 +55,9 @@ namespace Mydemenageur.BLL.Services
             return service;
         }
 
-        public async Task<IList<GenericService>> GetGenericServices(string name, IList<string> fields)
+        public List<GenericService> GetGenericServices(IQueryCollection queryParams)
         {
-
-            IMongoQueryable<GenericService> genericServices;
-
-            if (string.IsNullOrWhiteSpace(name)) {
-                genericServices = _dpGenericService.GetFiltered(
-                    dbGenericService => !dbGenericService.IsGenericForm
-                );
-            }
-            else {
-                genericServices = _dpGenericService.GetFiltered(dbGenericService => 
-                    dbGenericService.Name == name &&
-                    !dbGenericService.IsGenericForm
-                );  
-            }
-
-            IList<GenericService> services = await genericServices.ToListAsync();
-
-            if (fields.Count > 0)
-            {
-                foreach (var service in services)
-                {
-                    service.Fields.RemoveAll(field => !fields.Contains(field.Name));
-                }
-            }
+            List<GenericService> services = _dpGenericService.Obtain().FilterByQueryParamsMongo(queryParams);
 
             return services;
         }

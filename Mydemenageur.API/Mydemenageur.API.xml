@@ -92,7 +92,7 @@
             <param name="fields"></param>
             <returns></returns>
         </member>
-        <member name="M:Mydemenageur.API.Controllers.GenericServicesController.GetGenericServices(System.String,System.String)">
+        <member name="M:Mydemenageur.API.Controllers.GenericServicesController.GetGenericServices">
             <summary>
             Get all generic services. Can be filtered by name
             </summary>

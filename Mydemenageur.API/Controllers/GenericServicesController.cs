@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Mydemenageur.BLL.Services.Interfaces;
 using Mydemenageur.DAL.Models.GenericService;
 using System;
@@ -45,10 +46,10 @@ namespace Mydemenageur.API.Controllers
         /// <param name="fields"></param>
         /// <returns></returns>
         [HttpGet]
-        public async Task<ActionResult<IList<GenericService>>> GetGenericServices([FromQuery] string name, [FromQuery] string fields)
+        public ActionResult<IList<GenericService>> GetGenericServices()
         {
-            IList<string> fieldsList = fields != null ? fields.Split(',') : new List<string>();
-            IList<GenericService> genericServices = await _genericServicesService.GetGenericServices(name, fieldsList);
+            var queryParams = HttpContext.Request.Query;
+            IList<GenericService> genericServices = _genericServicesService.GetGenericServices(queryParams);
 
             return Ok(genericServices);
         }

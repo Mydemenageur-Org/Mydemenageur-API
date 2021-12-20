@@ -1,4 +1,5 @@
-﻿using Mydemenageur.DAL.Models.GenericService;
+﻿using Microsoft.AspNetCore.Http;
+using Mydemenageur.DAL.Models.GenericService;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,7 +11,7 @@ namespace Mydemenageur.BLL.Services.Interfaces
     {
         Task<GenericServicePopulated> GetGenericService(string id, IList<string> fields);
         Task<GenericService> GetBaseGenericService(string name);
-        Task<IList<GenericService>> GetGenericServices(string name, IList<string> fields);
+        List<GenericService> GetGenericServices(IQueryCollection queryParams);
 
         Task<GenericService> CreateGenericService(GenericService toCreate);
 
