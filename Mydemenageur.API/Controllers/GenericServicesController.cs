@@ -46,10 +46,10 @@ namespace Mydemenageur.API.Controllers
         /// <param name="fields"></param>
         /// <returns></returns>
         [HttpGet]
-        public ActionResult<IList<GenericService>> GetGenericServices()
+        public async Task<ActionResult<IList<GenericService>>> GetGenericServices()
         {
             var queryParams = HttpContext.Request.Query;
-            IList<GenericService> genericServices = _genericServicesService.GetGenericServices(queryParams);
+            IList<GenericService> genericServices = await _genericServicesService.GetGenericServices(queryParams);
 
             return Ok(genericServices);
         }

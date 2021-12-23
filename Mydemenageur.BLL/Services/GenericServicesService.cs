@@ -55,15 +55,17 @@ namespace Mydemenageur.BLL.Services
             return service;
         }
 
-        public List<GenericService> GetGenericServices(IQueryCollection queryParams)
+        public async Task<List<GenericService>> GetGenericServices(IQueryCollection queryParams)
         {
-            List<GenericService> services = _dpGenericService.Obtain().FilterByQueryParamsMongo(queryParams);
+
+            List<GenericService> services = await _dpGenericService.GetCollection().FilterByQueryParamsMongo(queryParams);
+
 
             return services;
         }
 
         public async Task<GenericService> CreateGenericService(GenericService toCreate)
-        {
+        { 
             await _dpGenericService.GetCollection().InsertOneAsync(toCreate);
 
             return toCreate;
