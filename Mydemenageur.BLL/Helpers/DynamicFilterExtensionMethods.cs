@@ -34,7 +34,7 @@ namespace Mydemenageur.BLL.Helpers
         /// [
         ///     {
         ///         "owner": "Léo",
-        ///         "books-infos: [
+        ///         "books-infos": [
         ///             {
         ///                 "key": "title",
         ///                 "value": "Picsou Magasine"
@@ -69,13 +69,13 @@ namespace Mydemenageur.BLL.Helpers
         ///  in the end, in the request it will transform in something like 
         ///  {"books-info.key" = "title" & "books-info.value" = "Le Seigneur des anneaux"}.
         /// 
-        /// If we simply wanted the nooks owned by Victor we would just have need "owner" = "Victor"
+        /// If we simply wanted the books owned by Victor we would just have need "owner" = "Victor"
         ///
         /// In an URL, the two request would look like : 
         ///  - https://host.ext/path?metadata-key-number=1&metadata-1-key=key&books-info.metadata1.title=Le%20Seigneur%20des%20anneaux
         ///  - https://host.ext/path?owner=Victor
         /// You can of course combine both and use an URL like https://host.ext/path?metadata-key-number=1&metadata-1-key=key&books-info.metadata1.title=Le%20Seigneur%20des%20anneaux 
-        /// wich will filter books owned by Victor and whose title is "Le Seigneur des anneaux".
+        /// which will filter books owned by Victor and whose title is "Le Seigneur des anneaux".
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="collection"></param>
