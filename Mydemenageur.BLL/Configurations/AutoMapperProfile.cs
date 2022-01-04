@@ -12,7 +12,9 @@ namespace Mydemenageur.BLL.Configurations
         public AutoMapperProfile()
         {
             CreateMap<RegisterModel, MyDemenageurUser>();
-                //.ForMember(dest => dest.Username, opt => opt.MapFrom(src => src.RegisterUsername));
+            //.ForMember(dest => dest.Username, opt => opt.MapFrom(src => src.RegisterUsername));
+
+            CreateMap<FirebaseUserModel, MyDemenageurUser>();
         }
     }
 }

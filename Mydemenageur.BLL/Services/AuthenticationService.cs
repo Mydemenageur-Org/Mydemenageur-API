@@ -119,6 +119,52 @@ namespace Mydemenageur.BLL.Services
             return mdUser.Id;
         }
 
+        public async Task<MyDemenageurUser> TokenizeFirebaseUser(FirebaseUserModel user)
+        {
+            MyDemenageurUser mdUser = new MyDemenageurUser();
+            //Step one, check if the MyDemUser exist. If not we create one
+            mdUser = await (await _dpMyDemUser.GetCollection().FindAsync(dbMyDemUser => dbMyDemUser.Email == user.Email)).FirstOrDefaultAsync();
+
+            if(mdUser == null)
+            {
+                mdUser = _mapper.Map<MyDemenageurUser>(user);
+                await _dpMyDemUser.GetCollection().InsertOneAsync(mdUser);
+            }
+
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var key = Encoding.ASCII.GetBytes(_mydemenageurSettings.ApiSecret);
+            var tokenDescriptor = new SecurityTokenDescriptor
+            {
+                Subject = new ClaimsIdentity(new Claim[]
+                {
+                    new Claim("id", mdUser.Id.ToString()),
+                    new Claim(ClaimTypes.Role, mdUser.Role),
+                    new Claim("username", mdUser.Username),
+                    new Claim("firstName", mdUser.FirstName != null ? mdUser.FirstName : ""),
+                    new Claim("lastName", mdUser.LastName != null ? mdUser.LastName : ""),
+                    new Claim("tokens", mdUser.MDToken != null ? mdUser.MDToken : "0"),
+                    new Claim("about", mdUser.About != null ? mdUser.MDToken : ""),
+                    new Claim("lastConnection", mdUser.LastConnection.ToString()),
+                    new Claim(ClaimTypes.DateOfBirth, mdUser.Birthday.ToString() != null ? mdUser.Birthday.ToString() : ""),
+                    new Claim(ClaimTypes.Gender, mdUser.Gender != null ? mdUser.Gender : ""),
+                    new Claim("city", mdUser.City != null ? mdUser.City : ""),
+                    new Claim(ClaimTypes.MobilePhone, mdUser.Phone != null ? mdUser.Phone : ""),
+                    new Claim(ClaimTypes.Email, user.Email != null ? user.Email : ""),
+                    new Claim(ClaimTypes.StreetAddress, mdUser.Address != null ? mdUser.Address : ""),
+                    new Claim("complementaryAddress", mdUser.ComplementaryAddress != null ? mdUser.ComplementaryAddress : ""),
+                    new Claim(ClaimTypes.PostalCode, mdUser.ZipCode != null ? mdUser.ZipCode : ""),
+                    new Claim("isFirebaseUser", mdUser.IsFirebaseAccount.ToString()),
+                }),
+                Expires = DateTime.UtcNow.AddDays(20),
+                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
+            };
+
+            var token = tokenHandler.CreateToken(tokenDescriptor);
+            mdUser.Token = tokenHandler.WriteToken(token);
+
+            return mdUser;
+        }
+
         public async Task<string> LogoutAsync(string nameId)
         {
             if(nameId.Length == 0)
@@ -212,6 +258,7 @@ namespace Mydemenageur.BLL.Services
                     new Claim(ClaimTypes.StreetAddress, myDemClient.Address != null ? myDemClient.Address : ""),
                     new Claim("complementaryAddress", myDemClient.ComplementaryAddress != null ? myDemClient.ComplementaryAddress : ""),
                     new Claim(ClaimTypes.PostalCode, myDemClient.ZipCode != null ? myDemClient.ZipCode : ""),
+                    new Claim("isFirebaseUser", myDemClient.IsFirebaseAccount.ToString()),
                 }),
                 Expires = DateTime.UtcNow.AddDays(20),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)

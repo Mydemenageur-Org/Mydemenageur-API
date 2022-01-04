@@ -23,6 +23,15 @@
             <response code="200">Return the newly registrated user's id</response>
             <returns></returns>
         </member>
+        <member name="M:Mydemenageur.API.Controllers.AuthenticationController.TokenizeFirebaseUser(Mydemenageur.DAL.Models.Users.FirebaseUserModel)">
+            <summary>
+            Register the new user to the database 
+            </summary>
+            <param name="createOrConnectUserModel"></param>
+            <response code="400">There was one or more errors during registration validation</response>
+            <response code="200">Return the newly registrated user's id</response>
+            <returns></returns>
+        </member>
         <member name="M:Mydemenageur.API.Controllers.AuthenticationController.UpdatePassword(System.String,Mydemenageur.DAL.Models.Users.UpdatePassword)">
             <summary>
             Update user's password

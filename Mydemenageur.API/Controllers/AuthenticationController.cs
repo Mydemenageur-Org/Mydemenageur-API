@@ -27,8 +27,8 @@ namespace Mydemenageur.API.Controllers
         /// <response code="200">Return the logged user with valid token</response>
         /// <returns></returns>
         [HttpPost("login")]
-        [ProducesResponseType(typeof(User), StatusCodes.Status200OK)]
-        public async Task<ActionResult<User>> Login([FromBody] LoginModel loginModel)
+        [ProducesResponseType(typeof(MyDemenageurUser), StatusCodes.Status200OK)]
+        public async Task<ActionResult<MyDemenageurUser>> Login([FromBody] LoginModel loginModel)
         {
             MyDemenageurUser user = await _authenticationService.LoginAsync(loginModel.Email, loginModel.Password);
 
@@ -64,6 +64,31 @@ namespace Mydemenageur.API.Controllers
 
              return Content("Félicitation ton compte a été crée");
         }
+
+        /// <summary>
+        /// Register the new user to the database 
+        /// </summary>
+        /// <param name="createOrConnectUserModel"></param>
+        /// <response code="400">There was one or more errors during registration validation</response>
+        /// <response code="200">Return the newly registrated user's id</response>
+        /// <returns></returns>
+        [HttpPost("login-firebase")]
+        public async Task<ActionResult<MyDemenageurUser>> TokenizeFirebaseUser([FromBody] FirebaseUserModel createOrConnectUserModel)
+        {
+            MyDemenageurUser tokenFirebaseUser;
+
+            try
+            {
+                tokenFirebaseUser = await _authenticationService.TokenizeFirebaseUser(createOrConnectUserModel);
+            } 
+            catch(Exception e)
+            {
+                return BadRequest($"Error during the user registration: {e.Message}");
+            }
+
+            return Ok(tokenFirebaseUser);
+        }
+
 
         /// <summary>
         /// Update user's password

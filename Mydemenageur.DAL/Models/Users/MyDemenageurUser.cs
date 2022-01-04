@@ -121,5 +121,10 @@ namespace Mydemenageur.DAL.Models.Users
         /// </summary>
         public string Token { get; set; }
 
+        /// <summary>
+        /// Bool that provide firebase account informations 
+        /// </summary>
+        public Boolean IsFirebaseAccount { get; set; } = false;
+
     }
 }
