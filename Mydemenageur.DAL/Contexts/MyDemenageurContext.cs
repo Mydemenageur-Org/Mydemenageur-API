@@ -21,5 +21,6 @@ namespace Mydemenageur.DAL.Contexts
         public IMongoCollection<MyDemenageurUser> MyDemenageurUser { get { return _database.GetCollection<MyDemenageurUser>("myDemenageurUser"); } }
         public IMongoCollection<GenericService> GenericService { get { return _database.GetCollection<GenericService>("genericServices"); } }
         public IMongoCollection<Demand> Demand { get { return _database.GetCollection<Demand>("demand"); } }
+        public IMongoCollection<GrosBras> GrosBras { get { return _database.GetCollection<GrosBras>("grosBras"); } }
     }
 }

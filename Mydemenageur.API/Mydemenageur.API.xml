@@ -123,6 +123,12 @@
             <param name="toCreate"></param>
             <returns></returns>
         </member>
+        <member name="M:Mydemenageur.API.Controllers.GrosBrasController.GetGrosBras">
+            <summary>
+            Get all grosBras 
+            </summary>
+            <returns></returns>
+        </member>
         <member name="M:Mydemenageur.API.Controllers.UsersController.GetUsers">
             <summary>
             Get all users 

@@ -40,5 +40,9 @@ namespace Mydemenageur.DAL.Models.Users
         public string Departement { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }
+        public string VeryGoodGrade { get; set; } = "N/A";
+        public string GoodGrade { get; set; } = "N/A";
+        public string MediumGrade { get; set; } = "N/A";
+        public string BadGrade { get; set; } = "N/A";
     }
 }

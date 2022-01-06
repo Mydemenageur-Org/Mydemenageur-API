@@ -19,12 +19,14 @@ namespace Mydemenageur.BLL.Locator
             services.AddScoped<IUsersService, UsersService>();
             services.AddScoped<IGenericServicesService, GenericServicesService>();
             services.AddScoped<IDemandService, DemandService>();
+            services.AddScoped<IGrosBrasService, GrosBrasService>();
 
             // DataProvider services
             services.AddScoped<IDPUser, DPUser>();
             services.AddScoped<IDPMyDemenageurUser, DPMyDemenageurUser>();
             services.AddScoped<IDPGenericService, DPGenericService>();
             services.AddScoped<IDPDemand, DPDemand>();
+            services.AddScoped<IDPGrosBras, DPGrosBras>();
         }
     }
 }
