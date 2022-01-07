@@ -81,7 +81,7 @@ namespace Mydemenageur.BLL.Helpers
         /// <param name="collection"></param>
         /// <param name="queryParams"></param>
         /// <returns></returns>
-        public async static Task<List<T>> FilterByQueryParamsMongo<T>(this IMongoCollection<T> collection, IQueryCollection queryParams) where T : new()
+        public async static Task<List<T>> FilterByQueryParamsMongo<T>(this IMongoCollection<T> collection, IQueryCollection queryParams, int pageNumber = -1, int numberOfElementsPerPage = -1) where T : new()
         {
             string metadataKeysNumberKey = "metadata-keys-number";
             List<FilterDefinition<T>> allFilters = new();
@@ -132,6 +132,8 @@ namespace Mydemenageur.BLL.Helpers
             foreach (string key in queryParams.Keys)
             {
                 if (key.Contains("metadata")) continue;
+                if (key.Contains("pageNumber")) continue;
+                if (key.Contains("numberOfElementsPerPage")) continue;
 
                 string value = queryParams[key];
                 var filter = Builders<T>.Filter.Eq(key, value);
@@ -141,7 +143,14 @@ namespace Mydemenageur.BLL.Helpers
 
             var finalFilter = allFilters.Count > 0 ? Builders<T>.Filter.And(allFilters) : new BsonDocument();
 
-            return await (await collection.FindAsync(finalFilter)).ToListAsync();
+            var cursor = collection.Find(finalFilter);
+
+            if (pageNumber >= 0 && numberOfElementsPerPage > 0)
+            {
+                cursor = cursor.Limit(numberOfElementsPerPage).Skip(numberOfElementsPerPage * pageNumber);
+            }
+
+            return await cursor.ToListAsync();
         }
     }
 }

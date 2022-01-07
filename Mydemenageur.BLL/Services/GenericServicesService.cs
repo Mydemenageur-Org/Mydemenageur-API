@@ -55,10 +55,9 @@ namespace Mydemenageur.BLL.Services
             return service;
         }
 
-        public async Task<List<GenericService>> GetGenericServices(IQueryCollection queryParams)
+        public async Task<List<GenericService>> GetGenericServices(IQueryCollection queryParams, int pageNumber = -1, int numberOfElementsPerPage = -1)
         {
-
-            List<GenericService> services = await _dpGenericService.GetCollection().FilterByQueryParamsMongo(queryParams);
+            List<GenericService> services = await _dpGenericService.GetCollection().FilterByQueryParamsMongo(queryParams, pageNumber, numberOfElementsPerPage);
 
 
             return services;

@@ -42,14 +42,14 @@ namespace Mydemenageur.API.Controllers
         /// <summary>
         /// Get all generic services. Can be filtered by name
         /// </summary>
-        /// <param name="name"></param>
-        /// <param name="fields"></param>
+        /// <param name="pageNumber"></param>
+        /// <param name="numberOfElementsPerPage"></param>
         /// <returns></returns>
         [HttpGet]
-        public async Task<ActionResult<IList<GenericService>>> GetGenericServices()
+        public async Task<ActionResult<IList<GenericService>>> GetGenericServices([FromQuery] int pageNumber = -1, [FromQuery] int numberOfElementsPerPage = -1)
         {
             var queryParams = HttpContext.Request.Query;
-            IList<GenericService> genericServices = await _genericServicesService.GetGenericServices(queryParams);
+            IList<GenericService> genericServices = await _genericServicesService.GetGenericServices(queryParams, pageNumber, numberOfElementsPerPage);
 
             return Ok(genericServices);
         }
