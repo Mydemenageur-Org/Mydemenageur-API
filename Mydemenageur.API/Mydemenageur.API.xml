@@ -101,12 +101,12 @@
             <param name="fields"></param>
             <returns></returns>
         </member>
-        <member name="M:Mydemenageur.API.Controllers.GenericServicesController.GetGenericServices">
+        <member name="M:Mydemenageur.API.Controllers.GenericServicesController.GetGenericServices(System.Int32,System.Int32)">
             <summary>
             Get all generic services. Can be filtered by name
             </summary>
-            <param name="name"></param>
-            <param name="fields"></param>
+            <param name="pageNumber"></param>
+            <param name="numberOfElementsPerPage"></param>
             <returns></returns>
         </member>
         <member name="M:Mydemenageur.API.Controllers.GenericServicesController.GetBaseGenericService(System.String)">
@@ -127,6 +127,34 @@
             <summary>
             Get all grosBras 
             </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Mydemenageur.API.Controllers.ReviewsController.GetReview(System.String)">
+            <summary>
+            Get a review by ID
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Mydemenageur.API.Controllers.ReviewsController.GetReviews">
+            <summary>
+            Get all reviews
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Mydemenageur.API.Controllers.ReviewsController.CreateReview(Mydemenageur.DAL.Models.Reviews.Review)">
+            <summary>
+            Create a new review
+            </summary>
+            <param name="demandCreated"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Mydemenageur.API.Controllers.ReviewsController.UpdateReview(System.String,Mydemenageur.DAL.Models.Reviews.Review)">
+            <summary>
+            Update a review
+            </summary>
+            <param name="id"></param>
+            <param name="reviewToUpdate"></param>
             <returns></returns>
         </member>
         <member name="M:Mydemenageur.API.Controllers.UsersController.GetUsers">
