@@ -25,9 +25,9 @@ namespace Mydemenageur.API.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public async Task<ActionResult<IList<GrosBras>>> GetGrosBras()
+        public async Task<ActionResult<IList<GrosBras>>> GetGrosBras([FromQuery] int pageNumber = -1, [FromQuery] int numberOfElementsPerPage = -1)
         {
-            IList<GrosBras> grosBras = await _grosBrasService.GetGrosBras();
+            IList<GrosBras> grosBras = await _grosBrasService.GetGrosBras(pageNumber, numberOfElementsPerPage);
 
             return Ok(grosBras);
         }

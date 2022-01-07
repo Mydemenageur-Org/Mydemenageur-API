@@ -7,7 +7,7 @@ namespace Mydemenageur.BLL.Services.Interfaces
 {
     public interface IGrosBrasService
     {
-        public Task<IList<GrosBras>> GetGrosBras();
+        public Task<IList<GrosBras>> GetGrosBras(int pageNumber = -1, int numberOfElementsPerPage = -1);
         public Task<GrosBras> GetGrosBrasById(string id);
         public string CreateGrosBras(string myDemUserId);
     }

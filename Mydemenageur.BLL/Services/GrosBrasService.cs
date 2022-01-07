@@ -9,6 +9,7 @@ using Mydemenageur.BLL.Helpers;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using MongoDB.Bson;
 
 namespace Mydemenageur.BLL.Services
 {
@@ -23,11 +24,17 @@ namespace Mydemenageur.BLL.Services
             _dpMDUser = dpMDUser;
         }
 
-        public async Task<IList<GrosBras>> GetGrosBras()
+        public async Task<IList<GrosBras>> GetGrosBras(int pageNumber = -1, int numberOfElementsPerPage = -1)
         {
-            IList<GrosBras> grosBras = await _dpGrosBras.Obtain().ToListAsync();
+            var cursor = _dpGrosBras.GetCollection().Find(new BsonDocument());
 
-            return grosBras;
+            if (pageNumber >= 0 && numberOfElementsPerPage > 0)
+            {
+                cursor.Limit(numberOfElementsPerPage).Skip(pageNumber * numberOfElementsPerPage);
+            }
+            //IList<GrosBras> grosBras = await _dpGrosBras.Obtain().ToListAsync();
+
+            return await cursor.ToListAsync();
         }
 
         public async Task<GrosBras> GetGrosBrasById(string id)
