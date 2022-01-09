@@ -20,6 +20,7 @@ namespace Mydemenageur.BLL.Locator
             services.AddScoped<IGenericServicesService, GenericServicesService>();
             services.AddScoped<IDemandService, DemandService>();
             services.AddScoped<IGrosBrasService, GrosBrasService>();
+            services.AddScoped<IReviewsService, ReviewsService>();
 
             // DataProvider services
             services.AddScoped<IDPUser, DPUser>();
@@ -27,6 +28,8 @@ namespace Mydemenageur.BLL.Locator
             services.AddScoped<IDPGenericService, DPGenericService>();
             services.AddScoped<IDPDemand, DPDemand>();
             services.AddScoped<IDPGrosBras, DPGrosBras>();
+            services.AddScoped<IDPCity, DPCity>();
+            services.AddScoped<IDPReview, DPReview>();
         }
     }
 }

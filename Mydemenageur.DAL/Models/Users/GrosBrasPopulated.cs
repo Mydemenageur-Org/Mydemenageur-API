@@ -4,14 +4,13 @@ using Mydemenageur.DAL.Models.Experiences;
 
 namespace Mydemenageur.DAL.Models.Users
 {
-    public class GrosBras
+    public class GrosBrasPopulated
     {
         [BsonId]
         [BsonRepresentation(MongoDB.Bson.BsonType.ObjectId)]
         public string Id { get; set; }
-        [BsonElement("MyDemenageurUserId")]
-        [BsonRepresentation(MongoDB.Bson.BsonType.ObjectId)]
-        public string MyDemenageurUserId { get; set; }
+
+        public MyDemenageurUser MyDemenageurUserId { get; set; }
         /// <summary>
         /// Correspond to the services the user can propose as a potential "Gros Bras"
         /// </summary>
@@ -37,8 +36,7 @@ namespace Mydemenageur.DAL.Models.Users
         /// </summary>
         /// <example>1</example>
         public string ProStatus { get; set; }
-        [BsonRepresentation(MongoDB.Bson.BsonType.ObjectId)]
-        public string CityId { get; set; } = null;
+        public City CityId { get; set; } = null;
         public string Departement { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }
@@ -47,10 +45,5 @@ namespace Mydemenageur.DAL.Models.Users
         public string MediumGrade { get; set; } = "N/A";
         public string BadGrade { get; set; } = "N/A";
         public string[] Equipment { get; set; }
-        public bool IsPro { get; set; } = false;
-        public bool IsVerified { get; set; } = false;
-        public bool MyDemCert { get; set; } = false;
-        public bool MyJugCert { get; set; } = false;
-        public bool Cesu { get; set; } = false;
     }
 }

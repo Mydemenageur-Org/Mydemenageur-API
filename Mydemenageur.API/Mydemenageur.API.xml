@@ -109,6 +109,12 @@
             <param name="numberOfElementsPerPage"></param>
             <returns></returns>
         </member>
+        <member name="M:Mydemenageur.API.Controllers.GenericServicesController.GetGenericServicesCount">
+            <summary>
+            Get the number of generic services, Can be filtered by name
+            </summary>
+            <returns></returns>
+        </member>
         <member name="M:Mydemenageur.API.Controllers.GenericServicesController.GetBaseGenericService(System.String)">
             <summary>
             Get a service by name
@@ -123,7 +129,20 @@
             <param name="toCreate"></param>
             <returns></returns>
         </member>
-        <member name="M:Mydemenageur.API.Controllers.GrosBrasController.GetGrosBras">
+        <member name="M:Mydemenageur.API.Controllers.GrosBrasController.GetGrosBras(System.Int32,System.Int32)">
+            <summary>
+            Get all grosBras 
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Mydemenageur.API.Controllers.GrosBrasController.GetGrosBrasById(System.String)">
+            <summary>
+            Get a specific gros bras profil by it's id
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Mydemenageur.API.Controllers.GrosBrasController.GetGrosBrasCount">
             <summary>
             Get all grosBras 
             </summary>
@@ -136,7 +155,7 @@
             <param name="id"></param>
             <returns></returns>
         </member>
-        <member name="M:Mydemenageur.API.Controllers.ReviewsController.GetReviews">
+        <member name="M:Mydemenageur.API.Controllers.ReviewsController.GetReviews(System.String)">
             <summary>
             Get all reviews
             </summary>

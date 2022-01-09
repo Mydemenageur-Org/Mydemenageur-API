@@ -3,9 +3,8 @@ using MongoDB.Driver;
 using MongoDB.Driver.Linq;
 using Mydemenageur.BLL.Services.Interfaces;
 using Mydemenageur.DAL.DP.Interface;
-using Mydemenageur.DAL.Models.GenericService;
+using Mydemenageur.DAL.Models;
 using Mydemenageur.DAL.Models.Users;
-using Mydemenageur.BLL.Helpers;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -17,30 +16,90 @@ namespace Mydemenageur.BLL.Services
     {
         private readonly IDPGrosBras _dpGrosBras;
         private readonly IDPMyDemenageurUser _dpMDUser;
+        private readonly IDPCity _dpCity;
 
-        public GrosBrasService(IDPGrosBras dPGrosBras, IDPMyDemenageurUser dpMDUser)
+        public GrosBrasService(IDPGrosBras dPGrosBras, IDPMyDemenageurUser dpMDUser, IDPCity dpCity)
         {
             _dpGrosBras = dPGrosBras;
             _dpMDUser = dpMDUser;
+            _dpCity = dpCity;
         }
 
-        public async Task<IList<GrosBras>> GetGrosBras(int pageNumber = -1, int numberOfElementsPerPage = -1)
+        public async Task<IList<GrosBrasPopulated>> GetGrosBras(int pageNumber = -1, int numberOfElementsPerPage = -1)
         {
+            List<GrosBrasPopulated> grosBrasFinal = new List<GrosBrasPopulated>();
             var cursor = _dpGrosBras.GetCollection().Find(new BsonDocument());
+
 
             if (pageNumber >= 0 && numberOfElementsPerPage > 0)
             {
                 cursor.Limit(numberOfElementsPerPage).Skip(pageNumber * numberOfElementsPerPage);
             }
-            //IList<GrosBras> grosBras = await _dpGrosBras.Obtain().ToListAsync();
 
-            return await cursor.ToListAsync();
+            cursor.ToListAsync().Result.ForEach((profil) =>
+            {
+                var city = _dpCity.GetCityById(profil.CityId).FirstOrDefault();
+                var myDem= _dpMDUser.GetUserById(profil.MyDemenageurUserId).FirstOrDefault();
+                GrosBrasPopulated grosBras = new GrosBrasPopulated
+                {
+                    Id = profil.Id,
+                    MyDemenageurUserId = myDem,
+                    ServicesProposed = profil.ServicesProposed,
+                    DiplomaOrExperiences = profil.DiplomaOrExperiences,
+                    Description = profil.Description,
+                    Commitment = profil.Commitment,
+                    ProStatus = profil.ProStatus,
+                    CityId = city,
+                    Departement = profil.Departement,
+                    CreatedAt = profil.CreatedAt,
+                    UpdatedAt = profil.UpdatedAt,
+                    VeryGoodGrade = profil.VeryGoodGrade,
+                    GoodGrade = profil.GoodGrade,
+                    MediumGrade = profil.MediumGrade,
+                    BadGrade = profil.BadGrade
+                };
+                grosBrasFinal.Add(grosBras);
+            });
+
+            return grosBrasFinal;
         }
 
-        public async Task<GrosBras> GetGrosBrasById(string id)
+        public long CountGrosBras()
+        {
+            long grosBrasNumber = _dpGrosBras.Obtain().ToList().Count();
+            return  grosBrasNumber;
+        }
+
+        public async Task<GrosBrasPopulated> GetGrosBrasById(string id)
         {
             GrosBras grosBrasProfil = await _dpGrosBras.GetGrosBrasById(id).FirstOrDefaultAsync();
-            return grosBrasProfil;
+            if(grosBrasProfil == null)
+            {
+                return null;
+            }
+
+            var city = _dpCity.GetCityById(grosBrasProfil.CityId).FirstOrDefault();
+            var myDem = _dpMDUser.GetUserById(grosBrasProfil.MyDemenageurUserId).FirstOrDefault();
+            GrosBrasPopulated grosBras = new GrosBrasPopulated
+            {
+                Id = grosBrasProfil.Id,
+                MyDemenageurUserId = myDem,
+                ServicesProposed = grosBrasProfil.ServicesProposed,
+                DiplomaOrExperiences = grosBrasProfil.DiplomaOrExperiences,
+                Description = grosBrasProfil.Description,
+                Commitment = grosBrasProfil.Commitment,
+                ProStatus = grosBrasProfil.ProStatus,
+                CityId = city,
+                Departement = grosBrasProfil.Departement,
+                CreatedAt = grosBrasProfil.CreatedAt,
+                UpdatedAt = grosBrasProfil.UpdatedAt,
+                VeryGoodGrade = grosBrasProfil.VeryGoodGrade,
+                GoodGrade = grosBrasProfil.GoodGrade,
+                MediumGrade = grosBrasProfil.MediumGrade,
+                BadGrade = grosBrasProfil.BadGrade
+            };
+
+            return grosBras;
         }
 
         public string CreateGrosBras(string myDemUserId)

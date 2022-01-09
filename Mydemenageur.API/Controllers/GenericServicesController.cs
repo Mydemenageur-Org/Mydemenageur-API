@@ -55,6 +55,19 @@ namespace Mydemenageur.API.Controllers
         }
 
         /// <summary>
+        /// Get the number of generic services, Can be filtered by name
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet("count")]
+        public async Task<ActionResult<int>> GetGenericServicesCount()
+        {
+            var queryParams = HttpContext.Request.Query;
+            IList<GenericService> genericServices = await _genericServicesService.GetGenericServices(queryParams);
+
+            return Ok(genericServices.Count);
+        }
+
+        /// <summary>
         /// Get a service by name
         /// </summary>
         /// <param name="name"></param>

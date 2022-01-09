@@ -25,12 +25,38 @@ namespace Mydemenageur.API.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public async Task<ActionResult<IList<GrosBras>>> GetGrosBras([FromQuery] int pageNumber = -1, [FromQuery] int numberOfElementsPerPage = -1)
+        public async Task<ActionResult<IList<GrosBrasPopulated>>> GetGrosBras([FromQuery] int pageNumber = -1, [FromQuery] int numberOfElementsPerPage = -1)
         {
-            IList<GrosBras> grosBras = await _grosBrasService.GetGrosBras(pageNumber, numberOfElementsPerPage);
+            IList<GrosBrasPopulated> grosBras = await _grosBrasService.GetGrosBras(pageNumber, numberOfElementsPerPage);
 
             return Ok(grosBras);
         }
+
+        /// <summary>
+        /// Get a specific gros bras profil by it's id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpGet("{id:length(24)}")]
+        public async Task<ActionResult<GrosBrasPopulated>> GetGrosBrasById(string id)
+        {
+            GrosBrasPopulated profil = await _grosBrasService.GetGrosBrasById(id);
+
+            return Ok(profil);
+        }
+
+        /// <summary>
+        /// Get all grosBras 
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet("count")]
+        public async Task<ActionResult<int>> GetGrosBrasCount()
+        {
+            var count = _grosBrasService.CountGrosBras();
+            return Ok(count);
+        }
+
+
 
     }
 }

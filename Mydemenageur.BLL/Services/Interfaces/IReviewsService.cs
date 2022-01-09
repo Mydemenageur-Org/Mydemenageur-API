@@ -9,7 +9,7 @@ namespace Mydemenageur.BLL.Services.Interfaces
     public interface IReviewsService
     {
         public Task<Review> GetReview(string id);
-        public Task<IList<Review>> GetReviews();
+        public Task<IList<ReviewPopulated>> GetReviews(string id);
         public Task<Review> CreateReview(Review review);
         public Task<string> UpdateReview(Review review);
         public Task<string> DeleteReview(string id);

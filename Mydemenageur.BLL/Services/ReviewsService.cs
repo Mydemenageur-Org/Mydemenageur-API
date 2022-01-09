@@ -13,10 +13,11 @@ namespace Mydemenageur.BLL.Services
     public class ReviewsService : IReviewsService
     {
         private readonly IDPReview _dpReview;
-        //private readonly IDPMyDemenageurUser _dpUser;
+        private readonly IDPMyDemenageurUser _dpUser;
 
-        public ReviewsService(IDPReview dpReview)
+        public ReviewsService(IDPReview dpReview, IDPMyDemenageurUser dpMyDemenageurUser)
         {
+            _dpUser = dpMyDemenageurUser;
             _dpReview = dpReview;
         }
 
@@ -27,9 +28,27 @@ namespace Mydemenageur.BLL.Services
             return review;
         }
 
-        public async Task<IList<Review>> GetReviews()
+        public async Task<IList<ReviewPopulated>> GetReviews(string id)
         {
-            IList<Review> reviews = await _dpReview.Obtain().ToListAsync();
+            List<ReviewPopulated> reviews = new List<ReviewPopulated>();
+
+            var cursor = _dpReview.Obtain().Where(x => x.Receiver == id);
+
+            cursor.ToListAsync().Result.ForEach((review) => {
+                 var myDem = _dpUser.GetUserById(review.Deposer).FirstOrDefault();
+                 ReviewPopulated reviewsPopulated = new ReviewPopulated
+                 {
+                     Id = review.Id,
+                     Deposer = myDem,
+                     Receiver = review.Receiver,
+                     Note = review.Note,
+                     Description = review.Description,
+                     CreatedAt = review.CreatedAt,
+                     UpdatedAt = review.UpdatedAt,
+                     Commentaires = review.Commentaires
+                 };
+                 reviews.Add(reviewsPopulated);
+             });
             return reviews;
         }
 

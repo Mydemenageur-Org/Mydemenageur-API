@@ -3,6 +3,7 @@ using Mydemenageur.DAL.Models.GenericService;
 using Mydemenageur.DAL.Models.Users;
 using Mydemenageur.DAL.Models.Demands;
 using Mydemenageur.DAL.Models.Reviews;
+using Mydemenageur.DAL.Models;
 
 namespace Mydemenageur.DAL.Contexts
 {
@@ -14,5 +15,6 @@ namespace Mydemenageur.DAL.Contexts
         public IMongoCollection<Review> Review { get; }
         public IMongoCollection<Demand> Demand { get; }
         public IMongoCollection<GrosBras> GrosBras { get; }
+        public IMongoCollection<City> City { get; }
     }
 }

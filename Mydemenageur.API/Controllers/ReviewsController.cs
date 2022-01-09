@@ -42,10 +42,10 @@ namespace Mydemenageur.API.Controllers
         /// Get all reviews
         /// </summary>
         /// <returns></returns>
-        [HttpGet()]
-        public async Task<ActionResult<IList<Review>>> GetReviews()
+        [HttpGet("recipient/{id:length(24)}")]
+        public async Task<ActionResult<IList<ReviewPopulated>>> GetReviews(string id)
         {
-            IList<Review> reviews = await _reviewsService.GetReviews();
+            IList<ReviewPopulated> reviews = await _reviewsService.GetReviews(id);
 
             return Ok(reviews);
         }
