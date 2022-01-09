@@ -26,7 +26,7 @@ namespace Mydemenageur.BLL.Services
         public async Task<GenericServicePopulated> GetGenericService(string id, IList<string> fields)
         {
             GenericService service = await _dpGenericService.GetGenericServiceById(id).FirstOrDefaultAsync();
-            MyDemenageurUser user = await _dpUser.GetUserById(service.UserId).FirstOrDefaultAsync();
+            var user = await _dpUser.GetUserById(service.UserId).FirstOrDefaultAsync();
             if (fields.Count > 0) {
                 foreach (var serviceField in service.Fields)
                 {

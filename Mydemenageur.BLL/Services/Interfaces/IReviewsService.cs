@@ -13,5 +13,6 @@ namespace Mydemenageur.BLL.Services.Interfaces
         public Task<Review> CreateReview(Review review);
         public Task<string> UpdateReview(Review review);
         public Task<string> DeleteReview(string id);
+        public Task<IList<ReviewAllopulated>> GetAllReviews();
     }
 }

@@ -28,6 +28,31 @@ namespace Mydemenageur.BLL.Services
             return review;
         }
 
+        public async Task<IList<ReviewAllopulated>> GetAllReviews()
+        {
+            List<ReviewAllopulated> reviews = new List<ReviewAllopulated>();
+
+            var cursor = _dpReview.Obtain();
+
+            cursor.ToListAsync().Result.ForEach((review) => {
+                var myDem = _dpUser.GetUserById(review.Deposer).FirstOrDefault();
+                var reciever = _dpUser.GetUserById(review.Receiver).FirstOrDefault();
+                ReviewAllopulated reviewsPopulated = new ReviewAllopulated
+                {
+                    Id = review.Id,
+                    Deposer = myDem,
+                    Receiver = reciever,
+                    Note = review.Note,
+                    Description = review.Description,
+                    CreatedAt = review.CreatedAt,
+                    UpdatedAt = review.UpdatedAt,
+                    Commentaires = review.Commentaires
+                };
+                reviews.Add(reviewsPopulated);
+            });
+            return reviews;
+        }
+
         public async Task<IList<ReviewPopulated>> GetReviews(string id)
         {
             List<ReviewPopulated> reviews = new List<ReviewPopulated>();
