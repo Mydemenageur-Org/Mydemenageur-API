@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using MongoDB.Bson;
+using Mydemenageur.BLL.Helpers;
 
 namespace Mydemenageur.BLL.Services
 {
@@ -25,18 +26,13 @@ namespace Mydemenageur.BLL.Services
             _dpCity = dpCity;
         }
 
-        public async Task<IList<GrosBrasPopulated>> GetGrosBras(int pageNumber = -1, int numberOfElementsPerPage = -1)
+        public async Task<IList<GrosBrasPopulated>> GetGrosBras(IQueryCollection queryParams, int pageNumber = -1, int numberOfElementsPerPage = -1)
         {
             List<GrosBrasPopulated> grosBrasFinal = new List<GrosBrasPopulated>();
-            var cursor = _dpGrosBras.GetCollection().Find(new BsonDocument());
 
+            var grosBras = await _dpGrosBras.GetCollection().FilterByQueryParamsMongo(queryParams, pageNumber, numberOfElementsPerPage);
 
-            if (pageNumber >= 0 && numberOfElementsPerPage > 0)
-            {
-                cursor.Limit(numberOfElementsPerPage).Skip(pageNumber * numberOfElementsPerPage);
-            }
-
-            cursor.ToListAsync().Result.ForEach((profil) =>
+            grosBras.ForEach((profil) =>
             {
                 var city = _dpCity.GetCityById(profil.CityId).FirstOrDefault();
                 var myDem= _dpMDUser.GetUserById(profil.MyDemenageurUserId).FirstOrDefault();
