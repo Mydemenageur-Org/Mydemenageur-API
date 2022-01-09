@@ -76,6 +76,11 @@ namespace Mydemenageur.BLL.Services
              });
             return reviews;
         }
+        public long CountReviews()
+        {
+            long reviewsNumber = _dpReview.Obtain().ToList().Count();
+            return reviewsNumber;
+        }
 
         public async Task<Review> CreateReview(Review review)
         {

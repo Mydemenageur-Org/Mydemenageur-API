@@ -63,6 +63,17 @@ namespace Mydemenageur.API.Controllers
         }
 
         /// <summary>
+        /// Get the number of reviews
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet("count")]
+        public ActionResult<int> GetReviewsCount()
+        {
+            var count = _reviewsService.CountReviews();
+            return Ok(count);
+        }
+
+        /// <summary>
         /// Create a new review
         /// </summary>
         /// <param name="demandCreated"></param>
