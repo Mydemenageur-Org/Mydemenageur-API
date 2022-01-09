@@ -1,4 +1,5 @@
-﻿using MongoDB.Driver;
+﻿using MongoDB.Bson;
+using MongoDB.Driver;
 using MongoDB.Driver.Linq;
 using Mydemenageur.BLL.Services.Interfaces;
 using Mydemenageur.DAL.DP.Interface;
@@ -28,11 +29,17 @@ namespace Mydemenageur.BLL.Services
             return review;
         }
 
-        public async Task<IList<ReviewAllopulated>> GetAllReviews()
+        public async Task<IList<ReviewAllopulated>> GetAllReviews(int pageNumber = -1, int numberOfElementsPerPage = -1)
         {
             List<ReviewAllopulated> reviews = new List<ReviewAllopulated>();
 
-            var cursor = _dpReview.Obtain();
+            var cursor = _dpReview.GetCollection().Find(new BsonDocument())
+                    .SortByDescending(review => review.CreatedAt);
+
+            if (pageNumber >= 0 && numberOfElementsPerPage > 0)
+            {
+                cursor.Limit(numberOfElementsPerPage).Skip(pageNumber * numberOfElementsPerPage);
+            }
 
             cursor.ToListAsync().Result.ForEach((review) => {
                 var myDem = _dpUser.GetUserById(review.Deposer).FirstOrDefault();

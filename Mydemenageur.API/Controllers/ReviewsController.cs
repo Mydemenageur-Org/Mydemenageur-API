@@ -43,9 +43,9 @@ namespace Mydemenageur.API.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet("")]
-        public async Task<ActionResult<IList<ReviewAllopulated>>> GetReviews()
+        public async Task<ActionResult<IList<ReviewAllopulated>>> GetReviews([FromQuery] int pageNumber = -1, [FromQuery] int numberOfElementsPerPage = -1)
         {
-            IList<ReviewAllopulated> reviews = await _reviewsService.GetAllReviews();
+            IList<ReviewAllopulated> reviews = await _reviewsService.GetAllReviews(pageNumber, numberOfElementsPerPage);
 
             return Ok(reviews);
         }
