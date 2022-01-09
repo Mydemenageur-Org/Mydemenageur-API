@@ -10,6 +10,8 @@ namespace Mydemenageur.BLL.Services.Interfaces
     {
         public Task<IList<GrosBrasPopulated>> GetGrosBras(IQueryCollection queryParams, int pageNumber = -1, int numberOfElementsPerPage = -1);
         public Task<GrosBrasPopulated> GetGrosBrasById(string id);
+
+        public Task<IList<GrosBrasPopulated>> GetRanking(int numberOfGrosBras);
         public string CreateGrosBras(string myDemUserId);
         public long CountGrosBras();
     }

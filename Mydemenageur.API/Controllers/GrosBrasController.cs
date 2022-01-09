@@ -57,6 +57,18 @@ namespace Mydemenageur.API.Controllers
             return Ok(count);
         }
 
+        /// <summary>
+        /// Get the top X gros bras
+        /// </summary>
+        /// <param name="numberOfGrosBras"></param>
+        /// <returns></returns>
+        [HttpGet("ranking")]
+        public async Task<ActionResult<IList<GrosBrasPopulated>>> GetRanking([FromQuery] int numberOfGrosBras)
+        {
+            IList<GrosBrasPopulated> grosBras = await _grosBrasService.GetRanking(numberOfGrosBras);
+
+            return Ok(grosBras);
+        }
 
 
     }

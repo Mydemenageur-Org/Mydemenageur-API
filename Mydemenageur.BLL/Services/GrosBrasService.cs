@@ -98,6 +98,41 @@ namespace Mydemenageur.BLL.Services
             return grosBras;
         }
 
+        public async Task<IList<GrosBrasPopulated>> GetRanking(int numberOfGrosBras)
+        {
+            List<GrosBrasPopulated> grosBrasFinal = new List<GrosBrasPopulated>();
+            var cursor = _dpGrosBras.GetCollection().Find(new BsonDocument());
+
+            cursor.Limit(numberOfGrosBras);
+
+            cursor.ToListAsync().Result.ForEach((profil) =>
+            {
+                var city = _dpCity.GetCityById(profil.CityId).FirstOrDefault();
+                var myDem = _dpMDUser.GetUserById(profil.MyDemenageurUserId).FirstOrDefault();
+                GrosBrasPopulated grosBras = new GrosBrasPopulated
+                {
+                    Id = profil.Id,
+                    MyDemenageurUserId = myDem,
+                    ServicesProposed = profil.ServicesProposed,
+                    DiplomaOrExperiences = profil.DiplomaOrExperiences,
+                    Description = profil.Description,
+                    Commitment = profil.Commitment,
+                    ProStatus = profil.ProStatus,
+                    CityId = city,
+                    Departement = profil.Departement,
+                    CreatedAt = profil.CreatedAt,
+                    UpdatedAt = profil.UpdatedAt,
+                    VeryGoodGrade = profil.VeryGoodGrade,
+                    GoodGrade = profil.GoodGrade,
+                    MediumGrade = profil.MediumGrade,
+                    BadGrade = profil.BadGrade
+                };
+                grosBrasFinal.Add(grosBras);
+            });
+
+            return grosBrasFinal;
+        }
+
         public string CreateGrosBras(string myDemUserId)
         {
             return myDemUserId;
