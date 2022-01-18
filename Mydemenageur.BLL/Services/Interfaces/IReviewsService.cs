@@ -15,5 +15,7 @@ namespace Mydemenageur.BLL.Services.Interfaces
         public Task<string> DeleteReview(string id);
         public Task<IList<ReviewAllopulated>> GetAllReviews(int pageNumber = -1, int numberOfElementsPerPage = -1);
         public long CountReviews();
+        public Task<SchemaReview> GetSchemasStat();
+        public Task<SchemaReview> GetSchemaStatFromUser(string id);
     }
 }

@@ -51,6 +51,32 @@ namespace Mydemenageur.API.Controllers
         }
 
         /// <summary>
+        /// Get global schema
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet("default-schema")]
+        public async Task<ActionResult<SchemaReview>> GetGlobalSchema()
+        {
+            SchemaReview reviews = await _reviewsService.GetSchemasStat();
+
+            return Ok(reviews);
+        }
+
+        /// <summary>
+        /// Get schema from a specific provider
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet("default-schema/{id:length(24)}")]
+        public async Task<ActionResult<SchemaReview>> GetGlobalSchema(string providerId)
+        {
+            SchemaReview reviews = await _reviewsService.GetSchemaStatFromUser(providerId);
+
+            return Ok(reviews);
+        }
+
+
+
+        /// <summary>
         /// Get all reviews from a user
         /// </summary>
         /// <returns></returns>
@@ -130,5 +156,7 @@ namespace Mydemenageur.API.Controllers
 
             //}
         }
+
+
     }
 }

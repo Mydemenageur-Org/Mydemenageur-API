@@ -26,5 +26,6 @@ namespace Mydemenageur.DAL.Contexts
         public IMongoCollection<Demand> Demand { get { return _database.GetCollection<Demand>("demand"); } }
         public IMongoCollection<GrosBras> GrosBras { get { return _database.GetCollection<GrosBras>("grosBras"); } }
         public IMongoCollection<City> City { get { return _database.GetCollection<City>("cities"); } }
+
     }
 }

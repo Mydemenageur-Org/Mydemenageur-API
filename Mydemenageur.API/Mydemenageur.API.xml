@@ -51,6 +51,19 @@
             <response code="200">Return the id of the user that got disconnected</response>
             <returns></returns>
         </member>
+        <member name="M:Mydemenageur.API.Controllers.CitiesController.GetAllCities">
+            <summary>
+            Get all cities
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Mydemenageur.API.Controllers.CitiesController.CreateCity(System.String)">
+            <summary>
+            Create a city
+            </summary>
+            <param name="cityName"></param>
+            <returns></returns>
+        </member>
         <member name="M:Mydemenageur.API.Controllers.DemandController.GetDemand(System.String)">
             <summary>
             Get a demand by ID
@@ -148,6 +161,13 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="M:Mydemenageur.API.Controllers.GrosBrasController.GetRanking(System.Int32)">
+            <summary>
+            Get the top X gros bras
+            </summary>
+            <param name="numberOfGrosBras"></param>
+            <returns></returns>
+        </member>
         <member name="M:Mydemenageur.API.Controllers.ReviewsController.GetReview(System.String)">
             <summary>
             Get a review by ID
@@ -155,15 +175,33 @@
             <param name="id"></param>
             <returns></returns>
         </member>
-        <member name="M:Mydemenageur.API.Controllers.ReviewsController.GetReviews">
+        <member name="M:Mydemenageur.API.Controllers.ReviewsController.GetReviews(System.Int32,System.Int32)">
             <summary>
             Get all reviews
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Mydemenageur.API.Controllers.ReviewsController.GetGlobalSchema">
+            <summary>
+            Get global schema
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Mydemenageur.API.Controllers.ReviewsController.GetGlobalSchema(System.String)">
+            <summary>
+            Get schema from a specific provider
             </summary>
             <returns></returns>
         </member>
         <member name="M:Mydemenageur.API.Controllers.ReviewsController.GetReviews(System.String)">
             <summary>
             Get all reviews from a user
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Mydemenageur.API.Controllers.ReviewsController.GetReviewsCount">
+            <summary>
+            Get the number of reviews
             </summary>
             <returns></returns>
         </member>

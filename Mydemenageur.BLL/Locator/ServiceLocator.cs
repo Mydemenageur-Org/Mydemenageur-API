@@ -21,6 +21,7 @@ namespace Mydemenageur.BLL.Locator
             services.AddScoped<IDemandService, DemandService>();
             services.AddScoped<IGrosBrasService, GrosBrasService>();
             services.AddScoped<IReviewsService, ReviewsService>();
+            services.AddScoped<ICitiesService, CitiesService>();
 
             // DataProvider services
             services.AddScoped<IDPUser, DPUser>();

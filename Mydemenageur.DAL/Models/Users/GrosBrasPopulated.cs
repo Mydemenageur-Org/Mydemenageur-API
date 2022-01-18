@@ -45,5 +45,6 @@ namespace Mydemenageur.DAL.Models.Users
         public string MediumGrade { get; set; } = "N/A";
         public string BadGrade { get; set; } = "N/A";
         public string[] Equipment { get; set; }
+        public string Title { get; set; }
     }
 }

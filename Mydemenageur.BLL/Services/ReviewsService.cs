@@ -14,6 +14,7 @@ namespace Mydemenageur.BLL.Services
     public class ReviewsService : IReviewsService
     {
         private readonly IDPReview _dpReview;
+        private long _reviewCount = 0;
         private readonly IDPMyDemenageurUser _dpUser;
 
         public ReviewsService(IDPReview dpReview, IDPMyDemenageurUser dpMyDemenageurUser)
@@ -86,6 +87,7 @@ namespace Mydemenageur.BLL.Services
         public long CountReviews()
         {
             long reviewsNumber = _dpReview.Obtain().ToList().Count();
+            _reviewCount = reviewsNumber;
             return reviewsNumber;
         }
 
@@ -110,6 +112,44 @@ namespace Mydemenageur.BLL.Services
         public async Task<string> DeleteReview(string id)
         {
             return null;
+        }
+
+        public async Task<SchemaReview> GetSchemasStat()
+        {
+            SchemaReview schema = new SchemaReview();
+
+            long statRate = _dpReview.Obtain().Where(w => w.Note == "3").ToList().Count();
+
+            if(_reviewCount == 0)
+            {
+                _reviewCount = _dpReview.Obtain().ToList().Count();
+            }
+
+            schema.ReviewNumber = _reviewCount;
+            schema.ReviewRate = (statRate * 100 / _reviewCount);
+
+            return schema;
+        }
+
+        public async Task<SchemaReview> GetSchemaStatFromUser(string id)
+        {
+            SchemaReview schemaUser = new SchemaReview();
+            if (_reviewCount == 0)
+            {
+                _reviewCount = _dpReview.Obtain().ToList().Count();
+            }
+
+            string veryGoodGrade = (await _dpReview.Obtain().Where(x => x.Receiver == id).Where(w => w.Note == "3").CountAsync() * 100 / _reviewCount).ToString();
+            string goodGrade = (await _dpReview.Obtain().Where(x => x.Receiver == id).Where(w => w.Note == "2").CountAsync() * 100 / _reviewCount).ToString();
+            string mediumGrade = (await _dpReview.Obtain().Where(x => x.Receiver == id).Where(w => w.Note == "1").CountAsync() * 100 / _reviewCount).ToString();
+            string badGrade = (await _dpReview.Obtain().Where(x => x.Receiver == id).Where(w => w.Note == "0").CountAsync() * 100 / _reviewCount).ToString();
+
+            schemaUser.VeryGoodReview = veryGoodGrade;
+            schemaUser.GoodReview = goodGrade;
+            schemaUser.MediumReview = mediumGrade;
+            schemaUser.BadReview = badGrade;
+
+            return schemaUser;
         }
     }
 }
