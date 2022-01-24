@@ -12,6 +12,7 @@ namespace Mydemenageur.DAL.Models.Reviews
         public string Id { get; set; }
         public MyDemenageurUser Deposer { get; set; }
         public MyDemenageurUser Receiver { get; set; }
+        public GrosBrasPopulated ReceiverProfil { get; set; }
         public string Note { get; set; }
         public string Description { get; set; }
         public DateTime CreatedAt { get; set; }

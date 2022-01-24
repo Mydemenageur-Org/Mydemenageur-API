@@ -52,7 +52,8 @@ namespace Mydemenageur.BLL.Services
                     VeryGoodGrade = profil.VeryGoodGrade,
                     GoodGrade = profil.GoodGrade,
                     MediumGrade = profil.MediumGrade,
-                    BadGrade = profil.BadGrade
+                    BadGrade = profil.BadGrade,
+                    Title = profil.Title
                 };
                 grosBrasFinal.Add(grosBras);
             });
@@ -92,7 +93,8 @@ namespace Mydemenageur.BLL.Services
                 VeryGoodGrade = grosBrasProfil.VeryGoodGrade,
                 GoodGrade = grosBrasProfil.GoodGrade,
                 MediumGrade = grosBrasProfil.MediumGrade,
-                BadGrade = grosBrasProfil.BadGrade
+                BadGrade = grosBrasProfil.BadGrade,
+                Title = grosBrasProfil.Title
             };
 
             return grosBras;
@@ -125,7 +127,8 @@ namespace Mydemenageur.BLL.Services
                     VeryGoodGrade = profil.VeryGoodGrade,
                     GoodGrade = profil.GoodGrade,
                     MediumGrade = profil.MediumGrade,
-                    BadGrade = profil.BadGrade
+                    BadGrade = profil.BadGrade,
+                    Title = profil.Title
                 };
                 grosBrasFinal.Add(grosBras);
             });

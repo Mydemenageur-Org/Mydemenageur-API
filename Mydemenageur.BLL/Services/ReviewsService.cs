@@ -4,8 +4,11 @@ using MongoDB.Driver.Linq;
 using Mydemenageur.BLL.Services.Interfaces;
 using Mydemenageur.DAL.DP.Interface;
 using Mydemenageur.DAL.Models.Reviews;
-using System;
+using Mydemenageur.DAL.Models.Users;
+using Mydemenageur.DAL.Models;
+using Mydemenageur.BLL.Helpers;
 using System.Collections.Generic;
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -16,11 +19,15 @@ namespace Mydemenageur.BLL.Services
         private readonly IDPReview _dpReview;
         private long _reviewCount = 0;
         private readonly IDPMyDemenageurUser _dpUser;
+        private readonly IDPCity _dpCity;
+        private readonly IDPGrosBras _dpGrosBras;
 
-        public ReviewsService(IDPReview dpReview, IDPMyDemenageurUser dpMyDemenageurUser)
+        public ReviewsService(IDPReview dpReview, IDPMyDemenageurUser dpMyDemenageurUser, IDPCity dPCity, IDPGrosBras dPGrosBras)
         {
             _dpUser = dpMyDemenageurUser;
             _dpReview = dpReview;
+            _dpCity = dPCity;
+            _dpGrosBras = dPGrosBras;
         }
 
         public async Task<Review> GetReview(string id)
@@ -33,6 +40,8 @@ namespace Mydemenageur.BLL.Services
         public async Task<IList<ReviewAllopulated>> GetAllReviews(int pageNumber = -1, int numberOfElementsPerPage = -1)
         {
             List<ReviewAllopulated> reviews = new List<ReviewAllopulated>();
+            GrosBrasPopulated grosBras = new GrosBrasPopulated();
+            City city = new City();
 
             var cursor = _dpReview.GetCollection().Find(new BsonDocument())
                     .SortByDescending(review => review.CreatedAt);
@@ -45,10 +54,22 @@ namespace Mydemenageur.BLL.Services
             cursor.ToListAsync().Result.ForEach((review) => {
                 var myDem = _dpUser.GetUserById(review.Deposer).FirstOrDefault();
                 var reciever = _dpUser.GetUserById(review.Receiver).FirstOrDefault();
+                var profilReceiver = _dpGrosBras.Obtain().Where(w => w.MyDemenageurUserId == reciever.Id).FirstOrDefault();
+                if(profilReceiver != null)
+                {
+                    city = _dpCity.GetCityById(profilReceiver.CityId).FirstOrDefault();
+                } else
+                {
+                    city.CreatedAt = DateTime.Now;
+                    city.Label = "pas-de-ville";
+                    profilReceiver = new GrosBras();
+                }
+                grosBras = GrosBrasPopulatedFactory.GenerateGrosBrasPopulated(profilReceiver, city, reciever);
                 ReviewAllopulated reviewsPopulated = new ReviewAllopulated
                 {
                     Id = review.Id,
                     Deposer = myDem,
+                    ReceiverProfil = grosBras,
                     Receiver = reciever,
                     Note = review.Note,
                     Description = review.Description,
