@@ -10,7 +10,7 @@ namespace Mydemenageur.DAL.Models.Users
         [BsonRepresentation(MongoDB.Bson.BsonType.ObjectId)]
         public string Id { get; set; }
 
-        public MyDemenageurUser MyDemenageurUserId { get; set; }
+        public MyDemenageurUser MyDemenageurUser { get; set; }
         /// <summary>
         /// Correspond to the services the user can propose as a potential "Gros Bras"
         /// </summary>
@@ -36,7 +36,7 @@ namespace Mydemenageur.DAL.Models.Users
         /// </summary>
         /// <example>1</example>
         public string ProStatus { get; set; }
-        public City CityId { get; set; } = null;
+        public City City { get; set; } = null;
         public string Departement { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }
