@@ -38,6 +38,19 @@ namespace Mydemenageur.API.Controllers
         }
 
         /// <summary>
+        /// Get a Provider from user id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpGet("{id:length(24)}/gros-bras")]
+        public async Task<ActionResult<GrosBrasPopulated>> GetGrosBrasFromUserId(string id)
+        {
+            GrosBrasPopulated grosBras = await _usersService.GetGrosBrasFromUserId(id);
+
+            return Ok(grosBras);
+        }
+
+        /// <summary>
         /// Get a specific user by it's id
         /// </summary>
         /// <param name="id"></param>

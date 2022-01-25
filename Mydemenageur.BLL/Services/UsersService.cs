@@ -19,20 +19,65 @@ namespace Mydemenageur.BLL.Services
     {
         private readonly IDPMyDemenageurUser _dpMyDemenageurUser;
 
+        private readonly IDPCity _dpCity;
+
+        private readonly IDPGrosBras _dPGrosBras;
+
         private readonly IDPUser _dpUser;
 
         private readonly IFilesService _filesService;
 
-        public UsersService(IDPMyDemenageurUser dPMyDemenageurUser, IFilesService filesService, IDPUser dpUser)
+        public UsersService(IDPMyDemenageurUser dPMyDemenageurUser, IFilesService filesService, IDPUser dpUser, IDPGrosBras dPGrosBras, IDPCity dPCity)
         {
             _dpMyDemenageurUser = dPMyDemenageurUser;
             _dpUser = dpUser;
             _filesService = filesService;
+            _dPGrosBras = dPGrosBras;
+            _dpCity = dPCity;
         }
 
         public async Task<MyDemenageurUser> GetUser(string id)
         {
             return await _dpMyDemenageurUser.GetUserById(id).FirstOrDefaultAsync();
+        }
+
+        public async Task<GrosBrasPopulated> GetGrosBrasFromUserId(string id)
+        {
+            var myDemUser = await _dpMyDemenageurUser.Obtain().Where(w => w.UserId == id).FirstOrDefaultAsync();
+            if(myDemUser == null)
+            {
+                throw new Exception("MyDemenageurUser does not exist");
+            }
+
+            var profil = await _dPGrosBras.Obtain().Where(w => w.MyDemenageurUserId == myDemUser.Id).FirstOrDefaultAsync();
+
+            if(profil == null)
+            {
+                throw new Exception("Gros Bras does not exist");
+            }
+
+            var city = _dpCity.GetCityById(profil.CityId).FirstOrDefault();
+            GrosBrasPopulated grosBras = new GrosBrasPopulated
+            {
+                Id = profil.Id,
+                MyDemenageurUserId = myDemUser,
+                ServicesProposed = profil.ServicesProposed,
+                DiplomaOrExperiences = profil.DiplomaOrExperiences,
+                Description = profil.Description,
+                Commitment = profil.Commitment,
+                ProStatus = profil.ProStatus,
+                CityId = city,
+                Departement = profil.Departement,
+                CreatedAt = profil.CreatedAt,
+                UpdatedAt = profil.UpdatedAt,
+                VeryGoodGrade = profil.VeryGoodGrade,
+                GoodGrade = profil.GoodGrade,
+                MediumGrade = profil.MediumGrade,
+                BadGrade = profil.BadGrade,
+                Title = profil.Title
+            };
+
+            return grosBras;
         }
 
         public async Task<IList<MyDemenageurUser>> GetUsers()
