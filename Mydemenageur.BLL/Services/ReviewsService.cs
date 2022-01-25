@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 
 namespace Mydemenageur.BLL.Services
 {
@@ -22,12 +23,16 @@ namespace Mydemenageur.BLL.Services
         private readonly IDPCity _dpCity;
         private readonly IDPGrosBras _dpGrosBras;
 
-        public ReviewsService(IDPReview dpReview, IDPMyDemenageurUser dpMyDemenageurUser, IDPCity dPCity, IDPGrosBras dPGrosBras)
+        private readonly IMapper _mapper;
+
+        public ReviewsService(IDPReview dpReview, IDPMyDemenageurUser dpMyDemenageurUser, IDPCity dPCity, IDPGrosBras dPGrosBras, IMapper mapper)
         {
             _dpUser = dpMyDemenageurUser;
             _dpReview = dpReview;
             _dpCity = dPCity;
             _dpGrosBras = dPGrosBras;
+
+            _mapper = mapper;
         }
 
         public async Task<Review> GetReview(string id)
@@ -40,7 +45,6 @@ namespace Mydemenageur.BLL.Services
         public async Task<IList<ReviewAllopulated>> GetAllReviews(int pageNumber = -1, int numberOfElementsPerPage = -1)
         {
             List<ReviewAllopulated> reviews = new List<ReviewAllopulated>();
-            GrosBrasPopulated grosBras = new GrosBrasPopulated();
             City city = new City();
 
             var cursor = _dpReview.GetCollection().Find(new BsonDocument())
@@ -64,7 +68,11 @@ namespace Mydemenageur.BLL.Services
                     city.Label = "pas-de-ville";
                     profilReceiver = new GrosBras();
                 }
-                grosBras = GrosBrasPopulatedFactory.GenerateGrosBrasPopulated(profilReceiver, city, reciever);
+
+                GrosBrasPopulated grosBras = _mapper.Map<GrosBrasPopulated>(profilReceiver);
+                grosBras.MyDemenageurUser = myDem;
+                grosBras.City = city;
+
                 ReviewAllopulated reviewsPopulated = new ReviewAllopulated
                 {
                     Id = review.Id,
