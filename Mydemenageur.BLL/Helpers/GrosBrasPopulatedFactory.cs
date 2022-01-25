@@ -10,13 +10,13 @@ namespace Mydemenageur.BLL.Helpers
             GrosBrasPopulated grosBrasPopulated = new GrosBrasPopulated
             {
                 Id = grosBras.Id,
-                MyDemenageurUserId = myDemUser,
+                MyDemenageurUser = myDemUser,
                 ServicesProposed = grosBras.ServicesProposed,
                 DiplomaOrExperiences = grosBras.DiplomaOrExperiences,
                 Description = grosBras.Description,
                 Commitment = grosBras.Commitment,
                 ProStatus = grosBras.ProStatus,
-                CityId = city,
+                City = city,
                 Departement = grosBras.Departement,
                 CreatedAt = grosBras.CreatedAt,
                 UpdatedAt = grosBras.UpdatedAt,

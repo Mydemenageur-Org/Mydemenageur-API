@@ -39,13 +39,13 @@ namespace Mydemenageur.BLL.Services
                 GrosBrasPopulated grosBras = new GrosBrasPopulated
                 {
                     Id = profil.Id,
-                    MyDemenageurUserId = myDem,
+                    MyDemenageurUser = myDem,
                     ServicesProposed = profil.ServicesProposed,
                     DiplomaOrExperiences = profil.DiplomaOrExperiences,
                     Description = profil.Description,
                     Commitment = profil.Commitment,
                     ProStatus = profil.ProStatus,
-                    CityId = city,
+                    City = city,
                     Departement = profil.Departement,
                     CreatedAt = profil.CreatedAt,
                     UpdatedAt = profil.UpdatedAt,
@@ -80,13 +80,13 @@ namespace Mydemenageur.BLL.Services
             GrosBrasPopulated grosBras = new GrosBrasPopulated
             {
                 Id = grosBrasProfil.Id,
-                MyDemenageurUserId = myDem,
+                MyDemenageurUser = myDem,
                 ServicesProposed = grosBrasProfil.ServicesProposed,
                 DiplomaOrExperiences = grosBrasProfil.DiplomaOrExperiences,
                 Description = grosBrasProfil.Description,
                 Commitment = grosBrasProfil.Commitment,
                 ProStatus = grosBrasProfil.ProStatus,
-                CityId = city,
+                City = city,
                 Departement = grosBrasProfil.Departement,
                 CreatedAt = grosBrasProfil.CreatedAt,
                 UpdatedAt = grosBrasProfil.UpdatedAt,
@@ -114,13 +114,13 @@ namespace Mydemenageur.BLL.Services
                 GrosBrasPopulated grosBras = new GrosBrasPopulated
                 {
                     Id = profil.Id,
-                    MyDemenageurUserId = myDem,
+                    MyDemenageurUser = myDem,
                     ServicesProposed = profil.ServicesProposed,
                     DiplomaOrExperiences = profil.DiplomaOrExperiences,
                     Description = profil.Description,
                     Commitment = profil.Commitment,
                     ProStatus = profil.ProStatus,
-                    CityId = city,
+                    City = city,
                     Departement = profil.Departement,
                     CreatedAt = profil.CreatedAt,
                     UpdatedAt = profil.UpdatedAt,

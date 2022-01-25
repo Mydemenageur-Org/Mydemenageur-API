@@ -226,6 +226,13 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="M:Mydemenageur.API.Controllers.UsersController.GetGrosBrasFromUserId(System.String)">
+            <summary>
+            Get a Provider from user id
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
         <member name="M:Mydemenageur.API.Controllers.UsersController.GetUser(System.String)">
             <summary>
             Get a specific user by it's id

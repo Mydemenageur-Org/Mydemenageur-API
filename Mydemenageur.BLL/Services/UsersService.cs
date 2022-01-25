@@ -60,13 +60,13 @@ namespace Mydemenageur.BLL.Services
             GrosBrasPopulated grosBras = new GrosBrasPopulated
             {
                 Id = profil.Id,
-                MyDemenageurUserId = myDemUser,
+                MyDemenageurUser = myDemUser,
                 ServicesProposed = profil.ServicesProposed,
                 DiplomaOrExperiences = profil.DiplomaOrExperiences,
                 Description = profil.Description,
                 Commitment = profil.Commitment,
                 ProStatus = profil.ProStatus,
-                CityId = city,
+                City = city,
                 Departement = profil.Departement,
                 CreatedAt = profil.CreatedAt,
                 UpdatedAt = profil.UpdatedAt,
