@@ -36,6 +36,8 @@ namespace Mydemenageur.DAL.Models.Users
         /// </summary>
         /// <example>1</example>
         public string ProStatus { get; set; }
+        public string Siren { get; set; }
+        public string LicenceTransport { get; set; }
         public City City { get; set; } = null;
         public string Departement { get; set; }
         public DateTime CreatedAt { get; set; }

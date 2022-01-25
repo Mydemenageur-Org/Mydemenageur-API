@@ -37,7 +37,9 @@ namespace Mydemenageur.DAL.Models.Users
         /// </summary>
         /// <example>1</example>
         public string ProStatus { get; set; }
-        [BsonRepresentation(MongoDB.Bson.BsonType.ObjectId)]
+        public string Siren { get; set; }
+        public string LicenceTransport { get; set; }
+[BsonRepresentation(MongoDB.Bson.BsonType.ObjectId)]
         public string CityId { get; set; } = null;
         public string Departement { get; set; }
         public DateTime CreatedAt { get; set; }
