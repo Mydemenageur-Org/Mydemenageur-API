@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Mydemenageur.DAL.Models.Users;
 using Mydemenageur.BLL.Services.Interfaces;
 using System;
@@ -25,10 +23,10 @@ namespace Mydemenageur.API.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public async Task<ActionResult<IList<GrosBrasPopulated>>> GetGrosBras([FromQuery] int pageNumber = -1, [FromQuery] int numberOfElementsPerPage = -1)
+        public async Task<ActionResult<IList<GrosBrasPopulated>>> GetGrosBras([FromQuery] int pageNumber = -1, [FromQuery] int numberOfElementsPerPage = -1, [FromQuery] string cityLabel = "")
         {
             var queryParams = HttpContext.Request.Query;
-            IList<GrosBrasPopulated> grosBras = await _grosBrasService.GetGrosBras(queryParams, pageNumber, numberOfElementsPerPage);
+            IList<GrosBrasPopulated> grosBras = await _grosBrasService.GetGrosBras(queryParams, pageNumber, numberOfElementsPerPage, cityLabel);
 
             return Ok(grosBras);
         }

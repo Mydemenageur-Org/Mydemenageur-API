@@ -142,7 +142,7 @@
             <param name="toCreate"></param>
             <returns></returns>
         </member>
-        <member name="M:Mydemenageur.API.Controllers.GrosBrasController.GetGrosBras(System.Int32,System.Int32)">
+        <member name="M:Mydemenageur.API.Controllers.GrosBrasController.GetGrosBras(System.Int32,System.Int32,System.String)">
             <summary>
             Get all grosBras 
             </summary>
@@ -231,6 +231,14 @@
             Get a Provider from user id
             </summary>
             <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Mydemenageur.API.Controllers.UsersController.UpdateUserRole(System.String,System.String)">
+            <summary>
+            Update myDemenageurUser and User role
+            </summary>
+            <param name="id"></param>
+            <param name="role"></param>
             <returns></returns>
         </member>
         <member name="M:Mydemenageur.API.Controllers.UsersController.GetUser(System.String)">

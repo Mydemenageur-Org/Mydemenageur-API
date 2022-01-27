@@ -8,7 +8,7 @@ namespace Mydemenageur.BLL.Services.Interfaces
 {
     public interface IGrosBrasService
     {
-        public Task<IList<GrosBrasPopulated>> GetGrosBras(IQueryCollection queryParams, int pageNumber = -1, int numberOfElementsPerPage = -1);
+        public Task<IList<GrosBrasPopulated>> GetGrosBras(IQueryCollection queryParams, int pageNumber = -1, int numberOfElementsPerPage = -1, string cityLabel = "");
         public Task<GrosBrasPopulated> GetGrosBrasById(string id);
 
         public Task<IList<GrosBrasPopulated>> GetRanking(int numberOfGrosBras);

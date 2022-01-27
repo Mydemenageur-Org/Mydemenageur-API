@@ -96,6 +96,23 @@ namespace Mydemenageur.BLL.Services
             return (await _filesService.GetFile(user.ProfilePictureId)).Data;
         }
 
+        public async Task<string> UpdateUserRole(string id, string role)
+        {
+            MyDemenageurUser myDemUser = await _dpMyDemenageurUser.GetUserById(id).FirstOrDefaultAsync();
+
+            if (myDemUser == null) throw new Exception("MyDemenageurUser does not exist");
+
+            myDemUser.Role = role;
+
+            User user = await _dpUser.GetUserById(myDemUser.UserId).FirstOrDefaultAsync();
+
+            if (user == null) throw new Exception("User does not exist");
+
+            user.Role = role;
+
+            return "role update done";
+        }
+
         public async Task UpdateUser(byte[] profilePicture, string newPassword, MyDemenageurUser toUpdate)
         {
             MyDemenageurUser oldUser = await _dpMyDemenageurUser.GetUserById(toUpdate.Id).FirstOrDefaultAsync();

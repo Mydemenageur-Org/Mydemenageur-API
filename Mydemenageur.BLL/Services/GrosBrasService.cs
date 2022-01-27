@@ -26,7 +26,7 @@ namespace Mydemenageur.BLL.Services
             _dpCity = dpCity;
         }
 
-        public async Task<IList<GrosBrasPopulated>> GetGrosBras(IQueryCollection queryParams, int pageNumber = -1, int numberOfElementsPerPage = -1)
+        public async Task<IList<GrosBrasPopulated>> GetGrosBras(IQueryCollection queryParams, int pageNumber = -1, int numberOfElementsPerPage = -1, string cityLabel = "")
         {
             List<GrosBrasPopulated> grosBrasFinal = new List<GrosBrasPopulated>();
 
@@ -58,6 +58,14 @@ namespace Mydemenageur.BLL.Services
                 };
                 grosBrasFinal.Add(grosBras);
             });
+
+            if(cityLabel.Length > 1)
+            {
+                List<GrosBrasPopulated> grosBrasFinalFiltered = new List<GrosBrasPopulated>();
+                grosBrasFinalFiltered = grosBrasFinal.FindAll(w => w.City.Label == cityLabel).ToList();
+
+                return grosBrasFinalFiltered;
+            }
 
             return grosBrasFinal;
         }

@@ -134,6 +134,7 @@ namespace Mydemenageur.BLL.Helpers
                 if (key.Contains("metadata")) continue;
                 if (key.Contains("pageNumber")) continue;
                 if (key.Contains("numberOfElementsPerPage")) continue;
+                if (key.Contains("cityLabel")) continue;
 
                 string value = queryParams[key];
                 var filter = Builders<T>.Filter.Eq(key, value);

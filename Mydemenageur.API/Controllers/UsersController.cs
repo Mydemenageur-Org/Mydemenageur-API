@@ -51,6 +51,20 @@ namespace Mydemenageur.API.Controllers
         }
 
         /// <summary>
+        /// Update myDemenageurUser and User role
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="role"></param>
+        /// <returns></returns>
+        [HttpPut("{id:length(24)}/update-user-role")]
+        public async Task<ActionResult<string>> UpdateUserRole(string id, [FromBody] string role)
+        {
+            string result = await _usersService.UpdateUserRole(id, role);
+
+            return Ok(result);
+        }
+
+        /// <summary>
         /// Get a specific user by it's id
         /// </summary>
         /// <param name="id"></param>
