@@ -81,7 +81,7 @@
             <summary>
             Get all demands from the recipient
             </summary>
-            <param name="recipientId"></param>
+            <param name="id"></param>
             <returns></returns>
         </member>
         <member name="M:Mydemenageur.API.Controllers.DemandController.GetDemandsFromSender(System.String)">

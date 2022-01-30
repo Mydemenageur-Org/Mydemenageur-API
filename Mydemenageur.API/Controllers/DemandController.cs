@@ -52,17 +52,12 @@ namespace Mydemenageur.API.Controllers
         /// <summary>
         /// Get all demands from the recipient
         /// </summary>
-        /// <param name="recipientId"></param>
+        /// <param name="id"></param>
         /// <returns></returns>
         [HttpGet("{id:length(24)}/recipient")]
-        public async Task<ActionResult<IList<Demand>>> GetDemandsFromRecipient(string recipientId)
+        public async Task<ActionResult<IList<DemandMessage>>> GetDemandsFromRecipient(string id)
         {
-            IList<Demand> demand = await _demandService.GetRecipientDemands(recipientId);
-
-            if (demand.Count() == 0)
-            {
-                return NotFound();
-            }
+            IList<DemandMessage> demand = await _demandService.GetRecipientDemands(id);
 
             return Ok(demand);
         }
@@ -116,7 +111,7 @@ namespace Mydemenageur.API.Controllers
         /// <param name="demandToUpdate"></param>
         /// <returns></returns>
         [HttpPut("{id:length(24)}")]
-        public async Task<ActionResult<string>> UpdateDemand(string id, [FromBody] DemandCreation demandToUpdate)
+        public async Task<ActionResult<DemandMessage>> UpdateDemand(string id, [FromBody] DemandCreation demandToUpdate)
         {
             if (demandToUpdate.Id != id)
             {
@@ -126,7 +121,7 @@ namespace Mydemenageur.API.Controllers
             // TODO: improve security here
             try
             {
-                string result = await _demandService.UpdateDemand(demandToUpdate);
+                var result = await _demandService.UpdateDemand(demandToUpdate);
 
                 return Ok(result);
             }

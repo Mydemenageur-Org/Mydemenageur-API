@@ -1,17 +1,16 @@
 ﻿using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
+using Mydemenageur.DAL.Models.Users;
 
 namespace Mydemenageur.DAL.Models.Demands
 {
-    public class DemandCreation
+    public class DemandMessage
     {
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]
         public string Id { get; set; }
-        [BsonRepresentation(BsonType.ObjectId)]
-        public string SenderId { get; set; }
-        [BsonRepresentation(BsonType.ObjectId)]
-        public string RecipientId { get; set; }
+        public MyDemenageurUserPopulated Recipient { get; set; }
+        public MyDemenageurUserPopulated Sender { get; set; }
         [BsonRepresentation(BsonType.ObjectId)]
         public string AnnounceId { get; set; }
         public string PriceProposed { get; set; }

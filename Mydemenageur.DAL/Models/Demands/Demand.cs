@@ -15,5 +15,7 @@ namespace Mydemenageur.DAL.Models.Demands
         public string AnnounceId { get; set; }
         public string PriceProposed { get; set; }
         public string DescriptionDemand { get; set; }
+        public bool HasBeenAccepted { get; set; } = false;
+        public bool HasBeenDeclined { get; set; } = false;
     }
 }

@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Mydemenageur.DAL.Models.Users;
+using Mydemenageur.DAL.Models.Demands;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,6 +18,9 @@ namespace Mydemenageur.BLL.Configurations
             CreateMap<GrosBras, GrosBrasPopulated>();
 
             CreateMap<FirebaseUserModel, MyDemenageurUser>();
+
+            CreateMap<MyDemenageurUser, MyDemenageurUserPopulated>();
+            CreateMap<Demand, DemandMessage>();
         }
     }
 }
