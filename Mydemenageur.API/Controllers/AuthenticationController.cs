@@ -153,7 +153,7 @@ namespace Mydemenageur.API.Controllers
             } 
             catch(Exception e)
             {
-                return BadRequest($"Error during the user registration: {e.Message}");
+                return BadRequest($"Token invalid, couldn't find any users: {e.Message}");
             }
 
             return Ok(id);
