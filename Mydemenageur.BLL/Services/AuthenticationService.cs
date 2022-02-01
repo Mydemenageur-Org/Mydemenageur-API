@@ -268,6 +268,13 @@ namespace Mydemenageur.BLL.Services
 
             return tokenHandler.WriteToken(token);
         }
+        
+        public async Task<string> TokenValidity(string token)
+        {
+            var user = await (await _dpMyDemUser.GetCollection().FindAsync(dbMyDemUser => dbMyDemUser.Token == token)).FirstOrDefaultAsync();
+
+            return user.Id;
+        }
     }
 
 

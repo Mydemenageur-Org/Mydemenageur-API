@@ -134,6 +134,29 @@ namespace Mydemenageur.API.Controllers
 
             return NoContent();
         }
+        
+        /// <summary>
+        /// Verify token validity
+        /// </summary>
+        /// <param name="token"></param>
+        /// <response code="400">Token is invalid, user is not authenticated</response>
+        /// <response code="200">Token is valid, return the user id</response>
+        /// <returns></returns>
+        [HttpPost("valid/{token}")]
+        public async Task<ActionResult<string>> TokenValidity(string token)
+        {
+            string id;
 
+            try
+            {
+                id = await _authenticationService.TokenValidity(token);
+            } 
+            catch(Exception e)
+            {
+                return BadRequest($"Error during the user registration: {e.Message}");
+            }
+
+            return Ok(id);
+        }
     }
 }
