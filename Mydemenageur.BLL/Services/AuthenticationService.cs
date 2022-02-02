@@ -268,6 +268,31 @@ namespace Mydemenageur.BLL.Services
 
             return tokenHandler.WriteToken(token);
         }
+        
+        public async Task<string> TokenValidity(string token)
+        {
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var key = Encoding.ASCII.GetBytes(_mydemenageurSettings.ApiSecret);
+
+            try
+            {
+                tokenHandler.ValidateToken(token, new TokenValidationParameters
+                {
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(key),
+                    ValidateIssuer = false,
+                    ValidateAudience = false
+                }, out SecurityToken securityToken);
+
+                var jwtToken = (JwtSecurityToken)securityToken;
+
+                return jwtToken.Claims.First(u => u.Type == "id").Value;
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
     }
 
 

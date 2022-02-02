@@ -1,9 +1,10 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Mydemenageur.DAL.Models.Users;
-using Mydemenageur.BLL.Services.Interfaces;
 using System;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authentication;
+using IAuthenticationService = Mydemenageur.BLL.Services.Interfaces.IAuthenticationService;
 
 namespace Mydemenageur.API.Controllers
 {
@@ -134,6 +135,29 @@ namespace Mydemenageur.API.Controllers
 
             return NoContent();
         }
+        
+        /// <summary>
+        /// Verify the token validity
+        /// </summary>
+        /// <param name="token"></param>
+        /// <response code="400">Token is invalid, user is not authenticated</response>
+        /// <response code="200">Token is valid, return the user id</response>
+        /// <returns></returns>
+        [HttpPost("valid")]
+        public async Task<ActionResult<string>> TokenValidity()
+        {
+            string id;
 
+            try
+            {
+                id = await _authenticationService.TokenValidity(Request.Headers["token"]);
+            } 
+            catch(Exception e)
+            {
+                return BadRequest($"Token invalid, couldn't find any users: {e.Message}");
+            }
+
+            return Ok(id);
+        }
     }
 }
