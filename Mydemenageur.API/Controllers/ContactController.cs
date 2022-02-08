@@ -26,7 +26,7 @@ namespace Mydemenageur.API.Controllers
         /// <response code="400">Email couldn't be sent</response>
         /// <response code="200">Email sent successfully</response>
         /// <returns></returns>
-        [HttpPost( "send" )]
+        [HttpPost]
         public async Task<ActionResult<string>> Send( string from, string subject, string message )
         {
             if (!await _contactService.SendAsync( from, subject, "", message ))
