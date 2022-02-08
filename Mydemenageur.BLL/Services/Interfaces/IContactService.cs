@@ -1,11 +1,9 @@
-﻿
-using Mydemenageur.DAL.Models.Users;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 
 namespace Mydemenageur.BLL.Services.Interfaces
 {
     public interface IContactService
     {
-        Task<bool> ContactAsync(string from, string subject, string message);
+        Task<bool> SendAsync(string from, string subject, string plainTextContent, string htmlContent);
     }
 }

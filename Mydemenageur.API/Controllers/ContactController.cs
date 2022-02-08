@@ -1,9 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Mydemenageur.DAL.Models.Users;
-using System;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authentication;
 using IContactService = Mydemenageur.BLL.Services.Interfaces.IContactService;
 
 namespace Mydemenageur.API.Controllers
@@ -28,11 +26,10 @@ namespace Mydemenageur.API.Controllers
         /// <response code="400">Email couldn't be sent</response>
         /// <response code="200">Email sent successfully</response>
         /// <returns></returns>
-        [HttpPost( "contact" )]
-        [ProducesResponseType( typeof( MyDemenageurUser ), StatusCodes.Status200OK )]
-        public async Task<ActionResult<MyDemenageurUser>> Contact( string from, string subject, string message )
+        [HttpPost( "send" )]
+        public async Task<ActionResult<string>> Send( string from, string subject, string message )
         {
-            if (!await _contactService.ContactAsync( from, subject, message ))
+            if (!await _contactService.SendAsync( from, subject, "", message ))
             {
                 return BadRequest( "Email couldn't be sent" );
             }
