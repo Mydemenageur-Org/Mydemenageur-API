@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Mydemenageur.API.Controllers
 {
@@ -68,6 +69,39 @@ namespace Mydemenageur.API.Controllers
             return Ok(grosBras);
         }
 
+        /// <summary>
+        /// Create a gros bras
+        /// </summary>
+        /// <param name="toCreate"></param>
+        /// <returns></returns>
+        [Authorize]
+        [HttpPost]
+        public async Task<ActionResult<string>> CreateGrosBras([FromBody] GrosBras toCreate)
+        {
+            string grosBrasId = await _grosBrasService.CreateGrosBras(toCreate);
+
+            return Ok(grosBrasId);
+        }
+
+        /// <summary>
+        /// Update a gros bras
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="toUpdate"></param>
+        /// <returns></returns>
+        [Authorize]
+        [HttpPut("{id:length(24)}")]
+        public async Task<IActionResult> UpdateGrosBras(string id, [FromBody] GrosBras toUpdate)
+        {
+            if (id != toUpdate.Id)
+            {
+                return BadRequest("The id and the gros bras id doesn't match");
+            }
+
+            await _grosBrasService.UpdateGrosBras(id, toUpdate);
+
+            return Ok();
+        }
 
     }
 }

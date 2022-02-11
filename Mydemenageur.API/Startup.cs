@@ -88,6 +88,8 @@ namespace Mydemenageur.API
                             "https://my-demenageur.local:3000",
                             "http://test.mydemenageur.com",
                             "https://test.mydemenageur.com",
+                            "http://messagerie.api.mydemenageur.com",
+                            "https://messagerie.api.mydemenageur.com",
                             "http://beta.mydemenageur.com",
                             "https://beta.mydemenageur.com")
                         .AllowAnyHeader()

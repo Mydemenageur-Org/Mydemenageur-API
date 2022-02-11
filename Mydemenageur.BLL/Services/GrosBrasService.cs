@@ -147,10 +147,20 @@ namespace Mydemenageur.BLL.Services
             return grosBrasFinal;
         }
 
-        public string CreateGrosBras(string myDemUserId)
+        public async Task<string> CreateGrosBras(GrosBras toCreate)
         {
-            return myDemUserId;
+            await _dpGrosBras.GetCollection().InsertOneAsync(toCreate);
+
+            return toCreate.Id;
         }
 
+        public async Task UpdateGrosBras(string id, GrosBras toUpdate)
+        {
+            // TODO: we should add more security check
+            await _dpGrosBras.GetCollection().ReplaceOneAsync(
+                dbGrosBras => dbGrosBras.Id == id,
+                toUpdate
+            );
+        }
     }
 }
