@@ -44,5 +44,18 @@ namespace Mydemenageur.API.Controllers
 
             return Ok(result);
         }
+        
+        /// <summary>
+        /// Search a city
+        /// </summary>
+        /// <param name="cityName"></param>
+        /// <returns></returns>
+        [HttpPost("search/{cityName}")]
+        public async Task<ActionResult<City>> SearchCity(string cityName)
+        {
+            City result = await _citiesService.SearchCity(cityName);
+
+            return Ok(result);
+        }
     }
 }

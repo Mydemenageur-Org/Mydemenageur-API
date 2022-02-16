@@ -9,5 +9,6 @@ namespace Mydemenageur.BLL.Services.Interfaces
     {
         public Task<IList<City>> GetAllCities();
         public Task<City> CreateNewCity(string label);
+        public Task<City> SearchCity(string label);
     }
 }
