@@ -50,7 +50,7 @@ namespace Mydemenageur.API.Controllers
         /// </summary>
         /// <param name="cityName"></param>
         /// <returns></returns>
-        [HttpPost("search/{cityName}")]
+        [HttpPost("search")]
         public async Task<ActionResult<City>> SearchCity(string cityName)
         {
             City result = await _citiesService.SearchCity(cityName);
