@@ -45,12 +45,17 @@ namespace Mydemenageur.BLL.Services
 
         public async Task<City> SearchCity(string label)
         {
-            var update = Builders<City>.Update
-                .Inc(city => city.SearchCount, 1);
+            // Create or get city
+            City city = _dpCity.GetCollection().FindAsync(city => city.Label == label).Result.First() ?? new City
+            {
+                Label = label,
+                CreatedAt = DateTime.Now
+            };
 
-            await _dpCity.GetCollection().UpdateOneAsync(city => city.Label == label, update);
+            await _dpCity.GetCollection().UpdateOneAsync(city => city.Label == label, Builders<City>.Update
+                .Inc(city => city.SearchCount, 1));
 
-            return _dpCity.GetCollection().FindAsync(city => city.Label == label).Result.First();
+            return city;
         }
     }
 }
