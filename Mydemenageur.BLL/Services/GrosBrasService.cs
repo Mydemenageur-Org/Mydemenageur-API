@@ -18,12 +18,14 @@ namespace Mydemenageur.BLL.Services
         private readonly IDPGrosBras _dpGrosBras;
         private readonly IDPMyDemenageurUser _dpMDUser;
         private readonly IDPCity _dpCity;
+        private readonly ICitiesService _citiesService;
 
-        public GrosBrasService(IDPGrosBras dPGrosBras, IDPMyDemenageurUser dpMDUser, IDPCity dpCity)
+        public GrosBrasService(IDPGrosBras dPGrosBras, IDPMyDemenageurUser dpMDUser, IDPCity dpCity, ICitiesService citiesService)
         {
             _dpGrosBras = dPGrosBras;
             _dpMDUser = dpMDUser;
             _dpCity = dpCity;
+            _citiesService = citiesService;
         }
 
         public async Task<IList<GrosBrasPopulated>> GetGrosBras(IQueryCollection queryParams, int pageNumber = -1, int numberOfElementsPerPage = -1, string cityLabel = "")
@@ -147,9 +149,22 @@ namespace Mydemenageur.BLL.Services
             return grosBrasFinal;
         }
 
-        public string CreateGrosBras(string myDemUserId)
+        public async Task<string> CreateGrosBras(string cityName, GrosBras grosBras)
         {
-            return myDemUserId;
+            var matchedCities = await _dpCity.GetCollection().FindAsync(c => c.Label.ToLower() == cityName.ToLower());
+            if (matchedCities == null)
+            {
+                City newCity = await _citiesService.CreateNewCity(cityName);
+                grosBras.CityId = newCity.Id;
+            }
+            else
+            {
+                grosBras.CityId = matchedCities.First().Id;
+            }
+            
+            await _dpGrosBras.GetCollection().InsertOneAsync(grosBras);
+            
+            return grosBras.Id;
         }
 
     }

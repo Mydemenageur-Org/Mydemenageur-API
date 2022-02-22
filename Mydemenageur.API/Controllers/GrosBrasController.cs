@@ -12,10 +12,12 @@ namespace Mydemenageur.API.Controllers
     public class GrosBrasController: ControllerBase
     {
         private readonly IGrosBrasService _grosBrasService;
+        private readonly IMapper _mapper;
 
-        public GrosBrasController(IGrosBrasService grosBrasService)
+        public GrosBrasController(IGrosBrasService grosBrasService, IMapper mapper)
         {
             _grosBrasService = grosBrasService;
+            _mapper = mapper;
         }
 
         /// <summary>
@@ -67,7 +69,27 @@ namespace Mydemenageur.API.Controllers
 
             return Ok(grosBras);
         }
-
-
+        
+        /// <summary>
+        /// Create a grosBras
+        /// </summary>
+        /// <param name="grosBrasSubmit"></param>
+        /// <returns></returns>
+        [HttpPost("create")]
+        public async Task<ActionResult<string>> CreateGrosBras([FromBody] GrosBrasSubmit grosBrasSubmit)
+        {
+            try
+            {
+                GrosBras grosBras = _mapper.Map<GrosBras>(grosBrasSubmit);
+                string grosBrasId = await _grosBrasService.CreateGrosBras(grosBrasSubmit.CityName, grosBras);
+                
+                return Ok(grosBrasId);
+            }
+            catch (Exception e)
+            {
+                return BadRequest($"Error during the request: {e.Message}");
+            }
+           
+        }
     }
 }
