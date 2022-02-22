@@ -71,7 +71,7 @@ namespace Mydemenageur.BLL.Services
         public async Task<MyDemenageurUser> RegisterAsync(RegisterModel registerModel)
         {
             // We need some basic checks
-            if (string.IsNullOrWhiteSpace(registerModel.Email)) { throw new Exception("An email is required for the registration");  }
+            if (string.IsNullOrWhiteSpace(registerModel.Email)) { throw new Exception("An email is required for the registration"); }
             if (string.IsNullOrWhiteSpace(registerModel.Username)) { throw new Exception("A username is required for the registration"); }
             if (UserExist(registerModel.Email, registerModel.Username)) { throw new Exception("The user already exist"); }
             //if(registerModel.Role.Equals("Admin")) { throw new UnauthorizedAccessException("You are not authorized to register with this role"); }
@@ -86,14 +86,18 @@ namespace Mydemenageur.BLL.Services
             {
                 Email = registerModel.Email,
                 PasswordHash = Convert.ToBase64String(passwordHash),
-                PasswordSalt = passwordSalt
+                PasswordSalt = passwordSalt,
+                FirstName = registerModel.FirstName,
+                LastName = registerModel.LastName,
+                Username = registerModel.Username,
+
             };
 
             await _users.InsertOneAsync(dbUser);
 
             MyDemenageurUser mdUser = _mapper.Map<MyDemenageurUser>(registerModel);
             mdUser.UserId = dbUser.Id;
-                                
+
             await _dpMyDemUser.GetCollection().InsertOneAsync(mdUser);
 
             return mdUser;

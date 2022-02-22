@@ -51,6 +51,15 @@
             <response code="200">Return the id of the user that got disconnected</response>
             <returns></returns>
         </member>
+        <member name="M:Mydemenageur.API.Controllers.AuthenticationController.TokenValidity">
+            <summary>
+            Verify the token validity
+            </summary>
+            <param name="token"></param>
+            <response code="400">Token is invalid, user is not authenticated</response>
+            <response code="200">Token is valid, return the user id</response>
+            <returns></returns>
+        </member>
         <member name="M:Mydemenageur.API.Controllers.CitiesController.GetAllCities">
             <summary>
             Get all cities
@@ -166,6 +175,21 @@
             Get the top X gros bras
             </summary>
             <param name="numberOfGrosBras"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Mydemenageur.API.Controllers.GrosBrasController.CreateGrosBras(Mydemenageur.DAL.Models.Users.GrosBras)">
+            <summary>
+            Create a gros bras
+            </summary>
+            <param name="toCreate"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Mydemenageur.API.Controllers.GrosBrasController.UpdateGrosBras(System.String,Mydemenageur.DAL.Models.Users.GrosBras)">
+            <summary>
+            Update a gros bras
+            </summary>
+            <param name="id"></param>
+            <param name="toUpdate"></param>
             <returns></returns>
         </member>
         <member name="M:Mydemenageur.API.Controllers.ReviewsController.GetReview(System.String)">
