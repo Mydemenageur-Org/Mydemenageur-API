@@ -43,7 +43,7 @@ namespace Mydemenageur.BLL.Services
 
         public async Task<GrosBrasPopulated> GetGrosBrasFromUserId(string id)
         {
-            var myDemUser = await _dpMyDemenageurUser.Obtain().Where(w => w.UserId == id).FirstOrDefaultAsync();
+            var myDemUser = await _dpMyDemenageurUser.Obtain().Where(w => w.Id == id).FirstOrDefaultAsync();
             if(myDemUser == null)
             {
                 throw new Exception("MyDemenageurUser does not exist");

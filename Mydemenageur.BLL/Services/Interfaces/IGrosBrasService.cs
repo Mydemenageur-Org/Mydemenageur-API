@@ -12,7 +12,8 @@ namespace Mydemenageur.BLL.Services.Interfaces
         public Task<GrosBrasPopulated> GetGrosBrasById(string id);
 
         public Task<IList<GrosBrasPopulated>> GetRanking(int numberOfGrosBras);
-        public Task<string> CreateGrosBras(string cityName, GrosBras grosBras);
+        public Task<string> CreateGrosBras(GrosBras grosBras, string cityName = null);
+        public Task<string> UpdateGrosBras(GrosBras grosBras, string cityName = null);
         public long CountGrosBras();
     }
 }

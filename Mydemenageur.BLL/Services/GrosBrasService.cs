@@ -149,17 +149,20 @@ namespace Mydemenageur.BLL.Services
             return grosBrasFinal;
         }
 
-        public async Task<string> CreateGrosBras(string cityName, GrosBras grosBras)
+        public async Task<string> CreateGrosBras(GrosBras grosBras, string cityName = null)
         {
-            var matchedCities = await _dpCity.GetCollection().FindAsync(c => c.Label.ToLower() == cityName.ToLower());
-            if (matchedCities == null)
+            if (cityName != null)
             {
-                City newCity = await _citiesService.CreateNewCity(cityName);
-                grosBras.CityId = newCity.Id;
-            }
-            else
-            {
-                grosBras.CityId = matchedCities.First().Id;
+                var matchedCities = await _dpCity.GetCollection().FindAsync(c => c.Label.ToLower() == cityName.ToLower());
+                if (matchedCities == null)
+                {
+                    City newCity = await _citiesService.CreateNewCity(cityName);
+                    grosBras.CityId = newCity.Id;
+                }
+                else
+                {
+                    grosBras.CityId = matchedCities.First().Id;
+                }
             }
             
             await _dpGrosBras.GetCollection().InsertOneAsync(grosBras);
@@ -167,5 +170,25 @@ namespace Mydemenageur.BLL.Services
             return grosBras.Id;
         }
 
+        public async Task<string> UpdateGrosBras(GrosBras grosBras, string cityName = null)
+        {
+            if (grosBras.CityId == null && cityName != null)
+            {
+                var matchedCities = await _dpCity.GetCollection().FindAsync(c => c.Label.ToLower() == cityName.ToLower());
+                if (matchedCities == null)
+                {
+                    City newCity = await _citiesService.CreateNewCity(cityName);
+                    grosBras.CityId = newCity.Id;
+                }
+                else
+                {
+                    grosBras.CityId = matchedCities.First().Id;
+                }
+            }
+
+            await _dpGrosBras.GetCollection().ReplaceOneAsync(g => g.Id == grosBras.Id, grosBras);
+
+            return grosBras.Id;
+        }
     }
 }

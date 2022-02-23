@@ -81,7 +81,7 @@ namespace Mydemenageur.API.Controllers
             try
             {
                 GrosBras grosBras = _mapper.Map<GrosBras>(grosBrasSubmit);
-                string grosBrasId = await _grosBrasService.CreateGrosBras(grosBrasSubmit.CityName, grosBras);
+                string grosBrasId = await _grosBrasService.CreateGrosBras(grosBras, grosBrasSubmit.CityName);
                 
                 return Ok(grosBrasId);
             }
@@ -90,6 +90,27 @@ namespace Mydemenageur.API.Controllers
                 return BadRequest($"Error during the request: {e.Message}");
             }
            
+        }
+        
+        /// <summary>
+        /// Update a grosBras
+        /// </summary>
+        /// <param name="grosBrasSubmit"></param>
+        /// <returns></returns>
+        [HttpPost("update")]
+        public async Task<ActionResult<string>> UpdateGrosBras([FromBody] GrosBrasSubmit grosBrasSubmit)
+        {
+            try
+            {
+                GrosBras grosBras = _mapper.Map<GrosBras>(grosBrasSubmit);
+                string grosBrasId = await _grosBrasService.UpdateGrosBras(grosBras, grosBrasSubmit.CityName);
+                
+                return Ok(grosBrasId);
+            }
+            catch (Exception e)
+            {
+                return BadRequest($"Error during the request: {e.Message}");
+            }
         }
     }
 }
