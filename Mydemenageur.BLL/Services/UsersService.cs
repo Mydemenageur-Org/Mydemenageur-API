@@ -109,6 +109,20 @@ namespace Mydemenageur.BLL.Services
             
             return "role update done";
         }
+        
+        public async Task<string> UpdateUserRoleType(string id, string role)
+        {
+            MyDemenageurUser myDemUser = await _dpMyDemenageurUser.GetUserById(id).FirstOrDefaultAsync();
+
+            if (myDemUser == null) throw new Exception("MyDemenageurUser does not exist");
+
+            var update = Builders<MyDemenageurUser>.Update
+                .Set(user => user.RoleType, role);
+
+            await _dpMyDemenageurUser.GetCollection().UpdateOneAsync(user => user.UserId == id, update);
+            
+            return "role type update done";
+        }
 
         public async Task UpdateUser(byte[] profilePicture, string newPassword, MyDemenageurUser toUpdate)
         {
