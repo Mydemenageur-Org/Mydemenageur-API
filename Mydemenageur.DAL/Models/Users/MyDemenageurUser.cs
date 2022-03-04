@@ -71,10 +71,15 @@ namespace Mydemenageur.DAL.Models.Users
         /// <example>Je suis un super jeune qui déménage tous les jours</example>
         public string About { get; set; } = "";
         /// <summary>
-        /// The user's role. The roles are : Admin, Client, Mover
+        /// The user's role. The roles are : ServiceProvider, User
         /// </summary>
-        /// <example>Client</example>
+        /// <example>User</example>
         public string Role { get; set; } = "User";
+        /// <summary>
+        /// The user's role type.
+        /// </summary>
+        /// <example>Free</example>
+        public string RoleType { get; set; } = "";
         /// <summary>
         /// The user's address
         /// </summary>
