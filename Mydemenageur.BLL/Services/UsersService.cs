@@ -102,14 +102,11 @@ namespace Mydemenageur.BLL.Services
 
             if (myDemUser == null) throw new Exception("MyDemenageurUser does not exist");
 
-            myDemUser.Role = role;
+            var update = Builders<MyDemenageurUser>.Update
+                .Set(user => user.Role, role);
 
-            User user = await _dpUser.GetUserById(myDemUser.UserId).FirstOrDefaultAsync();
-
-            if (user == null) throw new Exception("User does not exist");
-
-            user.Role = role;
-
+            await _dpMyDemenageurUser.GetCollection().UpdateOneAsync(user => user.UserId == id, update);
+            
             return "role update done";
         }
 
