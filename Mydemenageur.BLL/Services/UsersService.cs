@@ -105,7 +105,7 @@ namespace Mydemenageur.BLL.Services
             var update = Builders<MyDemenageurUser>.Update
                 .Set(user => user.Role, role);
 
-            await _dpMyDemenageurUser.GetCollection().UpdateOneAsync(user => user.UserId == id, update);
+            await _dpMyDemenageurUser.GetCollection().UpdateOneAsync(user => user.Id == id, update);
             
             return "role update done";
         }
@@ -119,7 +119,7 @@ namespace Mydemenageur.BLL.Services
             var update = Builders<MyDemenageurUser>.Update
                 .Set(user => user.RoleType, role);
 
-            await _dpMyDemenageurUser.GetCollection().UpdateOneAsync(user => user.UserId == id, update);
+            await _dpMyDemenageurUser.GetCollection().UpdateOneAsync(user => user.Id == id, update);
             
             return "role type update done";
         }
