@@ -51,6 +51,7 @@ namespace Mydemenageur.DAL.Models.Users
         public string GoodGrade { get; set; } = "N/A";
         public string MediumGrade { get; set; } = "N/A";
         public string BadGrade { get; set; } = "N/A";
+        public string Rayon { get; set; } = "30";
         public string[] Equipment { get; set; }
         public bool IsPro { get; set; } = false;
         public bool IsVerified { get; set; } = false;
