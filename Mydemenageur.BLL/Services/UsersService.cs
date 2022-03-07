@@ -96,32 +96,19 @@ namespace Mydemenageur.BLL.Services
             return (await _filesService.GetFile(user.ProfilePictureId)).Data;
         }
 
-        public async Task<string> UpdateUserRole(string id, string role)
+        public async Task<string> UpdateUserRole(string id, MyDemenageurUserRole data)
         {
             MyDemenageurUser myDemUser = await _dpMyDemenageurUser.GetUserById(id).FirstOrDefaultAsync();
 
             if (myDemUser == null) throw new Exception("MyDemenageurUser does not exist");
 
             var update = Builders<MyDemenageurUser>.Update
-                .Set(user => user.Role, role);
+                .Set(user => user.Role, data.Role)
+                .Set(user => user.RoleType, data.RoleType);
 
             await _dpMyDemenageurUser.GetCollection().UpdateOneAsync(user => user.Id == id, update);
             
-            return "role update done";
-        }
-        
-        public async Task<string> UpdateUserRoleType(string id, string role)
-        {
-            MyDemenageurUser myDemUser = await _dpMyDemenageurUser.GetUserById(id).FirstOrDefaultAsync();
-
-            if (myDemUser == null) throw new Exception("MyDemenageurUser does not exist");
-
-            var update = Builders<MyDemenageurUser>.Update
-                .Set(user => user.RoleType, role);
-
-            await _dpMyDemenageurUser.GetCollection().UpdateOneAsync(user => user.Id == id, update);
-            
-            return "role type update done";
+            return "Role update done";
         }
 
         public async Task UpdateUser(byte[] profilePicture, string newPassword, MyDemenageurUser toUpdate)

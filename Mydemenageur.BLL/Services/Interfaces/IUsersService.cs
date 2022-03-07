@@ -15,7 +15,6 @@ namespace Mydemenageur.BLL.Services.Interfaces
 
         Task UpdateUser(byte[] profilePicture, string newPassword, MyDemenageurUser toUpdate);
         Task<GrosBrasPopulated> GetGrosBrasFromUserId(string id);
-        Task<string> UpdateUserRole(string id, string role);
-        Task<string> UpdateUserRoleType(string id, string roleType);
+        Task<string> UpdateUserRole(string id, MyDemenageurUserRole data);
     }
 }
