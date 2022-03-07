@@ -57,9 +57,9 @@ namespace Mydemenageur.API.Controllers
         /// <param name="role"></param>
         /// <returns></returns>
         [HttpPut("{id:length(24)}/update-user-role")]
-        public async Task<ActionResult<string>> UpdateUserRole(string id, [FromBody] string role)
+        public async Task<ActionResult<string>> UpdateUserRole(string id)
         {
-            string result = await _usersService.UpdateUserRole(id, role);
+            string result = await _usersService.UpdateUserRole(id, HttpContext.Request.Body.ToString());
 
             return Ok(result);
         }
@@ -71,9 +71,9 @@ namespace Mydemenageur.API.Controllers
         /// <param name="roleType"></param>
         /// <returns></returns>
         [HttpPut("{id:length(24)}/update-user-roletype")]
-        public async Task<ActionResult<string>> UpdateUserRoleType(string id, [FromBody] string roleType)
+        public async Task<ActionResult<string>> UpdateUserRoleType(string id)
         {
-            string result = await _usersService.UpdateUserRoleType(id, roleType);
+            string result = await _usersService.UpdateUserRoleType(id, HttpContext.Request.Body.ToString());
 
             return Ok(result);
         }
