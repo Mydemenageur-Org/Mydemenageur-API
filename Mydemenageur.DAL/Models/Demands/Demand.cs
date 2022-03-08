@@ -13,6 +13,7 @@ namespace Mydemenageur.DAL.Models.Demands
         public MyDemenageurUser Sender { get; set; }
         [BsonRepresentation(BsonType.ObjectId)]
         public string AnnounceId { get; set; }
+        public string ServiceSlug { get; set; }
         public string PriceProposed { get; set; }
         public string DescriptionDemand { get; set; }
         public bool HasBeenAccepted { get; set; } = false;
