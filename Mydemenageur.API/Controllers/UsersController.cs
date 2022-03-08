@@ -127,7 +127,7 @@ namespace Mydemenageur.API.Controllers
         }
 
         /// <summary>
-        /// Get users tokens
+        /// Get user's tokens
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
@@ -140,7 +140,7 @@ namespace Mydemenageur.API.Controllers
         }
         
         /// <summary>
-        /// Get users tokens
+        /// Add tokens to a user
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
