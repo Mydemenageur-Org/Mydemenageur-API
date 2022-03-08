@@ -56,5 +56,6 @@ namespace Mydemenageur.DAL.Models.Users
         public bool MyJugCert { get; set; } = false;
         public bool Cesu { get; set; } = false;
         public string Title { get; set; }
+        public string Formula { get; set; }
     }
 }

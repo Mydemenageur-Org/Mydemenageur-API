@@ -49,5 +49,6 @@ namespace Mydemenageur.DAL.Models.Users
         public string Rayon { get; set; } = "30";
         public string[] Equipment { get; set; }
         public string Title { get; set; }
+        public string Formula { get; set; }
     }
 }
