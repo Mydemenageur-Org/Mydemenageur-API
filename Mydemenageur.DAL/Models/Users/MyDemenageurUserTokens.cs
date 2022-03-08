@@ -3,9 +3,15 @@
     public class MyDemenageurUserTokens
     {
         /// <summary>
-        /// Amount of token to retrieve
+        /// Amount of token to operate
         /// </summary>
         /// <example>User</example>
-        public int Cost { get; set; } = 0;
+        public int Value { get; set; }
+
+        /// <summary>
+        /// Operation type
+        /// </summary>
+        /// <example>add</example>
+        public string Operation { get; set; } = "take";
     }
 }

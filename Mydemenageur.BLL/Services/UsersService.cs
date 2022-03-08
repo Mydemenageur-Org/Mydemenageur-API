@@ -156,28 +156,42 @@ namespace Mydemenageur.BLL.Services
             return user.FreeTokens + user.PaidTokens;
         }
 
-        public async Task<string> RetrieveTokens(string id, MyDemenageurUserTokens tokens)
+        public async Task<string> UpdateTokens(string id, MyDemenageurUserTokens tokens)
         {
             MyDemenageurUser myDemUser = await _dpMyDemenageurUser.GetUserById(id).FirstOrDefaultAsync();
 
             if (myDemUser == null) throw new Exception("MyDemenageurUser does not exist");
 
-            if (myDemUser.PaidTokens + myDemUser.FreeTokens < tokens.Cost) 
-                throw new Exception("Not enough tokens");
+            tokens.Value = Math.Abs(tokens.Value); // Security shit
             
-            // Retrieve on Paid tokens in priority
-            var remainingTokens = myDemUser.PaidTokens - tokens.Cost;
-            myDemUser.PaidTokens -= tokens.Cost - Math.Abs(remainingTokens);
-            if (remainingTokens < 0)
-                myDemUser.FreeTokens -= Math.Abs(remainingTokens);
+;           UpdateDefinition<MyDemenageurUser> update = null;
+            switch (tokens.Operation)
+            {
+                case "take":
+                    if (myDemUser.PaidTokens + myDemUser.FreeTokens < tokens.Value) 
+                        throw new Exception("Not enough tokens");
+            
+                    // Retrieve on Paid tokens in priority
+                    var remainingTokens = myDemUser.PaidTokens - tokens.Value;
+                    myDemUser.PaidTokens -= tokens.Value - Math.Abs(remainingTokens);
+                    if (remainingTokens < 0)
+                        myDemUser.FreeTokens -= Math.Abs(remainingTokens);
 
-            var update = Builders<MyDemenageurUser>.Update
-                .Set(user => user.FreeTokens, myDemUser.FreeTokens)
-                .Set(user => user.PaidTokens, myDemUser.PaidTokens);
+                    update = Builders<MyDemenageurUser>.Update
+                        .Set(user => user.FreeTokens, myDemUser.FreeTokens)
+                        .Set(user => user.PaidTokens, myDemUser.PaidTokens);
+                    break;
+                case "add":
+                    update = Builders<MyDemenageurUser>.Update
+                        .Inc(user => user.PaidTokens, tokens.Value);
+                    break;
+                default:
+                    throw new Exception("No valid operations set");
+            }
 
             await _dpMyDemenageurUser.GetCollection().UpdateOneAsync(user => user.Id == id, update);
             
-            return $"Successfully retrieved {tokens.Cost} tokens.";
+            return $"Successfully {tokens.Operation} {tokens.Value} tokens.";
         }
     }
 }
