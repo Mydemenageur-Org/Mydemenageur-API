@@ -134,5 +134,10 @@ namespace Mydemenageur.DAL.Models.Users
         /// Bool that provide firebase account informations 
         /// </summary>
         public Boolean IsFirebaseAccount { get; set; } = false;
+        /// <summary>
+        /// Formula subscribed by the "Gros Bras"
+        /// UNUSED ANYMORE TO DELETE
+        /// </summary>
+        public string Formula { get; set; }
     }
 }
