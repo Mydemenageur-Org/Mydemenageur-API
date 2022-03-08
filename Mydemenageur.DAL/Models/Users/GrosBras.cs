@@ -56,9 +56,5 @@ namespace Mydemenageur.DAL.Models.Users
         public bool MyJugCert { get; set; } = false;
         public bool Cesu { get; set; } = false;
         public string Title { get; set; }
-        /// <summary>
-        ///  Formula subscribed by the "Gros Bras"
-        /// </summary>
-        public string Formula { get; set; }
     }
 }

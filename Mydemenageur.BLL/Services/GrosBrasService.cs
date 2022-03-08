@@ -6,8 +6,11 @@ using Mydemenageur.DAL.DP.Interface;
 using Mydemenageur.DAL.Models;
 using Mydemenageur.DAL.Models.Users;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http.Extensions;
+using Microsoft.Extensions.Primitives;
 using MongoDB.Bson;
 using Mydemenageur.BLL.Helpers;
 
@@ -28,9 +31,17 @@ namespace Mydemenageur.BLL.Services
             _citiesService = citiesService;
         }
 
-        public async Task<IList<GrosBrasPopulated>> GetGrosBras(IQueryCollection queryParams, int pageNumber = -1, int numberOfElementsPerPage = -1, string cityLabel = "")
+        public async Task<IList<GrosBrasPopulated>> GetGrosBras(QueryString queryString, int pageNumber = -1, int numberOfElementsPerPage = -1, string cityLabel = "")
         {
             List<GrosBrasPopulated> grosBrasFinal = new List<GrosBrasPopulated>();
+            
+            var dictionary = Microsoft.AspNetCore.WebUtilities.QueryHelpers.ParseQuery(queryString.Value);
+            if (dictionary.ContainsKey("cityLabel"))
+            {
+                var city = (await _dpCity.GetCollection().FindAsync(c => c.Label == dictionary["cityLabel"])).FirstOrDefault();
+                dictionary.Add("CityId", city.Id);
+            }
+            IQueryCollection queryParams = new QueryCollection(dictionary);
 
             var grosBras = await _dpGrosBras.GetCollection().FilterByQueryParamsMongo(queryParams, pageNumber, numberOfElementsPerPage);
 
@@ -56,19 +67,10 @@ namespace Mydemenageur.BLL.Services
                     MediumGrade = profil.MediumGrade,
                     BadGrade = profil.BadGrade,
                     Rayon = profil.Rayon,
-                    Title = profil.Title,
-                    Formula = profil.Formula
+                    Title = profil.Title
                 };
                 grosBrasFinal.Add(grosBras);
             });
-
-            if(cityLabel.Length > 1)
-            {
-                List<GrosBrasPopulated> grosBrasFinalFiltered = new List<GrosBrasPopulated>();
-                grosBrasFinalFiltered = grosBrasFinal.FindAll(w => w.City.Label == cityLabel).ToList();
-
-                return grosBrasFinalFiltered;
-            }
 
             return grosBrasFinal;
         }
@@ -107,8 +109,7 @@ namespace Mydemenageur.BLL.Services
                 MediumGrade = grosBrasProfil.MediumGrade,
                 BadGrade = grosBrasProfil.BadGrade,
                 Rayon = grosBrasProfil.Rayon,
-                Title = grosBrasProfil.Title,
-                Formula = grosBrasProfil.Formula
+                Title = grosBrasProfil.Title
             };
 
             return grosBras;
@@ -143,8 +144,7 @@ namespace Mydemenageur.BLL.Services
                     MediumGrade = profil.MediumGrade,
                     BadGrade = profil.BadGrade,
                     Rayon = profil.Rayon,
-                    Title = profil.Title,
-                    Formula = profil.Formula
+                    Title = profil.Title
                 };
                 grosBrasFinal.Add(grosBras);
             });

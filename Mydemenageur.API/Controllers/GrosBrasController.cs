@@ -3,6 +3,7 @@ using Mydemenageur.DAL.Models.Users;
 using Mydemenageur.BLL.Services.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Threading.Tasks;
 using AutoMapper;
 
@@ -27,8 +28,8 @@ namespace Mydemenageur.API.Controllers
         [HttpGet]
         public async Task<ActionResult<IList<GrosBrasPopulated>>> GetGrosBras([FromQuery] int pageNumber = -1, [FromQuery] int numberOfElementsPerPage = -1, [FromQuery] string cityLabel = "")
         {
-            var queryParams = HttpContext.Request.Query;
-            IList<GrosBrasPopulated> grosBras = await _grosBrasService.GetGrosBras(queryParams, pageNumber, numberOfElementsPerPage, cityLabel);
+            var queryString = HttpContext.Request.QueryString;
+            IList<GrosBrasPopulated> grosBras = await _grosBrasService.GetGrosBras(queryString, pageNumber, numberOfElementsPerPage, cityLabel);
 
             return Ok(grosBras);
         }
