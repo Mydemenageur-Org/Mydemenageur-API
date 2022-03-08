@@ -143,6 +143,7 @@ namespace Mydemenageur.API.Controllers
         /// Add tokens to a user
         /// </summary>
         /// <param name="id"></param>
+        /// <param name="tokens"></param>
         /// <returns></returns>
         [HttpPut("{id:length(24)}/tokens")]
         public async Task<ActionResult<int>> PutTokens(string id, [FromBody] MyDemenageurUserTokens tokens)
