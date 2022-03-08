@@ -127,28 +127,28 @@ namespace Mydemenageur.API.Controllers
         }
 
         /// <summary>
-        /// Get user's tokens
+        /// Get user's total tokens
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpGet("{id:length(24)}/tokens")]
         public async Task<ActionResult<int>> GetTokens(string id)
         {
-            var result = await _usersService.GetTokens(id);
+            var result = await _usersService.GetTotalTokens(id);
             
             return Ok(result);
         }
-        
+
         /// <summary>
-        /// Add tokens to a user
+        /// Retrieve tokens from a user
         /// </summary>
         /// <param name="id"></param>
         /// <param name="tokens"></param>
         /// <returns></returns>
         [HttpPut("{id:length(24)}/tokens")]
-        public async Task<ActionResult<int>> PutTokens(string id, [FromBody] MyDemenageurUserTokens tokens)
+        public async Task<ActionResult<int>> RetrieveTokens(string id, MyDemenageurUserTokens tokens)
         {
-            var result = await _usersService.PutTokens(id, tokens);
+            var result = await _usersService.RetrieveTokens(id, tokens);
             
             return Ok(result);
         }

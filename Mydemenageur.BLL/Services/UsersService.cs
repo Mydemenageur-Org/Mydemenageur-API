@@ -149,26 +149,35 @@ namespace Mydemenageur.BLL.Services
             );
         }
 
-        public async Task<int> GetTokens(string id)
+        public async Task<int> GetTotalTokens(string id)
         {
             var user = await _dpMyDemenageurUser.GetUserById(id).FirstOrDefaultAsync();
 
             return user.FreeTokens + user.PaidTokens;
         }
-        
-        public async Task<string> PutTokens(string id, MyDemenageurUserTokens token)
+
+        public async Task<string> RetrieveTokens(string id, MyDemenageurUserTokens tokens)
         {
             MyDemenageurUser myDemUser = await _dpMyDemenageurUser.GetUserById(id).FirstOrDefaultAsync();
 
             if (myDemUser == null) throw new Exception("MyDemenageurUser does not exist");
 
+            if (myDemUser.PaidTokens + myDemUser.FreeTokens < tokens.Cost) 
+                throw new Exception("Not enough tokens");
+            
+            // Retrieve on Paid tokens in priority
+            var remainingTokens = myDemUser.PaidTokens - tokens.Cost;
+            myDemUser.PaidTokens -= tokens.Cost - Math.Abs(remainingTokens);
+            if (remainingTokens < 0)
+                myDemUser.FreeTokens -= Math.Abs(remainingTokens);
+
             var update = Builders<MyDemenageurUser>.Update
-                .Inc("FreeTokens", token.FreeTokens)
-                .Inc("PaidTokens", token.PaidTokens);
+                .Set(user => user.FreeTokens, myDemUser.FreeTokens)
+                .Set(user => user.PaidTokens, myDemUser.PaidTokens);
 
             await _dpMyDemenageurUser.GetCollection().UpdateOneAsync(user => user.Id == id, update);
-
-            return "token add done";
+            
+            return $"Successfully retrieved {tokens.Cost} tokens.";
         }
     }
 }

@@ -3,14 +3,9 @@
     public class MyDemenageurUserTokens
     {
         /// <summary>
-        /// The user's given tokens
+        /// Amount of token to retrieve
         /// </summary>
-        /// <example>50</example>
-        public int FreeTokens { get; set; } = 0;
-        /// <summary>
-        /// The user's paid tokens
-        /// </summary>
-        /// <example>50</example>
-        public int PaidTokens { get; set; } = 0;
+        /// <example>User</example>
+        public int Cost { get; set; } = 0;
     }
 }
