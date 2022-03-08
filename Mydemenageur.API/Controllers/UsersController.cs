@@ -131,7 +131,7 @@ namespace Mydemenageur.API.Controllers
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        [HttpGet("{id:length(24)/tokens")]
+        [HttpGet("{id:length(24)}/tokens")]
         public async Task<ActionResult<int>> GetTokens(string id)
         {
             var result = await _usersService.GetTokens(id);
@@ -144,7 +144,7 @@ namespace Mydemenageur.API.Controllers
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        [HttpPut("{id:length(24)/tokens")]
+        [HttpPut("{id:length(24)}/tokens")]
         public async Task<ActionResult<int>> PutTokens(string id, [FromBody] MyDemenageurUserTokens tokens)
         {
             var result = await _usersService.PutTokens(id, tokens);
