@@ -92,7 +92,7 @@ namespace Mydemenageur.BLL.Services
             MyDemenageurUser sender = await _dpUser.GetUserById(demand.SenderId).FirstOrDefaultAsync();
 
             string tokenAmount = sender.MDToken;
-            if(int.Parse(tokenAmount) < 1)
+            if(int.Parse(tokenAmount) < 1 && sender.Role == "ServiceProvider")
             {
                 return null;
             }
@@ -104,13 +104,18 @@ namespace Mydemenageur.BLL.Services
                 Recipient = recipient,
                 Sender = sender,
                 AnnounceId = demand.AnnounceId,
+                ServiceSlug = demand.ServiceSlug,
                 HasBeenAccepted = false,
                 HasBeenDeclined = false,
             };
 
-            sender.MDToken = (int.Parse(sender.MDToken) - 1).ToString();
+            if (sender.Role == "ServiceProvider")
+            {
+                sender.MDToken = (int.Parse(sender.MDToken) - 1).ToString();
 
-            await _dpUser.GetCollection().ReplaceOneAsync(d => d.Id == sender.Id, sender);
+                await _dpUser.GetCollection().ReplaceOneAsync(d => d.Id == sender.Id, sender);
+
+            }
 
             await _dpDemand.GetCollection().InsertOneAsync(newDemand);
 

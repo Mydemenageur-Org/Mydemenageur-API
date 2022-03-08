@@ -11,6 +11,7 @@ namespace Mydemenageur.DAL.Models
         public string Label { get; set; }
         public string Latitude { get; set; }
         public string Longitude { get; set; }
+        public string Departement { get; set; }
         public int SearchCount { get; set; }
         public DateTime CreatedAt { get; set; }
     }
