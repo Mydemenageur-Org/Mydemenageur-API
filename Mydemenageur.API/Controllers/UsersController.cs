@@ -125,5 +125,31 @@ namespace Mydemenageur.API.Controllers
                 return BadRequest($"Error during the request: {e.Message}");
             }
         }
+
+        /// <summary>
+        /// Get users tokens
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpGet("{id:length(24)/tokens")]
+        public async Task<ActionResult<int>> GetTokens(string id)
+        {
+            var result = await _usersService.GetTokens(id);
+            
+            return Ok(result);
+        }
+        
+        /// <summary>
+        /// Get users tokens
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpPut("{id:length(24)/tokens")]
+        public async Task<ActionResult<int>> PutTokens(string id, [FromBody] MyDemenageurUserTokens tokens)
+        {
+            var result = await _usersService.PutTokens(id, tokens);
+            
+            return Ok(result);
+        }
     }
 }

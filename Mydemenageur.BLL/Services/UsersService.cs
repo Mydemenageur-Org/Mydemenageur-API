@@ -148,5 +148,27 @@ namespace Mydemenageur.BLL.Services
                 toUpdate
             );
         }
+
+        public async Task<int> GetTokens(string id)
+        {
+            var user = await _dpMyDemenageurUser.GetUserById(id).FirstOrDefaultAsync();
+
+            return user.FreeTokens + user.PaidTokens;
+        }
+        
+        public async Task<string> PutTokens(string id, MyDemenageurUserTokens token)
+        {
+            MyDemenageurUser myDemUser = await _dpMyDemenageurUser.GetUserById(id).FirstOrDefaultAsync();
+
+            if (myDemUser == null) throw new Exception("MyDemenageurUser does not exist");
+
+            var update = Builders<MyDemenageurUser>.Update
+                .Inc("FreeTokens", token.FreeTokens)
+                .Inc("PaidTokens", token.PaidTokens);
+
+            await _dpMyDemenageurUser.GetCollection().UpdateOneAsync(user => user.Id == id, update);
+
+            return "token add done";
+        }
     }
 }

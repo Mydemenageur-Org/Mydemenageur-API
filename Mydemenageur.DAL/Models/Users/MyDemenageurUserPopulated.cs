@@ -100,6 +100,16 @@ namespace Mydemenageur.DAL.Models.Users
         /// <example>50</example>
         public string MDToken { get; set; } = "0";
         /// <summary>
+        /// The user's given tokens
+        /// </summary>
+        /// <example>50</example>
+        public int FreeTokens { get; set; } = 0;
+        /// <summary>
+        /// The user's paid tokens
+        /// </summary>
+        /// <example>50</example>
+        public int PaidTokens { get; set; } = 0;
+        /// <summary>
         /// The user's notification settings for email
         /// </summary>
         /// <example>1</example>
