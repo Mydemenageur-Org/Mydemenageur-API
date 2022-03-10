@@ -13,13 +13,15 @@ namespace Mydemenageur.BLL.Services
 {
     public class DemandService : IDemandService
     {
+        private readonly IUsersService _usersService;
         private readonly IDPDemand _dpDemand;
         private readonly IDPMyDemenageurUser _dpUser;
         private readonly IMapper _mapper;
         private readonly IFilesService _filesService;
 
-        public DemandService(IDPDemand dPDemand, IDPMyDemenageurUser dpUser, IMapper mapper, IFilesService filesService)
+        public DemandService(IUsersService usersService, IDPDemand dPDemand, IDPMyDemenageurUser dpUser, IMapper mapper, IFilesService filesService)
         {
+            _usersService = usersService;
             _dpDemand = dPDemand;
             _dpUser = dpUser;
             _mapper = mapper;
@@ -91,13 +93,13 @@ namespace Mydemenageur.BLL.Services
             MyDemenageurUser recipient = await _dpUser.GetUserById(demand.RecipientId).FirstOrDefaultAsync();
             MyDemenageurUser sender = await _dpUser.GetUserById(demand.SenderId).FirstOrDefaultAsync();
 
-            string tokenAmount = sender.MDToken;
-            if(int.Parse(tokenAmount) < 1 && sender.Role == "ServiceProvider")
-            {
-                return null;
-            }
+            if(sender.Role != "ServiceProvider")
+                throw new System.Exception("Incorrect role");
+            
+            if(await _usersService.GetTotalTokens(sender.Id) < 1) 
+                throw new System.Exception("Not enough tokens");
 
-            Demand newDemand = new Demand()
+            Demand newDemand = new Demand
             {
                 PriceProposed = demand.PriceProposed,
                 DescriptionDemand = demand.DescriptionDemand,
@@ -109,13 +111,11 @@ namespace Mydemenageur.BLL.Services
                 HasBeenDeclined = false,
             };
 
-            if (sender.Role == "ServiceProvider")
+            await _usersService.UpdateTokens(sender.Id, new MyDemenageurUserTokens
             {
-                sender.MDToken = (int.Parse(sender.MDToken) - 1).ToString();
-
-                await _dpUser.GetCollection().ReplaceOneAsync(d => d.Id == sender.Id, sender);
-
-            }
+                Value = 1,
+                Operation = "take"
+            });
 
             await _dpDemand.GetCollection().InsertOneAsync(newDemand);
 
