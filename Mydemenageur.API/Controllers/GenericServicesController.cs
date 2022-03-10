@@ -125,5 +125,25 @@ namespace Mydemenageur.API.Controllers
                 return BadRequest($"Error during the request: {e.Message}");
             }
         }
+
+        /// <summary>
+        /// Delete a generic service
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpPut("{id:length(24)}/delete")]
+        public async Task<IActionResult> DeleteGenericServide(string id)
+        {
+            try
+            {
+                await _genericServicesService.DeleteGenericService(id);
+
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                return BadRequest($"Error during the request: {e.Message}");
+            }
+        }
     }
 }

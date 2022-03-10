@@ -16,5 +16,6 @@ namespace Mydemenageur.BLL.Services.Interfaces
         Task<GenericService> CreateGenericService(GenericService toCreate);
 
         Task UpdateGenericService(GenericService toUpdate);
+        Task DeleteGenericService(string id);
     }
 }

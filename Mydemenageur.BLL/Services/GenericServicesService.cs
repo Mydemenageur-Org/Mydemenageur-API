@@ -78,5 +78,10 @@ namespace Mydemenageur.BLL.Services
                 toUpdate
             );
         }
+
+        public async Task DeleteGenericService(string id)
+        {
+            await _dpGenericService.GetCollection().DeleteOneAsync(dbGenericService => dbGenericService.Id == id);
+        }
     }
 }
