@@ -81,7 +81,7 @@ namespace Mydemenageur.BLL.Helpers
         /// <param name="collection"></param>
         /// <param name="queryParams"></param>
         /// <returns></returns>
-        public async static Task<List<T>> FilterByQueryParamsMongo<T>(this IMongoCollection<T> collection, IQueryCollection queryParams, int pageNumber = -1, int numberOfElementsPerPage = -1) where T : new()
+        public async static Task<List<T>> FilterByQueryParamsMongo<T>(this IMongoCollection<T> collection, IQueryCollection queryParams, int pageNumber = -1, int numberOfElementsPerPage = -1, SortDefinition<T> sortDefinition = null) where T : new()
         {
             string metadataKeysNumberKey = "metadata-keys-number";
             List<FilterDefinition<T>> allFilters = new();
@@ -144,7 +144,7 @@ namespace Mydemenageur.BLL.Helpers
 
             var finalFilter = allFilters.Count > 0 ? Builders<T>.Filter.And(allFilters) : new BsonDocument();
 
-            var cursor = collection.Find(finalFilter);
+            var cursor = collection.Find(finalFilter).Sort(sortDefinition);
 
             if (pageNumber >= 0 && numberOfElementsPerPage > 0)
             {
