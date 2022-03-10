@@ -96,7 +96,7 @@ namespace Mydemenageur.BLL.Services
             if(sender.Role != "ServiceProvider")
                 throw new System.Exception("Incorrect role");
             
-            if(await _usersService.GetTotalTokens(sender.Id) < 1) 
+            if((sender.RoleType == "Basique" || sender.RoleType == "Intermédiaire") && await _usersService.GetTotalTokens(sender.Id) < 1) 
                 throw new System.Exception("Not enough tokens");
 
             Demand newDemand = new Demand
@@ -108,14 +108,17 @@ namespace Mydemenageur.BLL.Services
                 AnnounceId = demand.AnnounceId,
                 ServiceSlug = demand.ServiceSlug,
                 HasBeenAccepted = false,
-                HasBeenDeclined = false,
+                HasBeenDeclined = false
             };
 
-            await _usersService.UpdateTokens(sender.Id, new MyDemenageurUserTokens
+            if (sender.RoleType == "Basique" || sender.RoleType == "Intermédiaire")
             {
-                Value = 1,
-                Operation = "take"
-            });
+                await _usersService.UpdateTokens(sender.Id, new MyDemenageurUserTokens
+                {
+                    Value = 1,
+                    Operation = "take"
+                });   
+            }
 
             await _dpDemand.GetCollection().InsertOneAsync(newDemand);
 
