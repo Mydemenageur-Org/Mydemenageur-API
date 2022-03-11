@@ -5,6 +5,7 @@ using Mydemenageur.DAL.DP.Interface;
 using Mydemenageur.DAL.Models.Users;
 using Mydemenageur.DAL.Models.Demands;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -93,11 +94,23 @@ namespace Mydemenageur.BLL.Services
             MyDemenageurUser recipient = await _dpUser.GetUserById(demand.RecipientId).FirstOrDefaultAsync();
             MyDemenageurUser sender = await _dpUser.GetUserById(demand.SenderId).FirstOrDefaultAsync();
 
-            if(sender.Role != "ServiceProvider")
-                throw new System.Exception("Incorrect role");
+            if (demand.AnnounceId != null)
+            {
+                if(sender.Role != "ServiceProvider")
+                    throw new System.Exception("Incorrect role");
             
-            if((sender.RoleType == "Basique" || sender.RoleType == "Intermédiaire") && await _usersService.GetTotalTokens(sender.Id) < 1) 
-                throw new System.Exception("Not enough tokens");
+                if((sender.RoleType == "Basique" || sender.RoleType == "Intermédiaire") && await _usersService.GetTotalTokens(sender.Id) < 1) 
+                    throw new System.Exception("Not enough tokens");
+                
+                if (sender.RoleType == "Basique" || sender.RoleType == "Intermédiaire")
+                {
+                    await _usersService.UpdateTokens(sender.Id, new MyDemenageurUserTokens
+                    {
+                        Value = 1,
+                        Operation = "take"
+                    });   
+                }
+            }
 
             Demand newDemand = new Demand
             {
@@ -110,15 +123,6 @@ namespace Mydemenageur.BLL.Services
                 HasBeenAccepted = false,
                 HasBeenDeclined = false
             };
-
-            if (sender.RoleType == "Basique" || sender.RoleType == "Intermédiaire")
-            {
-                await _usersService.UpdateTokens(sender.Id, new MyDemenageurUserTokens
-                {
-                    Value = 1,
-                    Operation = "take"
-                });   
-            }
 
             await _dpDemand.GetCollection().InsertOneAsync(newDemand);
 
