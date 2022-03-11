@@ -146,6 +146,14 @@ namespace Mydemenageur.BLL.Services
                 throw new System.Exception("Sender not found");
             }
 
+            if (demandToBeUpdated.Revealed != demand.Revealed)
+                if (await _usersService.GetTotalTokens(recipient.Id) < 1)
+                    throw new System.Exception("Not enough token to reveal");
+                else
+                    await _usersService.UpdateTokens(recipient.Id, new MyDemenageurUserTokens {
+                        Value = 1,
+                        Operation = "take"
+                    });
 
             demandToBeUpdated.PriceProposed = demand.PriceProposed;
             demandToBeUpdated.DescriptionDemand = demand.DescriptionDemand;
@@ -169,7 +177,5 @@ namespace Mydemenageur.BLL.Services
         {
             return null;
         }
-
-
     }
 }
