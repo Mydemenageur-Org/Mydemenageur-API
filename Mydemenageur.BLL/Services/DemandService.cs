@@ -80,7 +80,8 @@ namespace Mydemenageur.BLL.Services
                     Recipient = mdUserRecipient,
                     Sender = mdUserSender,
                     HasBeenAccepted = demand.HasBeenAccepted,
-                    HasBeenDeclined = demand.HasBeenDeclined
+                    HasBeenDeclined = demand.HasBeenDeclined,
+                    Revealed = demand.Revealed
                 };
 
                 demandMessageList.Add(demandMessage);
@@ -121,7 +122,8 @@ namespace Mydemenageur.BLL.Services
                 AnnounceId = demand.AnnounceId,
                 ServiceSlug = demand.ServiceSlug,
                 HasBeenAccepted = false,
-                HasBeenDeclined = false
+                HasBeenDeclined = false,
+                Revealed = false
             };
 
             await _dpDemand.GetCollection().InsertOneAsync(newDemand);
@@ -151,6 +153,7 @@ namespace Mydemenageur.BLL.Services
             demandToBeUpdated.Sender = sender;
             demandToBeUpdated.HasBeenAccepted = demand.HasBeenAccepted;
             demandToBeUpdated.HasBeenDeclined = demand.HasBeenDeclined;
+            demandToBeUpdated.Revealed = demand.Revealed;
 
             await _dpDemand.GetCollection().ReplaceOneAsync(
                 dpDemand => dpDemand.Id == demand.Id,

@@ -20,5 +20,6 @@ namespace Mydemenageur.DAL.Models.Demands
         public string DescriptionDemand { get; set; }
         public bool HasBeenAccepted { get; set; }
         public bool HasBeenDeclined { get; set; }
+        public bool Revealed { get; set; }
     }
 }
