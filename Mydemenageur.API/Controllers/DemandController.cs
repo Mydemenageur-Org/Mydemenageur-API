@@ -48,6 +48,24 @@ namespace Mydemenageur.API.Controllers
 
             return Ok(demands);
         }
+        
+        /// <summary>
+        /// Get all demands from the recipient or sender
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpGet("{id:length(24)}/any")]
+        public async Task<ActionResult<IList<DemandMessage>>> GetDemandsFromAny(string id)
+        {
+            IList<DemandMessage> demands = await _demandService.GetDemandsFromAny(id);
+
+            if (!demands.Any())
+            {
+                return NotFound();
+            }
+            
+            return Ok(demands);
+        }
 
         /// <summary>
         /// Get all demands from the recipient
@@ -57,9 +75,14 @@ namespace Mydemenageur.API.Controllers
         [HttpGet("{id:length(24)}/recipient")]
         public async Task<ActionResult<IList<DemandMessage>>> GetDemandsFromRecipient(string id)
         {
-            IList<DemandMessage> demand = await _demandService.GetRecipientDemands(id);
+            IList<DemandMessage> demands = await _demandService.GetRecipientDemands(id);
+            
+            if (!demands.Any())
+            {
+                return NotFound();
+            }
 
-            return Ok(demand);
+            return Ok(demands);
         }
 
 
@@ -71,14 +94,14 @@ namespace Mydemenageur.API.Controllers
         [HttpGet("{id:length(24)}/sender")]
         public async Task<ActionResult<IList<Demand>>> GetDemandsFromSender(string senderId)
         {
-            IList<Demand> demand = await _demandService.GetSenderDemands(senderId);
+            IList<DemandMessage> demands = await _demandService.GetSenderDemands(senderId);
 
-            if (demand.Count() == 0)
+            if (!demands.Any())
             {
                 return NotFound();
             }
 
-            return Ok(demand);
+            return Ok(demands);
         }
 
         /// <summary>
