@@ -75,9 +75,16 @@ namespace Mydemenageur.BLL.Services
             return grosBrasFinal;
         }
 
-        public Task<int> CountGrosBras()
+        public async Task<long> CountGrosBras(QueryString queryString)
         {
-            return _dpGrosBras.Obtain().CountAsync();
+            var dictionary = Microsoft.AspNetCore.WebUtilities.QueryHelpers.ParseQuery(queryString.Value);
+            if (dictionary.ContainsKey("cityLabel"))
+            {
+                var city = (await _dpCity.GetCollection().FindAsync(c => c.Label == dictionary["cityLabel"])).FirstOrDefault();
+                dictionary.Add("CityId", city.Id);
+            }
+            IQueryCollection queryParams = new QueryCollection(dictionary);
+            return await _dpGrosBras.GetCollection().CountByQueryParamsMongo(queryParams);
         }
 
         public async Task<GrosBrasPopulated> GetGrosBrasById(string id)
