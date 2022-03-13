@@ -75,10 +75,9 @@ namespace Mydemenageur.BLL.Services
             return grosBrasFinal;
         }
 
-        public long CountGrosBras()
+        public Task<int> CountGrosBras()
         {
-            long grosBrasNumber = _dpGrosBras.Obtain().ToList().Count();
-            return  grosBrasNumber;
+            return _dpGrosBras.Obtain().CountAsync();
         }
 
         public async Task<GrosBrasPopulated> GetGrosBrasById(string id)

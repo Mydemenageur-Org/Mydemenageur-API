@@ -62,6 +62,10 @@ namespace Mydemenageur.BLL.Services
 
             return services;
         }
+        public Task<long> GetGenericServicesCount(IQueryCollection queryParams, int pageNumber = -1, int numberOfElementsPerPage = -1)
+        {
+            return _dpGenericService.GetCollection().CountByQueryParamsMongo(queryParams, pageNumber, numberOfElementsPerPage);
+        }
 
         public async Task<GenericService> CreateGenericService(GenericService toCreate)
         { 
