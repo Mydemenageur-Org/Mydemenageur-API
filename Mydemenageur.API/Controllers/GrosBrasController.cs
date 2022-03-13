@@ -54,7 +54,9 @@ namespace Mydemenageur.API.Controllers
         [HttpGet("count")]
         public async Task<ActionResult<int>> GetGrosBrasCount()
         {
-            var count = _grosBrasService.CountGrosBras();
+            var queryParams = HttpContext.Request.Query;
+            long count = await _grosBrasService.CountGrosBras(queryParams);
+
             return Ok(count);
         }
 
