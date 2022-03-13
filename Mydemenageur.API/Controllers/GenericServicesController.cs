@@ -62,9 +62,9 @@ namespace Mydemenageur.API.Controllers
         public async Task<ActionResult<int>> GetGenericServicesCount()
         {
             var queryParams = HttpContext.Request.Query;
-            IList<GenericService> genericServices = await _genericServicesService.GetGenericServices(queryParams);
+            long count = await _genericServicesService.GetGenericServicesCount(queryParams);
 
-            return Ok(genericServices.Count);
+            return Ok(count);
         }
 
         /// <summary>

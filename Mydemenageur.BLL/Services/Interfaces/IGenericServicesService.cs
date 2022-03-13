@@ -12,6 +12,7 @@ namespace Mydemenageur.BLL.Services.Interfaces
         Task<GenericServicePopulated> GetGenericService(string id, IList<string> fields);
         Task<GenericService> GetBaseGenericService(string name);
         Task<List<GenericService>> GetGenericServices(IQueryCollection queryParams, int pageNumber = -1, int numberOfElementsPerPage = -1);
+        Task<long> GetGenericServicesCount(IQueryCollection queryParams, int pageNumber = -1, int numberOfElementsPerPage = -1);
 
         Task<GenericService> CreateGenericService(GenericService toCreate);
 

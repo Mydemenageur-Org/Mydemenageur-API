@@ -12,6 +12,69 @@ namespace Mydemenageur.BLL.Helpers
 {
     public static class DynamicFilterExtensionMethods
     {
+        private static FilterDefinition<T> CreateFilter<T>(IQueryCollection queryParams, int pageNumber = -1, int numberOfElementsPerPage = -1) where T : new()
+        {
+            string metadataKeysNumberKey = "metadata-keys-number";
+            List<FilterDefinition<T>> allFilters = new();
+
+            // First part, we parse all query with metadata
+            if (queryParams.ContainsKey(metadataKeysNumberKey))
+            {
+                // NOTE : this might crash, so the caller should handle exception
+                int metadataKeysNumber = int.Parse(queryParams[metadataKeysNumberKey]);
+
+                for (int i = 1; i <= metadataKeysNumber; ++i)
+                {
+                    string metadataKey = queryParams[$"metadata{i}-key"];
+
+                    foreach (string key in queryParams.Keys)
+                    {
+                        if (key.Contains($"metadata{i}."))
+                        {
+                            List<string> keyElements = key.Split('.').ToList();
+
+                            // The metadata may be nested so we want to make sure we don't loose that
+                            List<string> keyNestedElements = new(keyElements);
+                            // We need to remove the two last items of the nested elements 
+                            // beceause they are only informatives
+                            keyNestedElements.RemoveAt(keyNestedElements.Count - 1);
+                            keyNestedElements.RemoveAt(keyNestedElements.Count - 1);
+
+                            string metadataKeyValue = keyElements.Last();
+                            List<string> metadataKeyFilter = new(keyNestedElements)
+                            {
+                                metadataKey
+                            };
+                            List<string> metadataValueFilter = new(keyNestedElements)
+                            {
+                                "Value"
+                            };
+
+                            var filterKey = Builders<T>.Filter.Eq(string.Join('.', metadataKeyFilter), metadataKeyValue);
+                            var filterValue = Builders<T>.Filter.Eq(string.Join('.', metadataValueFilter), queryParams[key]);
+
+                            allFilters.Add(Builders<T>.Filter.And(filterKey, filterValue));
+                        }
+                    }
+                }
+            }
+
+            // Then, we need to parse more classical queries
+            foreach (string key in queryParams.Keys)
+            {
+                if (key.Contains("metadata")) continue;
+                if (key.Contains("pageNumber")) continue;
+                if (key.Contains("numberOfElementsPerPage")) continue;
+                if (key.Contains("cityLabel")) continue;
+
+                string value = queryParams[key];
+                var filter = Builders<T>.Filter.Eq(key, value);
+
+                allFilters.Add(filter);
+            }
+
+            return allFilters.Count > 0 ? Builders<T>.Filter.And(allFilters) : new BsonDocument();
+        }
         /// <summary>
         /// This function allows to get data from a MongoDB collection with advanced filters
         /// 
@@ -83,66 +146,7 @@ namespace Mydemenageur.BLL.Helpers
         /// <returns></returns>
         public async static Task<List<T>> FilterByQueryParamsMongo<T>(this IMongoCollection<T> collection, IQueryCollection queryParams, int pageNumber = -1, int numberOfElementsPerPage = -1, SortDefinition<T> sortDefinition = null) where T : new()
         {
-            string metadataKeysNumberKey = "metadata-keys-number";
-            List<FilterDefinition<T>> allFilters = new();
-
-            // First part, we parse all query with metadata
-            if (queryParams.ContainsKey(metadataKeysNumberKey))
-            {
-                // NOTE : this might crash, so the caller should handle exception
-                int metadataKeysNumber = int.Parse(queryParams[metadataKeysNumberKey]);
-
-                for (int i = 1; i <= metadataKeysNumber; ++i)
-                {
-                    string metadataKey = queryParams[$"metadata{i}-key"];
-
-                    foreach (string key in queryParams.Keys)
-                    {
-                        if (key.Contains($"metadata{i}."))
-                        {
-                            List<string> keyElements = key.Split('.').ToList();
-
-                            // The metadata may be nested so we want to make sure we don't loose that
-                            List<string> keyNestedElements = new(keyElements);
-                            // We need to remove the two last items of the nested elements 
-                            // beceause they are only informatives
-                            keyNestedElements.RemoveAt(keyNestedElements.Count - 1);
-                            keyNestedElements.RemoveAt(keyNestedElements.Count - 1);
-
-                            string metadataKeyValue = keyElements.Last();
-                            List<string> metadataKeyFilter = new(keyNestedElements)
-                            {
-                                metadataKey
-                            };
-                            List<string> metadataValueFilter = new(keyNestedElements)
-                            {
-                                "Value"
-                            };
-
-                            var filterKey = Builders<T>.Filter.Eq(string.Join('.', metadataKeyFilter), metadataKeyValue);
-                            var filterValue = Builders<T>.Filter.Eq(string.Join('.', metadataValueFilter), queryParams[key]);
-
-                            allFilters.Add(Builders<T>.Filter.And(filterKey, filterValue));
-                        }
-                    }
-                }
-            }
-
-            // Then, we need to parse more classical queries
-            foreach (string key in queryParams.Keys)
-            {
-                if (key.Contains("metadata")) continue;
-                if (key.Contains("pageNumber")) continue;
-                if (key.Contains("numberOfElementsPerPage")) continue;
-                if (key.Contains("cityLabel")) continue;
-
-                string value = queryParams[key];
-                var filter = Builders<T>.Filter.Eq(key, value);
-
-                allFilters.Add(filter);
-            }
-
-            var finalFilter = allFilters.Count > 0 ? Builders<T>.Filter.And(allFilters) : new BsonDocument();
+            FilterDefinition<T> finalFilter = CreateFilter<T>(queryParams, pageNumber, numberOfElementsPerPage);
 
             var cursor = collection.Find(finalFilter).Sort(sortDefinition);
 
@@ -152,6 +156,13 @@ namespace Mydemenageur.BLL.Helpers
             }
 
             return await cursor.ToListAsync();
+        }
+
+        public static Task<long> CountByQueryParamsMongo<T>(this IMongoCollection<T> collection, IQueryCollection queryParams, int pageNumber = -1, int numberOfElementsPerPage = -1, SortDefinition<T> sortDefinition = null) where T : new()
+        {
+            FilterDefinition<T> finalFilter = CreateFilter<T>(queryParams, pageNumber, numberOfElementsPerPage);
+
+            return collection.CountDocumentsAsync(finalFilter);
         }
     }
 }
