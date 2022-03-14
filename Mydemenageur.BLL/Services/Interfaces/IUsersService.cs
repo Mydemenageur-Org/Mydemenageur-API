@@ -18,5 +18,6 @@ namespace Mydemenageur.BLL.Services.Interfaces
         Task<string> UpdateUserRole(string id, MyDemenageurUserRole data);
         Task<int> GetTotalTokens(string id);
         Task<string> UpdateTokens(string id, MyDemenageurUserTokens tokens);
+        Task DeleteUser(string id);
     }
 }

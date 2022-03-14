@@ -152,5 +152,25 @@ namespace Mydemenageur.API.Controllers
             
             return Ok(result);
         }
+        
+        /// <summary>
+        /// Delete a user
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpPost("{id:length(24)}/delete")]
+        public async Task<IActionResult> DeleteUser(string id)
+        {
+            try
+            {
+                await _usersService.DeleteUser(id);
+
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                return BadRequest($"Error during the request: {e.Message}");
+            }
+        }
     }
 }
