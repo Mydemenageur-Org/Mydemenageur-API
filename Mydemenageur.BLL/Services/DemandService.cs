@@ -1,4 +1,5 @@
-﻿using MongoDB.Driver;
+﻿using System;
+using MongoDB.Driver;
 using MongoDB.Driver.Linq;
 using Mydemenageur.BLL.Services.Interfaces;
 using Mydemenageur.DAL.DP.Interface;
@@ -31,7 +32,9 @@ namespace Mydemenageur.BLL.Services
 
         public async Task<Demand> GetDemand(string id)
         {
-            Demand demand = await _dpDemand.Obtain().Where(x => x.AnnounceId == id).FirstOrDefaultAsync();
+            Demand demand = await _dpDemand.GetDemandById(id).FirstOrDefaultAsync();
+            if (demand == null)
+                return null;
 
             return demand;
         }

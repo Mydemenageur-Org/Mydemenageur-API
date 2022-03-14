@@ -26,14 +26,20 @@ namespace Mydemenageur.BLL.Services
         private readonly IDPUser _dpUser;
 
         private readonly IFilesService _filesService;
+        
+        private readonly IDPGenericService _dpGenericService;
 
-        public UsersService(IDPMyDemenageurUser dPMyDemenageurUser, IFilesService filesService, IDPUser dpUser, IDPGrosBras dPGrosBras, IDPCity dPCity)
+        private readonly IDPDemand _dpDemand;
+
+        public UsersService(IDPMyDemenageurUser dPMyDemenageurUser, IFilesService filesService, IDPUser dpUser, IDPGrosBras dPGrosBras, IDPCity dPCity, IDPGenericService dpGenericService, IDPDemand dpDemand)
         {
             _dpMyDemenageurUser = dPMyDemenageurUser;
             _dpUser = dpUser;
             _filesService = filesService;
             _dPGrosBras = dPGrosBras;
             _dpCity = dPCity;
+            _dpGenericService = dpGenericService;
+            _dpDemand = dpDemand;
         }
 
         public async Task<MyDemenageurUser> GetUser(string id)
@@ -192,6 +198,15 @@ namespace Mydemenageur.BLL.Services
             await _dpMyDemenageurUser.GetCollection().UpdateOneAsync(user => user.Id == id, update);
             
             return $"Successfully {tokens.Operation} {tokens.Value} tokens.";
+        }
+        
+        public async Task DeleteUser(string id)
+        {
+            await _dpMyDemenageurUser.GetCollection().DeleteOneAsync(user => user.Id == id);
+            await _dPGrosBras.GetCollection().DeleteOneAsync(grosBras => grosBras.MyDemenageurUserId == id);
+            await _dpGenericService.GetCollection().DeleteOneAsync(genericService => genericService.UserId == id);
+            await _dpDemand.GetCollection()
+                .DeleteOneAsync(demand => demand.Sender.Id == id || demand.Recipient.Id == id);
         }
     }
 }

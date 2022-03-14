@@ -15,11 +15,13 @@ namespace Mydemenageur.BLL.Services
 {
     public class GenericServicesService : IGenericServicesService
     {
+        private readonly IDPCity _dpCity;
         private readonly IDPGenericService _dpGenericService;
         private readonly IDPMyDemenageurUser _dpUser;
 
-        public GenericServicesService(IDPGenericService dPGenericService, IDPMyDemenageurUser dpUser)
+        public GenericServicesService(IDPCity dpCity, IDPGenericService dPGenericService, IDPMyDemenageurUser dpUser)
         {
+            _dpCity = dpCity;
             _dpGenericService = dPGenericService;
             _dpUser = dpUser;
         }
@@ -64,9 +66,16 @@ namespace Mydemenageur.BLL.Services
 
             return services;
         }
-        public Task<long> GetGenericServicesCount(IQueryCollection queryParams, int pageNumber = -1, int numberOfElementsPerPage = -1)
+        public async Task<long> GetGenericServicesCount(QueryString queryString, int pageNumber = -1, int numberOfElementsPerPage = -1)
         {
-            return _dpGenericService.GetCollection().CountByQueryParamsMongo(queryParams, pageNumber, numberOfElementsPerPage);
+            var dictionary = Microsoft.AspNetCore.WebUtilities.QueryHelpers.ParseQuery(queryString.Value);
+            if (dictionary.ContainsKey("cityLabel"))
+            {
+                var city = (await _dpCity.GetCollection().FindAsync(c => c.Label == dictionary["cityLabel"])).FirstOrDefault();
+                dictionary.Add("CityId", city.Id);
+            }
+            IQueryCollection queryParams = new QueryCollection(dictionary);
+            return await _dpGenericService.GetCollection().CountByQueryParamsMongo(queryParams, pageNumber, numberOfElementsPerPage);
         }
 
         public async Task<GenericService> CreateGenericService(GenericService toCreate)
