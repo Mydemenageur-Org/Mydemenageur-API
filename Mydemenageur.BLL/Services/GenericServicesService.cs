@@ -9,6 +9,7 @@ using Mydemenageur.BLL.Helpers;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System;
 
 namespace Mydemenageur.BLL.Services
 {
@@ -43,7 +44,8 @@ namespace Mydemenageur.BLL.Services
                 IsGenericForm = service.IsGenericForm,
                 Name = service.Name,
                 Date = service.Date,
-                Fields = service.Fields
+                Fields = service.Fields,
+                IsDone = service.IsDone
             };
  
             return finalService;
@@ -86,6 +88,22 @@ namespace Mydemenageur.BLL.Services
         public async Task DeleteGenericService(string id)
         {
             await _dpGenericService.GetCollection().DeleteOneAsync(dbGenericService => dbGenericService.Id == id);
+        }
+
+        public async Task<bool> SetGenericServiceDone(string id)
+        {
+           GenericService genericServiceToBeUpdated = await _dpGenericService.GetGenericServiceById(id).FirstOrDefaultAsync();
+           if(genericServiceToBeUpdated == null)
+            {
+                throw new Exception("Generic service not found");
+            }
+
+            var update = Builders<GenericService>.Update.Set(service => service.IsDone, true);
+
+            await _dpGenericService.GetCollection().UpdateOneAsync(service => service.Id == id, update);
+
+            return true;
+
         }
     }
 }

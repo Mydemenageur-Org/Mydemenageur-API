@@ -145,5 +145,18 @@ namespace Mydemenageur.API.Controllers
                 return BadRequest($"Error during the request: {e.Message}");
             }
         }
+
+        [HttpPut("{id:length(24}/update-done")]
+        public async Task<IActionResult> UpdateServiceToDone(string id)
+        {
+            try
+            {
+                bool result = await _genericServicesService.SetGenericServiceDone(id);
+                return Ok();
+            } catch(Exception e)
+            {
+                return BadRequest($"Error during the request: {e.Message}");
+            }
+        }
     }
 }

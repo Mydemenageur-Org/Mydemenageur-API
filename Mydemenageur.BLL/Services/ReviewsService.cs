@@ -59,7 +59,7 @@ namespace Mydemenageur.BLL.Services
                 var myDem = _dpUser.GetUserById(review.Deposer).FirstOrDefault();
                 var reciever = _dpUser.GetUserById(review.Receiver).FirstOrDefault();
                 var profilReceiver = _dpGrosBras.Obtain().Where(w => w.MyDemenageurUserId == reciever.Id).FirstOrDefault();
-                if(profilReceiver != null)
+                if (profilReceiver != null)
                 {
                     city = _dpCity.GetCityById(profilReceiver.CityId).FirstOrDefault();
                 } else
@@ -97,20 +97,20 @@ namespace Mydemenageur.BLL.Services
             var cursor = _dpReview.Obtain().Where(x => x.Receiver == id);
 
             cursor.ToListAsync().Result.ForEach((review) => {
-                 var myDem = _dpUser.GetUserById(review.Deposer).FirstOrDefault();
-                 ReviewPopulated reviewsPopulated = new ReviewPopulated
-                 {
-                     Id = review.Id,
-                     Deposer = myDem,
-                     Receiver = review.Receiver,
-                     Note = review.Note,
-                     Description = review.Description,
-                     CreatedAt = review.CreatedAt,
-                     UpdatedAt = review.UpdatedAt,
-                     Commentaires = review.Commentaires
-                 };
-                 reviews.Add(reviewsPopulated);
-             });
+                var myDem = _dpUser.GetUserById(review.Deposer).FirstOrDefault();
+                ReviewPopulated reviewsPopulated = new ReviewPopulated
+                {
+                    Id = review.Id,
+                    Deposer = myDem,
+                    Receiver = review.Receiver,
+                    Note = review.Note,
+                    Description = review.Description,
+                    CreatedAt = review.CreatedAt,
+                    UpdatedAt = review.UpdatedAt,
+                    Commentaires = review.Commentaires
+                };
+                reviews.Add(reviewsPopulated);
+            });
             return reviews;
         }
         public long CountReviews()
@@ -142,6 +142,53 @@ namespace Mydemenageur.BLL.Services
         {
             return null;
         }
+
+        public async Task<List<ReviewAllopulated>> GetReviewsFromUser(string mdUserId, bool count)
+        {
+        List<ReviewAllopulated> reviews = new List<ReviewAllopulated>();
+        City city = new City();
+
+        var cursor = _dpReview.GetCollection().Find(new BsonDocument())
+                .SortByDescending(review => review.CreatedAt);
+
+        cursor.ToListAsync().Result.ForEach((review) => {
+            if(review.Receiver == mdUserId)
+            {
+                var myDem = _dpUser.GetUserById(review.Deposer).FirstOrDefault();
+                var reciever = _dpUser.GetUserById(review.Receiver).FirstOrDefault();
+                var profilReceiver = _dpGrosBras.Obtain().Where(w => w.MyDemenageurUserId == reciever.Id).FirstOrDefault();
+                if (profilReceiver != null)
+                {
+                    city = _dpCity.GetCityById(profilReceiver.CityId).FirstOrDefault();
+                }
+                else
+                {
+                    city.CreatedAt = DateTime.Now;
+                    city.Label = "pas-de-ville";
+                    profilReceiver = new GrosBras();
+                }
+
+                GrosBrasPopulated grosBras = _mapper.Map<GrosBrasPopulated>(profilReceiver);
+                grosBras.MyDemenageurUser = myDem;
+                grosBras.City = city;
+
+                ReviewAllopulated reviewsPopulated = new ReviewAllopulated
+                {
+                    Id = review.Id,
+                    Deposer = myDem,
+                    ReceiverProfil = grosBras,
+                    Receiver = reciever,
+                    Note = review.Note,
+                    Description = review.Description,
+                    CreatedAt = review.CreatedAt,
+                    UpdatedAt = review.UpdatedAt,
+                    Commentaires = review.Commentaires
+                };
+                reviews.Add(reviewsPopulated);
+            }
+        });
+        return reviews;
+    }
 
         public async Task<SchemaReview> GetSchemasStat()
         {

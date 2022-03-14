@@ -50,6 +50,19 @@ namespace Mydemenageur.API.Controllers
             return Ok(reviews);
         }
 
+        [HttpPost("get-user-reviews")]
+        public async Task<ActionResult<List<ReviewAllopulated>>> GetReviewsFromUser([FromBody] string id) 
+        {
+            bool count = false;
+            List<ReviewAllopulated> result = await _reviewsService.GetReviewsFromUser(id, count);
+            if(result.Count == 0)
+            {
+                return result;
+            }
+
+            return result;
+        } 
+
         /// <summary>
         /// Get global schema
         /// </summary>

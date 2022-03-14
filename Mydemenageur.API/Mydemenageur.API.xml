@@ -93,6 +93,13 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="M:Mydemenageur.API.Controllers.DemandController.GetDemandsFromAny(System.String)">
+            <summary>
+            Get all demands from the recipient or sender
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
         <member name="M:Mydemenageur.API.Controllers.DemandController.GetDemandsFromRecipient(System.String)">
             <summary>
             Get all demands from the recipient
@@ -156,6 +163,13 @@
             Create a generic service
             </summary>
             <param name="toCreate"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Mydemenageur.API.Controllers.GenericServicesController.DeleteGenericServide(System.String)">
+            <summary>
+            Delete a generic service
+            </summary>
+            <param name="id"></param>
             <returns></returns>
         </member>
         <member name="M:Mydemenageur.API.Controllers.GrosBrasController.GetGrosBras(System.Int32,System.Int32,System.String)">
@@ -263,20 +277,12 @@
             <param name="id"></param>
             <returns></returns>
         </member>
-        <member name="M:Mydemenageur.API.Controllers.UsersController.UpdateUserRole(System.String,System.String)">
+        <member name="M:Mydemenageur.API.Controllers.UsersController.UpdateUserRole(System.String,Mydemenageur.DAL.Models.Users.MyDemenageurUserRole)">
             <summary>
             Update myDemenageurUser and User role
             </summary>
             <param name="id"></param>
-            <param name="role"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Mydemenageur.API.Controllers.UsersController.UpdateUserRoleType(System.String,System.String)">
-            <summary>
-            Update myDemenageurUser and User role type
-            </summary>
-            <param name="id"></param>
-            <param name="roleType"></param>
+            <param name="data"></param>
             <returns></returns>
         </member>
         <member name="M:Mydemenageur.API.Controllers.UsersController.GetUser(System.String)">
@@ -299,6 +305,21 @@
             </summary>
             <param name="id"></param>
             <param name="toUpdate"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Mydemenageur.API.Controllers.UsersController.GetTokens(System.String)">
+            <summary>
+            Get user's total tokens
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Mydemenageur.API.Controllers.UsersController.UpdateTokens(System.String,Mydemenageur.DAL.Models.Users.MyDemenageurUserTokens)">
+            <summary>
+            Update tokens from a user
+            </summary>
+            <param name="id"></param>
+            <param name="tokens"></param>
             <returns></returns>
         </member>
     </members>

@@ -22,5 +22,6 @@ namespace Mydemenageur.DAL.Models.GenericService
         [Required]
         public string Label { get; set; }
         public Attributes[] Attributes { get; set; }
+        public bool IsDone { get; set; } = false;
     }
 }

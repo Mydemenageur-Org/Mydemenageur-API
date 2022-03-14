@@ -242,7 +242,7 @@ namespace Mydemenageur.BLL.Services
             );
 
             DemandMessage demandFromMessage = _mapper.Map<DemandMessage>(demandToBeUpdated);
-
+              
             return demandFromMessage;
         }
 

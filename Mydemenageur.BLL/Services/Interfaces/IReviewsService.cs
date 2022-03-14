@@ -17,5 +17,6 @@ namespace Mydemenageur.BLL.Services.Interfaces
         public long CountReviews();
         public Task<SchemaReview> GetSchemasStat();
         public Task<SchemaReview> GetSchemaStatFromUser(string id);
+        public Task<List<ReviewAllopulated>> GetReviewsFromUser(string mdUserId, bool count);
     }
 }

@@ -22,5 +22,6 @@ namespace Mydemenageur.DAL.Models.GenericService
         public DateTime Date { get; set; }
 
         public List<GenericServiceField> Fields { get; set; }
+        public bool IsDone { get; set; } = false;
     }
 }
