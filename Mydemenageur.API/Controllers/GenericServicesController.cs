@@ -146,7 +146,7 @@ namespace Mydemenageur.API.Controllers
             }
         }
 
-        [HttpPut("{id:length(24}/update-done")]
+        [HttpPut("{id:length(24)}/update-done")]
         public async Task<IActionResult> UpdateServiceToDone(string id)
         {
             try
