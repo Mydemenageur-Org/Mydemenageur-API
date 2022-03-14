@@ -67,10 +67,35 @@ namespace Mydemenageur.BLL.Helpers
                 if (key.Contains("numberOfElementsPerPage")) continue;
                 if (key.Contains("cityLabel")) continue;
 
-                string value = queryParams[key];
-                var filter = Builders<T>.Filter.Eq(key, value);
+                var value = queryParams[key];
 
-                allFilters.Add(filter);
+                if(key.Contains("Date"))
+                {
+                    var nowDate = DateTime.Now;
+                    if (value == "3_months")
+                    {
+                        nowDate = nowDate.AddMonths(-3);
+                        var filter = Builders<T>.Filter.Gte(key, nowDate);
+                        allFilters.Add(filter);
+                    } else
+                    {
+                        DateTime startDate = new DateTime(int.Parse(value),1,1);
+                        DateTime endDate = new DateTime(int.Parse(value) + 1, 1,1);
+                        var filter = Builders<T>.Filter.Gte(key, startDate) & Builders<T>.Filter.Lt(key, endDate);
+                        allFilters.Add(filter);
+                    }
+                }
+
+                if(value == "true" || value == "false")
+                {
+                    bool boolValue = Convert.ToBoolean(value);
+                    var filter = Builders<T>.Filter.Eq(key, boolValue);
+                    allFilters.Add(filter);
+                } else
+                {
+                    var filter = Builders<T>.Filter.Eq(key, value);
+                    allFilters.Add(filter);
+                }
             }
 
             return allFilters.Count > 0 ? Builders<T>.Filter.And(allFilters) : new BsonDocument();
