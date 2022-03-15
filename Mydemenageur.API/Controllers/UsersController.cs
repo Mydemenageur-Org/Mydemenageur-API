@@ -5,6 +5,7 @@ using Mydemenageur.DAL.Models.Users;
 using Mydemenageur.BLL.Services.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 
@@ -158,12 +159,12 @@ namespace Mydemenageur.API.Controllers
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        [HttpPost("{id:length(24)}/delete")]
-        public async Task<IActionResult> DeleteUser(string id)
+        [HttpPost("delete")]
+        public async Task<IActionResult> DeleteUser()
         {
             try
             {
-                await _usersService.DeleteUser(id);
+                await _usersService.DeleteUser(User.Claims.First(u => u.Type == "id").Value);
 
                 return Ok();
             }
