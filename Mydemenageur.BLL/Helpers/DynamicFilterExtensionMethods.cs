@@ -84,6 +84,7 @@ namespace Mydemenageur.BLL.Helpers
                         var filter = Builders<T>.Filter.Gte(key, startDate) & Builders<T>.Filter.Lt(key, endDate);
                         allFilters.Add(filter);
                     }
+                    continue;
                 }
 
                 if(value == "true" || value == "false")
