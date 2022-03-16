@@ -322,7 +322,7 @@
             <param name="tokens"></param>
             <returns></returns>
         </member>
-        <member name="M:Mydemenageur.API.Controllers.UsersController.DeleteUser(System.String)">
+        <member name="M:Mydemenageur.API.Controllers.UsersController.DeleteUser">
             <summary>
             Delete a user
             </summary>

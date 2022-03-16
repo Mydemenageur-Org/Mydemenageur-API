@@ -5,6 +5,7 @@ using Mydemenageur.BLL.Services.Interfaces;
 using Mydemenageur.DAL.DP.Interface;
 using Mydemenageur.DAL.Models;
 using Mydemenageur.DAL.Models.Users;
+using Mydemenageur.DAL.Models.Demands;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -22,13 +23,15 @@ namespace Mydemenageur.BLL.Services
         private readonly IDPMyDemenageurUser _dpMDUser;
         private readonly IDPCity _dpCity;
         private readonly ICitiesService _citiesService;
+        private readonly IDPDemand _dpDemand;
 
-        public GrosBrasService(IDPGrosBras dPGrosBras, IDPMyDemenageurUser dpMDUser, IDPCity dpCity, ICitiesService citiesService)
+        public GrosBrasService(IDPGrosBras dPGrosBras, IDPMyDemenageurUser dpMDUser, IDPCity dpCity, ICitiesService citiesService, IDPDemand dpDemand)
         {
             _dpGrosBras = dPGrosBras;
             _dpMDUser = dpMDUser;
             _dpCity = dpCity;
             _citiesService = citiesService;
+            _dpDemand = dpDemand;
         }
 
         public async Task<IList<GrosBrasPopulated>> GetGrosBras(QueryString queryString, int pageNumber = -1, int numberOfElementsPerPage = -1, string cityLabel = "")

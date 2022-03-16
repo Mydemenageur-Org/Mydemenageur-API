@@ -15,5 +15,7 @@ namespace Mydemenageur.BLL.Services.Interfaces
         public Task<Demand> CreateDemand(DemandCreation demand);
         public Task<DemandMessage> UpdateDemand(DemandCreation demand);
         public Task<string> DeleteDemand(string id);
+
+        public Task<List<Demand>> GetDemandsFromAnnounceId(string id);
     }
 }

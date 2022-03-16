@@ -12,6 +12,8 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using TFunc = System.Func<System.Collections.Generic.IDictionary<string, object>, System.Collections.Generic.IDictionary<string, object>>;
+
 
 namespace Mydemenageur.BLL.Services
 {
@@ -122,8 +124,15 @@ namespace Mydemenageur.BLL.Services
 
         public async Task<Review> CreateReview(Review review)
         {
-            await _dpReview.GetCollection().InsertOneAsync(review);
 
+            await _dpReview.GetCollection().InsertOneAsync(review);
+            GrosBras grosBras = _dpGrosBras.GetCollection().Find(w => w.MyDemenageurUserId == review.Receiver).FirstOrDefault();
+            if (grosBras == null)
+            {
+                throw new Exception("GrosBras not found");
+            }
+
+            ReviewGradeUpdater(review.Note, grosBras);
 
             return review;
         }
@@ -145,50 +154,50 @@ namespace Mydemenageur.BLL.Services
 
         public async Task<List<ReviewAllopulated>> GetReviewsFromUser(string mdUserId, bool count)
         {
-        List<ReviewAllopulated> reviews = new List<ReviewAllopulated>();
-        City city = new City();
+            List<ReviewAllopulated> reviews = new List<ReviewAllopulated>();
+            City city = new City();
 
-        var cursor = _dpReview.GetCollection().Find(new BsonDocument())
-                .SortByDescending(review => review.CreatedAt);
+            var cursor = _dpReview.GetCollection().Find(new BsonDocument())
+                    .SortByDescending(review => review.CreatedAt);
 
-        cursor.ToListAsync().Result.ForEach((review) => {
-            if(review.Receiver == mdUserId)
-            {
-                var myDem = _dpUser.GetUserById(review.Deposer).FirstOrDefault();
-                var reciever = _dpUser.GetUserById(review.Receiver).FirstOrDefault();
-                var profilReceiver = _dpGrosBras.Obtain().Where(w => w.MyDemenageurUserId == reciever.Id).FirstOrDefault();
-                if (profilReceiver != null)
+            cursor.ToListAsync().Result.ForEach((review) => {
+                if (review.Receiver == mdUserId)
                 {
-                    city = _dpCity.GetCityById(profilReceiver.CityId).FirstOrDefault();
+                    var myDem = _dpUser.GetUserById(review.Deposer).FirstOrDefault();
+                    var reciever = _dpUser.GetUserById(review.Receiver).FirstOrDefault();
+                    var profilReceiver = _dpGrosBras.Obtain().Where(w => w.MyDemenageurUserId == reciever.Id).FirstOrDefault();
+                    if (profilReceiver != null)
+                    {
+                        city = _dpCity.GetCityById(profilReceiver.CityId).FirstOrDefault();
+                    }
+                    else
+                    {
+                        city.CreatedAt = DateTime.Now;
+                        city.Label = "pas-de-ville";
+                        profilReceiver = new GrosBras();
+                    }
+
+                    GrosBrasPopulated grosBras = _mapper.Map<GrosBrasPopulated>(profilReceiver);
+                    grosBras.MyDemenageurUser = myDem;
+                    grosBras.City = city;
+
+                    ReviewAllopulated reviewsPopulated = new ReviewAllopulated
+                    {
+                        Id = review.Id,
+                        Deposer = myDem,
+                        ReceiverProfil = grosBras,
+                        Receiver = reciever,
+                        Note = review.Note,
+                        Description = review.Description,
+                        CreatedAt = review.CreatedAt,
+                        UpdatedAt = review.UpdatedAt,
+                        Commentaires = review.Commentaires
+                    };
+                    reviews.Add(reviewsPopulated);
                 }
-                else
-                {
-                    city.CreatedAt = DateTime.Now;
-                    city.Label = "pas-de-ville";
-                    profilReceiver = new GrosBras();
-                }
-
-                GrosBrasPopulated grosBras = _mapper.Map<GrosBrasPopulated>(profilReceiver);
-                grosBras.MyDemenageurUser = myDem;
-                grosBras.City = city;
-
-                ReviewAllopulated reviewsPopulated = new ReviewAllopulated
-                {
-                    Id = review.Id,
-                    Deposer = myDem,
-                    ReceiverProfil = grosBras,
-                    Receiver = reciever,
-                    Note = review.Note,
-                    Description = review.Description,
-                    CreatedAt = review.CreatedAt,
-                    UpdatedAt = review.UpdatedAt,
-                    Commentaires = review.Commentaires
-                };
-                reviews.Add(reviewsPopulated);
-            }
-        });
-        return reviews;
-    }
+            });
+            return reviews;
+        }
 
         public async Task<SchemaReview> GetSchemasStat()
         {
@@ -196,7 +205,7 @@ namespace Mydemenageur.BLL.Services
 
             long statRate = _dpReview.Obtain().Where(w => w.Note == "3").ToList().Count();
 
-            if(_reviewCount == 0)
+            if (_reviewCount == 0)
             {
                 _reviewCount = _dpReview.Obtain().ToList().Count();
             }
@@ -226,6 +235,32 @@ namespace Mydemenageur.BLL.Services
             schemaUser.BadReview = badGrade;
 
             return schemaUser;
+        }
+        private void ReviewGradeUpdater(string note, GrosBras grosBras)
+        {
+
+            Dictionary<string, TFunc> actions = new Dictionary<string, TFunc>() {
+                {"3", (input) => {
+                    grosBras.VeryGoodGrade = grosBras.VeryGoodGrade != "N/A" ? (int.Parse(grosBras.VeryGoodGrade) + 1).ToString() : "1";
+                    return null; 
+                    } 
+                },
+                {"2", (input) => {
+                    grosBras.GoodGrade = grosBras.GoodGrade != "N/A" ? (int.Parse(grosBras.GoodGrade) + 1).ToString() : "1";
+                    return null; 
+                    } 
+                },
+                {"1", (input) => {
+                    grosBras.MediumGrade = grosBras.GoodGrade != "N/A" ? (int.Parse(grosBras.MediumGrade) + 1).ToString() : "1";
+                    return null; } },
+                {"0", (input) => {
+                    grosBras.BadGrade = grosBras.BadGrade != "N/A" ? (int.Parse(grosBras.BadGrade) + 1).ToString() : "1";
+                    return null; } },
+            };
+
+            var output = actions[note](null);
+
+            _dpGrosBras.GetCollection().ReplaceOne(w => w.Id == grosBras.Id, grosBras);
         }
     }
 }

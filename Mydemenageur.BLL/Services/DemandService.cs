@@ -167,7 +167,19 @@ namespace Mydemenageur.BLL.Services
 
             return newDemand;
         }
-        
+
+        public async Task<List<Demand>> GetDemandsFromAnnounceId(string id)
+        {
+            List<Demand> demands = await _dpDemand.GetCollection().Find(x => x.AnnounceId == id).ToListAsync();
+            if(demands.Count == 0)
+            {
+                throw new Exception("No demand found");
+            }
+
+            return demands;
+        }
+
+
         public async Task<IList<DemandMessage>> GetDemandsFromAny(string userId)
         {
             List<DemandMessage> demandMessageList = new List<DemandMessage>();

@@ -164,5 +164,20 @@ namespace Mydemenageur.API.Controllers
 
             //}
         }
+
+        [HttpGet("{id:length(24)}/from-announce")]
+        public async Task<ActionResult<List<Demand>>> GetDemandsFromAnnounce(string id)
+        {
+            try
+            {
+                List<Demand> listDemand = await _demandService.GetDemandsFromAnnounceId(id);
+
+                return Ok(listDemand);
+            }
+            catch (Exception e)
+            {
+                return BadRequest($"Error during the request: {e.Message}");
+            }
+        }
     }
 }
