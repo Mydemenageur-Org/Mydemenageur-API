@@ -87,6 +87,18 @@ namespace Mydemenageur.BLL.Helpers
                     continue;
                 }
 
+                // Exception for proposed services
+                if (key.Contains("servicesProposed"))
+                {
+                    string service = queryParams["ServicesProposed"];
+                    BsonDocument bsonElement = new BsonDocument
+                    {
+                        { "ServicesProposed", service }
+                    };
+                    allFilters.Add(bsonElement);
+                    continue;
+                }
+
                 if(value == "true" || value == "false")
                 {
                     bool boolValue = Convert.ToBoolean(value);
