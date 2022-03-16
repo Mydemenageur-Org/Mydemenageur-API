@@ -31,6 +31,7 @@ namespace Mydemenageur.API.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet] 
+        [AllowAnonymous]
         public async Task<ActionResult<IList<MyDemenageurUser>>> GetUsers()
         {
             IList<MyDemenageurUser> users = await _usersService.GetUsers();
