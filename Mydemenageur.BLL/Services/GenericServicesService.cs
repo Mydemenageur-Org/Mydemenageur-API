@@ -61,7 +61,7 @@ namespace Mydemenageur.BLL.Services
 
         public async Task<List<GenericService>> GetGenericServices(IQueryCollection queryParams, int pageNumber = -1, int numberOfElementsPerPage = -1)
         {
-            var sortDefinition = new SortDefinitionBuilder<GenericService>().Descending("Date");
+            var sortDefinition = new SortDefinitionBuilder<GenericService>().Ascending("Date");
             List<GenericService> services = await _dpGenericService.GetCollection().FilterByQueryParamsMongo(queryParams, pageNumber, numberOfElementsPerPage, sortDefinition);
 
             return services;
