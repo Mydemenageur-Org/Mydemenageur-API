@@ -304,7 +304,10 @@ namespace Mydemenageur.BLL.Services
             {
                 var tokenHandler = new JwtSecurityTokenHandler();
                 var key = Encoding.ASCII.GetBytes(_mydemenageurSettings.ApiSecret);
-                var myDemClient = _dpMyDemUser.Obtain().Where(mdUser => mdUser.Email == email).FirstOrDefault();
+                var myDemClient = _dpMyDemUser.Obtain().FirstOrDefault(mdUser => mdUser.Email == email);
+                if (myDemClient == null)
+                    throw new Exception("User not found");
+                
                 var tokenDescriptor = new SecurityTokenDescriptor
                 {
                     Subject = new ClaimsIdentity(new Claim[]
@@ -343,7 +346,7 @@ namespace Mydemenageur.BLL.Services
                 var jwtToken = (JwtSecurityToken)securityToken;
 
                 var id = jwtToken.Claims.First(c => c.Type == "id").Value;
-
+                
                 return await UpdatePassword(id, forgotPassword.password);
             }
             catch (Exception e)
