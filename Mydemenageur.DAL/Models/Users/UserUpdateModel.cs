@@ -91,6 +91,9 @@ namespace Mydemenageur.DAL.Models.Users
         /// <example>MySecurePassword</example>
         /// 
         public string Password { get;  set; }
-
+        /// <summary>
+        /// Bool that provide firebase account informations 
+        /// </summary>
+        public Boolean IsFirebaseAccount { get; set; } = false;
     }
 }
