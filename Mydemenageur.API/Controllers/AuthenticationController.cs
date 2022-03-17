@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Mydemenageur.DAL.Models.Users;
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication;
 using IAuthenticationService = Mydemenageur.BLL.Services.Interfaces.IAuthenticationService;
@@ -158,6 +159,46 @@ namespace Mydemenageur.API.Controllers
             }
 
             return Ok(id);
+        }
+        
+        /// <summary>
+        /// Generate a forgotten password token
+        /// </summary>
+        /// <param name="forgotPassword"></param>
+        /// <returns></returns>
+        [HttpPost("forgot-password")]
+        public async Task<ActionResult<string>> GenerateForgotPassword([FromBody] ForgotPassword forgotPassword)
+        {
+            try
+            {
+                return await _authenticationService.GenerateForgotPassword(forgotPassword.email);
+            }
+            catch(Exception e)
+            {
+                return BadRequest($"Error during the generation of forgot token: {e.Message}");
+            }
+
+            return NoContent();
+        }
+        
+        /// <summary>
+        /// Reset forgotten password
+        /// </summary>
+        /// <param name="forgotPassword"></param>
+        /// <returns></returns>
+        [HttpPut("forgot-password")]
+        public async Task<ActionResult<string>> ConfirmForgotPassword([FromBody] ForgotPassword forgotPassword)
+        {
+            try
+            {
+                return await _authenticationService.ConfirmForgotPassword(forgotPassword);
+            }
+            catch(Exception e)
+            {
+                return BadRequest($"Error during the password reset: {e.Message}");
+            }
+
+            return NoContent();
         }
     }
 }

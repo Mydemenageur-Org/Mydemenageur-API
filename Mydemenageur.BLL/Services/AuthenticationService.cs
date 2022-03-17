@@ -297,6 +297,60 @@ namespace Mydemenageur.BLL.Services
                 throw e;
             }
         }
+
+        public async Task<string> GenerateForgotPassword(string email)
+        {
+            try
+            {
+                var tokenHandler = new JwtSecurityTokenHandler();
+                var key = Encoding.ASCII.GetBytes(_mydemenageurSettings.ApiSecret);
+                var myDemClient = _dpMyDemUser.Obtain().Where(mdUser => mdUser.Email == email).FirstOrDefault();
+                var tokenDescriptor = new SecurityTokenDescriptor
+                {
+                    Subject = new ClaimsIdentity(new Claim[]
+                    {
+                        new("id", myDemClient.Id)
+                    }),
+                    Expires = DateTime.UtcNow.AddHours(1),
+                    SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key),
+                        SecurityAlgorithms.HmacSha256Signature)
+                };
+
+                var token = tokenHandler.CreateToken(tokenDescriptor);
+                return tokenHandler.WriteToken(token);
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+
+        public async Task<string> ConfirmForgotPassword(ForgotPassword forgotPassword)
+        {
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var key = Encoding.ASCII.GetBytes(_mydemenageurSettings.ApiSecret);
+
+            try
+            {
+                tokenHandler.ValidateToken(forgotPassword.token, new TokenValidationParameters
+                {
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(key),
+                    ValidateIssuer = false,
+                    ValidateAudience = false
+                }, out SecurityToken securityToken);
+
+                var jwtToken = (JwtSecurityToken)securityToken;
+
+                var id = jwtToken.Claims.First(c => c.Type == "id").Value;
+
+                return await UpdatePassword(id, forgotPassword.password);
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
     }
 
 

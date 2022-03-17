@@ -12,5 +12,7 @@ namespace Mydemenageur.BLL.Services.Interfaces
         Task<string> UpdatePassword(string id, string password);
         Task<MyDemenageurUser> TokenizeFirebaseUser(FirebaseUserModel user);
         Task<string> TokenValidity(string token);
+        Task<string> GenerateForgotPassword(string id);
+        Task<string> ConfirmForgotPassword(ForgotPassword forgotPassword);
     }
 }
