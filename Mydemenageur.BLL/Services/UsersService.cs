@@ -76,10 +76,10 @@ namespace Mydemenageur.BLL.Services
                 Departement = profil.Departement,
                 CreatedAt = profil.CreatedAt,
                 UpdatedAt = profil.UpdatedAt,
-                VeryGoodGrade = profil.VeryGoodGrade,
-                GoodGrade = profil.GoodGrade,
-                MediumGrade = profil.MediumGrade,
-                BadGrade = profil.BadGrade,
+                VeryGoodGrade = profil.VeryGoodGrade.ToString(),
+                GoodGrade = profil.GoodGrade.ToString(),
+                MediumGrade = profil.MediumGrade.ToString(),
+                BadGrade = profil.BadGrade.ToString(),
                 Title = profil.Title
             };
 

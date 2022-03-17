@@ -241,20 +241,20 @@ namespace Mydemenageur.BLL.Services
 
             Dictionary<string, TFunc> actions = new Dictionary<string, TFunc>() {
                 {"3", (input) => {
-                    grosBras.VeryGoodGrade = grosBras.VeryGoodGrade != "N/A" ? (int.Parse(grosBras.VeryGoodGrade) + 1).ToString() : "1";
+                    grosBras.VeryGoodGrade = grosBras.VeryGoodGrade + 1;
                     return null; 
                     } 
                 },
                 {"2", (input) => {
-                    grosBras.GoodGrade = grosBras.GoodGrade != "N/A" ? (int.Parse(grosBras.GoodGrade) + 1).ToString() : "1";
+                    grosBras.GoodGrade = grosBras.GoodGrade + 1;
                     return null; 
                     } 
                 },
                 {"1", (input) => {
-                    grosBras.MediumGrade = grosBras.GoodGrade != "N/A" ? (int.Parse(grosBras.MediumGrade) + 1).ToString() : "1";
+                    grosBras.MediumGrade = grosBras.MediumGrade + 1;
                     return null; } },
                 {"0", (input) => {
-                    grosBras.BadGrade = grosBras.BadGrade != "N/A" ? (int.Parse(grosBras.BadGrade) + 1).ToString() : "1";
+                    grosBras.BadGrade = grosBras.BadGrade + 1;
                     return null; } },
             };
 

@@ -46,7 +46,10 @@ namespace Mydemenageur.BLL.Services
             }
             IQueryCollection queryParams = new QueryCollection(dictionary);
 
-            var grosBras = await _dpGrosBras.GetCollection().FilterByQueryParamsMongo(queryParams, pageNumber, numberOfElementsPerPage);
+            // Sort by reviews count
+            var sortDefinition = new SortDefinitionBuilder<GrosBras>().Descending("VeryGoodGrade");
+
+            var grosBras = await _dpGrosBras.GetCollection().FilterByQueryParamsMongo(queryParams, pageNumber, numberOfElementsPerPage, sortDefinition);
 
             grosBras.ForEach((profil) =>
             {
@@ -65,10 +68,10 @@ namespace Mydemenageur.BLL.Services
                     Departement = profil.Departement,
                     CreatedAt = profil.CreatedAt,
                     UpdatedAt = profil.UpdatedAt,
-                    VeryGoodGrade = profil.VeryGoodGrade,
-                    GoodGrade = profil.GoodGrade,
-                    MediumGrade = profil.MediumGrade,
-                    BadGrade = profil.BadGrade,
+                    VeryGoodGrade = profil.VeryGoodGrade.ToString(),
+                    GoodGrade = profil.GoodGrade.ToString(),
+                    MediumGrade = profil.MediumGrade.ToString(),
+                    BadGrade = profil.BadGrade.ToString(),
                     Rayon = profil.Rayon,
                     Title = profil.Title
                 };
@@ -113,10 +116,10 @@ namespace Mydemenageur.BLL.Services
                 Departement = grosBrasProfil.Departement,
                 CreatedAt = grosBrasProfil.CreatedAt,
                 UpdatedAt = grosBrasProfil.UpdatedAt,
-                VeryGoodGrade = grosBrasProfil.VeryGoodGrade,
-                GoodGrade = grosBrasProfil.GoodGrade,
-                MediumGrade = grosBrasProfil.MediumGrade,
-                BadGrade = grosBrasProfil.BadGrade,
+                VeryGoodGrade = grosBrasProfil.VeryGoodGrade.ToString(),
+                GoodGrade = grosBrasProfil.GoodGrade.ToString(),
+                MediumGrade = grosBrasProfil.MediumGrade.ToString(),
+                BadGrade = grosBrasProfil.BadGrade.ToString(),
                 Rayon = grosBrasProfil.Rayon,
                 Title = grosBrasProfil.Title
             };
@@ -148,10 +151,10 @@ namespace Mydemenageur.BLL.Services
                     Departement = profil.Departement,
                     CreatedAt = profil.CreatedAt,
                     UpdatedAt = profil.UpdatedAt,
-                    VeryGoodGrade = profil.VeryGoodGrade,
-                    GoodGrade = profil.GoodGrade,
-                    MediumGrade = profil.MediumGrade,
-                    BadGrade = profil.BadGrade,
+                    VeryGoodGrade = profil.VeryGoodGrade.ToString(),
+                    GoodGrade = profil.GoodGrade.ToString(),
+                    MediumGrade = profil.MediumGrade.ToString(),
+                    BadGrade = profil.BadGrade.ToString(),
                     Rayon = profil.Rayon,
                     Title = profil.Title
                 };
