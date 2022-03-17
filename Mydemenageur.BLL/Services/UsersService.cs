@@ -181,16 +181,17 @@ namespace Mydemenageur.BLL.Services
                 case "take":
                     if (myDemUser.PaidTokens + myDemUser.FreeTokens < tokens.Value) 
                         throw new Exception("Not enough tokens");
-            
+                    
                     // Retrieve on Paid tokens in priority
-                    var remainingTokens = myDemUser.PaidTokens - tokens.Value;
-                    myDemUser.PaidTokens -= tokens.Value - Math.Abs(remainingTokens);
-                    if (remainingTokens < 0)
-                        myDemUser.FreeTokens -= Math.Abs(remainingTokens);
+                    var calculPaidToken = myDemUser.PaidTokens;
+                    var calculFreeToken = myDemUser.FreeTokens;
+                    calculPaidToken -= tokens.Value;
+                    if (calculPaidToken < 0)
+                        calculFreeToken -= Math.Abs(calculPaidToken);
 
                     update = Builders<MyDemenageurUser>.Update
-                        .Set(user => user.FreeTokens, myDemUser.FreeTokens)
-                        .Set(user => user.PaidTokens, myDemUser.PaidTokens);
+                        .Set(user => user.FreeTokens, calculFreeToken > 0 ? calculFreeToken : 0)
+                        .Set(user => user.PaidTokens, calculPaidToken > 0 ? calculPaidToken : 0);
                     break;
                 case "add":
                     update = Builders<MyDemenageurUser>.Update
