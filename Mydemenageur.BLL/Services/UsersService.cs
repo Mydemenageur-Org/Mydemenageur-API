@@ -47,6 +47,11 @@ namespace Mydemenageur.BLL.Services
             return await _dpMyDemenageurUser.GetUserById(id).FirstOrDefaultAsync();
         }
 
+        public async Task<MyDemenageurUser> GetUserByEmail(string email)
+        {
+            return await _dpMyDemenageurUser.Obtain().Where(user => user.Email == email).FirstOrDefaultAsync();
+        }
+
         public async Task<GrosBrasPopulated> GetGrosBrasFromUserId(string id)
         {
             var myDemUser = await _dpMyDemenageurUser.Obtain().Where(w => w.Id == id).FirstOrDefaultAsync();

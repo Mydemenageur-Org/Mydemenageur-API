@@ -84,6 +84,23 @@ namespace Mydemenageur.API.Controllers
 
             return Ok(user);
         }
+        
+        /// <summary>
+        /// Get a specific user by his email
+        /// </summary>
+        /// <param name="email"></param>
+        /// <returns></returns>
+        [HttpGet("email/{email}")]
+        [AllowAnonymous]
+        public async Task<ActionResult<MyDemenageurUser>> GetUserByEmail(string email)
+        {
+            MyDemenageurUser user = await _usersService.GetUserByEmail(email);
+
+            if (user == null)
+                return NotFound();
+
+            return Ok(user);
+        }
 
         /// <summary>
         /// Get a user's profile picture
