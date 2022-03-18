@@ -84,12 +84,17 @@ namespace Mydemenageur.API.Controllers
             return Ok();
         }
 
-        private int CalculateOrderAmount(Item[] items)
+        private long CalculateOrderAmount(Item[] items)
         {
-            // Replace this constant with a calculation of the order's amount
-            // Calculate the order total on the server to prevent
-            // people from directly manipulating the amount on the client
-            return 1400;
+            var service = new PriceService();
+            long finalAmount = 0;
+            
+            foreach (var item in items)
+            {
+                finalAmount += service.Get(item.Id).UnitAmount ?? 0;
+            }
+
+            return finalAmount;
         }
 
     }
