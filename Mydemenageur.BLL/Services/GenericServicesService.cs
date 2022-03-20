@@ -33,6 +33,11 @@ namespace Mydemenageur.BLL.Services
             if (fields.Count > 0) {
                 foreach (var serviceField in service.Fields)
                 {
+                    if (serviceField.Name == "needPrecisions" || serviceField.Name == "need")
+                    {
+                        serviceField.Value = Censure.All(serviceField.Value);
+                    }
+                    
                     if (!fields.Contains(serviceField.Name))
                     {
                         service.Fields.Remove(serviceField);

@@ -10,6 +10,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using Mydemenageur.BLL.Helpers;
 
 namespace Mydemenageur.BLL.Services
 {
@@ -72,7 +73,7 @@ namespace Mydemenageur.BLL.Services
                     Id = demand.Id,
                     PriceProposed = demand.PriceProposed,
                     AnnounceId = demand.AnnounceId,
-                    DescriptionDemand = demand.DescriptionDemand,
+                    DescriptionDemand = Censure.All(demand.DescriptionDemand),
                     Recipient = mdUserRecipient,
                     Sender = mdUserSender,
                     HasBeenAccepted = demand.HasBeenAccepted,
@@ -112,7 +113,7 @@ namespace Mydemenageur.BLL.Services
                     Id = demand.Id,
                     PriceProposed = demand.PriceProposed,
                     AnnounceId = demand.AnnounceId,
-                    DescriptionDemand = demand.DescriptionDemand,
+                    DescriptionDemand = Censure.All(demand.DescriptionDemand),
                     Recipient = mdUserRecipient,
                     Sender = mdUserSender,
                     HasBeenAccepted = demand.HasBeenAccepted,
@@ -152,7 +153,7 @@ namespace Mydemenageur.BLL.Services
             Demand newDemand = new Demand
             {
                 PriceProposed = demand.PriceProposed,
-                DescriptionDemand = demand.DescriptionDemand,
+                DescriptionDemand = Censure.All(demand.DescriptionDemand),
                 Recipient = recipient,
                 Sender = sender,
                 AnnounceId = demand.AnnounceId,
@@ -206,7 +207,7 @@ namespace Mydemenageur.BLL.Services
                     Id = demand.Id,
                     PriceProposed = demand.PriceProposed,
                     AnnounceId = demand.AnnounceId,
-                    DescriptionDemand = demand.DescriptionDemand,
+                    DescriptionDemand = Censure.All(demand.DescriptionDemand),
                     Recipient = mdUserRecipient,
                     Sender = mdUserSender,
                     HasBeenAccepted = demand.HasBeenAccepted,
@@ -244,7 +245,7 @@ namespace Mydemenageur.BLL.Services
                     });
 
             demandToBeUpdated.PriceProposed = demand.PriceProposed;
-            demandToBeUpdated.DescriptionDemand = demand.DescriptionDemand;
+            demandToBeUpdated.DescriptionDemand = Censure.All(demand.DescriptionDemand);
             demandToBeUpdated.Recipient = recipient;
             demandToBeUpdated.Sender = sender;
             demandToBeUpdated.HasBeenAccepted = demand.HasBeenAccepted;
