@@ -117,6 +117,10 @@ namespace Mydemenageur.BLL.Services
                 .Set(user => user.Role, data.Role)
                 .Set(user => user.RoleType, data.RoleType);
 
+            if (data.RoleType == "Basique")
+                if (myDemUser.FreeTokens < 3)
+                    update.Set(user => user.FreeTokens, 3);
+
             await _dpMyDemenageurUser.GetCollection().UpdateOneAsync(user => user.Id == id, update);
             
             return "Role update done";
