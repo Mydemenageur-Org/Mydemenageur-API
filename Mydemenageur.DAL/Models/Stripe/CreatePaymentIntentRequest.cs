@@ -4,6 +4,9 @@ namespace Mydemenageur.DAL.Models.Stripe
 {
     public class CreatePaymentIntentRequest
     {
+        [JsonProperty("userId")]
+        public string UserId { get; set; }
+        
         [JsonProperty("paymentMethodType")]
         public string PaymentMethodType { get; set; }
 

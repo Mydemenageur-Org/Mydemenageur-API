@@ -10,6 +10,8 @@ using System.Threading.Tasks;
 using System.Collections.Generic;
 using System.IO;
 using System;
+using MongoDB.Driver;
+using Mydemenageur.DAL.DP.Interface;
 
 namespace Mydemenageur.API.Controllers
 {
@@ -18,11 +20,13 @@ namespace Mydemenageur.API.Controllers
     [ApiController]
     public class PaymentController: ControllerBase
     {
+        private readonly IDPMyDemenageurUser _dpMyDemenageurUser;
         public readonly IOptions<StripeSettings> options;
         private readonly IStripeClient client;
 
-        public PaymentController(IOptions<StripeSettings> options)
+        public PaymentController(IOptions<StripeSettings> options, IDPMyDemenageurUser dpMyDemenageurUser)
         {
+            _dpMyDemenageurUser = dpMyDemenageurUser;
             this.options = options;
             this.client = new StripeClient(this.options.Value.StripePrivateKey);
         }
@@ -40,6 +44,22 @@ namespace Mydemenageur.API.Controllers
         [HttpPost("create-payment-intent")]
         public IActionResult CreatePaymentIntent([FromBody] CreatePaymentIntentRequest request)
         {
+            var myDem = _dpMyDemenageurUser.GetUserById(request.UserId).FirstOrDefault();
+            if (myDem == null)
+                return NotFound("User not found");
+
+            var customerId = myDem.StripeId;
+            if (customerId == null)
+            {
+                var customerService = new CustomerService();
+                customerId = customerService.Create(new CustomerCreateOptions
+                {
+                    Email = myDem.Email
+                }).Id;
+                myDem.StripeId = customerId;
+                _dpMyDemenageurUser.GetCollection().ReplaceOne(u => u.Id == request.UserId, myDem);
+            }
+
             var paymentIntentService = new PaymentIntentService();
             var paymentIntent = paymentIntentService.Create(new PaymentIntentCreateOptions
             {
@@ -47,8 +67,9 @@ namespace Mydemenageur.API.Controllers
                 Currency = request.Currency,
                 AutomaticPaymentMethods = new PaymentIntentAutomaticPaymentMethodsOptions
                 {
-                    Enabled = true,
+                    Enabled = true
                 },
+                Customer = customerId
             });
 
             return Ok(new { clientSecret = paymentIntent.ClientSecret });
