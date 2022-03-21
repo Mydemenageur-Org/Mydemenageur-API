@@ -139,5 +139,9 @@ namespace Mydemenageur.DAL.Models.Users
         /// UNUSED ANYMORE TO DELETE
         /// </summary>
         public string Formula { get; set; }
+        /// <summary>
+        /// Stripe customer's id
+        /// </summary>
+        public string StripeId { get; set; }
     }
 }
