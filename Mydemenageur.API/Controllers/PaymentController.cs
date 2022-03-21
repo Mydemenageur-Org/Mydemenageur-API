@@ -104,6 +104,20 @@ namespace Mydemenageur.API.Controllers
 
             return Ok();
         }
+        
+        [HttpPost("create-customer-portal-session")]
+        public async Task<IActionResult> CustomerPortal(CustomerPortal customerPortal)
+        {
+            var options = new SessionCreateOptions
+            {
+                Customer = customerPortal.CustomerId,
+                SuccessUrl = customerPortal.ReturnURL
+            };
+            var service = new SessionService();
+            var session = await service.CreateAsync(options);
+
+            return Redirect(session.Url);
+        }
 
         private long CalculateOrderAmount(Item[] items)
         {
