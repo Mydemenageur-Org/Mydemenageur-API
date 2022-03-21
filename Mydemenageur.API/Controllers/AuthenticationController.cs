@@ -167,11 +167,11 @@ namespace Mydemenageur.API.Controllers
         /// <param name="forgotPassword"></param>
         /// <returns></returns>
         [HttpPost("forgot-password")]
-        public async Task<ActionResult<string>> GenerateForgotPassword([FromBody] ForgotPassword forgotPassword)
+        public async Task<ActionResult<CallbackForgotPassword>> ForgotPassword([FromBody] ForgotPassword forgotPassword)
         {
             try
             {
-                return await _authenticationService.GenerateForgotPassword(forgotPassword.email);
+                return await _authenticationService.ForgotPassword(forgotPassword);
             }
             catch(Exception e)
             {
@@ -184,14 +184,14 @@ namespace Mydemenageur.API.Controllers
         /// <summary>
         /// Reset forgotten password
         /// </summary>
-        /// <param name="forgotPassword"></param>
+        /// <param name="resetPassword"></param>
         /// <returns></returns>
         [HttpPut("forgot-password")]
-        public async Task<ActionResult<string>> ConfirmForgotPassword([FromBody] ForgotPassword forgotPassword)
+        public async Task<ActionResult<string>> ResetPassword([FromBody] ResetPassword resetPassword)
         {
             try
             {
-                return await _authenticationService.ConfirmForgotPassword(forgotPassword);
+                return await _authenticationService.ResetPassword(resetPassword);
             }
             catch(Exception e)
             {

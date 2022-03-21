@@ -349,13 +349,16 @@ namespace Mydemenageur.BLL.Services
             }
         }
 
-        public async Task<string> GenerateForgotPassword(string email)
+        /*
+         * Generate a token to reset user's password
+         */
+        public async Task<CallbackForgotPassword> ForgotPassword(ForgotPassword forgotPassword)
         {
             try
             {
                 var tokenHandler = new JwtSecurityTokenHandler();
                 var key = Encoding.ASCII.GetBytes(_mydemenageurSettings.ApiSecret);
-                var myDemClient = _dpMyDemUser.Obtain().FirstOrDefault(mdUser => mdUser.Email == email);
+                var myDemClient = _dpMyDemUser.Obtain().FirstOrDefault(mdUser => mdUser.Email == forgotPassword.email);
                 if (myDemClient == null)
                     throw new Exception("User not found");
                 
@@ -371,7 +374,11 @@ namespace Mydemenageur.BLL.Services
                 };
 
                 var token = tokenHandler.CreateToken(tokenDescriptor);
-                return tokenHandler.WriteToken(token);
+                return new CallbackForgotPassword
+                {
+                    username = myDemClient.Username,
+                    token = tokenHandler.WriteToken(token)
+                };
             }
             catch (Exception e)
             {
@@ -379,14 +386,14 @@ namespace Mydemenageur.BLL.Services
             }
         }
 
-        public async Task<string> ConfirmForgotPassword(ForgotPassword forgotPassword)
+        public async Task<string> ResetPassword(ResetPassword resetPassword)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.ASCII.GetBytes(_mydemenageurSettings.ApiSecret);
 
             try
             {
-                tokenHandler.ValidateToken(forgotPassword.token, new TokenValidationParameters
+                tokenHandler.ValidateToken(resetPassword.token, new TokenValidationParameters
                 {
                     ValidateIssuerSigningKey = true,
                     IssuerSigningKey = new SymmetricSecurityKey(key),
@@ -398,7 +405,7 @@ namespace Mydemenageur.BLL.Services
 
                 var id = jwtToken.Claims.First(c => c.Type == "id").Value;
                 
-                return await UpdatePassword(id, forgotPassword.password);
+                return await UpdatePassword(id, resetPassword.password);
             }
             catch (Exception e)
             {
