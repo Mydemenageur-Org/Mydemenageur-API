@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using Stripe;
-using Stripe.Checkout;
 using Mydemenageur.DAL.Models.Stripe;
 using Mydemenageur.DAL.Settings;
 using System.Threading.Tasks;
@@ -12,6 +11,7 @@ using System.IO;
 using System;
 using MongoDB.Driver;
 using Mydemenageur.DAL.DP.Interface;
+using Stripe.BillingPortal;
 
 namespace Mydemenageur.API.Controllers
 {
@@ -111,7 +111,7 @@ namespace Mydemenageur.API.Controllers
             var options = new SessionCreateOptions
             {
                 Customer = customerPortal.CustomerId,
-                SuccessUrl = customerPortal.ReturnURL
+                ReturnUrl = customerPortal.ReturnURL
             };
             var service = new SessionService();
             var session = await service.CreateAsync(options);
