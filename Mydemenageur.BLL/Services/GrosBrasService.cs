@@ -42,7 +42,7 @@ namespace Mydemenageur.BLL.Services
             if (dictionary.ContainsKey("cityLabel"))
             {
                 string cityString = dictionary["cityLabel"];
-                var city = (await _dpCity.GetCollection().FindAsync(c => c.Label == cityString.ToLower())).FirstOrDefault();
+                var city = (await _dpCity.GetCollection().FindAsync(c => c.Label.ToLower() == cityString.ToLower())).FirstOrDefault();
                 dictionary.Add("CityId", city.Id);
             }
             IQueryCollection queryParams = new QueryCollection(dictionary);
@@ -87,7 +87,7 @@ namespace Mydemenageur.BLL.Services
             var dictionary = Microsoft.AspNetCore.WebUtilities.QueryHelpers.ParseQuery(queryString.Value);
             if (dictionary.ContainsKey("cityLabel"))
             {
-                var city = (await _dpCity.GetCollection().FindAsync(c => c.Label == dictionary["cityLabel"])).FirstOrDefault();
+                var city = (await _dpCity.GetCollection().FindAsync(c => c.Label.ToLower() == dictionary["cityLabel"].ToString().ToLower())).FirstOrDefault();
                 dictionary.Add("CityId", city.Id);
             }
             IQueryCollection queryParams = new QueryCollection(dictionary);
