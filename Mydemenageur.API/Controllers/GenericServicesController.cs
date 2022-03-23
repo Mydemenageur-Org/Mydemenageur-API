@@ -48,8 +48,8 @@ namespace Mydemenageur.API.Controllers
         [HttpGet]
         public async Task<ActionResult<IList<GenericService>>> GetGenericServices([FromQuery] int pageNumber = -1, [FromQuery] int numberOfElementsPerPage = -1)
         {
-            var queryParams = HttpContext.Request.Query;
-            IList<GenericService> genericServices = await _genericServicesService.GetGenericServices(queryParams, pageNumber, numberOfElementsPerPage);
+            var queryString = HttpContext.Request.QueryString;
+            IList<GenericService> genericServices = await _genericServicesService.GetGenericServices(queryString, pageNumber, numberOfElementsPerPage);
 
             return Ok(genericServices);
         }
