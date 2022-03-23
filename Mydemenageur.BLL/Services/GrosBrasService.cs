@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using System;
+using Microsoft.AspNetCore.Http;
 using MongoDB.Driver;
 using MongoDB.Driver.Linq;
 using Mydemenageur.BLL.Services.Interfaces;
@@ -37,20 +38,42 @@ namespace Mydemenageur.BLL.Services
         public async Task<IList<GrosBrasPopulated>> GetGrosBras(QueryString queryString, int pageNumber = -1, int numberOfElementsPerPage = -1, string cityLabel = "")
         {
             List<GrosBrasPopulated> grosBrasFinal = new List<GrosBrasPopulated>();
-            
-            var dictionary = Microsoft.AspNetCore.WebUtilities.QueryHelpers.ParseQuery(queryString.Value);
-            if (dictionary.ContainsKey("cityLabel"))
-            {
-                string cityString = dictionary["cityLabel"];
-                var city = (await _dpCity.GetCollection().FindAsync(c => c.Label.ToLower() == cityString.ToLower())).FirstOrDefault();
-                dictionary.Add("CityId", city.Id);
-            }
-            IQueryCollection queryParams = new QueryCollection(dictionary);
-
             // Sort by reviews count
             var sortDefinition = new SortDefinitionBuilder<GrosBras>().Descending("VeryGoodGrade");
+            var dictionary = Microsoft.AspNetCore.WebUtilities.QueryHelpers.ParseQuery(queryString.Value); 
+            List<GrosBras> grosBras = new List<GrosBras>();
+            if (dictionary.ContainsKey("cityLabel"))
+            {
+                dictionary.TryGetValue("cityLabel", out StringValues values);
+                var department = values.FirstOrDefault().Split('-').LastOrDefault();
+                // Temporary system to find by department
+                if (Int32.TryParse(department, out _)) {
+                    List<City> cities = _dpCity.GetCollection().FindAsync(c => c.Departement == department).Result.ToList();
 
-            var grosBras = await _dpGrosBras.GetCollection().FilterByQueryParamsMongo(queryParams, pageNumber, numberOfElementsPerPage, sortDefinition);
+                    foreach (var city in cities)
+                    {
+                        if (numberOfElementsPerPage > 0 && grosBras.Count >= numberOfElementsPerPage) break;
+                        dictionary["CityId"] = city.Id;
+    
+                        IQueryCollection queryParams = new QueryCollection(dictionary);
+                        grosBras.AddRange(await _dpGrosBras.GetCollection().FilterByQueryParamsMongo(queryParams, pageNumber, numberOfElementsPerPage-grosBras.Count, sortDefinition));
+                    }
+                }
+                else
+                {
+                    string cityString = dictionary["cityLabel"];
+                    var city = (await _dpCity.GetCollection().FindAsync(c => c.Label.ToLower() == cityString.ToLower())).FirstOrDefault();
+                    dictionary.Add("CityId", city.Id);
+                    
+                    IQueryCollection queryParams = new QueryCollection(dictionary);
+                    grosBras = await _dpGrosBras.GetCollection().FilterByQueryParamsMongo(queryParams, pageNumber, numberOfElementsPerPage, sortDefinition);
+                }
+            }
+            else
+            {
+                IQueryCollection queryParams = new QueryCollection(dictionary);
+                grosBras = await _dpGrosBras.GetCollection().FilterByQueryParamsMongo(queryParams, pageNumber, numberOfElementsPerPage, sortDefinition);
+            }
 
             grosBras.ForEach((profil) =>
             {
@@ -84,14 +107,44 @@ namespace Mydemenageur.BLL.Services
 
         public async Task<long> CountGrosBras(QueryString queryString)
         {
+            List<GrosBrasPopulated> grosBrasFinal = new List<GrosBrasPopulated>();
+            // Sort by reviews count
+            var sortDefinition = new SortDefinitionBuilder<GrosBras>().Descending("VeryGoodGrade");
             var dictionary = Microsoft.AspNetCore.WebUtilities.QueryHelpers.ParseQuery(queryString.Value);
             if (dictionary.ContainsKey("cityLabel"))
             {
-                var city = (await _dpCity.GetCollection().FindAsync(c => c.Label.ToLower() == dictionary["cityLabel"].ToString().ToLower())).FirstOrDefault();
-                dictionary.Add("CityId", city.Id);
+                dictionary.TryGetValue("cityLabel", out StringValues values);
+                var department = values.FirstOrDefault().Split('-').LastOrDefault();
+                // Temporary system to find by department
+                if (Int32.TryParse(department, out _)) {
+                    List<City> cities = _dpCity.GetCollection().FindAsync(c => c.Departement == department).Result.ToList();
+                    long count = 0;
+                    
+                    foreach (var city in cities)
+                    {
+                        dictionary["CityId"] = city.Id;
+    
+                        IQueryCollection queryParams = new QueryCollection(dictionary);
+                        count += await _dpGrosBras.GetCollection().CountByQueryParamsMongo(queryParams);
+                    }
+
+                    return count;
+                }
+                else
+                {
+                    string cityString = dictionary["cityLabel"];
+                    var city = (await _dpCity.GetCollection().FindAsync(c => c.Label.ToLower() == cityString.ToLower())).FirstOrDefault();
+                    dictionary.Add("CityId", city.Id);
+                    
+                    IQueryCollection queryParams = new QueryCollection(dictionary);
+                    return await _dpGrosBras.GetCollection().CountByQueryParamsMongo(queryParams);
+                }
             }
-            IQueryCollection queryParams = new QueryCollection(dictionary);
-            return await _dpGrosBras.GetCollection().CountByQueryParamsMongo(queryParams);
+            else
+            {
+                IQueryCollection queryParams = new QueryCollection(dictionary);
+                return await _dpGrosBras.GetCollection().CountByQueryParamsMongo(queryParams);
+            }
         }
 
         public async Task<GrosBrasPopulated> GetGrosBrasById(string id)
