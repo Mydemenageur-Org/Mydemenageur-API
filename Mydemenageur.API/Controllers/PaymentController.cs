@@ -37,7 +37,7 @@ namespace Mydemenageur.API.Controllers
                 LookupKeys = new List<string>
               {
                 "abonnement_intermediaire",
-                'abonnement_premium',
+                "abonnement_premium",
                 "abonnement_professionnel",
                 "abonnement_business_pack"
               }
