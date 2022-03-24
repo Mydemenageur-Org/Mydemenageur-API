@@ -60,6 +60,20 @@
             <response code="200">Token is valid, return the user id</response>
             <returns></returns>
         </member>
+        <member name="M:Mydemenageur.API.Controllers.AuthenticationController.ForgotPassword(Mydemenageur.DAL.Models.Users.ForgotPassword)">
+            <summary>
+            Generate a forgotten password token
+            </summary>
+            <param name="forgotPassword"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Mydemenageur.API.Controllers.AuthenticationController.ResetPassword(Mydemenageur.DAL.Models.Users.ResetPassword)">
+            <summary>
+            Reset forgotten password
+            </summary>
+            <param name="resetPassword"></param>
+            <returns></returns>
+        </member>
         <member name="M:Mydemenageur.API.Controllers.CitiesController.GetAllCities">
             <summary>
             Get all cities
@@ -290,6 +304,13 @@
             Get a specific user by it's id
             </summary>
             <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Mydemenageur.API.Controllers.UsersController.GetUserByEmail(System.String)">
+            <summary>
+            Get a specific user by his email
+            </summary>
+            <param name="email"></param>
             <returns></returns>
         </member>
         <member name="M:Mydemenageur.API.Controllers.UsersController.GetProfilePicture(System.String)">
