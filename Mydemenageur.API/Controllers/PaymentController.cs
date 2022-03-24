@@ -37,7 +37,8 @@ namespace Mydemenageur.API.Controllers
                 LookupKeys = new List<string>
               {
                 "abonnement_intermediaire",
-                "abonnement_starter_pack",
+                'abonnement_premium',
+                "abonnement_professionnel",
                 "abonnement_business_pack"
               }
             };
@@ -109,7 +110,21 @@ namespace Mydemenageur.API.Controllers
         [HttpPost("create-subscription")]
         public IActionResult CreateSubscription([FromBody] CreateSubscriptionRequest req)
         {
-            var customerId = HttpContext.Request.Cookies["customer"];
+            var myDem = _dpMyDemenageurUser.GetUserById(req.MyDemUserId).FirstOrDefault();
+            if (myDem == null)
+                return NotFound("User not found");
+
+            var customerId = myDem.StripeId;
+            if (customerId == null)
+            {
+                var customerService = new CustomerService();
+                customerId = customerService.Create(new CustomerCreateOptions
+                {
+                    Email = myDem.Email
+                }).Id;
+                myDem.StripeId = customerId;
+                _dpMyDemenageurUser.GetCollection().ReplaceOne(u => u.Id == req.MyDemUserId, myDem);
+            }
 
             // Create subscription
             var subscriptionOptions = new SubscriptionCreateOptions

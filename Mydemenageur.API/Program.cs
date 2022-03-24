@@ -20,11 +20,8 @@ namespace Mydemenageur.API
             Host.CreateDefaultBuilder(args)
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
-                    webBuilder.UseStartup<Startup>()
-                    .UseKestrel(options =>
-                    {
-                        options.Limits.MaxRequestBodySize = 52428800; //50MB
-                    });
+                    webBuilder.UseStartup<Startup>();
+
                 });
     }
 }
