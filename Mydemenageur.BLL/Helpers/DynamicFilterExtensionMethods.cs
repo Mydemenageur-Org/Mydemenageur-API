@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace Mydemenageur.BLL.Helpers
@@ -51,7 +52,7 @@ namespace Mydemenageur.BLL.Helpers
                             };
 
                             var filterKey = Builders<T>.Filter.Eq(string.Join('.', metadataKeyFilter), metadataKeyValue);
-                            var filterValue = Builders<T>.Filter.Eq(string.Join('.', metadataValueFilter), queryParams[key]);
+                            var filterValue = Builders<T>.Filter.Regex(string.Join('.', metadataValueFilter), BsonRegularExpression.Create(new Regex(queryParams[key], RegexOptions.IgnoreCase)));
 
                             allFilters.Add(Builders<T>.Filter.And(filterKey, filterValue));
                         }

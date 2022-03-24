@@ -45,8 +45,8 @@ namespace Mydemenageur.BLL.Services
             // It's important to note here that the username can
             // be both the actual username or the email
             var user = await (await _users.FindAsync(dbUser =>
-                dbUser.Email == username.ToLower() ||
-                dbUser.Username == username.ToLower()
+                dbUser.Email.ToLower() == username.ToLower() ||
+                dbUser.Username.ToLower() == username.ToLower()
             )).FirstOrDefaultAsync();
 
             if (user == null) { return null; }

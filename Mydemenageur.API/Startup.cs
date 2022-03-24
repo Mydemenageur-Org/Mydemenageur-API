@@ -91,7 +91,12 @@ namespace Mydemenageur.API
                             "http://messagerie.api.mydemenageur.com",
                             "https://messagerie.api.mydemenageur.com",
                             "http://beta.mydemenageur.com",
-                            "https://beta.mydemenageur.com")
+                            "https://beta.mydemenageur.com",
+                            "https://www.mydemenageur.com",
+                            "http://www.mydemenageur.com",
+                            "https://mydemenageur.com",
+                            "http://mydemenageur.com"
+                        )
                         .AllowAnyHeader()
                         .AllowAnyMethod()
                         .SetIsOriginAllowed((host) => true)
