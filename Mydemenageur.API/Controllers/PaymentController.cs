@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
+﻿
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using Stripe;
@@ -11,7 +10,6 @@ using System.IO;
 using System;
 using MongoDB.Driver;
 using Mydemenageur.DAL.DP.Interface;
-using Stripe.BillingPortal;
 
 namespace Mydemenageur.API.Controllers
 {
@@ -34,10 +32,22 @@ namespace Mydemenageur.API.Controllers
         [HttpGet("config")]
         public ConfigResponse GetConfig()
         {
+            var options = new PriceListOptions
+            {
+                LookupKeys = new List<string>
+              {
+                "abonnement_intermediaire",
+                "abonnement_starter_pack",
+                "abonnement_business_pack"
+              }
+            };
+            var service = new PriceService();
+            var prices = service.List(options);
             // return json: publishableKey (.env)
             return new ConfigResponse
             {
                 PublishableKey = this.options.Value.StripePublicKey,
+                Prices = prices.Data
             };
         }
 
@@ -75,6 +85,132 @@ namespace Mydemenageur.API.Controllers
             return Ok(new { clientSecret = paymentIntent.ClientSecret });
         }
 
+        [HttpPost("create-customer")]
+        public IActionResult CreateCustomer([FromBody] CreateCustomerRequest req)
+        {
+            var options = new CustomerCreateOptions
+            {
+                Email = req.Email,
+            };
+            var service = new CustomerService();
+            var customer = service.Create(options);
+
+            // Set the cookie to simulate an authenticated user.
+            // In practice, this customer.Id is stored along side your
+            // user and retrieved along with the logged in user.
+            HttpContext.Response.Cookies.Append("customer", customer.Id);
+
+            return Ok(new CreateCustomerResponse
+            {
+                Customer = customer,
+            });
+        }
+
+        [HttpPost("create-subscription")]
+        public IActionResult CreateSubscription([FromBody] CreateSubscriptionRequest req)
+        {
+            var customerId = HttpContext.Request.Cookies["customer"];
+
+            // Create subscription
+            var subscriptionOptions = new SubscriptionCreateOptions
+            {
+                Customer = customerId,
+                Items = new List<SubscriptionItemOptions>
+                {
+                    new SubscriptionItemOptions
+                    {
+                        Price = req.PriceId,
+                    },
+                },
+                PaymentBehavior = "default_incomplete",
+            };
+            subscriptionOptions.AddExpand("latest_invoice.payment_intent");
+            var subscriptionService = new SubscriptionService();
+            try
+            {
+                Subscription subscription = subscriptionService.Create(subscriptionOptions);
+
+                return Ok(new SubscriptionCreateResponse
+                {
+                    SubscriptionId = subscription.Id,
+                    ClientSecret = subscription.LatestInvoice.PaymentIntent.ClientSecret,
+                });
+            }
+            catch (StripeException e)
+            {
+                Console.WriteLine($"Failed to create subscription.{e}");
+                return BadRequest();
+            }
+        }
+
+        [HttpGet("subscriptions")]
+        public IActionResult ListSubscriptions()
+        {
+            var customerId = HttpContext.Request.Cookies["customer"];
+            var options = new SubscriptionListOptions
+            {
+                Customer = customerId,
+                Status = "all",
+            };
+            options.AddExpand("data.default_payment_method");
+            var service = new SubscriptionService();
+            var subscriptions = service.List(options);
+
+            return Ok(new SubscriptionsResponse
+            {
+                Subscriptions = subscriptions,
+            });
+        }
+
+        [HttpPost("cancel-subscription")]
+        public IActionResult CancelSubscription([FromBody] CancelSubscriptionRequest req)
+        {
+            var service = new SubscriptionService();
+            var subscription = service.Cancel(req.Subscription, null);
+            return Ok(new SubscriptionResponse
+            {
+                Subscription = subscription,
+            });
+        }
+
+        [HttpPost("update-subscription")]
+        public IActionResult UpdateSubscription([FromBody] UpdateSubscriptionRequest req)
+        {
+            var service = new SubscriptionService();
+            var subscription = service.Get(req.Subscription);
+
+            var options = new SubscriptionUpdateOptions
+            {
+                CancelAtPeriodEnd = false,
+                Items = new List<SubscriptionItemOptions>
+                {
+                    new SubscriptionItemOptions
+                    {
+                        Id = subscription.Items.Data[0].Id,
+                        Price = Environment.GetEnvironmentVariable(req.NewPrice.ToUpper()),
+                    }
+                }
+            };
+            var updatedSubscription = service.Update(req.Subscription, options);
+            return Ok(new SubscriptionResponse
+            {
+                Subscription = updatedSubscription,
+            });
+        }
+
+        private long CalculateOrderAmount(Item[] items)
+        {
+            var service = new PriceService();
+            long finalAmount = 0;
+
+            foreach (var item in items)
+            {
+                finalAmount += service.Get(item.Id).UnitAmount ?? 0;
+            }
+
+            return finalAmount;
+        }
+
         [HttpPost("webhook")]
         public async Task<IActionResult> Webhook()
         {
@@ -104,33 +240,5 @@ namespace Mydemenageur.API.Controllers
 
             return Ok();
         }
-        
-        [HttpPost("create-customer-portal-session")]
-        public async Task<IActionResult> CustomerPortal(CustomerPortal customerPortal)
-        {
-            var options = new SessionCreateOptions
-            {
-                Customer = customerPortal.CustomerId,
-                ReturnUrl = customerPortal.ReturnURL
-            };
-            var service = new SessionService();
-            var session = await service.CreateAsync(options);
-
-            return Redirect(session.Url);
-        }
-
-        private long CalculateOrderAmount(Item[] items)
-        {
-            var service = new PriceService();
-            long finalAmount = 0;
-            
-            foreach (var item in items)
-            {
-                finalAmount += service.Get(item.Id).UnitAmount ?? 0;
-            }
-
-            return finalAmount;
-        }
-
     }
 }
