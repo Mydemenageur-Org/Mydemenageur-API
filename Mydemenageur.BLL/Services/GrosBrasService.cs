@@ -42,9 +42,8 @@ namespace Mydemenageur.BLL.Services
             var sortDefinition = new SortDefinitionBuilder<GrosBras>().Descending("VeryGoodGrade");
             var dictionary = Microsoft.AspNetCore.WebUtilities.QueryHelpers.ParseQuery(queryString.Value); 
             List<GrosBras> grosBras = new List<GrosBras>();
-            if (dictionary.ContainsKey("cityLabel"))
+            if (dictionary.TryGetValue("cityLabel", out StringValues values))
             {
-                dictionary.TryGetValue("cityLabel", out StringValues values);
                 var department = values.FirstOrDefault().Split('-').LastOrDefault();
                 // Temporary system to find by department
                 if (Int32.TryParse(department, out _)) {
@@ -61,18 +60,15 @@ namespace Mydemenageur.BLL.Services
                 }
                 else
                 {
-                    string cityString = dictionary["cityLabel"];
-                    var city = (await _dpCity.GetCollection().FindAsync(c => c.Label.ToLower() == cityString.ToLower())).FirstOrDefault();
+                    var city = (await _dpCity.GetCollection().FindAsync(c => c.Label.ToLower() == values[0].ToLower())).FirstOrDefault();
                     dictionary.Add("CityId", city.Id);
                     
-                    IQueryCollection queryParams = new QueryCollection(dictionary);
-                    grosBras = await _dpGrosBras.GetCollection().FilterByQueryParamsMongo(queryParams, pageNumber, numberOfElementsPerPage, sortDefinition);
+                    grosBras = await _dpGrosBras.GetCollection().FilterByQueryParamsMongo(new QueryCollection(dictionary), pageNumber, numberOfElementsPerPage, sortDefinition);
                 }
             }
             else
             {
-                IQueryCollection queryParams = new QueryCollection(dictionary);
-                grosBras = await _dpGrosBras.GetCollection().FilterByQueryParamsMongo(queryParams, pageNumber, numberOfElementsPerPage, sortDefinition);
+                grosBras = await _dpGrosBras.GetCollection().FilterByQueryParamsMongo(new QueryCollection(dictionary), pageNumber, numberOfElementsPerPage, sortDefinition);
             }
 
             grosBras.ForEach((profil) =>
@@ -108,12 +104,9 @@ namespace Mydemenageur.BLL.Services
         public async Task<long> CountGrosBras(QueryString queryString)
         {
             List<GrosBrasPopulated> grosBrasFinal = new List<GrosBrasPopulated>();
-            // Sort by reviews count
-            var sortDefinition = new SortDefinitionBuilder<GrosBras>().Descending("VeryGoodGrade");
             var dictionary = Microsoft.AspNetCore.WebUtilities.QueryHelpers.ParseQuery(queryString.Value);
-            if (dictionary.ContainsKey("cityLabel"))
+            if (dictionary.TryGetValue("cityLabel", out StringValues values))
             {
-                dictionary.TryGetValue("cityLabel", out StringValues values);
                 var department = values.FirstOrDefault().Split('-').LastOrDefault();
                 // Temporary system to find by department
                 if (Int32.TryParse(department, out _)) {
@@ -124,8 +117,7 @@ namespace Mydemenageur.BLL.Services
                     {
                         dictionary["CityId"] = city.Id;
     
-                        IQueryCollection queryParams = new QueryCollection(dictionary);
-                        count += await _dpGrosBras.GetCollection().CountByQueryParamsMongo(queryParams);
+                        count += await _dpGrosBras.GetCollection().CountByQueryParamsMongo(new QueryCollection(dictionary));
                     }
 
                     return count;
@@ -135,16 +127,10 @@ namespace Mydemenageur.BLL.Services
                     string cityString = dictionary["cityLabel"];
                     var city = (await _dpCity.GetCollection().FindAsync(c => c.Label.ToLower() == cityString.ToLower())).FirstOrDefault();
                     dictionary.Add("CityId", city.Id);
-                    
-                    IQueryCollection queryParams = new QueryCollection(dictionary);
-                    return await _dpGrosBras.GetCollection().CountByQueryParamsMongo(queryParams);
                 }
             }
-            else
-            {
-                IQueryCollection queryParams = new QueryCollection(dictionary);
-                return await _dpGrosBras.GetCollection().CountByQueryParamsMongo(queryParams);
-            }
+        
+            return await _dpGrosBras.GetCollection().CountByQueryParamsMongo(new QueryCollection(dictionary));
         }
 
         public async Task<GrosBrasPopulated> GetGrosBrasById(string id)
