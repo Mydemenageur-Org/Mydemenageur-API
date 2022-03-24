@@ -13,7 +13,7 @@ namespace Mydemenageur.BLL.Helpers
 {
     public static class DynamicFilterExtensionMethods
     {
-        private static FilterDefinition<T> CreateFilter<T>(IQueryCollection queryParams, int pageNumber = -1, int numberOfElementsPerPage = -1) where T : new()
+        private static FilterDefinition<T>  CreateFilter<T>(IQueryCollection queryParams, int pageNumber = -1, int numberOfElementsPerPage = -1) where T : new()
         {
             string metadataKeysNumberKey = "metadata-keys-number";
             List<FilterDefinition<T>> allFilters = new();
@@ -51,8 +51,17 @@ namespace Mydemenageur.BLL.Helpers
                                 "Value"
                             };
 
+                            FilterDefinition<T> filterValue;
                             var filterKey = Builders<T>.Filter.Eq(string.Join('.', metadataKeyFilter), metadataKeyValue);
-                            var filterValue = Builders<T>.Filter.Regex(string.Join('.', metadataValueFilter), BsonRegularExpression.Create(new Regex(queryParams[key], RegexOptions.IgnoreCase)));
+                            if (queryParams[key].Count > 0)
+                            {
+                                filterValue = Builders<T>.Filter.In(string.Join('.', metadataValueFilter),
+                                    queryParams[key]);
+                            }
+                            else
+                            {
+                                filterValue = Builders<T>.Filter.Regex(string.Join('.', metadataValueFilter), BsonRegularExpression.Create(new Regex(queryParams[key], RegexOptions.IgnoreCase)));
+                            }
 
                             allFilters.Add(Builders<T>.Filter.And(filterKey, filterValue));
                         }
@@ -69,6 +78,17 @@ namespace Mydemenageur.BLL.Helpers
                 if (key.Contains("cityLabel")) continue;
 
                 var value = queryParams[key];
+
+                if (key.Contains("CityId"))
+                {
+                    if (queryParams[key].Count > 0)
+                    {
+                        var filter = Builders<T>.Filter.In(key, queryParams[key]);
+                        allFilters.Add(filter);
+                        
+                        continue;
+                    }
+                }
 
                 if(key.Contains("Date"))
                 {

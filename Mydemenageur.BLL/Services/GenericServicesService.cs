@@ -66,64 +66,35 @@ namespace Mydemenageur.BLL.Services
             return service;
         }
 
+        private Dictionary<string, StringValues> parseDepartment(Dictionary<string, StringValues> dictionary)
+        {
+            if (dictionary.TryGetValue("Fields.metadata1.startCity", out StringValues values))
+            {
+                var department = values.FirstOrDefault().Split('-').LastOrDefault();
+                if (Int32.TryParse(department, out _)) {
+                    List<City> cities = _dpCity.GetCollection().FindAsync(c => c.Departement == department).Result.ToList();
+                    dictionary["Fields.metadata1.startCity"] = new StringValues();
+                    foreach (var city in cities)
+                        dictionary["Fields.metadata1.startCity"] = StringValues.Concat(city.Label, dictionary["Fields.metadata1.startCity"]);
+                }
+            }
+
+            return dictionary;
+        }
+
         public async Task<List<GenericService>> GetGenericServices(QueryString queryString, int pageNumber = -1, int numberOfElementsPerPage = -1)
         {
             var sortDefinition = new SortDefinitionBuilder<GenericService>().Descending("Date");
             var dictionary = Microsoft.AspNetCore.WebUtilities.QueryHelpers.ParseQuery(queryString.Value);
-            // Temporary system to find by department
-            if (dictionary.TryGetValue("Fields.metadata1.startCity", out StringValues values))
-            {
-                var department = values.FirstOrDefault().Split('-').LastOrDefault();
-                List<GenericService> services = new List<GenericService>();
-                if (Int32.TryParse(department, out _)) {
-                    List<City> cities = _dpCity.GetCollection().FindAsync(c => c.Departement == department).Result.ToList();
-
-                    foreach (var city in cities)
-                    {
-                        if (numberOfElementsPerPage > 0 && services.Count >= numberOfElementsPerPage) break;
-                        dictionary["Fields.metadata1.startCity"] = city.Label;
-
-                        services.AddRange(await _dpGenericService.GetCollection().FilterByQueryParamsMongo(new QueryCollection(dictionary), pageNumber, numberOfElementsPerPage-services.Count, sortDefinition));
-                    }
-
-                    return services;
-                }
-            }
+            dictionary = parseDepartment(dictionary);
             
             return await _dpGenericService.GetCollection().FilterByQueryParamsMongo(new QueryCollection(dictionary), pageNumber, numberOfElementsPerPage, sortDefinition);
         }
         public async Task<long> GetGenericServicesCount(QueryString queryString, int pageNumber = -1, int numberOfElementsPerPage = -1)
         {
             var dictionary = Microsoft.AspNetCore.WebUtilities.QueryHelpers.ParseQuery(queryString.Value);
-            if (dictionary.ContainsKey("cityLabel"))
-            {
-                string stringCity = dictionary["cityLabel"];
-                var city = (await _dpCity.GetCollection().FindAsync(c => c.Label.ToLower() == stringCity.ToLower())).FirstOrDefault();
-                dictionary.Add("CityId", city.Id);
-            }
+            dictionary = parseDepartment(dictionary);
 
-            // Temporary system to find by department
-            if (dictionary.TryGetValue("Fields.metadata1.startCity", out StringValues values))
-            {
-                var department = values.FirstOrDefault().Split('-').LastOrDefault();
-                if (Int32.TryParse(department, out _)) {
-                    List<City> cities = _dpCity.GetCollection().FindAsync(c => c.Departement == department).Result.ToList();
-                    long count = 0;
-                
-                    foreach (var city in cities)
-                    {
-                        if (numberOfElementsPerPage > 0 && count >= numberOfElementsPerPage) break;
-                        dictionary["Fields.metadata1.startCity"] = city.Label;
-
-                        IQueryCollection queryParams = new QueryCollection(dictionary);
-                        count += await _dpGenericService.GetCollection()
-                            .CountByQueryParamsMongo(queryParams, pageNumber, numberOfElementsPerPage);
-                    }
-
-                    return count;
-                }
-            }
-            
             return await _dpGenericService.GetCollection().CountByQueryParamsMongo(new QueryCollection(dictionary), pageNumber, numberOfElementsPerPage);
         }
 

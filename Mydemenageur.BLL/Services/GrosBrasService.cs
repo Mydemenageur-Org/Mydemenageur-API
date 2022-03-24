@@ -34,42 +34,36 @@ namespace Mydemenageur.BLL.Services
             _citiesService = citiesService;
             _dpDemand = dpDemand;
         }
+        
+        private Dictionary<string, StringValues> parseCity(Dictionary<string, StringValues> dictionary)
+        {
+            if (dictionary.TryGetValue("cityLabel", out StringValues values))
+            {
+                var department = values.FirstOrDefault().Split('-').LastOrDefault();
+                if (Int32.TryParse(department, out _)) {
+                    List<City> cities = _dpCity.GetCollection().FindAsync(c => c.Departement == department).Result.ToList();
+                    dictionary["CityId"] = new StringValues();
+                    foreach (var city in cities)
+                        dictionary["CityId"] = StringValues.Concat(city.Id, dictionary["Fields.metadata1.startCity"]);
+                }
+                else
+                {
+                    var city = _dpCity.GetCollection().FindAsync(c => c.Label.ToLower() == values[0].ToLower()).Result.FirstOrDefault();
+                    dictionary.Add("CityId", city.Id);
+                }
+            }
+
+            return dictionary;
+        }
 
         public async Task<IList<GrosBrasPopulated>> GetGrosBras(QueryString queryString, int pageNumber = -1, int numberOfElementsPerPage = -1, string cityLabel = "")
         {
             List<GrosBrasPopulated> grosBrasFinal = new List<GrosBrasPopulated>();
             // Sort by reviews count
             var sortDefinition = new SortDefinitionBuilder<GrosBras>().Descending("VeryGoodGrade");
-            var dictionary = Microsoft.AspNetCore.WebUtilities.QueryHelpers.ParseQuery(queryString.Value); 
-            List<GrosBras> grosBras = new List<GrosBras>();
-            if (dictionary.TryGetValue("cityLabel", out StringValues values))
-            {
-                var department = values.FirstOrDefault().Split('-').LastOrDefault();
-                // Temporary system to find by department
-                if (Int32.TryParse(department, out _)) {
-                    List<City> cities = _dpCity.GetCollection().FindAsync(c => c.Departement == department).Result.ToList();
-
-                    foreach (var city in cities)
-                    {
-                        if (numberOfElementsPerPage > 0 && grosBras.Count >= numberOfElementsPerPage) break;
-                        dictionary["CityId"] = city.Id;
-    
-                        IQueryCollection queryParams = new QueryCollection(dictionary);
-                        grosBras.AddRange(await _dpGrosBras.GetCollection().FilterByQueryParamsMongo(queryParams, pageNumber, numberOfElementsPerPage-grosBras.Count, sortDefinition));
-                    }
-                }
-                else
-                {
-                    var city = (await _dpCity.GetCollection().FindAsync(c => c.Label.ToLower() == values[0].ToLower())).FirstOrDefault();
-                    dictionary.Add("CityId", city.Id);
-                    
-                    grosBras = await _dpGrosBras.GetCollection().FilterByQueryParamsMongo(new QueryCollection(dictionary), pageNumber, numberOfElementsPerPage, sortDefinition);
-                }
-            }
-            else
-            {
-                grosBras = await _dpGrosBras.GetCollection().FilterByQueryParamsMongo(new QueryCollection(dictionary), pageNumber, numberOfElementsPerPage, sortDefinition);
-            }
+            var dictionary = Microsoft.AspNetCore.WebUtilities.QueryHelpers.ParseQuery(queryString.Value);
+            dictionary = parseCity(dictionary);
+            List<GrosBras> grosBras = await _dpGrosBras.GetCollection().FilterByQueryParamsMongo(new QueryCollection(dictionary), pageNumber, numberOfElementsPerPage, sortDefinition);
 
             grosBras.ForEach((profil) =>
             {
