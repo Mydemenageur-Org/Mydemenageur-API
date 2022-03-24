@@ -6,5 +6,7 @@ namespace Mydemenageur.DAL.Models.Stripe
     {
         [JsonProperty("priceId")]
         public string PriceId { get; set; }
+
+        public string MyDemUserId { get; set; }
     }
 }
