@@ -44,7 +44,7 @@ namespace Mydemenageur.BLL.Services
                     List<City> cities = _dpCity.GetCollection().FindAsync(c => c.Departement == department).Result.ToList();
                     dictionary["CityId"] = new StringValues();
                     foreach (var city in cities)
-                        dictionary["CityId"] = StringValues.Concat(city.Id, dictionary["Fields.metadata1.startCity"]);
+                        dictionary["CityId"] = StringValues.Concat(city.Id, dictionary["CityId"]);
                 }
                 else
                 {
