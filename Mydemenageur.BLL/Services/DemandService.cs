@@ -151,12 +151,10 @@ namespace Mydemenageur.BLL.Services
                     });   
                 }
             }
-            else
+
+            if (recipient.Role != "User" && recipient.RoleType != "Basique" && recipient.RoleType != "Intermédiaire")
             {
-                if (sender.Role != "User" && sender.RoleType != "Basique" && sender.RoleType != "Intermédiaire")
-                {
-                    shouldReveal = true;
-                }
+                shouldReveal = true;
             }
 
             Demand newDemand = new Demand
