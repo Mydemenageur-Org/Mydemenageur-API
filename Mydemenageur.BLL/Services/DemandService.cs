@@ -132,6 +132,8 @@ namespace Mydemenageur.BLL.Services
             MyDemenageurUser recipient = await _dpUser.GetUserById(demand.RecipientId).FirstOrDefaultAsync();
             MyDemenageurUser sender = await _dpUser.GetUserById(demand.SenderId).FirstOrDefaultAsync();
 
+            bool shouldReveal = false;
+
             if (demand.AnnounceId != null)
             {
                 if(sender.Role != "ServiceProvider")
@@ -149,6 +151,13 @@ namespace Mydemenageur.BLL.Services
                     });   
                 }
             }
+            else
+            {
+                if (sender.Role != "User" && sender.RoleType != "Basique" && sender.RoleType != "Intermédiaire")
+                {
+                    shouldReveal = true;
+                }
+            }
 
             Demand newDemand = new Demand
             {
@@ -160,7 +169,7 @@ namespace Mydemenageur.BLL.Services
                 ServiceSlug = demand.ServiceSlug,
                 HasBeenAccepted = false,
                 HasBeenDeclined = false,
-                Revealed = false
+                Revealed = shouldReveal
             };
 
             await _dpDemand.GetCollection().InsertOneAsync(newDemand);
