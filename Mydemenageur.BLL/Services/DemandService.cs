@@ -158,7 +158,7 @@ namespace Mydemenageur.BLL.Services
             }
             else
             {
-                if (sender != null && sender.Role != "User" && sender.RoleType != "Basique" && sender.RoleType != "Intermédiaire")
+                if (sender != null && sender.Role == "User" && recipient.RoleType != "Basique" && recipient.RoleType != "Intermédiaire")
                 {
                     shouldReveal = true;
                 }
