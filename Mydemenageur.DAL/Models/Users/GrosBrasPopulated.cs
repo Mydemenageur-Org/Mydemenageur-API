@@ -1,6 +1,7 @@
 ﻿using MongoDB.Bson.Serialization.Attributes;
 using System;
 using Mydemenageur.DAL.Models.Experiences;
+using System.Collections.Generic;
 
 namespace Mydemenageur.DAL.Models.Users
 {
@@ -50,5 +51,6 @@ namespace Mydemenageur.DAL.Models.Users
         public string[] Equipment { get; set; }
         public string Title { get; set; }
         public string Formula { get; set; }
+        public IList<string> Realisations { get; set; } = new List<string>();
     }
 }

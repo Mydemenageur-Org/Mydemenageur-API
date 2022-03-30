@@ -85,7 +85,8 @@ namespace Mydemenageur.BLL.Services
                 GoodGrade = profil.GoodGrade.ToString(),
                 MediumGrade = profil.MediumGrade.ToString(),
                 BadGrade = profil.BadGrade.ToString(),
-                Title = profil.Title
+                Title = profil.Title,
+                Realisations = profil.Realisations,
             };
 
             return grosBras;

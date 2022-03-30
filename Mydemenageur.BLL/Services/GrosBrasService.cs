@@ -91,7 +91,8 @@ namespace Mydemenageur.BLL.Services
                     MediumGrade = profil.MediumGrade.ToString(),
                     BadGrade = profil.BadGrade.ToString(),
                     Rayon = profil.Rayon,
-                    Title = profil.Title
+                    Title = profil.Title,
+                    Realisations = profil.Realisations,
                 };
                 grosBrasFinal.Add(grosBras);
             });
@@ -194,7 +195,8 @@ namespace Mydemenageur.BLL.Services
                     MediumGrade = profil.MediumGrade.ToString(),
                     BadGrade = profil.BadGrade.ToString(),
                     Rayon = profil.Rayon,
-                    Title = profil.Title
+                    Title = profil.Title,
+                    Realisations = profil.Realisations,
                 };
                 grosBrasFinal.Add(grosBras);
             });
@@ -243,7 +245,7 @@ namespace Mydemenageur.BLL.Services
 
             return grosBras.Id;
         }
-        public async Task UploadRealisation(string id, byte[] realisation)
+        public async Task UploadRealisation(string id, FileModel file)
         {
             GrosBras grosBras = await (_dpGrosBras.GetGrosBrasById(id)).FirstOrDefaultAsync();
 
@@ -272,12 +274,18 @@ namespace Mydemenageur.BLL.Services
                 }
             }
 
-            string fileId = await _filesService.UploadFile($"realisation_{grosBras.Id}_{grosBras.Realisations.Count}", realisation);
+            string fileId = await _filesService.UploadFile(file.Filename, file.Data);
 
             grosBras.Realisations.Add(fileId);
 
             _dpGrosBras.GetCollection().ReplaceOne(dbGrosBras => dbGrosBras.Id == grosBras.Id, grosBras);
         }
+        
+        public Task<FileModel> GetRealisation(string realisationId)
+        {
+            return _filesService.GetFile(realisationId);
+        }
+
     }
 
 }

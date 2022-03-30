@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading.Tasks;
 using AutoMapper;
+using Mydemenageur.DAL.Models;
 
 namespace Mydemenageur.API.Controllers
 {
@@ -117,14 +118,34 @@ namespace Mydemenageur.API.Controllers
         }
 
         [HttpPost("{id:length(24)}/realisation")]
-        public async Task<IActionResult> UploadGrosBras(string id, [FromBody] GrosBrasRealisationSubmit realisation)
+        public async Task<IActionResult> UploadGrosBras(string id, [FromBody] FileModel realisation)
         {
             try
             {
-                await _grosBrasService.UploadRealisation(id, realisation.Realisation);
+                await _grosBrasService.UploadRealisation(id, realisation);
 
                 return Ok();
             } 
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
+
+        [HttpGet("realisation/{realisationId:length(24)}")]
+        public async Task<ActionResult<FileModel>> GetRealisation(string realisationId)
+        {
+            try
+            {
+                FileModel file = await _grosBrasService.GetRealisation(realisationId);
+
+                if (file == null)
+                {
+                    return NotFound();
+                }
+
+                return Ok(file);
+            }
             catch (Exception e)
             {
                 return BadRequest(e.Message);
