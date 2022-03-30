@@ -151,10 +151,7 @@ namespace Mydemenageur.BLL.Services
                     });   
                 }
 
-                if (recipient != null && recipient.Role != "User" && recipient.RoleType != "Basique" && recipient.RoleType != "Intermédiaire")
-                {
-                    shouldReveal = true;
-                }
+                shouldReveal = true;
             }
             else
             {
