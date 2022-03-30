@@ -26,13 +26,17 @@ namespace Mydemenageur.BLL.Services
         private readonly ICitiesService _citiesService;
         private readonly IDPDemand _dpDemand;
 
-        public GrosBrasService(IDPGrosBras dPGrosBras, IDPMyDemenageurUser dpMDUser, IDPCity dpCity, ICitiesService citiesService, IDPDemand dpDemand)
+        private readonly IFilesService _filesService;
+
+        public GrosBrasService(IDPGrosBras dPGrosBras, IDPMyDemenageurUser dpMDUser, IDPCity dpCity, ICitiesService citiesService, IDPDemand dpDemand, IFilesService filesService)
         {
             _dpGrosBras = dPGrosBras;
             _dpMDUser = dpMDUser;
             _dpCity = dpCity;
             _citiesService = citiesService;
             _dpDemand = dpDemand;
+
+            _filesService = filesService;
         }
         
         private Dictionary<string, StringValues> parseCity(Dictionary<string, StringValues> dictionary)
@@ -239,5 +243,41 @@ namespace Mydemenageur.BLL.Services
 
             return grosBras.Id;
         }
+        public async Task UploadRealisation(string id, byte[] realisation)
+        {
+            GrosBras grosBras = await (_dpGrosBras.GetGrosBrasById(id)).FirstOrDefaultAsync();
+
+            if (grosBras == null)
+            {
+                throw new ArgumentNullException("Le gros bras n'existe pas");
+            }
+
+            MyDemenageurUser mdUser = await _dpMDUser.GetUserById(grosBras.MyDemenageurUserId).FirstOrDefaultAsync();
+
+            if (mdUser == null)
+            {
+                throw new ArgumentNullException("Le gros bras n'est pas associé à un utilisateur");
+            }
+
+            if (mdUser.RoleType == "Basique")
+            {
+                throw new UnauthorizedAccessException("Vous n'avez pas le droit");
+            }
+
+            if (mdUser.RoleType == "Intermédiaire")
+            {
+                if (grosBras.Realisations.Count >= 3)
+                {
+                    throw new UnauthorizedAccessException("Vous ne pouvez pas rajouter de nouvelles réalisation");
+                }
+            }
+
+            string fileId = await _filesService.UploadFile($"realisation_{grosBras.Id}_{grosBras.Realisations.Count}", realisation);
+
+            grosBras.Realisations.Add(fileId);
+
+            _dpGrosBras.GetCollection().ReplaceOne(dbGrosBras => dbGrosBras.Id == grosBras.Id, grosBras);
+        }
     }
+
 }

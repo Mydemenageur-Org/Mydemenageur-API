@@ -150,11 +150,18 @@ namespace Mydemenageur.BLL.Services
                         Operation = "take"
                     });   
                 }
-            }
 
-            if (recipient.Role != "User" && recipient.RoleType != "Basique" && recipient.RoleType != "Intermédiaire")
+                if (recipient != null && recipient.Role != "User" && recipient.RoleType != "Basique" && recipient.RoleType != "Intermédiaire")
+                {
+                    shouldReveal = true;
+                }
+            }
+            else
             {
-                shouldReveal = true;
+                if (sender != null && sender.Role != "User" && sender.RoleType != "Basique" && sender.RoleType != "Intermédiaire")
+                {
+                    shouldReveal = true;
+                }
             }
 
             Demand newDemand = new Demand
@@ -190,24 +197,39 @@ namespace Mydemenageur.BLL.Services
 
         public async Task<IList<DemandMessage>> GetDemandsFromAny(string userId)
         {
+            Console.WriteLine("FIRST");
+
             List<DemandMessage> demandMessageList = new List<DemandMessage>();
             IList<Demand> demands = await _dpDemand.Obtain().Where(W => W.Recipient.Id == userId || W.Sender.Id == userId).ToListAsync();
 
+            Console.WriteLine("SECOND");
+
             foreach (Demand demand in demands)
             {
+                Console.WriteLine("BOUCLE BEGINING");
+
+                if (demand.Sender == null || demand.Recipient == null) continue;
+
                 MyDemenageurUserPopulated mdUserSender = _mapper.Map<MyDemenageurUserPopulated>(demand.Sender);
                 MyDemenageurUserPopulated mdUserRecipient = _mapper.Map<MyDemenageurUserPopulated>(demand.Recipient);
-                if (demand.Sender.ProfilePictureId != null)
-                {
-                    byte[] senderProfilPicture = (await _filesService.GetFile(demand.Sender.ProfilePictureId)).Data;
-                    mdUserSender.ProfilPictureId = senderProfilPicture;
-                }
 
-                if (demand.Recipient.ProfilePictureId != null)
-                {
-                    byte[] recipientProfilPicture = (await _filesService.GetFile(demand.Recipient.ProfilePictureId)).Data;
-                    mdUserRecipient.ProfilPictureId = recipientProfilPicture;
-                }
+                if (mdUserSender == null || mdUserRecipient == null) continue;
+
+                //if (demand.Sender.ProfilePictureId != null)
+                //{
+                //    Console.WriteLine("PROFILE PICTURE 1");
+                //    byte[] senderProfilPicture = (await _filesService.GetFile(demand.Sender.ProfilePictureId)).Data;
+                //    mdUserSender.ProfilPictureId = senderProfilPicture;
+                //}
+
+                //if (demand.Recipient.ProfilePictureId != null)
+                //{
+                //    Console.WriteLine("PROFILE PICTURE 2");
+                //    byte[] recipientProfilPicture = (await _filesService.GetFile(demand.Recipient.ProfilePictureId)).Data;
+                //    mdUserRecipient.ProfilPictureId = recipientProfilPicture;
+                //}
+
+                Console.WriteLine("PRE OBJECT");
 
                 DemandMessage demandMessage = new DemandMessage
                 {
@@ -223,8 +245,10 @@ namespace Mydemenageur.BLL.Services
                 };
 
                 demandMessageList.Add(demandMessage);
+                Console.WriteLine("BOUCLE END");
             }
 
+            Console.WriteLine("END");
             return demandMessageList;
         }
 

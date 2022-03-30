@@ -115,5 +115,20 @@ namespace Mydemenageur.API.Controllers
                 return BadRequest($"Error during the request: {e.Message}");
             }
         }
+
+        [HttpPost("{id:length(24)}/realisation")]
+        public async Task<IActionResult> UploadGrosBras(string id, [FromBody] GrosBrasRealisationSubmit realisation)
+        {
+            try
+            {
+                await _grosBrasService.UploadRealisation(id, realisation.Realisation);
+
+                return Ok();
+            } 
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
     }
 }
