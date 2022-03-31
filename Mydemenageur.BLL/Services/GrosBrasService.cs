@@ -160,7 +160,8 @@ namespace Mydemenageur.BLL.Services
                 MediumGrade = grosBrasProfil.MediumGrade.ToString(),
                 BadGrade = grosBrasProfil.BadGrade.ToString(),
                 Rayon = grosBrasProfil.Rayon,
-                Title = grosBrasProfil.Title
+                Title = grosBrasProfil.Title,
+                Realisations = grosBrasProfil.Realisations,
             };
 
             return grosBras;

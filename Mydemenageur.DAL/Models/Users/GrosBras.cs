@@ -22,7 +22,7 @@ namespace Mydemenageur.DAL.Models.Users
         /// It displays all diploma or certificates the "Gros Bras" has
         /// </summary>
         /// <example>1</example>
-        public Experience[] DiplomaOrExperiences { get; set; }
+        public string DiplomaOrExperiences { get; set; }
         /// <summary>
         /// Correspond to a description of the "Gros Bras"
         /// </summary>
