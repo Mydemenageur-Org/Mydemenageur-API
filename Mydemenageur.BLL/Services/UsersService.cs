@@ -77,6 +77,8 @@ namespace Mydemenageur.BLL.Services
                 Description = profil.Description,
                 Commitment = profil.Commitment,
                 ProStatus = profil.ProStatus,
+                Siren = profil.Siren,
+                LicenceTransport = profil.LicenceTransport,
                 City = city,
                 Departement = profil.Departement,
                 CreatedAt = profil.CreatedAt,
