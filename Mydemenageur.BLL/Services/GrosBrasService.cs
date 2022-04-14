@@ -166,6 +166,8 @@ namespace Mydemenageur.BLL.Services
                 Rayon = grosBrasProfil.Rayon,
                 Title = grosBrasProfil.Title,
                 Realisations = grosBrasProfil.Realisations,
+                /// Fix/mydemenageur-validate-profil -- Maxime.M 13/4/22
+                IsVerified = grosBrasProfil.IsVerified,
             };
 
             return grosBras;
