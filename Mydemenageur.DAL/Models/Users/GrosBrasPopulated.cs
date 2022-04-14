@@ -51,6 +51,8 @@ namespace Mydemenageur.DAL.Models.Users
         public string[] Equipment { get; set; }
         public string Title { get; set; }
         public string Formula { get; set; }
+        /// Fix/mydemenageur-validate-profil -- Maxime.M 13/4/22
+        public Boolean IsVerified { get; set; }
         public IList<string> Realisations { get; set; } = new List<string>();
     }
 }
