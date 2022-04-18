@@ -42,6 +42,23 @@ namespace Mydemenageur.API.Controllers
             return Ok(user);
         }
 
+
+        /// <summary>
+        /// Check if the username / email already taken in BDD
+        /// </summary>
+        /// <remarks>The username can be both the actual username or the user's email</remarks>
+        /// <param name="checkUserName"></param>
+        /// <response code="400">The userName is already taken : false</response>
+        /// <response code="200">The userName is valid : true</response>
+        /// <returns>bool</returns>
+        [HttpPost("checkUserName")]
+        public bool UserExist([FromBody] CheckUserName checkUserName)
+        {
+            return _authenticationService.UserExist(checkUserName.Email, checkUserName.Username);
+        }
+        
+        
+
         /// <summary>
         /// Register the new user to the database 
         /// </summary>
