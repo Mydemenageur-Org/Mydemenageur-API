@@ -422,6 +422,11 @@ namespace Mydemenageur.BLL.Services
                 throw e;
             }
         }
+
+        public Task<bool> CheckUserName(string email, string username)
+        {
+            throw new NotImplementedException();
+        }
     }
 
 
