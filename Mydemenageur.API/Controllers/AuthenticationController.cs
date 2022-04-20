@@ -51,13 +51,11 @@ namespace Mydemenageur.API.Controllers
         /// <response code="400">The userName is already taken : false</response>
         /// <response code="200">The userName is valid : true</response>
         /// <returns>bool</returns>
-        [HttpPost("check-username")] 
-        public bool UserExist([FromBody] CheckUserName checkUserName)
+        [HttpPost("check-username")]
+        public Task<bool> CheckUserName([FromBody] CheckUserName checkUserName)
         {
-            return _authenticationService.UserExist(checkUserName.Email, checkUserName.Username);
+            return _authenticationService.CheckUserName(checkUserName);
         }
-        
-        
 
         /// <summary>
         /// Register the new user to the database 

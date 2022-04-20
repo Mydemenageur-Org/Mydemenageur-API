@@ -14,7 +14,7 @@
             <response code="200">Return the logged user with valid token</response>
             <returns></returns>
         </member>
-        <member name="M:Mydemenageur.API.Controllers.AuthenticationController.UserExist(Mydemenageur.DAL.Models.Users.CheckUserName)">
+        <member name="M:Mydemenageur.API.Controllers.AuthenticationController.CheckUserName(Mydemenageur.DAL.Models.Users.CheckUserName)">
             <summary>
             Check if the username / email already taken in BDD
             </summary>
