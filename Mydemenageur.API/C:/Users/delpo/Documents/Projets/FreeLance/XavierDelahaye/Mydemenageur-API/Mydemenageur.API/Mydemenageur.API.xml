@@ -14,6 +14,16 @@
             <response code="200">Return the logged user with valid token</response>
             <returns></returns>
         </member>
+        <member name="M:Mydemenageur.API.Controllers.AuthenticationController.CheckUserName(Mydemenageur.DAL.Models.Users.CheckUserName)">
+            <summary>
+            Check if the username / email already taken in BDD
+            </summary>
+            <remarks>The username can be both the actual username or the user's email</remarks>
+            <param name="checkUserName"></param>
+            <response code="400">The userName is already taken : false</response>
+            <response code="200">The userName is valid : true</response>
+            <returns>bool</returns>
+        </member>
         <member name="M:Mydemenageur.API.Controllers.AuthenticationController.Register(Mydemenageur.DAL.Models.Users.RegisterModel)">
             <summary>
             Register the new user to the database 
