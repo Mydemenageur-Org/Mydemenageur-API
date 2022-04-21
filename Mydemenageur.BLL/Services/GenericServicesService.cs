@@ -68,14 +68,22 @@ namespace Mydemenageur.BLL.Services
 
         private Dictionary<string, StringValues> parseDepartment(Dictionary<string, StringValues> dictionary)
         {
-            if (dictionary.TryGetValue("Fields.metadata1.startCity", out StringValues values))
+            var filter = "";
+            if (dictionary["category"].Equals("demenagement"))
+            {
+                filter = "Fields.metadata1.startCity";
+            } else
+            {
+                filter = "Fields.metadata1.city";
+            }
+            if (dictionary.TryGetValue(filter, out StringValues values))
             {
                 var department = values.FirstOrDefault().Split('-').LastOrDefault();
                 if (Int32.TryParse(department, out _)) {
                     List<City> cities = _dpCity.GetCollection().FindAsync(c => c.Departement == department).Result.ToList();
-                    dictionary["Fields.metadata1.startCity"] = new StringValues();
+                    dictionary[filter] = new StringValues();
                     foreach (var city in cities)
-                        dictionary["Fields.metadata1.startCity"] = StringValues.Concat(city.Label, dictionary["Fields.metadata1.startCity"]);
+                        dictionary[filter] = StringValues.Concat(city.Label, dictionary[filter]);
                 }
             }
 
