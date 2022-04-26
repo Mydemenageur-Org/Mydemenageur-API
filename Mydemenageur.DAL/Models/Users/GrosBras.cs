@@ -56,9 +56,14 @@ namespace Mydemenageur.DAL.Models.Users
         public bool MyDemCert { get; set; } = false;
         public bool MyJugCert { get; set; } = false;
         public bool Cesu { get; set; } = false;
+        //Feat/email-notification-features-added-field -- Maxime.M 22/04/22
+        /// <summary>
+        /// This is a array containing the departments that the grosBras wants to be notified about
+        /// </summary>
+        /// <example>[13, 83, 84]</example>
+        public string[] DepartmentNotifications { get; set; }
         public string Title { get; set; }
         public string Formula { get; set; }
-
         public IList<string> Realisations { get; set; } = new List<string>();
     }
 }

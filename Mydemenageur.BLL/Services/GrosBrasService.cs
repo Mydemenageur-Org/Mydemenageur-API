@@ -95,6 +95,10 @@ namespace Mydemenageur.BLL.Services
                     Rayon = profil.Rayon,
                     Title = profil.Title,
                     Realisations = profil.Realisations,
+                    IsVerified = profil.IsVerified,
+                    //Feat/email-notification-feature -- Maxime.M 24/04/22
+                    DepartmentNotifications = profil.DepartmentNotifications,
+                    
                 };
                 grosBrasFinal.Add(grosBras);
             });
@@ -166,8 +170,9 @@ namespace Mydemenageur.BLL.Services
                 Rayon = grosBrasProfil.Rayon,
                 Title = grosBrasProfil.Title,
                 Realisations = grosBrasProfil.Realisations,
-                /// Fix/mydemenageur-validate-profil -- Maxime.M 13/4/22
                 IsVerified = grosBrasProfil.IsVerified,
+                //Feat/email-notification-feature -- Maxime.M 24/02/22
+                DepartmentNotifications = grosBrasProfil.DepartmentNotifications,
             };
 
             return grosBras;
@@ -206,6 +211,9 @@ namespace Mydemenageur.BLL.Services
                     Rayon = profil.Rayon,
                     Title = profil.Title,
                     Realisations = profil.Realisations,
+                    IsVerified = profil.IsVerified,
+                    //Feat/email-notification-feature -- Maxime.M 24/02/22
+                    DepartmentNotifications = profil.DepartmentNotifications,
                 };
                 grosBrasFinal.Add(grosBras);
             });

@@ -112,14 +112,14 @@ namespace Mydemenageur.BLL.Services
             return mdUser;
         }
 
-        public async Task<bool> CheckUserName(CheckUserName checkUserName)
+        public Task<bool> CheckUserName(CheckUserName checkUserName)
         {
             if (string.IsNullOrWhiteSpace(checkUserName.Email) && string.IsNullOrWhiteSpace(checkUserName.Username))
             {
                 throw new Exception("Username or Email is required");
             }
 
-            return (UserExist(checkUserName.Email, checkUserName.Username));
+            return Task.FromResult((UserExist(checkUserName.Email, checkUserName.Username)));
         }
 
         public async Task<string> UpdatePassword(string id, string password)
@@ -216,8 +216,8 @@ namespace Mydemenageur.BLL.Services
         private bool UserExist(string email, string username)
         {
             return _users.AsQueryable().Any(dbUser =>
-                dbUser.Email == email.ToLower() ||
-                dbUser.Username == username.ToLower()
+                (dbUser.Email == email.ToLower() && email != null) ||
+                (dbUser.Username == username.ToLower() && username != null)
             );
         }
 
