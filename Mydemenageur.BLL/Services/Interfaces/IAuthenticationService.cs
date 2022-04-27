@@ -14,6 +14,6 @@ namespace Mydemenageur.BLL.Services.Interfaces
         Task<string> TokenValidity(string token);
         Task<CallbackForgotPassword> ForgotPassword(ForgotPassword forgotPassword);
         Task<string> ResetPassword(ResetPassword resetPassword);
-        Task<bool> CheckUserName(CheckUserName checkUserName);
+        bool CheckUserName(CheckUserName checkUserName);
     }
 }

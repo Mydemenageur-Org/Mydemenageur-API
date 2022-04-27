@@ -52,9 +52,9 @@ namespace Mydemenageur.API.Controllers
         /// <response code="200">The userName is valid : true</response>
         /// <returns>bool</returns>
         [HttpPost("check-username")]
-        public Task<bool> CheckUserName([FromBody] CheckUserName checkUserName)
+        public ActionResult<bool> CheckUserName([FromBody] CheckUserName checkUserName)
         {
-            return _authenticationService.CheckUserName(checkUserName);
+            return Ok(_authenticationService.CheckUserName(checkUserName));
         }
 
         /// <summary>
