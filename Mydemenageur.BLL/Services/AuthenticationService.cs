@@ -223,7 +223,7 @@ namespace Mydemenageur.BLL.Services
             if(!string.IsNullOrWhiteSpace(username))
             { 
                 return _users.AsQueryable().Any(dbUser =>
-                    dbUser.Username == username.ToLower().Trim()); ;
+                    dbUser.Username.ToLower() == username.ToLower().Trim()); ;
             }
 
             return false;
