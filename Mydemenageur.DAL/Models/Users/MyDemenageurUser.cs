@@ -119,7 +119,7 @@ namespace Mydemenageur.DAL.Models.Users
         /// The user's notification settings for email
         /// </summary>
         /// <example>1</example>
-        public string[] EmailNotification { get; set; }
+        public string[] EmailNotification { get; set; } = new string[0];
         /// <summary>
         /// The user's notification settings for phone
         /// </summary>
