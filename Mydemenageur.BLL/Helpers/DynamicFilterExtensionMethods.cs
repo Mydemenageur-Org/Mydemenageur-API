@@ -119,6 +119,19 @@ namespace Mydemenageur.BLL.Helpers
                     allFilters.Add(bsonElement);
                     continue;
                 }
+                
+                //Feat/email-notification-features -- Maxime.M 25/04/22
+                // Exception for departmentNotifications
+                if (key.Contains("departmentNotifications"))
+                {
+                    string departmentNotifications = queryParams["DepartmentNotifications"];
+                    BsonDocument bsonElement = new BsonDocument
+                    {
+                        { "DepartmentNotifications", departmentNotifications }
+                    };
+                    allFilters.Add(bsonElement);
+                    continue;
+                }
 
                 if(value == "true" || value == "false")
                 {

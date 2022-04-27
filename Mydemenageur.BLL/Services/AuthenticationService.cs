@@ -119,7 +119,7 @@ namespace Mydemenageur.BLL.Services
                 throw new Exception("Username or Email is required");
             }
 
-            return UserExist(checkUserName.Email, checkUserName.Username);
+            return UserExist(checkUserName.Email, checkUserName.Username);  
         }
 
         public async Task<string> UpdatePassword(string id, string password)
@@ -226,7 +226,7 @@ namespace Mydemenageur.BLL.Services
                     dbUser.Username.ToLower() == username.ToLower().Trim()); ;
             }
 
-            return false;
+            return false; 
         }
 
         // Password related functions

@@ -89,6 +89,9 @@ namespace Mydemenageur.BLL.Services
                 BadGrade = profil.BadGrade.ToString(),
                 Title = profil.Title,
                 Realisations = profil.Realisations,
+                IsVerified = profil.IsVerified,
+                //Feat/email-notification-features -- Maxime.M 24/04/22
+                DepartmentNotifications = profil.DepartmentNotifications,
             };
 
             return grosBras;
