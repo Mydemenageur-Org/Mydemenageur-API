@@ -60,7 +60,7 @@ namespace Mydemenageur.API.Controllers
                 return NotFound("User not found");
 
             var customerId = myDem.StripeId;
-            if (customerId == null)
+            if (customerId == null || customerId == "")
             {
                 var customerService = new CustomerService();
                 customerId = customerService.Create(new CustomerCreateOptions
