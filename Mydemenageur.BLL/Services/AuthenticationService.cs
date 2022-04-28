@@ -185,6 +185,12 @@ namespace Mydemenageur.BLL.Services
             var token = tokenHandler.CreateToken(tokenDescriptor);
             mdUser.Token = tokenHandler.WriteToken(token);
 
+            var update = Builders<MyDemenageurUser>.Update
+                .Set(dbMyDemUser => dbMyDemUser.LastConnection, DateTime.Now)
+                .Set(dbMyDemUser => dbMyDemUser.Token, mdUser.Token);
+            await _dpMyDemUser.GetCollection().UpdateOneAsync(dbMyDemUser => dbMyDemUser.Id == mdUser.Id, update);
+
+
             return mdUser;
         }
 
