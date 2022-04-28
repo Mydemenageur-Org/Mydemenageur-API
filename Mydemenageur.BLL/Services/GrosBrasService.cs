@@ -96,9 +96,11 @@ namespace Mydemenageur.BLL.Services
                     Title = profil.Title,
                     Realisations = profil.Realisations,
                     IsVerified = profil.IsVerified,
-                    //Feat/email-notification-feature -- Maxime.M 24/04/22
                     DepartmentNotifications = profil.DepartmentNotifications,
-                    
+                    //Fix/Certifications-my-demenageur -- Maxime.M 28-04-2022
+                    MyDemCert = profil.MyDemCert,
+                    MyJugCert = profil.MyJugCert,
+                    Cesu = profil.Cesu,
                 };
                 grosBrasFinal.Add(grosBras);
             });
@@ -171,8 +173,11 @@ namespace Mydemenageur.BLL.Services
                 Title = grosBrasProfil.Title,
                 Realisations = grosBrasProfil.Realisations,
                 IsVerified = grosBrasProfil.IsVerified,
-                //Feat/email-notification-feature -- Maxime.M 24/02/22
                 DepartmentNotifications = grosBrasProfil.DepartmentNotifications,
+                //Fix/Certifications-my-demenageur -- Maxime.M 28-04-2022
+                MyDemCert = grosBrasProfil.MyDemCert,
+                MyJugCert = grosBrasProfil.MyJugCert,
+                Cesu = grosBrasProfil.Cesu,
             };
 
             return grosBras;
@@ -212,8 +217,12 @@ namespace Mydemenageur.BLL.Services
                     Title = profil.Title,
                     Realisations = profil.Realisations,
                     IsVerified = profil.IsVerified,
-                    //Feat/email-notification-feature -- Maxime.M 24/02/22
                     DepartmentNotifications = profil.DepartmentNotifications,
+                    //Fix/Certifications-my-demenageur -- Maxime.M 28-04-2022
+                    MyDemCert = profil.MyDemCert,
+                    MyJugCert = profil.MyJugCert,
+                    Cesu = profil.Cesu,
+                    
                 };
                 grosBrasFinal.Add(grosBras);
             });
