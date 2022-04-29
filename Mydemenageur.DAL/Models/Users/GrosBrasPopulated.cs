@@ -53,7 +53,10 @@ namespace Mydemenageur.DAL.Models.Users
         public string Formula { get; set; }
         public Boolean IsVerified { get; set; }
         public IList<string> Realisations { get; set; } = new List<string>();
-        //Feat/email-notification-features -- Maxime.M 25/04/22
         public string[] DepartmentNotifications { get; set; }
+        // Fix/Certification-my-demenageur -- Maxime M 28-04-2022
+        public Boolean MyDemCert { get; set; }
+        public Boolean MyJugCert { get; set; }
+        public Boolean Cesu { get; set; }
     }
 }
