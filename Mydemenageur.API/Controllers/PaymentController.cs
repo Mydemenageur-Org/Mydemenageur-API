@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using Stripe;
+using Stripe.BillingPortal;
 using Mydemenageur.DAL.Models.Stripe;
 using Mydemenageur.DAL.Settings;
 using System.Threading.Tasks;
@@ -156,6 +157,21 @@ namespace Mydemenageur.API.Controllers
                 Console.WriteLine($"Failed to create subscription.{e}");
                 return BadRequest();
             }
+        }
+        [HttpPost("create-customer-portal-session")]
+        public string CustomerPortal([FromBody] CustomerPortal req)
+        {
+
+            // Authenticate your user.
+            var options = new SessionCreateOptions
+            {
+                Customer = req.CustomerId,
+                ReturnUrl = req.ReturnURL,
+            };
+            var service = new SessionService();
+            var session = service.Create(options);
+
+            return session.Url;
         }
 
         [HttpGet("subscriptions")]
