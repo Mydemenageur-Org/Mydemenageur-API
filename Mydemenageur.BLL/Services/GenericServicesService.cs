@@ -98,6 +98,14 @@ namespace Mydemenageur.BLL.Services
             
             return await _dpGenericService.GetCollection().FilterByQueryParamsMongo(new QueryCollection(dictionary), pageNumber, numberOfElementsPerPage, sortDefinition);
         }
+        //Fix/annonce-get-service-category-500 -- Maxime.M 01/05/22
+        public async Task<List<GenericService>> GetUserGenericServices(QueryString queryString, int pageNumber = -1, int numberOfElementsPerPage = -1)
+        {
+            var sortDefinition = new SortDefinitionBuilder<GenericService>().Descending("Date");
+            var dictionary = Microsoft.AspNetCore.WebUtilities.QueryHelpers.ParseQuery(queryString.Value);
+            
+            return await _dpGenericService.GetCollection().FilterByQueryParamsMongo(new QueryCollection(dictionary), pageNumber, numberOfElementsPerPage, sortDefinition);
+        }
         public async Task<long> GetGenericServicesCount(QueryString queryString, int pageNumber = -1, int numberOfElementsPerPage = -1)
         {
             var dictionary = Microsoft.AspNetCore.WebUtilities.QueryHelpers.ParseQuery(queryString.Value);

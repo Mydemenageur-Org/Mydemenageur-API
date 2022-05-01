@@ -12,6 +12,8 @@ namespace Mydemenageur.BLL.Services.Interfaces
         Task<GenericServicePopulated> GetGenericService(string id, IList<string> fields);
         Task<GenericService> GetBaseGenericService(string name);
         Task<List<GenericService>> GetGenericServices(QueryString queryString, int pageNumber = -1, int numberOfElementsPerPage = -1);
+        //Fix/annonce-get-service-category-500 -- Maxime.M 01/05/22
+        Task<List<GenericService>> GetUserGenericServices(QueryString queryString, int pageNumber = -1, int numberOfElementsPerPage = -1);
         Task<long> GetGenericServicesCount(QueryString queryString, int pageNumber = -1, int numberOfElementsPerPage = -1);
 
         Task<GenericService> CreateGenericService(GenericService toCreate);

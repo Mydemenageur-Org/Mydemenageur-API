@@ -53,6 +53,21 @@ namespace Mydemenageur.API.Controllers
 
             return Ok(genericServices);
         }
+        
+        /// <summary>
+        /// Get all generic services for user. Can be filtered by name
+        /// </summary>
+        /// <param name="pageNumber"></param>
+        /// <param name="numberOfElementsPerPage"></param>
+        /// <returns></returns>
+        [HttpGet("user")]
+        public async Task<ActionResult<IList<GenericService>>> GetUserGenericServices([FromQuery] int pageNumber = -1, [FromQuery] int numberOfElementsPerPage = -1)
+        {
+            var queryString = HttpContext.Request.QueryString;
+            IList<GenericService> genericServices = await _genericServicesService.GetUserGenericServices(queryString, pageNumber, numberOfElementsPerPage);
+
+            return Ok(genericServices);
+        }
 
         /// <summary>
         /// Get the number of generic services, Can be filtered by name
