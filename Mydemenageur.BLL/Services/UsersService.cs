@@ -227,9 +227,9 @@ namespace Mydemenageur.BLL.Services
             
             await _dpMyDemenageurUser.GetCollection().DeleteOneAsync(user => user.Id == id);
             await _dPGrosBras.GetCollection().DeleteOneAsync(grosBras => grosBras.MyDemenageurUserId == id);
-            await _dpGenericService.GetCollection().DeleteOneAsync(genericService => genericService.UserId == id);
+            await _dpGenericService.GetCollection().DeleteManyAsync(genericService => genericService.UserId == id);
             await _dpDemand.GetCollection()
-                .DeleteOneAsync(demand => demand.Sender.Id == id || demand.Recipient.Id == id);
+                .DeleteManyAsync(demand => demand.Sender.Id == id || demand.Recipient.Id == id);
             
             //Fix/delete-account-user-bdd -- Maxime.M 18/04/22
             await _dpUser.Obtain().DeleteOneAsync(user => user.Id == mdUserUserId);
