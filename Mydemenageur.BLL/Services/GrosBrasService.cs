@@ -95,9 +95,9 @@ namespace Mydemenageur.BLL.Services
                     Rayon = profil.Rayon,
                     Title = profil.Title,
                     Realisations = profil.Realisations,
+                    IsPro = profil.IsPro,
                     IsVerified = profil.IsVerified,
                     DepartmentNotifications = profil.DepartmentNotifications,
-                    //Fix/Certifications-my-demenageur -- Maxime.M 28-04-2022
                     MyDemCert = profil.MyDemCert,
                     MyJugCert = profil.MyJugCert,
                     Cesu = profil.Cesu,
