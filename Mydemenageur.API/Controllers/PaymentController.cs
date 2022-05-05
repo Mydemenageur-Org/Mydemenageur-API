@@ -141,11 +141,13 @@ namespace Mydemenageur.API.Controllers
                 PaymentBehavior = "default_incomplete",
             };
             subscriptionOptions.AddExpand("latest_invoice.payment_intent");
+            //var service = new PaymentMethodService();
+            //var options = new PaymentMethodAttachOptions { Customer = subscriptionOptions.Customer };
             var subscriptionService = new SubscriptionService();
             try
             {
                 Subscription subscription = subscriptionService.Create(subscriptionOptions);
-
+                //service.Attach(subscription.LatestInvoice.PaymentIntent.PaymentMethod.ToString(), options);
                 return Ok(new SubscriptionCreateResponse
                 {
                     SubscriptionId = subscription.Id,
@@ -246,15 +248,24 @@ namespace Mydemenageur.API.Controllers
         public async Task<IActionResult> Webhook()
         {
             var json = await new StreamReader(HttpContext.Request.Body).ReadToEndAsync();
-            Event stripeEvent;
+            const string endpointSecret = "whsec_6b4593329624209d65723ba2da0a09f0c3ca7d104f337739c7d38887a4ae3636";
             try
             {
+                var stripeEvent = EventUtility.ParseEvent(json);
                 stripeEvent = EventUtility.ConstructEvent(
                     json,
                     Request.Headers["Stripe-Signature"],
-                    this.options.Value.WebhookSecret
+                    endpointSecret
+                    //this.options.Value.WebhookSecret
                 );
                 Console.WriteLine($"Webhook notification with type: {stripeEvent.Type} found for {stripeEvent.Id}");
+
+                if (stripeEvent.Type == Events.CheckoutSessionCompleted)
+                {
+                    var session = stripeEvent.Data.Object as Stripe.Checkout.Session;
+                    Console.WriteLine($"Session ID: {session.Id}");
+                    // Take some action based on session.
+                }
             }
             catch (Exception e)
             {
@@ -262,12 +273,7 @@ namespace Mydemenageur.API.Controllers
                 return BadRequest();
             }
 
-            if (stripeEvent.Type == "checkout.session.completed")
-            {
-                var session = stripeEvent.Data.Object as Stripe.Checkout.Session;
-                Console.WriteLine($"Session ID: {session.Id}");
-                // Take some action based on session.
-            }
+            
 
             return Ok();
         }
