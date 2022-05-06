@@ -252,30 +252,42 @@ namespace Mydemenageur.API.Controllers
             try
             {
                 var stripeEvent = EventUtility.ParseEvent(json);
+                var signatureHeader = Request.Headers["Stripe-Signature"];
                 stripeEvent = EventUtility.ConstructEvent(
                     json,
-                    Request.Headers["Stripe-Signature"],
+                    signatureHeader,
                     endpointSecret
                     //this.options.Value.WebhookSecret
                 );
                 Console.WriteLine($"Webhook notification with type: {stripeEvent.Type} found for {stripeEvent.Id}");
 
-                if (stripeEvent.Type == Events.CheckoutSessionCompleted)
+                if (stripeEvent.Type == Events.PaymentIntentSucceeded)
                 {
-                    var session = stripeEvent.Data.Object as Stripe.Checkout.Session;
-                    Console.WriteLine($"Session ID: {session.Id}");
+                    var paymentIntent = stripeEvent.Data.Object as PaymentIntent;
+                    Console.WriteLine("A successful payment for {0} was made.", paymentIntent.Amount);
+                }
+                else if (stripeEvent.Type == Events.PaymentMethodAttached)
+                {
+                    var session = stripeEvent.Data.Object as PaymentMethod;
+                    Console.WriteLine("Méthode de paiement attachée");
                     // Take some action based on session.
                 }
+                else
+                {
+                    Console.WriteLine("Unhandled event type: {0}", stripeEvent.Type);
+                }
+                return Ok();
+            }
+            catch (StripeException e)
+            {
+                Console.WriteLine("Error: {0}", e.Message);
+                Console.WriteLine(e);
+                return BadRequest();
             }
             catch (Exception e)
             {
-                Console.WriteLine($"Something failed {e}");
-                return BadRequest();
+                return StatusCode(500);
             }
-
-            
-
-            return Ok();
         }
     }
 }
