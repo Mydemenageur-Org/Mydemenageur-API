@@ -26,7 +26,6 @@ namespace Mydemenageur.API.Controllers
         private readonly IUsersService _usersService;
         public readonly IOptions<StripeSettings> options;
         private readonly IStripeClient client;
-        private readonly ILogger<PaymentController> _logger;
 
         public PaymentController(IOptions<StripeSettings> options, IDPMyDemenageurUser dpMyDemenageurUser, IUsersService usersService)
         {
@@ -388,6 +387,18 @@ namespace Mydemenageur.API.Controllers
                                 }
                             }
                         }
+                        break;
+                    case Events.PaymentMethodAttached:
+                        var pm = stripeEvent.Data.Object as PaymentMethod;
+                        var options = new CustomerUpdateOptions
+                        {
+                            InvoiceSettings = new CustomerInvoiceSettingsOptions
+                            {
+                                DefaultPaymentMethod = pm.Id,
+                            }
+                        };
+                        var serviceCus = new CustomerService();
+                        serviceCus.Update(pm.CustomerId, options);
                         break;
                     default:
                         Console.WriteLine("Unhandled event type: {0}", stripeEvent.Type);
