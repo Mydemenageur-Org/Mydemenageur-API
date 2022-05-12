@@ -13,6 +13,7 @@ using System;
 using MongoDB.Driver;
 using Mydemenageur.DAL.DP.Interface;
 using Mydemenageur.DAL.Models.Users;
+using Microsoft.Extensions.Logging;
 
 namespace Mydemenageur.API.Controllers
 {
@@ -25,6 +26,7 @@ namespace Mydemenageur.API.Controllers
         private readonly IUsersService _usersService;
         public readonly IOptions<StripeSettings> options;
         private readonly IStripeClient client;
+        private readonly ILogger<PaymentController> _logger;
 
         public PaymentController(IOptions<StripeSettings> options, IDPMyDemenageurUser dpMyDemenageurUser, IUsersService usersService)
         {
@@ -228,6 +230,18 @@ namespace Mydemenageur.API.Controllers
             }
         }
 
+        private List<Subscription> GetAllUserSubscriptions(string id)
+        {
+            var options = new SubscriptionListOptions
+            {
+                Customer = id,
+                Status = "active",
+            };
+            var service = new SubscriptionService();
+            var subscriptions = service.List(options);
+            return subscriptions.Data;
+        }
+
         private Subscription GetActiveSubscription(string id)
         {
             var myDem = _dpMyDemenageurUser.GetUserById(id).FirstOrDefault();
@@ -319,10 +333,14 @@ namespace Mydemenageur.API.Controllers
             {
                 var user = _usersService.GetByStripeId(stripeId);
                 Console.WriteLine("Get user succeeded");
-                var data = new MyDemenageurUserRole();
-                data.Role = "ServiceProvider";
-                data.RoleType = "Basique";
-                _usersService.UpdateUserRole(user.Result.Id, data);
+                var subscriptions = GetAllUserSubscriptions(stripeId);
+                if (subscriptions.Count == 0)
+                {
+                    var data = new MyDemenageurUserRole();
+                    data.Role = "ServiceProvider";
+                    data.RoleType = "Basique";
+                    _usersService.UpdateUserRole(user.Result.Id, data);
+                }
             }
             catch (Exception e)
             {
@@ -351,13 +369,25 @@ namespace Mydemenageur.API.Controllers
 
                 switch (stripeEvent.Type)
                 {
-                    case Events.PaymentIntentSucceeded:
-                        break;
                     case Events.CustomerSubscriptionDeleted:
                         var cancelledSub = stripeEvent.Data.Object as Subscription;
                         SubscriptionCancelled(cancelledSub.CustomerId);
                         break;
-                    case Events.CustomerSubscriptionUpdated:
+                    case Events.InvoicePaid:
+                        var invoice = stripeEvent.Data.Object as Invoice;
+                        if (invoice.BillingReason == "subscription_create")
+                        {
+                            var subscriptionList = GetAllUserSubscriptions(invoice.CustomerId);
+                            foreach (var item in subscriptionList)
+                            {
+                                Console.WriteLine(item);
+                                if (item.Id != invoice.SubscriptionId)
+                                {
+                                    var service = new SubscriptionService();
+                                    service.Cancel(item.Id);
+                                }
+                            }
+                        }
                         break;
                     default:
                         Console.WriteLine("Unhandled event type: {0}", stripeEvent.Type);
@@ -365,26 +395,26 @@ namespace Mydemenageur.API.Controllers
                 }
                     
 
-                if (stripeEvent.Type == Events.PaymentIntentSucceeded)
-                {
-                    var paymentIntent = stripeEvent.Data.Object as PaymentIntent;
-                    Console.WriteLine("A successful payment for {0} was made.", paymentIntent.Amount);
-                }
-                else if (stripeEvent.Type == Events.CustomerSubscriptionDeleted)
-                {
-                    var cancelledSub = stripeEvent.Data.Object as Subscription;
-                    SubscriptionCancelled(cancelledSub.CustomerId);
-                }
-                else if (stripeEvent.Type == Events.PaymentMethodAttached)
-                {
-                    var session = stripeEvent.Data.Object as PaymentMethod;
-                    Console.WriteLine("Méthode de paiement attachée");
-                    // Take some action based on session.
-                }
-                else
-                {
-                    Console.WriteLine("Unhandled event type: {0}", stripeEvent.Type);
-                }
+                //if (stripeEvent.Type == Events.PaymentIntentSucceeded)
+                //{
+                //    var paymentIntent = stripeEvent.Data.Object as PaymentIntent;
+                //    Console.WriteLine("A successful payment for {0} was made.", paymentIntent.Amount);
+                //}
+                //else if (stripeEvent.Type == Events.CustomerSubscriptionDeleted)
+                //{
+                //    var cancelledSub = stripeEvent.Data.Object as Subscription;
+                //    SubscriptionCancelled(cancelledSub.CustomerId);
+                //}
+                //else if (stripeEvent.Type == Events.PaymentMethodAttached)
+                //{
+                //    var session = stripeEvent.Data.Object as PaymentMethod;
+                //    Console.WriteLine("Méthode de paiement attachée");
+                //    // Take some action based on session.
+                //}
+                //else
+                //{
+                //    Console.WriteLine("Unhandled event type: {0}", stripeEvent.Type);
+                //}
                 return Ok();
             }
             catch (StripeException e)
@@ -395,6 +425,7 @@ namespace Mydemenageur.API.Controllers
             }
             catch (Exception e)
             {
+                Console.WriteLine(e.Message);
                 return StatusCode(500);
             }
         }
