@@ -69,7 +69,7 @@ namespace Mydemenageur.BLL.Services
         private Dictionary<string, StringValues> parseDepartment(Dictionary<string, StringValues> dictionary)
         {
             var filter = "";
-            if (dictionary["category"].Equals("demenagement"))
+            if (dictionary.ContainsKey("category") && dictionary["category"].Equals("demenagement"))
             {
                 filter = "Fields.metadata1.startCity";
             } else
