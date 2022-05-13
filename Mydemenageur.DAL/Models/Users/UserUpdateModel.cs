@@ -103,5 +103,7 @@ namespace Mydemenageur.DAL.Models.Users
         public int FreeTokens { get; set; }
 
         public int PaidTokens { get; set; }
+
+        public string StripeId { get; set; }
     }
 }
