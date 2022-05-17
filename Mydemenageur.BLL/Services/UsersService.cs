@@ -172,6 +172,13 @@ namespace Mydemenageur.BLL.Services
                 toUpdate
             );
         }
+        
+        public async Task<MyDemenageurUser> GetByStripeId(string id)
+        {
+            MyDemenageurUser user = await _dpMyDemenageurUser.Obtain().Where(user => user.StripeId == id).FirstOrDefaultAsync();
+
+            return user;
+        }
 
         public async Task<int> GetTotalTokens(string id)
         {
@@ -179,6 +186,8 @@ namespace Mydemenageur.BLL.Services
 
             return user.FreeTokens + user.PaidTokens;
         }
+
+        
 
         public async Task<string> UpdateTokens(string id, MyDemenageurUserTokens tokens)
         {

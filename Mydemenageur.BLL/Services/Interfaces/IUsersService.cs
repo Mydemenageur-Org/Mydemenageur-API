@@ -17,6 +17,7 @@ namespace Mydemenageur.BLL.Services.Interfaces
         Task UpdateUser(byte[] profilePicture, string newPassword, MyDemenageurUser toUpdate);
         Task<GrosBrasPopulated> GetGrosBrasFromUserId(string id);
         Task<string> UpdateUserRole(string id, MyDemenageurUserRole data);
+        Task<MyDemenageurUser> GetByStripeId(string id);
         Task<int> GetTotalTokens(string id);
         Task<string> UpdateTokens(string id, MyDemenageurUserTokens tokens);
         Task DeleteUser(string id);
