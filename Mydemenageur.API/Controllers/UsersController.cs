@@ -147,6 +147,27 @@ namespace Mydemenageur.API.Controllers
         }
 
         /// <summary>
+        /// Get a user with its stripe id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpGet("/stripe/{id:length(24)}")]
+        public async Task<ActionResult<MyDemenageurUser>> GetByStripeId(string id)
+        {
+            try
+            {
+                MyDemenageurUser user = await _usersService.GetByStripeId(id);
+
+                return Ok(user);
+            }
+            catch (Exception e)
+            {
+                return BadRequest($"Error during the request: {e.Message}");
+            }
+            
+        }
+
+        /// <summary>
         /// Get user's total tokens
         /// </summary>
         /// <param name="id"></param>
