@@ -129,6 +129,7 @@ namespace Mydemenageur.BLL.Services
 
         public async Task<Demand> CreateDemand(DemandCreation demand)
         {
+            Console.WriteLine(demand);
             MyDemenageurUser recipient = await _dpUser.GetUserById(demand.RecipientId).FirstOrDefaultAsync();
             MyDemenageurUser sender = await _dpUser.GetUserById(demand.SenderId).FirstOrDefaultAsync();
 
@@ -238,7 +239,8 @@ namespace Mydemenageur.BLL.Services
                     Sender = mdUserSender,
                     HasBeenAccepted = demand.HasBeenAccepted,
                     HasBeenDeclined = demand.HasBeenDeclined,
-                    Revealed = demand.Revealed
+                    Revealed = demand.Revealed,
+                    ConversationClosed = demand.ConversationClosed
                 };
 
                 demandMessageList.Add(demandMessage);
@@ -279,6 +281,8 @@ namespace Mydemenageur.BLL.Services
             demandToBeUpdated.HasBeenAccepted = demand.HasBeenAccepted;
             demandToBeUpdated.HasBeenDeclined = demand.HasBeenDeclined;
             demandToBeUpdated.Revealed = demand.Revealed;
+            demandToBeUpdated.Archived = demand.Archived;
+            demandToBeUpdated.ConversationClosed = demand.ConversationClosed;
 
             await _dpDemand.GetCollection().ReplaceOneAsync(
                 dpDemand => dpDemand.Id == demand.Id,
