@@ -353,7 +353,6 @@ namespace Mydemenageur.API.Controllers
         public async Task<IActionResult> Webhook()
         {
             var json = await new StreamReader(HttpContext.Request.Body).ReadToEndAsync();
-            const string endpointSecret = "whsec_6b4593329624209d65723ba2da0a09f0c3ca7d104f337739c7d38887a4ae3636";
             try
             {
                 var stripeEvent = EventUtility.ParseEvent(json);
@@ -361,8 +360,7 @@ namespace Mydemenageur.API.Controllers
                 stripeEvent = EventUtility.ConstructEvent(
                     json,
                     signatureHeader,
-                    endpointSecret
-                    //this.options.Value.WebhookSecret
+                    this.options.Value.WebhookSecret
                 );
                 Console.WriteLine($"Webhook notification with type: {stripeEvent.Type} found for {stripeEvent.Id}");
 
