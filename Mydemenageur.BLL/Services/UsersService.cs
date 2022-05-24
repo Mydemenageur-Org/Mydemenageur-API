@@ -26,7 +26,7 @@ namespace Mydemenageur.BLL.Services
         private readonly IDPUser _dpUser;
 
         private readonly IFilesService _filesService;
-        
+
         private readonly IDPGenericService _dpGenericService;
 
         private readonly IDPDemand _dpDemand;
@@ -55,14 +55,14 @@ namespace Mydemenageur.BLL.Services
         public async Task<GrosBrasPopulated> GetGrosBrasFromUserId(string id)
         {
             var myDemUser = await _dpMyDemenageurUser.Obtain().Where(w => w.Id == id).FirstOrDefaultAsync();
-            if(myDemUser == null)
+            if (myDemUser == null)
             {
                 throw new Exception("MyDemenageurUser does not exist");
             }
 
             var profil = await _dPGrosBras.Obtain().Where(w => w.MyDemenageurUserId == myDemUser.Id).FirstOrDefaultAsync();
 
-            if(profil == null)
+            if (profil == null)
             {
                 throw new Exception("Gros Bras does not exist");
             }
@@ -110,7 +110,11 @@ namespace Mydemenageur.BLL.Services
 
             if (user == null || user.ProfilePictureId == null) return null;
 
-            return (await _filesService.GetFile(user.ProfilePictureId)).Data;
+            var file = (await _filesService.GetFile(user.ProfilePictureId));
+
+            if (file == null) return null;
+
+            return file.Data;
         }
 
         public async Task<string> UpdateUserRole(string id, MyDemenageurUserRole data)
@@ -131,7 +135,7 @@ namespace Mydemenageur.BLL.Services
                     update = update.Set(user => user.FreeTokens, 7);
 
             await _dpMyDemenageurUser.GetCollection().UpdateOneAsync(user => user.Id == id, update);
-            
+
             return "Role update done";
         }
 
@@ -172,7 +176,7 @@ namespace Mydemenageur.BLL.Services
                 toUpdate
             );
         }
-        
+
         public async Task<MyDemenageurUser> GetByStripeId(string id)
         {
             MyDemenageurUser user = await _dpMyDemenageurUser.Obtain().Where(user => user.StripeId == id).FirstOrDefaultAsync();
@@ -187,7 +191,7 @@ namespace Mydemenageur.BLL.Services
             return user.FreeTokens + user.PaidTokens;
         }
 
-        
+
 
         public async Task<string> UpdateTokens(string id, MyDemenageurUserTokens tokens)
         {
@@ -196,14 +200,14 @@ namespace Mydemenageur.BLL.Services
             if (myDemUser == null) throw new Exception("MyDemenageurUser does not exist");
 
             tokens.Value = Math.Abs(tokens.Value); // Security shit
-            
-;           UpdateDefinition<MyDemenageurUser> update = null;
+
+            UpdateDefinition<MyDemenageurUser> update = null;
             switch (tokens.Operation)
             {
                 case "take":
-                    if (myDemUser.PaidTokens + myDemUser.FreeTokens < tokens.Value) 
+                    if (myDemUser.PaidTokens + myDemUser.FreeTokens < tokens.Value)
                         throw new Exception("Not enough tokens");
-                    
+
                     // Retrieve on Paid tokens in priority
                     var calculPaidToken = myDemUser.PaidTokens;
                     var calculFreeToken = myDemUser.FreeTokens;
@@ -224,24 +228,52 @@ namespace Mydemenageur.BLL.Services
             }
 
             await _dpMyDemenageurUser.GetCollection().UpdateOneAsync(user => user.Id == id, update);
-            
+
             return $"Successfully {tokens.Operation} {tokens.Value} tokens.";
         }
-        
+
         public async Task DeleteUser(string id)
         {
             //Fix/delete-account-user-bdd -- Maxime.M 18/04/22
             MyDemenageurUser mdUser = await _dpMyDemenageurUser.GetUserById(id).FirstOrDefaultAsync();
             string mdUserUserId = mdUser.UserId;
-            
+
             await _dpMyDemenageurUser.GetCollection().DeleteOneAsync(user => user.Id == id);
             await _dPGrosBras.GetCollection().DeleteOneAsync(grosBras => grosBras.MyDemenageurUserId == id);
             await _dpGenericService.GetCollection().DeleteManyAsync(genericService => genericService.UserId == id);
             await _dpDemand.GetCollection()
                 .DeleteManyAsync(demand => demand.Sender.Id == id || demand.Recipient.Id == id);
-            
+
             //Fix/delete-account-user-bdd -- Maxime.M 18/04/22
             await _dpUser.Obtain().DeleteOneAsync(user => user.Id == mdUserUserId);
+        }
+
+
+        // MAILING LISTS
+        public async Task<string> MailingListClient()
+        {
+            List<MyDemenageurUser> users = await (await _dpMyDemenageurUser.GetCollection().FindAsync(
+                dbMdUser => dbMdUser.Role == "Client"
+            )).ToListAsync();
+
+            string result = "email,first_name,last_name,address_line_1,address_line_2,city,state_province_region,postal_code,country\n";
+
+            foreach (var user in users)
+            {
+                result += $"{user.Email},{user.FirstName},{user.LastName},{user.Address},{user.ComplementaryAddress},{user.City},,{user.ZipCode},France\n";
+            }
+
+            return result;
+        }
+
+        public async Task<string> MailingListPrestaParticulier()
+        {
+            return "";
+        }
+
+        public async Task<string> MailingListPrestaPro()
+        {
+            return "";
         }
     }
 }
