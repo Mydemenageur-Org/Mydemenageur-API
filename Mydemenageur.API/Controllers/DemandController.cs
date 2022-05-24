@@ -92,9 +92,9 @@ namespace Mydemenageur.API.Controllers
         /// <param name="senderId"></param>
         /// <returns></returns>
         [HttpGet("{id:length(24)}/sender")]
-        public async Task<ActionResult<IList<Demand>>> GetDemandsFromSender(string senderId)
+        public async Task<ActionResult<IList<Demand>>> GetDemandsFromSender(string id)
         {
-            IList<DemandMessage> demands = await _demandService.GetSenderDemands(senderId);
+            IList<DemandMessage> demands = await _demandService.GetSenderDemands(id);
 
             if (!demands.Any())
             {
