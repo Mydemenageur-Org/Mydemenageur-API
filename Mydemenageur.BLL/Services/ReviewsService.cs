@@ -115,6 +115,31 @@ namespace Mydemenageur.BLL.Services
             });
             return reviews;
         }
+        
+        public async Task<IList<ReviewPopulated>> GetReviewsBetween(string receiver, string deposer)
+        {
+            List<ReviewPopulated> reviews = new List<ReviewPopulated>();
+
+            var cursor = _dpReview.Obtain().Where(x => x.Receiver == receiver && x.Deposer == deposer);
+
+            cursor.ToListAsync().Result.ForEach((review) => {
+                var myDem = _dpUser.GetUserById(review.Deposer).FirstOrDefault();
+                ReviewPopulated reviewsPopulated = new ReviewPopulated
+                {
+                    Id = review.Id,
+                    Deposer = myDem,
+                    Receiver = review.Receiver,
+                    Note = review.Note,
+                    Description = review.Description,
+                    CreatedAt = review.CreatedAt,
+                    UpdatedAt = review.UpdatedAt,
+                    Commentaires = review.Commentaires
+                };
+                reviews.Add(reviewsPopulated);
+            });
+            return reviews;
+        }
+        
         public long CountReviews()
         {
             long reviewsNumber = _dpReview.Obtain().ToList().Count();

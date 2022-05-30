@@ -5,12 +5,15 @@ using Stripe;
 using Stripe.BillingPortal;
 using Mydemenageur.DAL.Models.Stripe;
 using Mydemenageur.DAL.Settings;
+using Mydemenageur.BLL.Services.Interfaces;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using System.IO;
 using System;
 using MongoDB.Driver;
 using Mydemenageur.DAL.DP.Interface;
+using Mydemenageur.DAL.Models.Users;
+using Microsoft.Extensions.Logging;
 
 namespace Mydemenageur.API.Controllers
 {
@@ -20,12 +23,14 @@ namespace Mydemenageur.API.Controllers
     public class PaymentController: ControllerBase
     {
         private readonly IDPMyDemenageurUser _dpMyDemenageurUser;
+        private readonly IUsersService _usersService;
         public readonly IOptions<StripeSettings> options;
         private readonly IStripeClient client;
 
-        public PaymentController(IOptions<StripeSettings> options, IDPMyDemenageurUser dpMyDemenageurUser)
+        public PaymentController(IOptions<StripeSettings> options, IDPMyDemenageurUser dpMyDemenageurUser, IUsersService usersService)
         {
             _dpMyDemenageurUser = dpMyDemenageurUser;
+            _usersService = usersService;
             this.options = options;
             this.client = new StripeClient(this.options.Value.StripePrivateKey);
         }
@@ -141,11 +146,13 @@ namespace Mydemenageur.API.Controllers
                 PaymentBehavior = "default_incomplete",
             };
             subscriptionOptions.AddExpand("latest_invoice.payment_intent");
+            //var service = new PaymentMethodService();
+            //var options = new PaymentMethodAttachOptions { Customer = subscriptionOptions.Customer };
             var subscriptionService = new SubscriptionService();
             try
             {
                 Subscription subscription = subscriptionService.Create(subscriptionOptions);
-
+                //service.Attach(subscription.LatestInvoice.PaymentIntent.PaymentMethod.ToString(), options);
                 return Ok(new SubscriptionCreateResponse
                 {
                     SubscriptionId = subscription.Id,
@@ -193,6 +200,66 @@ namespace Mydemenageur.API.Controllers
             });
         }
 
+        [HttpGet("get-subscription/{id:length(24)}")]
+        public IActionResult GetSubscriptionByCustomerId(string id)
+        {
+            try
+            {
+                var myDem = _dpMyDemenageurUser.GetUserById(id).FirstOrDefault();
+                var options = new SubscriptionListOptions
+                {
+                    Customer = myDem.StripeId,
+                    Status = "active",
+                };
+                var service = new SubscriptionService();
+                var subscriptions = service.List(options);
+                if (subscriptions == null)
+                {
+                    Console.WriteLine("Pas de résultat");
+                }
+                return Ok(new SubscriptionsResponse
+                {
+                    Subscriptions = subscriptions,
+                });
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                return BadRequest(e.Message);
+            }
+        }
+
+        private List<Subscription> GetAllUserSubscriptions(string id)
+        {
+            var options = new SubscriptionListOptions
+            {
+                Customer = id,
+                Status = "active",
+            };
+            var service = new SubscriptionService();
+            var subscriptions = service.List(options);
+            return subscriptions.Data;
+        }
+
+        private Subscription GetActiveSubscription(string id)
+        {
+            var myDem = _dpMyDemenageurUser.GetUserById(id).FirstOrDefault();
+            var options = new SubscriptionListOptions
+            {
+                Customer = myDem.StripeId,
+                Status = "active",
+            };
+            var service = new SubscriptionService();
+            var subscriptions = service.List(options);
+            if (subscriptions == null)
+            {
+                Console.WriteLine("Pas de résultat");
+            }
+            var activeSubId = subscriptions.Data[0].Id;
+            var activeSub = service.Get(activeSubId);
+            return activeSub;
+        }
+
         [HttpPost("cancel-subscription")]
         public IActionResult CancelSubscription([FromBody] CancelSubscriptionRequest req)
         {
@@ -229,6 +296,23 @@ namespace Mydemenageur.API.Controllers
             });
         }
 
+        [HttpPost("unsubscribe/{id:length(24)}")]
+        public IActionResult Unsubscribe(string id)
+        {
+            var service = new SubscriptionService();
+            var subscription = GetActiveSubscription(id);
+
+            var options = new SubscriptionUpdateOptions
+            {
+                CancelAtPeriodEnd = true,
+            };
+            var updatedSubscription = service.Update(subscription.Id, options);
+            return Ok(new SubscriptionResponse
+            {
+                Subscription = updatedSubscription,
+            });
+        }
+
         private long CalculateOrderAmount(Item[] items)
         {
             var service = new PriceService();
@@ -242,34 +326,118 @@ namespace Mydemenageur.API.Controllers
             return finalAmount;
         }
 
+        private void SubscriptionCancelled(string stripeId)
+        {
+            try
+            {
+                var user = _usersService.GetByStripeId(stripeId);
+                Console.WriteLine("Get user succeeded");
+                var subscriptions = GetAllUserSubscriptions(stripeId);
+                if (subscriptions.Count == 0)
+                {
+                    var data = new MyDemenageurUserRole();
+                    data.Role = "ServiceProvider";
+                    data.RoleType = "Basique";
+                    _usersService.UpdateUserRole(user.Result.Id, data);
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+
+            
+        }
+
         [HttpPost("webhook")]
         public async Task<IActionResult> Webhook()
         {
             var json = await new StreamReader(HttpContext.Request.Body).ReadToEndAsync();
-            Event stripeEvent;
             try
             {
+                var stripeEvent = EventUtility.ParseEvent(json);
+                var signatureHeader = Request.Headers["Stripe-Signature"];
                 stripeEvent = EventUtility.ConstructEvent(
                     json,
-                    Request.Headers["Stripe-Signature"],
+                    signatureHeader,
                     this.options.Value.WebhookSecret
                 );
                 Console.WriteLine($"Webhook notification with type: {stripeEvent.Type} found for {stripeEvent.Id}");
+
+                switch (stripeEvent.Type)
+                {
+                    case Events.CustomerSubscriptionDeleted:
+                        var cancelledSub = stripeEvent.Data.Object as Subscription;
+                        SubscriptionCancelled(cancelledSub.CustomerId);
+                        break;
+                    case Events.InvoicePaid:
+                        var invoice = stripeEvent.Data.Object as Invoice;
+                        if (invoice.BillingReason == "subscription_create")
+                        {
+                            var subscriptionList = GetAllUserSubscriptions(invoice.CustomerId);
+                            foreach (var item in subscriptionList)
+                            {
+                                Console.WriteLine(item);
+                                if (item.Id != invoice.SubscriptionId)
+                                {
+                                    var service = new SubscriptionService();
+                                    service.Cancel(item.Id);
+                                }
+                            }
+                        }
+                        break;
+                    case Events.PaymentMethodAttached:
+                        var pm = stripeEvent.Data.Object as PaymentMethod;
+                        var options = new CustomerUpdateOptions
+                        {
+                            InvoiceSettings = new CustomerInvoiceSettingsOptions
+                            {
+                                DefaultPaymentMethod = pm.Id,
+                            }
+                        };
+                        var serviceCus = new CustomerService();
+                        serviceCus.Update(pm.CustomerId, options);
+                        break;
+                    default:
+                        Console.WriteLine("Unhandled event type: {0}", stripeEvent.Type);
+                        break;
+                }
+                    
+
+                //if (stripeEvent.Type == Events.PaymentIntentSucceeded)
+                //{
+                //    var paymentIntent = stripeEvent.Data.Object as PaymentIntent;
+                //    Console.WriteLine("A successful payment for {0} was made.", paymentIntent.Amount);
+                //}
+                //else if (stripeEvent.Type == Events.CustomerSubscriptionDeleted)
+                //{
+                //    var cancelledSub = stripeEvent.Data.Object as Subscription;
+                //    SubscriptionCancelled(cancelledSub.CustomerId);
+                //}
+                //else if (stripeEvent.Type == Events.PaymentMethodAttached)
+                //{
+                //    var session = stripeEvent.Data.Object as PaymentMethod;
+                //    Console.WriteLine("Méthode de paiement attachée");
+                //    // Take some action based on session.
+                //}
+                //else
+                //{
+                //    Console.WriteLine("Unhandled event type: {0}", stripeEvent.Type);
+                //}
+                return Ok();
+            }
+            catch (StripeException e)
+            {
+                Console.WriteLine("Error: {0}", e.Message);
+                Console.WriteLine(e);
+                return BadRequest();
             }
             catch (Exception e)
             {
-                Console.WriteLine($"Something failed {e}");
-                return BadRequest();
+                Console.WriteLine(e.Message);
+                return StatusCode(500);
             }
-
-            if (stripeEvent.Type == "checkout.session.completed")
-            {
-                var session = stripeEvent.Data.Object as Stripe.Checkout.Session;
-                Console.WriteLine($"Session ID: {session.Id}");
-                // Take some action based on session.
-            }
-
-            return Ok();
         }
+
     }
 }

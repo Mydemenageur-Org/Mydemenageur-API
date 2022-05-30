@@ -52,6 +52,7 @@ namespace Mydemenageur.BLL.Services
                 User = user,
                 IsGenericForm = service.IsGenericForm,
                 Name = service.Name,
+                Category = service.Category,
                 Date = service.Date,
                 Fields = service.Fields,
                 IsDone = service.IsDone

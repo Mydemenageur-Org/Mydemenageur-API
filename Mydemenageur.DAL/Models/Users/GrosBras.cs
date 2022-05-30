@@ -51,11 +51,11 @@ namespace Mydemenageur.DAL.Models.Users
         public int BadGrade { get; set; } = 0;
         public string[] Equipment { get; set; }
         public string Rayon { get; set; } = "30";
-        public bool IsPro { get; set; } = false;
-        public bool IsVerified { get; set; } = false;
-        public bool MyDemCert { get; set; } = false;
-        public bool MyJugCert { get; set; } = false;
-        public bool Cesu { get; set; } = false;
+        public Boolean IsPro { get; set; } = false;
+        public Boolean IsVerified { get; set; } = false;
+        public Boolean MyDemCert { get; set; } = false;
+        public Boolean MyJugCert { get; set; } = false;
+        public Boolean Cesu { get; set; } = false;
         //Feat/email-notification-features-added-field -- Maxime.M 22/04/22
         /// <summary>
         /// This is a array containing the departments that the grosBras wants to be notified about

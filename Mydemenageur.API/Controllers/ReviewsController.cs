@@ -100,6 +100,17 @@ namespace Mydemenageur.API.Controllers
 
             return Ok(reviews);
         }
+        
+        /// <summary>
+        /// Get all reviews between two users
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet("between/{receiver:length(24)}/{deposer:length(24)}")]
+        public async Task<ActionResult<IList<ReviewPopulated>>> GetReviewsBetween(string receiver, string deposer)
+        {
+            IList<ReviewPopulated> reviews = await _reviewsService.GetReviewsBetween(receiver, deposer);
+            return Ok(reviews);
+        }
 
         /// <summary>
         /// Get the number of reviews
