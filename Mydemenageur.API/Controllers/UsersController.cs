@@ -108,6 +108,7 @@ namespace Mydemenageur.API.Controllers
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpGet("{id:length(24)}/profile-picture")]
+        [AllowAnonymous]
         public async Task<ActionResult<byte[]>> GetProfilePicture(string id)
         {
             byte[] profilePicture = await _usersService.GetProfilePicture(id);
