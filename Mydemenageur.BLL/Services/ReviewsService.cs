@@ -157,17 +157,35 @@ namespace Mydemenageur.BLL.Services
                 throw new Exception("GrosBras not found");
             }
 
-            ReviewGradeUpdater(review.Note, grosBras);
+            ReviewGradeUpdater(null, review.Note, grosBras);
 
             return review;
         }
 
-        public async Task<string> UpdateReview(Review review)
+        public async Task<string> UpdateReview(ReviewUpdater reviewUpdater)
         {
+            Review review = new Review();
+            review.Id = reviewUpdater.Id;
+            review.Commentaires = reviewUpdater.Commentaires;
+            review.Deposer = reviewUpdater.Deposer;
+            review.Receiver = reviewUpdater.Receiver;
+            review.Note = reviewUpdater.Note;
+            review.Description = reviewUpdater.Description;
+            review.CreatedAt = reviewUpdater.CreatedAt;
+            review.UpdatedAt = reviewUpdater.UpdatedAt;
+            
             await _dpReview.GetCollection().ReplaceOneAsync(
                 dpReview => dpReview.Id == review.Id,
                 review
             );
+            
+            GrosBras grosBras = _dpGrosBras.GetCollection().Find(w => w.MyDemenageurUserId == review.Receiver).FirstOrDefault();
+            if (grosBras == null)
+            {
+                throw new Exception("GrosBras not found");
+            }
+
+            ReviewGradeUpdater(reviewUpdater.LastNote, reviewUpdater.Note, grosBras);
 
             return review.Id;
         }
@@ -261,9 +279,31 @@ namespace Mydemenageur.BLL.Services
 
             return schemaUser;
         }
-        private void ReviewGradeUpdater(string note, GrosBras grosBras)
+        private void ReviewGradeUpdater(string lastNote, string note, GrosBras grosBras)
         {
+            if (!string.IsNullOrWhiteSpace(lastNote))
+            {
+                Dictionary<string, TFunc> actionsDecr = new Dictionary<string, TFunc>() {
+                    {"3", (input) => {
+                            grosBras.VeryGoodGrade = grosBras.VeryGoodGrade - 1;
+                            return null; 
+                        } 
+                    },
+                    {"2", (input) => {
+                            grosBras.GoodGrade = grosBras.GoodGrade - 1;
+                            return null; 
+                        } 
+                    },
+                    {"1", (input) => {
+                        grosBras.MediumGrade = grosBras.MediumGrade - 1;
+                        return null; } },
+                    {"0", (input) => {
+                        grosBras.BadGrade = grosBras.BadGrade - 1;
+                        return null; } },
+                };
 
+                var outputDecr = actionsDecr[lastNote](null);
+            }
             Dictionary<string, TFunc> actions = new Dictionary<string, TFunc>() {
                 {"3", (input) => {
                     grosBras.VeryGoodGrade = grosBras.VeryGoodGrade + 1;

@@ -150,7 +150,7 @@ namespace Mydemenageur.API.Controllers
         /// <param name="reviewToUpdate"></param>
         /// <returns></returns>
         [HttpPut("{id:length(24)}")]
-        public async Task<ActionResult<string>> UpdateReview(string id, [FromBody] Review reviewToUpdate)
+        public async Task<ActionResult<string>> UpdateReview(string id, [FromBody] ReviewUpdater reviewToUpdate)
         {
             if (reviewToUpdate.Id != id)
             {
