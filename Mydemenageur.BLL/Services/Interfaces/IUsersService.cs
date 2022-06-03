@@ -18,6 +18,7 @@ namespace Mydemenageur.BLL.Services.Interfaces
         Task<GrosBrasPopulated> GetGrosBrasFromUserId(string id);
         Task<string> UpdateUserRole(string id, MyDemenageurUserRole data);
         Task<MyDemenageurUser> GetByStripeId(string id);
+        Task<string> UpdateStripeId(string id, string stripeId);
         Task<int> GetTotalTokens(string id);
         Task<string> UpdateTokens(string id, MyDemenageurUserTokens tokens);
         Task DeleteUser(string id);

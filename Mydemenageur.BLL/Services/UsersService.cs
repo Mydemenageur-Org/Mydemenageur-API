@@ -184,6 +184,20 @@ namespace Mydemenageur.BLL.Services
             return user;
         }
 
+        public async Task<string> UpdateStripeId(string id, string stripeId)
+        {
+            MyDemenageurUser myDemUser = await _dpMyDemenageurUser.GetUserById(id).FirstOrDefaultAsync();
+
+            if (myDemUser == null) throw new Exception("MyDemenageurUser does not exist");
+
+            var update = Builders<MyDemenageurUser>.Update
+                .Set(user => user.StripeId, stripeId);
+
+            await _dpMyDemenageurUser.GetCollection().UpdateOneAsync(user => user.Id == id, update);
+
+            return "StripeId update done";
+        }
+
         public async Task<int> GetTotalTokens(string id)
         {
             var user = await _dpMyDemenageurUser.GetUserById(id).FirstOrDefaultAsync();

@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using Stripe;
 using Stripe.BillingPortal;
+using Stripe.Checkout;
 using Mydemenageur.DAL.Models.Stripe;
 using Mydemenageur.DAL.Settings;
 using Mydemenageur.BLL.Services.Interfaces;
@@ -14,6 +15,11 @@ using MongoDB.Driver;
 using Mydemenageur.DAL.DP.Interface;
 using Mydemenageur.DAL.Models.Users;
 using Microsoft.Extensions.Logging;
+using CheckoutSessionService = Stripe.Checkout.SessionService;
+using CheckoutSessionCreateOptions = Stripe.Checkout.SessionCreateOptions;
+using CheckoutSession = Stripe.Checkout.Session;
+using SessionCreateOptions = Stripe.BillingPortal.SessionCreateOptions;
+using SessionService = Stripe.BillingPortal.SessionService;
 
 namespace Mydemenageur.API.Controllers
 {
@@ -58,6 +64,63 @@ namespace Mydemenageur.API.Controllers
             };
         }
 
+        [HttpPost("create-checkout-session")]
+        public string CreateCheckoutSession([FromBody] CreateCheckoutSessionRequest request)
+        {
+            var domain = "https://my-demenageur.local:3000";
+            var options = new CheckoutSessionCreateOptions
+            {
+                LineItems = new List<SessionLineItemOptions>
+                {
+                    new SessionLineItemOptions
+                    {
+                        Price = request.PriceId,
+                        Quantity = 1,
+                    },
+                },
+                Mode = request.Mode,
+                SuccessUrl = domain + "/paiement-effectue",
+                CancelUrl = domain,
+                Customer = request.StripeId,
+                CustomerUpdate = new SessionCustomerUpdateOptions { Address = "auto" },
+                AutomaticTax = new SessionAutomaticTaxOptions { Enabled = true },
+                PaymentIntentData = new SessionPaymentIntentDataOptions { SetupFutureUsage = "off_session" },
+            };
+            var service = new CheckoutSessionService();
+            CheckoutSession session = service.Create(options);
+
+            Response.Headers.Add("Location", session.Url);
+            return session.Url;
+        }
+
+        [HttpPost("create-checkout-subscription-session")]
+        public string CreateCheckoutSubscriptionSession([FromBody] CreateCheckoutSessionRequest request)
+        {
+            var domain = "https://my-demenageur.local:3000";
+            var options = new CheckoutSessionCreateOptions
+            {
+                LineItems = new List<SessionLineItemOptions>
+                {
+                    new SessionLineItemOptions
+                    {
+                        Price = request.PriceId,
+                        Quantity = 1,
+                    },
+                },
+                Mode = request.Mode,
+                SuccessUrl = domain + "/paiement-effectue",
+                CancelUrl = domain,
+                Customer = request.StripeId,
+                CustomerUpdate = new SessionCustomerUpdateOptions { Address = "auto" },
+                AutomaticTax = new SessionAutomaticTaxOptions { Enabled = true },
+            };
+            var service = new CheckoutSessionService();
+            CheckoutSession session = service.Create(options);
+
+            Response.Headers.Add("Location", session.Url);
+            return session.Url;
+        }
+
         [HttpPost("create-payment-intent")]
         public IActionResult CreatePaymentIntent([FromBody] CreatePaymentIntentRequest request)
         {
@@ -93,11 +156,12 @@ namespace Mydemenageur.API.Controllers
         }
 
         [HttpPost("create-customer")]
-        public IActionResult CreateCustomer([FromBody] CreateCustomerRequest req)
+        public async Task<IActionResult> CreateCustomer([FromBody] CreateCustomerRequest req)
         {
             var options = new CustomerCreateOptions
             {
                 Email = req.Email,
+                Address = new AddressOptions { Country = "FR" },
             };
             var service = new CustomerService();
             var customer = service.Create(options);
@@ -106,6 +170,8 @@ namespace Mydemenageur.API.Controllers
             // In practice, this customer.Id is stored along side your
             // user and retrieved along with the logged in user.
             HttpContext.Response.Cookies.Append("customer", customer.Id);
+
+            string result = await _usersService.UpdateStripeId(req.Id, customer.Id);
 
             return Ok(new CreateCustomerResponse
             {
@@ -126,7 +192,8 @@ namespace Mydemenageur.API.Controllers
                 var customerService = new CustomerService();
                 customerId = customerService.Create(new CustomerCreateOptions
                 {
-                    Email = myDem.Email
+                    Email = myDem.Email,
+                    Address = new AddressOptions { Country = "FR" },
                 }).Id;
                 myDem.StripeId = customerId;
                 _dpMyDemenageurUser.GetCollection().ReplaceOne(u => u.Id == req.MyDemUserId, myDem);
@@ -144,6 +211,7 @@ namespace Mydemenageur.API.Controllers
                     },
                 },
                 PaymentBehavior = "default_incomplete",
+                AutomaticTax = new SubscriptionAutomaticTaxOptions { Enabled = true },
             };
             subscriptionOptions.AddExpand("latest_invoice.payment_intent");
             //var service = new PaymentMethodService();
@@ -374,13 +442,19 @@ namespace Mydemenageur.API.Controllers
                         var invoice = stripeEvent.Data.Object as Invoice;
                         if (invoice.BillingReason == "subscription_create")
                         {
+                            //var invoiceOpt = new InvoiceUpdateOptions
+                            //{
+                            //    AutomaticTax = new InvoiceAutomaticTaxOptions { Enabled = true },
+                            //};
+                            //var invoiceServ = new InvoiceService();
+                            //invoiceServ.Update(invoice.Id, invoiceOpt);
                             var subscriptionList = GetAllUserSubscriptions(invoice.CustomerId);
                             foreach (var item in subscriptionList)
                             {
                                 Console.WriteLine(item);
+                                var service = new SubscriptionService();
                                 if (item.Id != invoice.SubscriptionId)
                                 {
-                                    var service = new SubscriptionService();
                                     service.Cancel(item.Id);
                                 }
                             }
@@ -397,6 +471,37 @@ namespace Mydemenageur.API.Controllers
                         };
                         var serviceCus = new CustomerService();
                         serviceCus.Update(pm.CustomerId, options);
+                        break;
+                    case Events.CheckoutSessionCompleted:
+                        var csc = stripeEvent.Data.Object as CheckoutSession;
+                        var mdUser = _usersService.GetByStripeId(csc.CustomerId);
+                        if (csc.PaymentStatus == "paid")
+                        {
+                            switch (csc.AmountTotal)
+                            {
+                                case 750:
+                                    await _usersService.UpdateTokens(mdUser.Result.Id, new MyDemenageurUserTokens { Operation = "add", Value = 4 });
+                                    break;
+                                case 1320:
+                                    await _usersService.UpdateTokens(mdUser.Result.Id, new MyDemenageurUserTokens { Operation = "add", Value = 10 });
+                                    break;
+                                case 1630:
+                                    await _usersService.UpdateTokens(mdUser.Result.Id, new MyDemenageurUserTokens { Operation = "add", Value = 15 });
+                                    break;
+                                case 990:
+                                    await _usersService.UpdateUserRole(mdUser.Result.Id, new MyDemenageurUserRole { Role = "ServiceProvider", RoleType = "Intermédiaire" });
+                                    break;
+                                case 1400:
+                                    await _usersService.UpdateUserRole(mdUser.Result.Id, new MyDemenageurUserRole { Role = "ServiceProvider", RoleType = "Premium" });
+                                    break;
+                                case 11399:
+                                    await _usersService.UpdateUserRole(mdUser.Result.Id, new MyDemenageurUserRole { Role = "ServiceProvider", RoleType = "Professionnel" });
+                                    break;
+                                case 18599:
+                                    await _usersService.UpdateUserRole(mdUser.Result.Id, new MyDemenageurUserRole { Role = "ServiceProvider", RoleType = "Business Pack" });
+                                    break;
+                            }
+                        }
                         break;
                     default:
                         Console.WriteLine("Unhandled event type: {0}", stripeEvent.Type);
