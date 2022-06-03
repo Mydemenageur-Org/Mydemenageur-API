@@ -67,7 +67,7 @@ namespace Mydemenageur.API.Controllers
         [HttpPost("create-checkout-session")]
         public string CreateCheckoutSession([FromBody] CreateCheckoutSessionRequest request)
         {
-            var domain = "https://my-demenageur.local:3000";
+            var domain = "https://www.mydemenageur.com/";
             var options = new CheckoutSessionCreateOptions
             {
                 LineItems = new List<SessionLineItemOptions>
@@ -96,7 +96,8 @@ namespace Mydemenageur.API.Controllers
         [HttpPost("create-checkout-subscription-session")]
         public string CreateCheckoutSubscriptionSession([FromBody] CreateCheckoutSessionRequest request)
         {
-            var domain = "https://my-demenageur.local:3000";
+            var domain = "https://www.mydemenageur.com/";
+
             var options = new CheckoutSessionCreateOptions
             {
                 LineItems = new List<SessionLineItemOptions>
