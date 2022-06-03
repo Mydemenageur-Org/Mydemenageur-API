@@ -85,7 +85,7 @@ namespace Mydemenageur.BLL.Services
                     Description = review.Description,
                     CreatedAt = review.CreatedAt,
                     UpdatedAt = review.UpdatedAt,
-                    Commentaires = review.Commentaires
+                    Commentaire = review.Commentaire
                 };
                 reviews.Add(reviewsPopulated);
             });
@@ -97,7 +97,7 @@ namespace Mydemenageur.BLL.Services
             List<ReviewPopulated> reviews = new List<ReviewPopulated>();
 
             var cursor = _dpReview.Obtain().Where(x => x.Receiver == id);
-
+            
             cursor.ToListAsync().Result.ForEach((review) => {
                 var myDem = _dpUser.GetUserById(review.Deposer).FirstOrDefault();
                 ReviewPopulated reviewsPopulated = new ReviewPopulated
@@ -109,9 +109,10 @@ namespace Mydemenageur.BLL.Services
                     Description = review.Description,
                     CreatedAt = review.CreatedAt,
                     UpdatedAt = review.UpdatedAt,
-                    Commentaires = review.Commentaires
+                    Commentaire = review.Commentaire
                 };
                 reviews.Add(reviewsPopulated);
+                reviews.Reverse();
             });
             return reviews;
         }
@@ -133,7 +134,7 @@ namespace Mydemenageur.BLL.Services
                     Description = review.Description,
                     CreatedAt = review.CreatedAt,
                     UpdatedAt = review.UpdatedAt,
-                    Commentaires = review.Commentaires
+                    Commentaire = review.Commentaire
                 };
                 reviews.Add(reviewsPopulated);
             });
@@ -164,22 +165,22 @@ namespace Mydemenageur.BLL.Services
 
         public async Task<string> UpdateReview(ReviewUpdater reviewUpdater)
         {
-            Review review = new Review();
-            review.Id = reviewUpdater.Id;
-            review.Commentaires = reviewUpdater.Commentaires;
-            review.Deposer = reviewUpdater.Deposer;
-            review.Receiver = reviewUpdater.Receiver;
-            review.Note = reviewUpdater.Note;
-            review.Description = reviewUpdater.Description;
-            review.CreatedAt = reviewUpdater.CreatedAt;
-            review.UpdatedAt = reviewUpdater.UpdatedAt;
+            Review reviewToBeUpdate = new Review();
+            reviewToBeUpdate.Id = reviewUpdater.Id;
+            reviewToBeUpdate.Commentaire = reviewUpdater.Commentaire;
+            reviewToBeUpdate.Deposer = reviewUpdater.Deposer;
+            reviewToBeUpdate.Receiver = reviewUpdater.Receiver;
+            reviewToBeUpdate.Note = reviewUpdater.Note;
+            reviewToBeUpdate.Description = reviewUpdater.Description;
+            reviewToBeUpdate.CreatedAt = reviewUpdater.CreatedAt;
+            reviewToBeUpdate.UpdatedAt = reviewUpdater.UpdatedAt;
             
             await _dpReview.GetCollection().ReplaceOneAsync(
-                dpReview => dpReview.Id == review.Id,
-                review
+                dpReview => dpReview.Id == reviewUpdater.Id,
+                reviewToBeUpdate
             );
             
-            GrosBras grosBras = _dpGrosBras.GetCollection().Find(w => w.MyDemenageurUserId == review.Receiver).FirstOrDefault();
+            GrosBras grosBras = _dpGrosBras.GetCollection().Find(w => w.MyDemenageurUserId == reviewUpdater.Receiver).FirstOrDefault();
             if (grosBras == null)
             {
                 throw new Exception("GrosBras not found");
@@ -187,7 +188,7 @@ namespace Mydemenageur.BLL.Services
 
             ReviewGradeUpdater(reviewUpdater.LastNote, reviewUpdater.Note, grosBras);
 
-            return review.Id;
+            return reviewToBeUpdate.Id;
         }
 
         public async Task<string> DeleteReview(string id)
@@ -234,7 +235,7 @@ namespace Mydemenageur.BLL.Services
                         Description = review.Description,
                         CreatedAt = review.CreatedAt,
                         UpdatedAt = review.UpdatedAt,
-                        Commentaires = review.Commentaires
+                        Commentaire = review.Commentaire
                     };
                     reviews.Add(reviewsPopulated);
                 }

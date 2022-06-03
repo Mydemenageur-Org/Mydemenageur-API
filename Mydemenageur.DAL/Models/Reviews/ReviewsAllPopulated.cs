@@ -17,7 +17,6 @@ namespace Mydemenageur.DAL.Models.Reviews
         public string Description { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }
-        [BsonRepresentation(BsonType.ObjectId)]
-        public string[] Commentaires { get; set; }
+        public string Commentaire { get; set; }
     }
 }
