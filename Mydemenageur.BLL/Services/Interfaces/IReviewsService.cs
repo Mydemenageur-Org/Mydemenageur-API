@@ -12,7 +12,7 @@ namespace Mydemenageur.BLL.Services.Interfaces
         public Task<IList<ReviewPopulated>> GetReviews(string id);
         public Task<IList<ReviewPopulated>> GetReviewsBetween(string receiver, string deposer);
         public Task<Review> CreateReview(Review review);
-        public Task<string> UpdateReview(Review review);
+        public Task<string> UpdateReview(ReviewUpdater review);
         public Task<string> DeleteReview(string id);
         public Task<IList<ReviewAllopulated>> GetAllReviews(int pageNumber = -1, int numberOfElementsPerPage = -1);
         public long CountReviews();

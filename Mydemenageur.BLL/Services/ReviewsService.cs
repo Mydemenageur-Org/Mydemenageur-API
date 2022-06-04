@@ -85,7 +85,7 @@ namespace Mydemenageur.BLL.Services
                     Description = review.Description,
                     CreatedAt = review.CreatedAt,
                     UpdatedAt = review.UpdatedAt,
-                    Commentaires = review.Commentaires
+                    Commentaire = review.Commentaire
                 };
                 reviews.Add(reviewsPopulated);
             });
@@ -97,7 +97,7 @@ namespace Mydemenageur.BLL.Services
             List<ReviewPopulated> reviews = new List<ReviewPopulated>();
 
             var cursor = _dpReview.Obtain().Where(x => x.Receiver == id);
-
+            
             cursor.ToListAsync().Result.ForEach((review) => {
                 var myDem = _dpUser.GetUserById(review.Deposer).FirstOrDefault();
                 ReviewPopulated reviewsPopulated = new ReviewPopulated
@@ -109,9 +109,10 @@ namespace Mydemenageur.BLL.Services
                     Description = review.Description,
                     CreatedAt = review.CreatedAt,
                     UpdatedAt = review.UpdatedAt,
-                    Commentaires = review.Commentaires
+                    Commentaire = review.Commentaire
                 };
                 reviews.Add(reviewsPopulated);
+                reviews.Reverse();
             });
             return reviews;
         }
@@ -133,7 +134,7 @@ namespace Mydemenageur.BLL.Services
                     Description = review.Description,
                     CreatedAt = review.CreatedAt,
                     UpdatedAt = review.UpdatedAt,
-                    Commentaires = review.Commentaires
+                    Commentaire = review.Commentaire
                 };
                 reviews.Add(reviewsPopulated);
             });
@@ -157,19 +158,37 @@ namespace Mydemenageur.BLL.Services
                 throw new Exception("GrosBras not found");
             }
 
-            ReviewGradeUpdater(review.Note, grosBras);
+            ReviewGradeUpdater(null, review.Note, grosBras);
 
             return review;
         }
 
-        public async Task<string> UpdateReview(Review review)
+        public async Task<string> UpdateReview(ReviewUpdater reviewUpdater)
         {
+            Review reviewToBeUpdate = new Review();
+            reviewToBeUpdate.Id = reviewUpdater.Id;
+            reviewToBeUpdate.Commentaire = reviewUpdater.Commentaire;
+            reviewToBeUpdate.Deposer = reviewUpdater.Deposer;
+            reviewToBeUpdate.Receiver = reviewUpdater.Receiver;
+            reviewToBeUpdate.Note = reviewUpdater.Note;
+            reviewToBeUpdate.Description = reviewUpdater.Description;
+            reviewToBeUpdate.CreatedAt = reviewUpdater.CreatedAt;
+            reviewToBeUpdate.UpdatedAt = reviewUpdater.UpdatedAt;
+            
             await _dpReview.GetCollection().ReplaceOneAsync(
-                dpReview => dpReview.Id == review.Id,
-                review
+                dpReview => dpReview.Id == reviewUpdater.Id,
+                reviewToBeUpdate
             );
+            
+            GrosBras grosBras = _dpGrosBras.GetCollection().Find(w => w.MyDemenageurUserId == reviewUpdater.Receiver).FirstOrDefault();
+            if (grosBras == null)
+            {
+                throw new Exception("GrosBras not found");
+            }
 
-            return review.Id;
+            ReviewGradeUpdater(reviewUpdater.LastNote, reviewUpdater.Note, grosBras);
+
+            return reviewToBeUpdate.Id;
         }
 
         public async Task<string> DeleteReview(string id)
@@ -216,7 +235,7 @@ namespace Mydemenageur.BLL.Services
                         Description = review.Description,
                         CreatedAt = review.CreatedAt,
                         UpdatedAt = review.UpdatedAt,
-                        Commentaires = review.Commentaires
+                        Commentaire = review.Commentaire
                     };
                     reviews.Add(reviewsPopulated);
                 }
@@ -261,9 +280,31 @@ namespace Mydemenageur.BLL.Services
 
             return schemaUser;
         }
-        private void ReviewGradeUpdater(string note, GrosBras grosBras)
+        private void ReviewGradeUpdater(string lastNote, string note, GrosBras grosBras)
         {
+            if (!string.IsNullOrWhiteSpace(lastNote))
+            {
+                Dictionary<string, TFunc> actionsDecr = new Dictionary<string, TFunc>() {
+                    {"3", (input) => {
+                            grosBras.VeryGoodGrade = grosBras.VeryGoodGrade - 1;
+                            return null; 
+                        } 
+                    },
+                    {"2", (input) => {
+                            grosBras.GoodGrade = grosBras.GoodGrade - 1;
+                            return null; 
+                        } 
+                    },
+                    {"1", (input) => {
+                        grosBras.MediumGrade = grosBras.MediumGrade - 1;
+                        return null; } },
+                    {"0", (input) => {
+                        grosBras.BadGrade = grosBras.BadGrade - 1;
+                        return null; } },
+                };
 
+                var outputDecr = actionsDecr[lastNote](null);
+            }
             Dictionary<string, TFunc> actions = new Dictionary<string, TFunc>() {
                 {"3", (input) => {
                     grosBras.VeryGoodGrade = grosBras.VeryGoodGrade + 1;

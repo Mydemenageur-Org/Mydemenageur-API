@@ -1,10 +1,10 @@
-﻿using MongoDB.Bson;
+using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 using System;
 
 namespace Mydemenageur.DAL.Models.Reviews
 {
-    public class Review
+    public class ReviewUpdater
     {
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]
@@ -18,5 +18,6 @@ namespace Mydemenageur.DAL.Models.Reviews
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }
         public string Commentaire { get; set; }
+        public string LastNote { get; set; }
     }
 }
