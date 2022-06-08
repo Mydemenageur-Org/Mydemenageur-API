@@ -426,6 +426,7 @@ namespace Mydemenageur.API.Controllers
             {
                 var stripeEvent = EventUtility.ParseEvent(json);
                 var signatureHeader = Request.Headers["Stripe-Signature"];
+                var service = new SubscriptionService();
                 stripeEvent = EventUtility.ConstructEvent(
                     json,
                     signatureHeader,
@@ -453,7 +454,6 @@ namespace Mydemenageur.API.Controllers
                             foreach (var item in subscriptionList)
                             {
                                 Console.WriteLine(item);
-                                var service = new SubscriptionService();
                                 if (item.Id != invoice.SubscriptionId)
                                 {
                                     service.Cancel(item.Id);
@@ -502,6 +502,13 @@ namespace Mydemenageur.API.Controllers
                                     await _usersService.UpdateUserRole(mdUser.Result.Id, new MyDemenageurUserRole { Role = "ServiceProvider", RoleType = "Business Pack" });
                                     break;
                             }
+                        }
+                        break;
+                    case Events.InvoicePaymentFailed:
+                        var ipf = stripeEvent.Data.Object as Invoice;
+                        if (ipf.BillingReason == "subscription_cycle")
+                        {
+                            service.Cancel(ipf.SubscriptionId);
                         }
                         break;
                     default:
