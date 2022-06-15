@@ -325,6 +325,7 @@ namespace Mydemenageur.BLL.Services
             demandToBeUpdated.Revealed = demand.Revealed;
             demandToBeUpdated.Archived = demand.Archived;
             demandToBeUpdated.ConversationClosed = demand.ConversationClosed;
+            demandToBeUpdated.Unread = demand.Unread;
 
             await _dpDemand.GetCollection().ReplaceOneAsync(
                 dpDemand => dpDemand.Id == demand.Id,

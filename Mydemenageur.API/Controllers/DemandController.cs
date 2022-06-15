@@ -95,10 +95,10 @@ namespace Mydemenageur.API.Controllers
         {
             IList<DemandMessage> demands = await _demandService.GetRecipientDemandsUnread(id);
             
-            if (!demands.Any())
-            {
-                return NotFound();
-            }
+            //if (!demands.Any())
+            //{
+            //    return NotFound();
+            //}
 
             return Ok(demands);
         }
