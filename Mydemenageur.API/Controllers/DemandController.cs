@@ -84,6 +84,24 @@ namespace Mydemenageur.API.Controllers
 
             return Ok(demands);
         }
+        
+        /// <summary>
+        /// Get all demands from the recipient where unread is true
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpGet("{id:length(24)}/recipient/unread")]
+        public async Task<ActionResult<IList<DemandMessage>>> GetDemandsFromRecipientUnread(string id)
+        {
+            IList<DemandMessage> demands = await _demandService.GetRecipientDemandsUnread(id);
+            
+            //if (!demands.Any())
+            //{
+            //    return NotFound();
+            //}
+
+            return Ok(demands);
+        }
 
 
         /// <summary>

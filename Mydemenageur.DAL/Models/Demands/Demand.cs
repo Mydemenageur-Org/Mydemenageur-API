@@ -20,7 +20,8 @@ namespace Mydemenageur.DAL.Models.Demands
         public bool HasBeenDeclined { get; set; } = false;
         public bool Revealed { get; set; }
         public bool Archived { get; set; }
-        //Feat/Messagerie --Maxime.M 13/05/2022
         public bool ConversationClosed { get; set; } = false;
+        //Feat/add-notif-for-demand -- Maxime.M 09/06/22
+        public bool Unread { get; set; } 
     }
 }

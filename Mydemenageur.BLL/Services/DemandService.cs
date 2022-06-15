@@ -126,6 +126,47 @@ namespace Mydemenageur.BLL.Services
 
             return demandMessageList;
         }
+        
+        public async Task<IList<DemandMessage>> GetRecipientDemandsUnread(string recipientId)
+        {
+            List<DemandMessage> demandMessageList = new List<DemandMessage>();
+            IList<Demand> demands = await _dpDemand.Obtain().Where(W => W.Recipient.Id == recipientId && W.Unread == true).ToListAsync();
+
+            foreach (Demand demand in demands)
+            {
+                MyDemenageurUserPopulated mdUserSender = _mapper.Map<MyDemenageurUserPopulated>(demand.Sender);
+                MyDemenageurUserPopulated mdUserRecipient = _mapper.Map<MyDemenageurUserPopulated>(demand.Recipient);
+                if (demand.Sender.ProfilePictureId != null)
+                {
+                    byte[] senderProfilPicture = (await _filesService.GetFile(demand.Sender.ProfilePictureId)).Data;
+                    mdUserSender.ProfilPictureId = senderProfilPicture;
+                }
+
+                if (demand.Recipient.ProfilePictureId != null)
+                {
+                    byte[] recipientProfilPicture = (await _filesService.GetFile(demand.Recipient.ProfilePictureId)).Data;
+                    mdUserRecipient.ProfilPictureId = recipientProfilPicture;
+                }
+
+                DemandMessage demandMessage = new DemandMessage
+                {
+                    Id = demand.Id,
+                    PriceProposed = demand.PriceProposed,
+                    AnnounceId = demand.AnnounceId,
+                    DescriptionDemand = Censure.All(demand.DescriptionDemand),
+                    Recipient = mdUserRecipient,
+                    Sender = mdUserSender,
+                    HasBeenAccepted = demand.HasBeenAccepted,
+                    HasBeenDeclined = demand.HasBeenDeclined,
+                    Revealed = demand.Revealed,
+                    Unread = demand.Unread
+                };
+
+                demandMessageList.Add(demandMessage);
+            }
+
+            return demandMessageList;
+        }
 
         public async Task<Demand> CreateDemand(DemandCreation demand)
         {
@@ -172,7 +213,8 @@ namespace Mydemenageur.BLL.Services
                 ServiceSlug = demand.ServiceSlug,
                 HasBeenAccepted = false,
                 HasBeenDeclined = false,
-                Revealed = shouldReveal
+                Revealed = shouldReveal,
+                Unread = demand.Unread
             };
 
             await _dpDemand.GetCollection().InsertOneAsync(newDemand);
@@ -283,6 +325,7 @@ namespace Mydemenageur.BLL.Services
             demandToBeUpdated.Revealed = demand.Revealed;
             demandToBeUpdated.Archived = demand.Archived;
             demandToBeUpdated.ConversationClosed = demand.ConversationClosed;
+            demandToBeUpdated.Unread = demand.Unread;
 
             await _dpDemand.GetCollection().ReplaceOneAsync(
                 dpDemand => dpDemand.Id == demand.Id,

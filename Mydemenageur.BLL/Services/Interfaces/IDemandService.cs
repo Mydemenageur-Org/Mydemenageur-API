@@ -10,6 +10,7 @@ namespace Mydemenageur.BLL.Services.Interfaces
         public Task<IList<Demand>> GetDemands();
         public Task<IList<DemandMessage>> GetSenderDemands(string senderId);
         public Task<IList<DemandMessage>> GetRecipientDemands(string recipientId);
+        public Task<IList<DemandMessage>> GetRecipientDemandsUnread(string recipientId);
         public Task<IList<DemandMessage>> GetDemandsFromAny(string userId);
 
         public Task<Demand> CreateDemand(DemandCreation demand);
