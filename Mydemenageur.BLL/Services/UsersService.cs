@@ -87,11 +87,16 @@ namespace Mydemenageur.BLL.Services
                 GoodGrade = profil.GoodGrade.ToString(),
                 MediumGrade = profil.MediumGrade.ToString(),
                 BadGrade = profil.BadGrade.ToString(),
+                Rayon = profil.Rayon,
                 Title = profil.Title,
                 Realisations = profil.Realisations,
+                IsPro = profil.IsPro,
                 IsVerified = profil.IsVerified,
                 //Feat/email-notification-features -- Maxime.M 24/04/22
                 DepartmentNotifications = profil.DepartmentNotifications,
+                MyDemCert = profil.MyDemCert,
+                MyJugCert = profil.MyJugCert,
+                Cesu = profil.Cesu,
             };
 
             return grosBras;
@@ -100,8 +105,8 @@ namespace Mydemenageur.BLL.Services
         public async Task<IList<MyDemenageurUser>> GetUsers()
         {
             IMongoQueryable<MyDemenageurUser> users = _dpMyDemenageurUser.Obtain();
-
-            return await users.ToListAsync();
+            
+            return await users.Where(predicate => predicate.RoleType == "Premium").ToListAsync();
         }
 
         public async Task<byte[]> GetProfilePicture(string id)
