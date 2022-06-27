@@ -194,6 +194,21 @@ namespace Mydemenageur.API.Controllers
             
             return Ok(result);
         }
+
+        [HttpPut("{id:length(24)}/notifications")]
+        public async Task<IActionResult> UpdateNotif(string id, MyDemenageurUserNotif notif)
+        {
+            try
+            {
+                await _usersService.UpdateNotif(id, notif);
+
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
         
         /// <summary>
         /// Delete a user
