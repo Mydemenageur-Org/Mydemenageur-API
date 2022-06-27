@@ -21,6 +21,7 @@ namespace Mydemenageur.BLL.Services.Interfaces
         Task<string> UpdateStripeId(string id, string stripeId);
         Task<int> GetTotalTokens(string id);
         Task<string> UpdateTokens(string id, MyDemenageurUserTokens tokens);
+        Task UpdateNotif(string id, MyDemenageurUserNotif notif);
         Task DeleteUser(string id);
     }
 }

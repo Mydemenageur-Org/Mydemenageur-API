@@ -251,6 +251,18 @@ namespace Mydemenageur.BLL.Services
             return $"Successfully {tokens.Operation} {tokens.Value} tokens.";
         }
 
+        public async Task UpdateNotif(string id, MyDemenageurUserNotif notif)
+        {
+            MyDemenageurUser mydemUser = await _dpMyDemenageurUser.GetUserById(id).FirstOrDefaultAsync();
+
+            if (mydemUser == null) throw new Exception("MyDemenageurUser does not exist");
+
+            mydemUser.EmailNotification = notif.EmailNotification;
+
+            await _dpMyDemenageurUser.GetCollection().ReplaceOneAsync(
+                dbUser => dbUser.Id == id, mydemUser);
+        }
+
         public async Task DeleteUser(string id)
         {
             //Fix/delete-account-user-bdd -- Maxime.M 18/04/22
