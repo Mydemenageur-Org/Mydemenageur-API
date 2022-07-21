@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Http;
 using Mydemenageur.DAL.Models.Users;
 using Mydemenageur.BLL.Services.Interfaces;
 using System;
@@ -30,11 +31,20 @@ namespace Mydemenageur.API.Controllers
         /// Get all users 
         /// </summary>
         /// <returns></returns>
-        [HttpGet] 
+        [HttpGet]
         [AllowAnonymous]
         public async Task<ActionResult<IList<MyDemenageurUser>>> GetUsers()
         {
             IList<MyDemenageurUser> users = await _usersService.GetUsers();
+
+            return Ok(users);
+        }
+
+        [HttpGet("filter")]
+        public async Task<ActionResult<IList<MyDemenageurUser>>> GetUsersFiltered([FromQuery] int pageNumber = -1, [FromQuery] int numberOfElementsPerPage = -1)
+        {
+            var queryString = HttpContext.Request.QueryString;
+            IList<MyDemenageurUser> users = await _usersService.GetUsersFiltered(queryString, pageNumber, numberOfElementsPerPage);
 
             return Ok(users);
         }

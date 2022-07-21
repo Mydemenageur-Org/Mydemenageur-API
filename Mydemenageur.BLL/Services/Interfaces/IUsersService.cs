@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 
 namespace Mydemenageur.BLL.Services.Interfaces
 {
@@ -11,7 +12,7 @@ namespace Mydemenageur.BLL.Services.Interfaces
         Task<MyDemenageurUser> GetUser(string id);
         Task<MyDemenageurUser> GetUserByEmail(string email);
         Task<IList<MyDemenageurUser>> GetUsers();
-
+        Task<IList<MyDemenageurUser>> GetUsersFiltered(QueryString queryString, int pageNumber = -1, int numberOfElementsPerPage = -1);
         Task<byte[]> GetProfilePicture(string id);
 
         Task UpdateUser(byte[] profilePicture, string newPassword, MyDemenageurUser toUpdate);

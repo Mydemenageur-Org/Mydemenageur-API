@@ -133,6 +133,15 @@ namespace Mydemenageur.BLL.Helpers
                     continue;
                 }
 
+                if (key.Contains("RoleType"))
+                {
+                    string valueRole = queryParams[key];
+                    List<string> roleTypeList = valueRole.Split(',').ToList();
+                    var filter = Builders<T>.Filter.In(key, roleTypeList);
+                    allFilters.Add(filter);
+                    continue;
+                }
+
                 if(value == "true" || value == "false")
                 {
                     bool boolValue = Convert.ToBoolean(value);

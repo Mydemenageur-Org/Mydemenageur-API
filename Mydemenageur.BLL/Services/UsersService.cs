@@ -12,6 +12,8 @@ using System.Text;
 using System.Threading.Tasks;
 using Mydemenageur.DAL.DP.Interface;
 using MongoDB.Driver.Linq;
+using Microsoft.AspNetCore.Http;
+using Mydemenageur.BLL.Helpers;
 
 namespace Mydemenageur.BLL.Services
 {
@@ -106,7 +108,14 @@ namespace Mydemenageur.BLL.Services
         {
             IMongoQueryable<MyDemenageurUser> users = _dpMyDemenageurUser.Obtain();
             
-            return await users.Where(predicate => predicate.RoleType == "Premium").ToListAsync();
+            return await users.ToListAsync();
+        }
+
+        public async Task<IList<MyDemenageurUser>> GetUsersFiltered(QueryString queryString, int pageNumber = -1, int numberOfElementsPerPage = -1)
+        {
+            var dictionary = Microsoft.AspNetCore.WebUtilities.QueryHelpers.ParseQuery(queryString.Value);
+
+            return await _dpMyDemenageurUser.GetCollection().FilterByQueryParamsMongo(new QueryCollection(dictionary), pageNumber, numberOfElementsPerPage);
         }
 
         public async Task<byte[]> GetProfilePicture(string id)
