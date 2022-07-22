@@ -35,6 +35,15 @@ namespace Mydemenageur.API.Controllers
             return Ok(grosBras);
         }
 
+        [HttpGet("filter")]
+        public async Task<ActionResult<IList<GrosBrasPopulated>>> GetPrestaFiltered([FromQuery] int pageNumber = -1, [FromQuery] int numberOfElementsPerPage = -1)
+        {
+            var queryString = HttpContext.Request.QueryString;
+            IList<GrosBrasPopulated> grosBras = await _grosBrasService.GetGrosBras(queryString, pageNumber, numberOfElementsPerPage);
+
+            return Ok(grosBras);
+        }
+
         /// <summary>
         /// Get a specific gros bras profil by it's id
         /// </summary>

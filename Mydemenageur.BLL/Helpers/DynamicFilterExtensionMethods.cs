@@ -111,12 +111,30 @@ namespace Mydemenageur.BLL.Helpers
                 // Exception for proposed services
                 if (key.Contains("servicesProposed"))
                 {
-                    string service = queryParams["ServicesProposed"];
-                    BsonDocument bsonElement = new BsonDocument
+                    string service = queryParams["servicesProposed"];
+                    if (service.Contains(","))
                     {
-                        { "ServicesProposed", service }
-                    };
-                    allFilters.Add(bsonElement);
+                        int count = 0;
+                        List<string> activityList = service.Split(',').ToList();
+                        string[] activityArray = new string[activityList.Count];
+                        foreach (string activity in activityList)
+                        {
+                            activityArray[count] = activity;
+                            count++;
+                        }
+                        var filter = Builders<T>.Filter.In("ServicesProposed", activityArray);
+                        allFilters.Add(filter);
+                    }
+                    else
+                    {
+                        BsonDocument bsonElement = new BsonDocument
+                        {
+                            { "ServicesProposed", service }
+                        };
+
+                        allFilters.Add(bsonElement);
+                    }
+                    
                     continue;
                 }
                 
@@ -133,11 +151,29 @@ namespace Mydemenageur.BLL.Helpers
                     continue;
                 }
 
+                //Feat/user-filter -- Maxime.K 21/07/22
+                //Setting up filters for backoffice
                 if (key.Contains("RoleType"))
                 {
                     string valueRole = queryParams[key];
                     List<string> roleTypeList = valueRole.Split(',').ToList();
                     var filter = Builders<T>.Filter.In(key, roleTypeList);
+                    allFilters.Add(filter);
+                    continue;
+                }
+
+                if (key.Contains("SignupDate"))
+                {
+                    DateTime signUp = new DateTime(int.Parse(value), 1, 1);
+                    var filter = Builders<T>.Filter.Gte(key, signUp);
+                    allFilters.Add(filter);
+                    continue;
+                }
+
+                if (key.Contains("LastConnection"))
+                {
+                    DateTime lastCo = new DateTime(int.Parse(value), 1, 1);
+                    var filter = Builders<T>.Filter.Gte(key, lastCo);
                     allFilters.Add(filter);
                     continue;
                 }
