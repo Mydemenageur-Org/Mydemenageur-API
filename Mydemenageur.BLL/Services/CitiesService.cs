@@ -43,20 +43,25 @@ namespace Mydemenageur.BLL.Services
             return newCity;
         }
 
-        public async Task<City> SearchCity(string label)
+        public async Task<City> SearchCity(City cityToSearch)
         {
             // Create or get city
-            var city = _dpCity.GetCollection().FindAsync(city => city.Label.ToLower() == label.ToLower()).Result.First();
+            var city = new City();
+            city = await (await _dpCity.GetCollection().FindAsync(city => (city.Label.ToLower() == cityToSearch.Label.ToLower()) && (city.Departement == cityToSearch.Departement))).FirstOrDefaultAsync();
+            //var city = _dpCity.GetCollection().FindAsync(city => city.Label.ToLower() == label.ToLower()).Result.First();
             if (city == null) {
-                city = new City
+                City newCity = new City
                 {
-                    Label = label,
+                    Label = cityToSearch.Label,
+                    Latitude = cityToSearch.Latitude,
+                    Longitude = cityToSearch.Longitude,
+                    Departement = cityToSearch.Departement,
                     CreatedAt = DateTime.Now
                 };
-                await _dpCity.GetCollection().InsertOneAsync(city);
+                await _dpCity.GetCollection().InsertOneAsync(newCity);
             }
 
-            await _dpCity.GetCollection().UpdateOneAsync(city => city.Label.ToLower() == label.ToLower(), Builders<City>.Update
+            await _dpCity.GetCollection().UpdateOneAsync(city => city.Label.ToLower() == cityToSearch.Label.ToLower(), Builders<City>.Update
                 .Inc(city => city.SearchCount, 1));
 
             return city;
