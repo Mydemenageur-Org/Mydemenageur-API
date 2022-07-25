@@ -52,8 +52,14 @@ namespace Mydemenageur.BLL.Services
                 }
                 else
                 {
-                    var city = _dpCity.GetCollection().FindAsync(c => c.Label.ToLower() == values[0].ToLower()).Result.FirstOrDefault();
-                    dictionary.Add("CityId", city.Id);
+                    try
+                    {
+                        var city = _dpCity.GetCollection().FindAsync(c => c.Label.ToLower() == values[0].ToLower()).Result.FirstOrDefault();
+                        dictionary.Add("CityId", city.Id);
+                    }catch(Exception e)
+                    {
+                        Console.Write(e.Message);
+                    }
                 }
             }
 
@@ -68,42 +74,44 @@ namespace Mydemenageur.BLL.Services
             var dictionary = Microsoft.AspNetCore.WebUtilities.QueryHelpers.ParseQuery(queryString.Value);
             dictionary = parseCity(dictionary);
             List<GrosBras> grosBras = await _dpGrosBras.GetCollection().FilterByQueryParamsMongo(new QueryCollection(dictionary), pageNumber, numberOfElementsPerPage, sortDefinition);
-
-            grosBras.ForEach((profil) =>
+            if (grosBras.Count > 0)
             {
-                var city = _dpCity.GetCityById(profil.CityId).FirstOrDefault();
-                var myDem= _dpMDUser.GetUserById(profil.MyDemenageurUserId).FirstOrDefault();
-                GrosBrasPopulated grosBras = new GrosBrasPopulated
+                grosBras.ForEach((profil) =>
                 {
-                    Id = profil.Id,
-                    MyDemenageurUser = myDem,
-                    ServicesProposed = profil.ServicesProposed,
-                    DiplomaOrExperiences = profil.DiplomaOrExperiences,
-                    Description = Censure.All(profil.Description),
-                    Commitment = profil.Commitment,
-                    ProStatus = profil.ProStatus,
-                    Siren = profil.Siren,
-                    LicenceTransport = profil.LicenceTransport,
-                    City = city,
-                    Departement = profil.Departement,
-                    CreatedAt = profil.CreatedAt,
-                    UpdatedAt = profil.UpdatedAt,
-                    VeryGoodGrade = profil.VeryGoodGrade.ToString(),
-                    GoodGrade = profil.GoodGrade.ToString(),
-                    MediumGrade = profil.MediumGrade.ToString(),
-                    BadGrade = profil.BadGrade.ToString(),
-                    Rayon = profil.Rayon,
-                    Title = profil.Title,
-                    Realisations = profil.Realisations,
-                    IsPro = profil.IsPro,
-                    IsVerified = profil.IsVerified,
-                    DepartmentNotifications = profil.DepartmentNotifications,
-                    MyDemCert = profil.MyDemCert,
-                    MyJugCert = profil.MyJugCert,
-                    Cesu = profil.Cesu,
-                };
-                grosBrasFinal.Add(grosBras);
-            });
+                    var city = _dpCity.GetCityById(profil.CityId).FirstOrDefault();
+                    var myDem = _dpMDUser.GetUserById(profil.MyDemenageurUserId).FirstOrDefault();
+                    GrosBrasPopulated grosBras = new GrosBrasPopulated
+                    {
+                        Id = profil.Id,
+                        MyDemenageurUser = myDem,
+                        ServicesProposed = profil.ServicesProposed,
+                        DiplomaOrExperiences = profil.DiplomaOrExperiences,
+                        Description = Censure.All(profil.Description),
+                        Commitment = profil.Commitment,
+                        ProStatus = profil.ProStatus,
+                        Siren = profil.Siren,
+                        LicenceTransport = profil.LicenceTransport,
+                        City = city,
+                        Departement = profil.Departement,
+                        CreatedAt = profil.CreatedAt,
+                        UpdatedAt = profil.UpdatedAt,
+                        VeryGoodGrade = profil.VeryGoodGrade.ToString(),
+                        GoodGrade = profil.GoodGrade.ToString(),
+                        MediumGrade = profil.MediumGrade.ToString(),
+                        BadGrade = profil.BadGrade.ToString(),
+                        Rayon = profil.Rayon,
+                        Title = profil.Title,
+                        Realisations = profil.Realisations,
+                        IsPro = profil.IsPro,
+                        IsVerified = profil.IsVerified,
+                        DepartmentNotifications = profil.DepartmentNotifications,
+                        MyDemCert = profil.MyDemCert,
+                        MyJugCert = profil.MyJugCert,
+                        Cesu = profil.Cesu,
+                    };
+                    grosBrasFinal.Add(grosBras);
+                });
+            }
 
             return grosBrasFinal;
         }
