@@ -20,5 +20,7 @@ namespace Mydemenageur.BLL.Services.Interfaces
         public Task<FileModel> GetRealisation(string realisationId);
 
         public Task<long> CountGrosBras(QueryString queryString);
+
+        public Task CalculatRanking();
     }
 }

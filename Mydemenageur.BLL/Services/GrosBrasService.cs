@@ -15,6 +15,7 @@ using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.Extensions.Primitives;
 using MongoDB.Bson;
 using Mydemenageur.BLL.Helpers;
+using Mydemenageur.DAL.Models.Reviews;
 
 namespace Mydemenageur.BLL.Services
 {
@@ -25,16 +26,18 @@ namespace Mydemenageur.BLL.Services
         private readonly IDPCity _dpCity;
         private readonly ICitiesService _citiesService;
         private readonly IDPDemand _dpDemand;
+        private readonly IReviewsService _reviewsService;
 
         private readonly IFilesService _filesService;
 
-        public GrosBrasService(IDPGrosBras dPGrosBras, IDPMyDemenageurUser dpMDUser, IDPCity dpCity, ICitiesService citiesService, IDPDemand dpDemand, IFilesService filesService)
+        public GrosBrasService(IDPGrosBras dPGrosBras, IDPMyDemenageurUser dpMDUser, IDPCity dpCity, ICitiesService citiesService, IDPDemand dpDemand,IReviewsService reviewsService, IFilesService filesService)
         {
             _dpGrosBras = dPGrosBras;
             _dpMDUser = dpMDUser;
             _dpCity = dpCity;
             _citiesService = citiesService;
             _dpDemand = dpDemand;
+            _reviewsService = reviewsService;
 
             _filesService = filesService;
         }
@@ -70,7 +73,7 @@ namespace Mydemenageur.BLL.Services
         {
             List<GrosBrasPopulated> grosBrasFinal = new List<GrosBrasPopulated>();
             // Sort by reviews count
-            var sortDefinition = new SortDefinitionBuilder<GrosBras>().Descending("VeryGoodGrade");
+            var sortDefinition = new SortDefinitionBuilder<GrosBras>().Descending("Note");
             var dictionary = Microsoft.AspNetCore.WebUtilities.QueryHelpers.ParseQuery(queryString.Value);
             dictionary = parseCity(dictionary);
             List<GrosBras> grosBras = await _dpGrosBras.GetCollection().FilterByQueryParamsMongo(new QueryCollection(dictionary), pageNumber, numberOfElementsPerPage, sortDefinition);
@@ -319,7 +322,109 @@ namespace Mydemenageur.BLL.Services
         {
             return _filesService.GetFile(realisationId);
         }
+        
+        public async Task CalculatRanking()
+        { 
+            Console.WriteLine("ENTER SERVICE RANKING GROS BRAS");
+            
+            //GET ALL GROSBRAS
+            var grosBrasList = _dpGrosBras.GetCollection().Find(new BsonDocument()).ToList();
+            
+            if (grosBrasList.Count == 0)
+            {
+                throw new Exception("No GrosBras found");
+            }
+            foreach (var grosBras in grosBrasList)
+            {
+                var note = 0;
+                
+                //1-REVIEWS
+                IList<ReviewPopulated> reviewsList = await _reviewsService.GetReviews(grosBras.MyDemenageurUserId);
+                if (reviewsList.Count < 10)
+                {
+                    note += 5;
+                }else if (reviewsList.Count > 10 && reviewsList.Count < 20)
+                {
+                    note += 10;
+                }else if (reviewsList.Count > 20 && reviewsList.Count < 60)
+                {
+                    note += 20;
+                }
+                else
+                {
+                    note += 30;
+                }
+                
+                //2-ROLETYPE
+                try
+                {
+                    MyDemenageurUser myDemenageurUser = _dpMDUser.GetUserById(grosBras.MyDemenageurUserId).FirstOrDefault();
+                    if (myDemenageurUser.RoleType == "Intermédiaire")
+                    {
+                        note += 10;
+                    }else if (myDemenageurUser.RoleType == "Premium" || myDemenageurUser.RoleType == "Professionnel")
+                    {
+                        note += 20;
+                    }
+                
+                    //3-CONNECTION TIMING
+                    var between = Math.Floor((DateTime.Now - myDemenageurUser.LastConnection).TotalDays);
+                    if (between < 11)
+                    {
+                        note += 10;
+                    }
 
+                    //4-PROFIL PICTURE
+                    if (!(string.IsNullOrWhiteSpace(myDemenageurUser.ProfilePictureId)))
+                    {
+                        note += 5;
+                    }
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine($"No MyDemenageurUser found for this grosBras {grosBras.MyDemenageurUserId}");
+                }
+
+                //5-DESCRIPTION
+                var numberOfChar = grosBras.Description.ToCharArray().Length;
+                if (numberOfChar > 140)
+                {
+                    note += 10;
+                }
+                
+                //6-SENIORITY
+                var seniority  = Math.Floor((DateTime.Now - grosBras.CreatedAt).TotalDays);
+                if (seniority >= 1095)
+                {
+                    note += 15;
+                }else if (seniority >= 365)
+                {
+                    note += 10;
+                }
+                
+                //7-RANDOM POINTS
+                var random = new Random().Next(0, 11);
+                note += random;
+                
+                //8-NEW ACCOUNT
+                if (seniority < 7)
+                {
+                    note = new Random().Next(70, 86);
+                }
+                
+                //9-INSERT NOTE TO DB
+                grosBras.Note = note;
+                try
+                {
+                    await _dpGrosBras.GetCollection().ReplaceOneAsync(g => g.Id == grosBras.Id, grosBras);
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e);
+                    throw;
+                }
+            }
+            Console.WriteLine("OUT SERVICE RANKING GROSBRAS");
+        }
     }
-
 }

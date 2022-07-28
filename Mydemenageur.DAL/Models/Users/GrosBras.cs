@@ -65,5 +65,6 @@ namespace Mydemenageur.DAL.Models.Users
         public string Title { get; set; }
         public string Formula { get; set; }
         public IList<string> Realisations { get; set; } = new List<string>();
+        public int Note { get; set; }
     }
 }

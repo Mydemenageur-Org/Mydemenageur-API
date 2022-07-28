@@ -1,6 +1,5 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-
 using Mydemenageur.DAL.DP.DataProvider;
 using Mydemenageur.DAL.DP.Interface;
 
@@ -22,7 +21,7 @@ namespace Mydemenageur.BLL.Locator
             services.AddScoped<IGrosBrasService, GrosBrasService>();
             services.AddScoped<IReviewsService, ReviewsService>();
             services.AddScoped<ICitiesService, CitiesService>();
-
+            
             // DataProvider services
             services.AddScoped<IDPUser, DPUser>();
             services.AddScoped<IDPMyDemenageurUser, DPMyDemenageurUser>();
@@ -31,6 +30,8 @@ namespace Mydemenageur.BLL.Locator
             services.AddScoped<IDPGrosBras, DPGrosBras>();
             services.AddScoped<IDPCity, DPCity>();
             services.AddScoped<IDPReview, DPReview>();
+            
+            services.AddHostedService<Ranking>();
         }
     }
 }
