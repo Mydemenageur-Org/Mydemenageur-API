@@ -7,13 +7,13 @@ using Mydemenageur.BLL.Services.Interfaces;
 
 namespace Mydemenageur.BLL.Services
 {
-    public class Ranking : IHostedService
+    public class RankingService : IHostedService
     {
 
         private Timer _timer;
         private readonly IServiceProvider _serviceProvider;
 
-        public Ranking(IServiceProvider serviceProvider)
+        public RankingService(IServiceProvider serviceProvider)
         {
             _serviceProvider = serviceProvider;
         }

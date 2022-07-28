@@ -31,7 +31,7 @@ namespace Mydemenageur.BLL.Locator
             services.AddScoped<IDPCity, DPCity>();
             services.AddScoped<IDPReview, DPReview>();
             
-            services.AddHostedService<Ranking>();
+            services.AddHostedService<RankingService>();
         }
     }
 }
